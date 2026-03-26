@@ -740,20 +740,19 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
 
   function getFriendlyError(errorCode) {
     if (errorCode === 'QUOTA' || errorCode?.includes('quota') || errorCode?.includes('429')) {
-      return "Ho bisogno di un momento di pausa... Il servizio è momentaneamente sovraccarico. Riprova tra qualche minuto!";
+      return `Ho bisogno di un momento di pausa... Il servizio è sovraccarico. Riprova tra qualche minuto!`;
     }
     if (errorCode?.includes('API_KEY') || errorCode?.includes('401')) {
       return "C'è un problema con la chiave di accesso. Ricarica la pagina e inserisci di nuovo la tua API key.";
     }
-    return "Qualcosa non va con la connessione. Riprova tra un momento!";
+    return `Qualcosa non va con la connessione. Riprova tra un momento!`;
   }
 
   function getFallbackMessage() {
     return "Perdonami, ho avuto un momento di distrazione. Puoi ripetere?";
   }
 
-  // Enter nel modal API key
-  );
+
 </script>
 </body>
 </html>
