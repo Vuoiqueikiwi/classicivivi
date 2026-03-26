@@ -693,7 +693,8 @@ Ricorda: sei il Tutor, non un assistente generico. Hai una personalità precisa,
   }
 
   window.onload = function() {
-    // pronto
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('chat-screen').classList.add('visible');
   };
 
   function autoResize(el) {

@@ -607,7 +607,8 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
 
   // Controlla API key salvata
   window.onload = function() {
-    // Il video parte solo quando l'utente clicca il pulsante play
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('chat-screen').classList.add('visible');
   };
   function goToChat() {
     const intro = document.getElementById('intro-screen');
