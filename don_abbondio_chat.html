@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don Abbondio — I Classici Vivi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --oro: #c9a84c;
+    --oro-chiaro: #e8c97a;
+    --bruno: #1a0f00;
+    --bruno-medio: #2d1a00;
+    --pergamena: #f5e6c8;
+    --pergamena-scura: #d4c4a0;
+    --rosso-antico: #8b2020;
+    --testo: #1a0f00;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--bruno);
+    color: var(--pergamena);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ========== SCHERMATA INTRO ========== */
+  #intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    transition: opacity 0.8s ease;
+  }
+
+  #intro-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    inset: 0;
+    background: #000;
+  }
+
+  .intro-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem 2rem 5rem;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  }
+
+  .intro-brand {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.4em;
+    color: var(--oro);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.5s forwards;
+  }
+
+  .intro-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--pergamena);
+    line-height: 1.1;
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.8s forwards;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  }
+
+  .intro-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--pergamena-scura);
+    margin-top: 0.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.1s forwards;
+  }
+
+  .play-audio-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: rgba(201,168,76,0.9);
+    border: none;
+    color: var(--bruno);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    padding: 1rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .play-audio-btn:hover { background: var(--oro-chiaro); }
+
+  .skip-btn {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 3;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--oro);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+  }
+
+  .skip-btn:hover {
+    background: rgba(201,168,76,0.2);
+    border-color: var(--oro);
+  }
+
+  /* ========== INTERFACCIA CHAT ========== */
+  #chat-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  #chat-screen.visible {
+    opacity: 1;
+  }
+
+  /* Video loop sfondo */
+  #loop-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+    filter: brightness(0.6) saturate(0.9);
+  }
+
+  /* Overlay texture pergamena */
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: 
+      radial-gradient(ellipse at 70% 50%, rgba(26,15,0,0.1) 0%, rgba(26,15,0,0.5) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  /* Layout principale */
+  .chat-layout {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  /* Header */
+  .chat-header {
+    grid-column: 1 / -1;
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    background: rgba(26,15,0,0.6);
+    backdrop-filter: blur(10px);
+  }
+
+  .header-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--oro);
+    text-transform: uppercase;
+  }
+
+  .header-divider {
+    width: 1px;
+    height: 30px;
+    background: rgba(201,168,76,0.3);
+  }
+
+  .header-character {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--pergamena);
+    font-weight: 600;
+  }
+
+  .header-role {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--oro-chiaro);
+    opacity: 0.8;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    margin-left: auto;
+    box-shadow: 0 0 8px #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  /* Area sinistra — avatar visibile su desktop */
+  .avatar-panel {
+    grid-row: 2 / 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 2rem;
+    pointer-events: none;
+  }
+
+  .avatar-label {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--oro);
+    opacity: 0.6;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+
+  /* Area chat */
+  .messages-area {
+    grid-column: 2;
+    grid-row: 2;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201,168,76,0.3) transparent;
+  }
+
+  .messages-area::-webkit-scrollbar { width: 4px; }
+  .messages-area::-webkit-scrollbar-track { background: transparent; }
+  .messages-area::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+  /* Messaggi */
+  .message {
+    display: flex;
+    flex-direction: column;
+    max-width: 88%;
+    animation: messageIn 0.4s ease;
+  }
+
+  .message.user { align-self: flex-end; align-items: flex-end; }
+  .message.ai { align-self: flex-start; align-items: flex-start; }
+
+  .message-bubble {
+    padding: 0.9rem 1.2rem;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .message.user .message-bubble {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--pergamena);
+    border-bottom-right-radius: 0;
+  }
+
+  .message.ai .message-bubble {
+    background: rgba(26,15,0,0.7);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--pergamena);
+    border-bottom-left-radius: 0;
+    backdrop-filter: blur(5px);
+  }
+
+  .message-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--oro);
+    margin-bottom: 0.3rem;
+    opacity: 0.7;
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: none;
+    align-self: flex-start;
+    padding: 0.8rem 1.2rem;
+    background: rgba(26,15,0,0.7);
+    border: 1px solid rgba(201,168,76,0.15);
+    gap: 5px;
+    align-items: center;
+  }
+
+  .typing-indicator.active { display: flex; }
+
+  .typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--oro);
+    opacity: 0.4;
+    animation: typingDot 1.4s infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  /* Input area */
+  .input-area {
+    grid-column: 2;
+    grid-row: 3;
+    padding: 1rem 1.5rem 1.5rem;
+    background: rgba(26,15,0,0.5);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .input-wrapper {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-end;
+  }
+
+  .input-field {
+    flex: 1;
+    background: rgba(245,230,200,0.07);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--pergamena);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    resize: none;
+    outline: none;
+    min-height: 48px;
+    max-height: 120px;
+    transition: border-color 0.3s;
+    line-height: 1.5;
+  }
+
+  .input-field:focus {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(245,230,200,0.1);
+  }
+
+  .input-field::placeholder {
+    color: rgba(245,230,200,0.3);
+    font-style: italic;
+  }
+
+  .send-btn {
+    background: var(--oro);
+    border: none;
+    color: var(--bruno);
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .send-btn:hover { background: var(--oro-chiaro); transform: scale(1.05); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .input-hint {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(245,230,200,0.3);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  /* API Key Modal */
+  #api-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+  }
+
+  #api-modal.hidden { display: none; }
+
+  .modal-box {
+    background: var(--bruno-medio);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 2.5rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .modal-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--oro);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-text {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--pergamena-scura);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .modal-input {
+    width: 100%;
+    background: rgba(245,230,200,0.07);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--pergamena);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    outline: none;
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .modal-input:focus { border-color: var(--oro); }
+
+  .modal-btn {
+    background: var(--oro);
+    border: none;
+    color: var(--bruno);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  .modal-btn:hover { background: var(--oro-chiaro); }
+
+  /* Animazioni */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes messageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @keyframes typingDot { 0%, 100% { opacity: 0.4; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+  /* Responsive mobile */
+  @media (max-width: 768px) {
+    .chat-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+    }
+    .avatar-panel { display: none; }
+    .messages-area { grid-column: 1; }
+    .input-area { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MODAL API KEY -->
+
+
+    <!-- Typing indicator -->
+    <div class="typing-indicator" id="typing-indicator" style="margin: 0 1.5rem; grid-column: 2;">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea 
+          class="input-field" 
+          id="user-input" 
+          placeholder="Scrivi a Don Abbondio…"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="input-hint">Premi Invio per inviare · Shift+Invio per andare a capo</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let conversationHistory = [];
+
+  const SYSTEM_PROMPT = `Sei Don Abbondio, il curato protagonista de "I Promessi Sposi" di Alessandro Manzoni, ambientato nella Lombardia del XVII secolo sotto la dominazione spagnola.
+
+PERSONALITÀ:
+- Sei timoroso, pavido, sempre preoccupato delle conseguenze
+- Usi spesso esclamazioni come "Ah!", "Eh!", "Oimè!", "Per l'amor del cielo!"
+- Sei colto ma codardo, hai senso dell'umorismo involontario
+- Ti lamenti spesso del tuo destino difficile
+- Sei preciso nei dettagli della vita quotidiana del '600
+
+IL TUO RUOLO IN QUESTO PROGETTO:
+- Aiuti gli studenti a CAPIRE "I Promessi Sposi", non a sostituirti a loro
+- Spieghi i capitoli dal tuo punto di vista privilegiato
+- Racconti com'era la vita nel '600 lombardo: cibo, vestiti, leggi, potere, chiesa
+- Rispondi SEMPRE in carattere, in prima persona, come Don Abbondio
+- Sei un maestro socratico: fai domande, stimola la riflessione, non dare le risposte pronte
+
+COSA FARE quando uno studente chiede aiuto con i compiti:
+- NON scrivere mai il compito al posto suo
+- Aiutalo a ragionare con domande come: "E tu cosa pensi di questa scena?" o "Prova a dirmi con parole tue cosa è successo"
+- Se chiede un riassunto di un capitolo, dagli i punti chiave e chiedigli di completarlo lui
+- Se chiede l'analisi di un testo, spiegagli il metodo e fai un esempio parziale, poi invitalo a continuare
+- Se chiede "scrivi tu la parafrasi / il tema / il riassunto", rifiuta gentilmente IN CHARACTER: "Oimè figliolo, se scrivo io al posto tuo, cosa impari? Dimmi cosa hai capito tu, e io ti aiuto a migliorarlo…"
+- Puoi spiegare significati, contesti storici, motivazioni dei personaggi, figure retoriche — tutto ciò che aiuta a CAPIRE
+
+COSA NON FARE:
+- Non scrivere temi, parafrasi, riassunti completi o analisi del testo pronti da consegnare
+- Non rispondere a domande che non riguardano il libro o il contesto storico del '600
+- Se ti chiedono cose di attualità, rispondi in character: "Di queste cose moderne non so nulla, figliolo… nel mio tempo si pensava ben altro!"
+
+STILE:
+- Risposte mai troppo lunghe (massimo 5-6 righe)
+- Tono caldo, un po' lamentoso ma mai noioso
+- Puoi fare riferimenti ironici alla tua codardia
+- Lingua italiana moderna ma con qualche arcaismo leggero
+- Se ti chiedono un capitolo specifico, raccontalo dal tuo punto di vista
+
+Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assistente AI" o simili.`;
+
+  function startWithAudio() {
+    const introVideo = document.getElementById('intro-video');
+    const playBtn = document.getElementById('play-btn');
+    playBtn.style.display = 'none';
+    introVideo.src = 'avatar_don_abbondio_final.mp4';
+    introVideo.muted = true;
+    introVideo.load();
+    const playPromise = introVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        introVideo.muted = false;
+      }).catch(() => {
+        goToChat();
+      });
+    }
+    introVideo.addEventListener('ended', goToChat);
+    introVideo.addEventListener('error', goToChat);
+    setTimeout(goToChat, 35000);
+  }
+
+  // Controlla API key salvata
+  window.onload = function() {
+    // Il video parte solo quando l'utente clicca il pulsante play
+  };
+  function goToChat() {
+    const intro = document.getElementById('intro-screen');
+    const chat = document.getElementById('chat-screen');
+    const introVideo = document.getElementById('intro-video');
+    introVideo.pause();
+    introVideo.muted = true;
+    introVideo.src = '';
+    intro.classList.add('fade-out');
+    setTimeout(() => {
+      intro.style.display = 'none';
+      chat.classList.add('visible');
+    }, 800);
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function addMessage(role, text) {
+    const area = document.getElementById('messages-area');
+    const div = document.createElement('div');
+    div.className = `message ${role === 'user' ? 'user' : 'ai'}`;
+    div.innerHTML = `
+      <div class="message-name">${role === 'user' ? 'TU' : 'DON ABBONDIO'}</div>
+      <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+    `;
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function setTyping(active) {
+    const t = document.getElementById('typing-indicator');
+    t.style.display = active ? 'flex' : 'none';
+    document.getElementById('send-btn').disabled = active;
+  }
+
+  let isSending = false; // debounce protection
+
+  async function sendMessage() {
+    if (isSending) return; // prevent double sends
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    isSending = true;
+    input.value = '';
+    input.style.height = 'auto';
+    addMessage('user', text);
+
+    conversationHistory.push({ role: 'user', content: text });
+    
+    // Keep only last 6 messages to reduce payload size
+    if (conversationHistory.length > 6) {
+      conversationHistory = conversationHistory.slice(-6);
+    }
+    
+    setTyping(true);
+
+    let attempts = 0;
+    const maxAttempts = 3;
+    
+    while (attempts < maxAttempts) {
+      try {
+        const response = await fetch(
+          '/.netlify/functions/proxy',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'llama-3.3-70b-versatile',
+              messages: [
+                { role: 'system', content: SYSTEM_PROMPT },
+                ...conversationHistory.map(m => ({
+                  role: m.role === 'user' ? 'user' : 'assistant',
+                  content: m.content
+                }))
+              ]
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
+        }
+
+        const data = await response.json();
+        if (data.error) throw new Error(JSON.stringify(data.error));
+
+        const reply = data.choices?.[0]?.message?.content || 
+                      'Eh… perdonatemi, ho avuto un momento di smarrimento. Potete ripetere?';
+        
+        conversationHistory.push({ role: 'assistant', content: reply });
+        setTyping(false);
+        addMessage('ai', reply);
+        isSending = false;
+        return;
+
+      } catch (err) {
+        attempts++;
+        if (attempts >= maxAttempts) {
+          setTyping(false);
+          isSending = false;
+          addMessage('ai', getFriendlyError(err.message));
+          return;
+        }
+        await new Promise(r => setTimeout(r, attempts * 3000));
+      }
+    }
+    
+    setTyping(false);
+    isSending = false;
+  }
+
+  function getFriendlyError(errorCode) {
+    if (errorCode === 'QUOTA' || errorCode?.includes('quota') || errorCode?.includes('429')) {
+      return "Ho bisogno di un momento di pausa... Il servizio è momentaneamente sovraccarico. Riprova tra qualche minuto!";
+    }
+    if (errorCode?.includes('API_KEY') || errorCode?.includes('401')) {
+      return "C'è un problema con la chiave di accesso. Ricarica la pagina e inserisci di nuovo la tua API key.";
+    }
+    return "Qualcosa non va con la connessione. Riprova tra un momento!";
+  }
+
+  function getFallbackMessage() {
+    return "Perdonami, ho avuto un momento di distrazione. Puoi ripetere?";
+  }
+
+  // Enter nel modal API key
+  );
+</script>
+</body>
+</html>
