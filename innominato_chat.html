@@ -10,7 +10,6 @@
   :root {
     --oro: #C9A84C;
     --nero: #080808;
-    --nero-card: #111111;
     --pergamena: #F5E6C8;
     --pergamena-scura: #D4C4A0;
     --grigio: #888888;
@@ -23,22 +22,100 @@
     background: var(--nero);
     color: var(--pergamena);
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  /* CHAT SCREEN */
+  /* ── INTRO SCREEN ── */
+  #intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 3rem;
+  }
+  #intro-screen.hidden { display: none; }
+  #intro-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .intro-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+  }
+  .intro-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .intro-brand {
+    font-family: "Cinzel", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--oro);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+  .intro-title {
+    font-family: "Cinzel", serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--pergamena);
+    margin-bottom: 0.3rem;
+  }
+  .intro-subtitle {
+    font-family: "EB Garamond", serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--pergamena-scura);
+    margin-bottom: 2rem;
+  }
+  .intro-btn {
+    background: var(--oro);
+    color: var(--nero);
+    font-family: "Cinzel", serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.9rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .intro-btn:hover { background: #E8C97A; }
+  .skip-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 3;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--pergamena-scura);
+    font-family: "Cinzel", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .skip-btn:hover { border-color: var(--oro); color: var(--oro); }
+
+  /* ── CHAT SCREEN ── */
   #chat-screen {
     width: 100%;
     height: 100vh;
-    display: flex;
+    display: none;
     flex-direction: column;
     position: relative;
     overflow: hidden;
   }
-
-  /* VIDEO BACKGROUND */
+  #chat-screen.visible { display: flex; }
   #loop-video {
     position: absolute;
     inset: 0;
@@ -54,8 +131,6 @@
     background: linear-gradient(to right, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.85) 55%);
     z-index: 1;
   }
-
-  /* LAYOUT */
   .chat-layout {
     position: relative;
     z-index: 2;
@@ -63,10 +138,8 @@
     height: 100vh;
     display: grid;
     grid-template-columns: 1fr 480px;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
   }
-
-  /* HEADER */
   .chat-header {
     grid-column: 1 / -1;
     padding: 1rem 1.5rem;
@@ -77,169 +150,99 @@
     background: rgba(8,8,8,0.6);
     backdrop-filter: blur(8px);
   }
-  .header-logo { height: 28px; opacity: 0.9; }
-  .header-divider { width: 1px; height: 24px; background: rgba(201,168,76,0.3); }
-  .header-name {
-    font-family: "Cinzel", serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--pergamena);
-  }
-  .header-ruolo {
-    font-family: "EB Garamond", serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--grigio);
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #52B788;
-    margin-left: auto;
-    box-shadow: 0 0 6px #52B788;
-  }
-
-  /* MESSAGES */
+  .header-divider { width:1px; height:24px; background:rgba(201,168,76,0.3); }
+  .header-name { font-family:"Cinzel",serif; font-size:1rem; font-weight:700; color:var(--pergamena); }
+  .header-ruolo { font-family:"EB Garamond",serif; font-style:italic; font-size:0.85rem; color:var(--grigio); }
+  .status-dot { width:8px; height:8px; border-radius:50%; background:#52B788; margin-left:auto; box-shadow:0 0 6px #52B788; }
   .messages-area {
-    grid-column: 2;
-    grid-row: 2;
+    grid-column: 2; grid-row: 2;
     padding: 1.5rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  .messages-area::-webkit-scrollbar { width: 4px; }
-  .messages-area::-webkit-scrollbar-track { background: transparent; }
-  .messages-area::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
-
-  .message { display: flex; flex-direction: column; max-width: 90%; }
-  .message.user { align-self: flex-end; align-items: flex-end; }
-  .message.ai { align-self: flex-start; align-items: flex-start; }
-  .message-name {
-    font-family: "Cinzel", serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--oro);
-    margin-bottom: 0.3rem;
-    opacity: 0.8;
+  .messages-area::-webkit-scrollbar { width:4px; }
+  .messages-area::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.3); border-radius:2px; }
+  .message { display:flex; flex-direction:column; max-width:90%; }
+  .message.user { align-self:flex-end; align-items:flex-end; }
+  .message.ai { align-self:flex-start; align-items:flex-start; }
+  .message-name { font-family:"Cinzel",serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--oro); margin-bottom:0.3rem; opacity:0.8; }
+  .message-bubble { padding:0.8rem 1.1rem; font-size:0.95rem; line-height:1.6; }
+  .message.user .message-bubble { background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.25); color:var(--pergamena); }
+  .message.ai .message-bubble { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:var(--pergamena); }
+  .initial-message {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(201,168,76,0.15);
+    border-left:3px solid var(--oro);
+    padding:1.2rem 1.5rem;
   }
-  .message-bubble {
-    padding: 0.8rem 1.1rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    max-width: 100%;
-  }
-  .message.user .message-bubble {
-    background: rgba(201,168,76,0.15);
-    border: 1px solid rgba(201,168,76,0.25);
-    color: var(--pergamena);
-  }
-  .message.ai .message-bubble {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--pergamena);
-  }
-
-  /* TYPING */
+  .initial-message .message-name { font-family:"Cinzel",serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--oro); margin-bottom:0.5rem; opacity:0.8; }
+  .initial-message p { font-size:0.95rem; line-height:1.7; color:var(--pergamena); }
   .typing-indicator {
-    grid-column: 2;
-    padding: 0 1.5rem;
-    font-family: "EB Garamond", serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--grigio);
-    min-height: 1.5rem;
-    display: none;
+    grid-column:2; padding:0 1.5rem;
+    font-family:"EB Garamond",serif; font-style:italic; font-size:0.85rem; color:var(--grigio);
+    min-height:1.5rem; display:none;
   }
-
-  /* INPUT */
   .input-area {
-    grid-column: 2;
-    grid-row: 3;
-    padding: 1rem 1.5rem 1.5rem;
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-end;
-    border-top: 1px solid rgba(201,168,76,0.1);
-    background: rgba(8,8,8,0.6);
-    backdrop-filter: blur(8px);
+    grid-column:2; grid-row:3;
+    padding:1rem 1.5rem 0.5rem;
+    display:flex; gap:0.5rem; align-items:flex-end;
+    border-top:1px solid rgba(201,168,76,0.1);
+    background:rgba(8,8,8,0.6); backdrop-filter:blur(8px);
   }
   #user-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(201,168,76,0.2);
-    color: var(--pergamena);
-    font-family: "EB Garamond", serif;
-    font-size: 1rem;
-    padding: 0.7rem 1rem;
-    resize: none;
-    outline: none;
-    min-height: 44px;
-    max-height: 120px;
-    overflow-y: auto;
-    transition: border-color 0.2s;
+    flex:1; background:rgba(255,255,255,0.05);
+    border:1px solid rgba(201,168,76,0.2);
+    color:var(--pergamena); font-family:"EB Garamond",serif; font-size:1rem;
+    padding:0.7rem 1rem; resize:none; outline:none;
+    min-height:44px; max-height:120px; overflow-y:auto;
+    transition:border-color 0.2s;
   }
-  #user-input:focus { border-color: rgba(201,168,76,0.5); }
-  #user-input::placeholder { color: var(--grigio); font-style: italic; }
+  #user-input:focus { border-color:rgba(201,168,76,0.5); }
+  #user-input::placeholder { color:var(--grigio); font-style:italic; }
   .send-btn {
-    background: var(--oro);
-    color: var(--nero);
-    border: none;
-    width: 44px; height: 44px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.2s;
-    flex-shrink: 0;
+    background:var(--oro); color:var(--nero); border:none;
+    width:44px; height:44px; cursor:pointer; font-size:1rem;
+    transition:background 0.2s; flex-shrink:0;
   }
-  .send-btn:hover { background: #E8C97A; }
-  .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .send-btn:hover { background:#E8C97A; }
+  .send-btn:disabled { opacity:0.5; cursor:not-allowed; }
   .input-hint {
-    grid-column: 2;
-    text-align: center;
-    font-family: "EB Garamond", serif;
-    font-style: italic;
-    font-size: 0.7rem;
-    color: rgba(136,136,136,0.5);
-    padding: 0 1.5rem 0.5rem;
+    grid-column:2; grid-row:4;
+    text-align:center; font-family:"EB Garamond",serif; font-style:italic;
+    font-size:0.7rem; color:rgba(136,136,136,0.5); padding:0.3rem 1.5rem 1rem;
+    background:rgba(8,8,8,0.6);
   }
-
-  /* INITIAL MESSAGE */
-  .initial-message {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-left: 3px solid var(--oro);
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .initial-message .message-name {
-    font-family: "Cinzel", serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--oro);
-    margin-bottom: 0.5rem;
-    opacity: 0.8;
-  }
-  .initial-message p {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--pergamena);
-  }
-
-  @media (max-width: 768px) {
-    .chat-layout { grid-template-columns: 1fr; }
-    #loop-video { opacity: 0.2; }
+  @media (max-width:768px) {
+    .chat-layout { grid-template-columns:1fr; }
+    #loop-video { opacity:0.2; }
   }
 </style>
 </head>
 <body>
 
+<!-- INTRO SCREEN -->
+<div id="intro-screen">
+  <video id="intro-video" playsinline>
+    <source src="avatar_innominato_final.mp4" type="video/mp4">
+  </video>
+  <div class="intro-overlay"></div>
+  <button class="skip-btn" onclick="goToChat()">SALTA INTRO ›</button>
+  <div class="intro-content">
+    <div class="intro-brand">I CLASSICI VIVI</div>
+    <div class="intro-title">L'Innominato</div>
+    <div class="intro-subtitle">Signore feudale, Lombardia XVII secolo</div>
+    <button class="intro-btn" onclick="startIntro()">▶ &nbsp;INCONTRA L'INNOMINATO</button>
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
 <div id="chat-screen">
   <video id="loop-video" autoplay muted loop playsinline>
     <source src="loop_innominato_final.mp4" type="video/mp4">
   </video>
   <div class="bg-overlay"></div>
-
   <div class="chat-layout">
     <header class="chat-header">
       <span class="header-name">L'INNOMINATO</span>
@@ -247,24 +250,16 @@
       <span class="header-ruolo">Signore feudale, Lombardia XVII secolo</span>
       <div class="status-dot"></div>
     </header>
-
     <div class="messages-area" id="messages-area">
       <div class="initial-message">
         <div class="message-name">L'INNOMINATO</div>
-        <p id="initial-text">...</p>
+        <p>Chi sei, e cosa vuoi da me? Non sono abituato a ricevere visite. Sono l'Innominato. Ho fatto cose che non si nominano. Ma qualcosa è cambiato in me. Se vuoi capire questa storia, chiedimi pure... se hai il coraggio.</p>
       </div>
     </div>
-
     <div class="typing-indicator" id="typing-indicator">L'Innominato sta scrivendo...</div>
-
     <div class="input-area">
-      <textarea
-        id="user-input"
-        placeholder="Scrivi all'Innominato..."
-        rows="1"
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"
-      ></textarea>
+      <textarea id="user-input" placeholder="Scrivi all'Innominato..." rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="send-btn" id="send-btn" onclick="sendMessage()">&#9658;</button>
     </div>
     <div class="input-hint">Premi Invio per inviare &nbsp;·&nbsp; Shift+Invio per andare a capo</div>
@@ -320,26 +315,30 @@ STILE:
 - Lingua italiana formale, arcaica quanto basta
 
 Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assistente AI" o simili.`;
-
   let conversationHistory = [];
   let isSending = false;
 
-  // Set initial message based on character
-  const initialMessages = {
-    "renzo": "Eh, finalmente qualcuno che vuole parlarmi! Sono Renzo Tramaglino, filatore di seta di Lecco. Ho passato giorni che non dimenticherò mai. Se hai domande su quello che ho vissuto — su Lucia, su Don Rodrigo, su Milano — chiedimi pure. Ma preparati: non ho peli sulla lingua.",
-    "don_abbondio": "Ah, figliolo... o figliola, non so chi tu sia. Siediti, siediti pure. Sono Don Abbondio, curato di questa povera parrocchia da più anni di quanti vorrei ricordare. Se hai domande sul libro, sulla mia vita, o su questi tempi bui del Seicento lombardo... chiedimi pure. Cercherò di risponderti, nei limiti del possibile, s\'intende.",
-    "innominato": "Chi sei, e cosa vuoi da me? Non sono abituato a ricevere visite senza che qualcuno abbia qualcosa da chiedermi — o da temere. Sono l\'Innominato. Ho fatto cose che non si nominano. Ma qualcosa è cambiato in me. Se vuoi capire questa storia, chiedimi pure... se hai il coraggio.",
-    "tutor": "Benvenuto nel kit I Classici Vivi! Sono il tuo Tutor — sono qui per guidarti attraverso I Promessi Sposi in modo che tu capisca davvero il romanzo, non solo lo memorizzi. Da dove vuoi iniziare? Hai una verifica imminente, o vuoi esplorare il romanzo con calma?"
-  };
+  function startIntro() {
+    const video = document.getElementById('intro-video');
+    video.muted = true;
+    const p = video.play();
+    if (p !== undefined) {
+      p.then(() => { video.muted = false; })
+       .catch(() => { goToChat(); });
+    }
+    document.querySelector('.intro-btn').style.display = 'none';
+    video.addEventListener('ended', goToChat);
+    video.addEventListener('error', goToChat);
+    setTimeout(goToChat, 40000);
+  }
 
-  // Determine which character we are
-  const currentFile = window.location.pathname.split('/').pop();
-  let charKey = 'renzo';
-  if (currentFile.includes('don_abbondio')) charKey = 'don_abbondio';
-  else if (currentFile.includes('innominato')) charKey = 'innominato';
-  else if (currentFile.includes('tutor')) charKey = 'tutor';
-
-  document.getElementById('initial-text').textContent = initialMessages[charKey] || initialMessages['renzo'];
+  function goToChat() {
+    document.getElementById('intro-screen').classList.add('hidden');
+    document.getElementById('chat-screen').classList.add('visible');
+    // Stop intro video
+    const iv = document.getElementById('intro-video');
+    if (iv) { iv.pause(); iv.src = ''; }
+  }
 
   function autoResize(el) {
     el.style.height = 'auto';
@@ -379,16 +378,13 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
     const input = document.getElementById('user-input');
     const text = input.value.trim();
     if (!text) return;
-
     isSending = true;
     input.value = '';
     input.style.height = 'auto';
     addMessage('user', text);
     conversationHistory.push({ role: 'user', content: text });
     if (conversationHistory.length > 6) conversationHistory = conversationHistory.slice(-6);
-
     setTyping(true);
-
     let attempts = 0;
     while (attempts < 3) {
       try {
@@ -406,12 +402,7 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
             ]
           })
         });
-
-        if (!response.ok) {
-          const err = await response.json().catch(() => ({}));
-          throw new Error('HTTP ' + response.status);
-        }
-
+        if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content || 'Perdonami, ho avuto un momento di distrazione. Puoi ripetere?';
         conversationHistory.push({ role: 'assistant', content: reply });
@@ -419,7 +410,6 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
         addMessage('ai', reply);
         isSending = false;
         return;
-
       } catch (err) {
         attempts++;
         if (attempts >= 3) {
