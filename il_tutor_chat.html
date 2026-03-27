@@ -395,7 +395,7 @@ Ricorda: sei il Tutor, non un assistente generico. Hai una personalità precisa,
     let attempts = 0;
     while (attempts < 3) {
       try {
-        const response = await fetch('/.netlify/functions/proxy', {
+        const response = await fetch('/functions/proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
