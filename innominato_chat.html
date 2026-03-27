@@ -388,7 +388,7 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
     let attempts = 0;
     while (attempts < 3) {
       try {
-        const response = await fetch('/functions/proxy', {
+        const response = await fetch('/proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
