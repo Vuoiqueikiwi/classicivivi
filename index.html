@@ -873,6 +873,411 @@
     flex-shrink: 0;
   }
   #cv-cookie-accept:hover { background: #E8C97A; }
+  <!--
+════════════════════════════════════════════════════════════
+  I CLASSICI VIVI — PATCH: Pannello Accesso con Codice
+  Data: 29 marzo 2026
+  Istruzioni: leggi il file README_PATCH.txt allegato
+════════════════════════════════════════════════════════════
+-->
+
+<!-- ═══════════════════════════════════════════════════════
+     BLOCCO 1 — CSS
+     Incolla questo blocco DENTRO il tag <style> del tuo index.html
+     (oppure prima del </style> finale)
+     ═══════════════════════════════════════════════════════ -->
+
+<style id="PATCH-ACCESS-CSS">
+/* ── Pulsante Accedi ── */
+.btn-accedi {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: #C9A84C;
+  border: 1.5px solid #C9A84C;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  margin-top: 12px;
+}
+.btn-accedi:hover {
+  background: #C9A84C;
+  color: #080808;
+  box-shadow: 0 0 24px rgba(201,168,76,0.35);
+}
+.btn-accedi svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.btn-accedi:hover svg {
+  transform: translateX(3px);
+}
+
+/* ── Overlay ── */
+#access-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(8, 8, 8, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  animation: fadeInOverlay 0.3s ease;
+}
+#access-overlay.visible {
+  display: flex;
+}
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Pannello ── */
+.access-panel {
+  background: #0f0f0f;
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 48px 40px 40px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: slideUpPanel 0.35s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 60px rgba(201,168,76,0.08), 0 0 0 1px rgba(201,168,76,0.08);
+}
+@keyframes slideUpPanel {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Chiudi ── */
+.access-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: rgba(245,230,200,0.4);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+  padding: 4px 8px;
+}
+.access-close:hover { color: #C9A84C; }
+
+/* ── Ornamento ── */
+.access-ornament {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+/* ── Testi ── */
+.access-panel h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: #C9A84C;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.access-panel p {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: rgba(245,230,200,0.65);
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* ── Campo codice ── */
+.access-input-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+#access-code-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: #F5E6C8;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  text-transform: uppercase;
+}
+#access-code-input::placeholder {
+  color: rgba(245,230,200,0.25);
+  letter-spacing: 0.08em;
+}
+#access-code-input:focus {
+  border-color: #C9A84C;
+  box-shadow: 0 0 16px rgba(201,168,76,0.15);
+}
+#access-code-input.input-error {
+  border-color: #c94c4c;
+  box-shadow: 0 0 12px rgba(201,76,76,0.2);
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+/* ── Messaggio errore ── */
+#access-error {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9rem;
+  color: #c97070;
+  min-height: 20px;
+  margin-bottom: 16px;
+  transition: opacity 0.2s;
+}
+
+/* ── Pulsante conferma ── */
+#access-submit {
+  width: 100%;
+  background: #C9A84C;
+  color: #080808;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px;
+  cursor: pointer;
+  transition: background 0.25s, box-shadow 0.25s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+#access-submit:hover:not(:disabled) {
+  background: #e0be6a;
+  box-shadow: 0 0 20px rgba(201,168,76,0.4);
+}
+#access-submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+#access-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#access-submit .spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(8,8,8,0.3);
+  border-top-color: #080808;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+#access-submit.loading .spinner { display: block; }
+#access-submit.loading .btn-label { opacity: 0.5; }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Nota sotto ── */
+.access-note {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  color: rgba(245,230,200,0.3);
+  margin-top: 20px;
+  line-height: 1.4;
+}
+.access-note a {
+  color: rgba(201,168,76,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.access-note a:hover { color: #C9A84C; }
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     BLOCCO 2 — HTML (PULSANTE)
+     Incolla questo pulsante nel punto della pagina dove vuoi
+     che appaia il bottone "Accedi al kit".
+     Tipicamente: vicino al bottone di acquisto, o in fondo alla
+     sezione hero / CTA principale.
+     ═══════════════════════════════════════════════════════ -->
+
+<button class="btn-accedi" onclick="openAccessPanel()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+  Hai già acquistato? Accedi al kit
+</button>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     BLOCCO 3 — HTML (OVERLAY)
+     Incolla questo blocco UNA SOLA VOLTA, subito prima di </body>
+     ═══════════════════════════════════════════════════════ -->
+
+<div id="access-overlay" role="dialog" aria-modal="true" aria-labelledby="access-title">
+  <div class="access-panel">
+    <button class="access-close" onclick="closeAccessPanel()" aria-label="Chiudi">&times;</button>
+    <div class="access-ornament">⸻ ✦ ⸻</div>
+    <h2 id="access-title">Accesso al Kit</h2>
+    <p>Inserisci il codice ricevuto via email dopo l'acquisto.</p>
+
+    <div class="access-input-wrap">
+      <input
+        type="text"
+        id="access-code-input"
+        placeholder="ICV-XXXX-XXXX"
+        maxlength="20"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        onkeydown="if(event.key==='Enter') submitAccessCode()"
+      />
+    </div>
+
+    <div id="access-error" role="alert"></div>
+
+    <button id="access-submit" onclick="submitAccessCode()">
+      <span class="spinner"></span>
+      <span class="btn-label">Entra nel kit</span>
+    </button>
+
+    <p class="access-note">
+      Non hai ancora il kit?
+      <a href="#acquista">Acquistalo qui →</a>
+      <br>Problemi con il codice?
+      <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>
+    </p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     BLOCCO 4 — JAVASCRIPT
+     Incolla questo blocco subito prima di </body>
+     (DOPO il blocco overlay HTML sopra)
+     ═══════════════════════════════════════════════════════ -->
+
+<script id="PATCH-ACCESS-JS">
+(function() {
+  'use strict';
+
+  // ─── Apri overlay ───────────────────────────────────────
+  window.openAccessPanel = function() {
+    var overlay = document.getElementById('access-overlay');
+    overlay.classList.add('visible');
+    setTimeout(function() {
+      document.getElementById('access-code-input').focus();
+    }, 100);
+    document.body.style.overflow = 'hidden';
+  };
+
+  // ─── Chiudi overlay ─────────────────────────────────────
+  window.closeAccessPanel = function() {
+    var overlay = document.getElementById('access-overlay');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    clearError();
+    document.getElementById('access-code-input').value = '';
+  };
+
+  // ─── Chiudi cliccando fuori dal pannello ─────────────────
+  document.getElementById('access-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeAccessPanel();
+  });
+
+  // ─── ESC per chiudere ────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAccessPanel();
+  });
+
+  // ─── Mostra/nascondi errore ──────────────────────────────
+  function showError(msg) {
+    var el = document.getElementById('access-error');
+    el.textContent = msg;
+    var input = document.getElementById('access-code-input');
+    input.classList.add('input-error');
+    setTimeout(function() { input.classList.remove('input-error'); }, 500);
+  }
+
+  function clearError() {
+    document.getElementById('access-error').textContent = '';
+  }
+
+  // ─── Stato loading ───────────────────────────────────────
+  function setLoading(on) {
+    var btn = document.getElementById('access-submit');
+    if (on) {
+      btn.classList.add('loading');
+      btn.disabled = true;
+    } else {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  window.submitAccessCode = function() {
+    clearError();
+
+    var raw = document.getElementById('access-code-input').value.trim().toUpperCase();
+
+    if (!raw) {
+      showError('Inserisci il codice di accesso.');
+      return;
+    }
+
+    setLoading(true);
+
+    fetch('/verify-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: raw })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Errore di rete (' + res.status + ')');
+      return res.json();
+    })
+    .then(function(data) {
+      setLoading(false);
+      if (data && data.valid === true) {
+        // ✅ Codice valido
+        sessionStorage.setItem('icv_access', 'granted');
+        sessionStorage.setItem('icv_code', raw);
+        closeAccessPanel();
+        window.location.href = '/portale';
+      } else {
+        // ❌ Codice non valido
+        showError('Codice non valido o già utilizzato. Controlla l\'email di acquisto.');
+      }
+    })
+    .catch(function(err) {
+      setLoading(false);
+      showError('Errore di connessione. Riprova tra qualche secondo.');
+      console.error('[ICV Access]', err);
+    });
+  };
+
+})();
+</script>
+
 </style>
 
 <div id="cv-cookie-banner">
@@ -898,7 +1303,146 @@
   })();
 </script>
 <!-- ============================================================ -->
+<div id="access-overlay" role="dialog" aria-modal="true" aria-labelledby="access-title">
+  <div class="access-panel">
+    <button class="access-close" onclick="closeAccessPanel()" aria-label="Chiudi">&times;</button>
+    <div class="access-ornament">⸻ ✦ ⸻</div>
+    <h2 id="access-title">Accesso al Kit</h2>
+    <p>Inserisci il codice ricevuto via email dopo l'acquisto.</p>
 
+    <div class="access-input-wrap">
+      <input
+        type="text"
+        id="access-code-input"
+        placeholder="ICV-XXXX-XXXX"
+        maxlength="20"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        onkeydown="if(event.key==='Enter') submitAccessCode()"
+      />
+    </div>
+
+    <div id="access-error" role="alert"></div>
+
+    <button id="access-submit" onclick="submitAccessCode()">
+      <span class="spinner"></span>
+      <span class="btn-label">Entra nel kit</span>
+    </button>
+
+    <p class="access-note">
+      Non hai ancora il kit?
+      <a href="#acquista">Acquistalo qui →</a>
+      <br>Problemi con il codice?
+      <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>
+    </p>
+  </div>
+</div>
+
+<script id="PATCH-ACCESS-JS">
+(function() {
+  'use strict';
+
+  // ─── Apri overlay ───────────────────────────────────────
+  window.openAccessPanel = function() {
+    var overlay = document.getElementById('access-overlay');
+    overlay.classList.add('visible');
+    setTimeout(function() {
+      document.getElementById('access-code-input').focus();
+    }, 100);
+    document.body.style.overflow = 'hidden';
+  };
+
+  // ─── Chiudi overlay ─────────────────────────────────────
+  window.closeAccessPanel = function() {
+    var overlay = document.getElementById('access-overlay');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    clearError();
+    document.getElementById('access-code-input').value = '';
+  };
+
+  // ─── Chiudi cliccando fuori dal pannello ─────────────────
+  document.getElementById('access-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeAccessPanel();
+  });
+
+  // ─── ESC per chiudere ────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAccessPanel();
+  });
+
+  // ─── Mostra/nascondi errore ──────────────────────────────
+  function showError(msg) {
+    var el = document.getElementById('access-error');
+    el.textContent = msg;
+    var input = document.getElementById('access-code-input');
+    input.classList.add('input-error');
+    setTimeout(function() { input.classList.remove('input-error'); }, 500);
+  }
+
+  function clearError() {
+    document.getElementById('access-error').textContent = '';
+  }
+
+  // ─── Stato loading ───────────────────────────────────────
+  function setLoading(on) {
+    var btn = document.getElementById('access-submit');
+    if (on) {
+      btn.classList.add('loading');
+      btn.disabled = true;
+    } else {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  // ─── Verifica codice ─────────────────────────────────────
+  window.submitAccessCode = function() {
+    clearError();
+
+    var raw = document.getElementById('access-code-input').value.trim().toUpperCase();
+
+    if (!raw) {
+      showError('Inserisci il codice di accesso.');
+      return;
+    }
+
+    setLoading(true);
+
+    fetch('/verify-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: raw })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Errore di rete (' + res.status + ')');
+      return res.json();
+    })
+    .then(function(data) {
+      setLoading(false);
+      if (data && data.valid === true) {
+        // ✅ Codice valido
+        sessionStorage.setItem('icv_access', 'granted');
+        sessionStorage.setItem('icv_code', raw);
+        closeAccessPanel();
+        window.location.href = '/portale';
+      } else {
+        // ❌ Codice non valido
+        showError('Codice non valido o già utilizzato. Controlla l\'email di acquisto.');
+      }
+    })
+    .catch(function(err) {
+      setLoading(false);
+      showError('Errore di connessione. Riprova tra qualche secondo.');
+      console.error('[ICV Access]', err);
+    });
+  };
+
+})();
+</script>
+  
 <body>
 
 <!-- NAV -->
@@ -1187,7 +1731,16 @@
     <div class="pricing-note">Pagamento sicuro via Stripe o PayPal · Accesso immediato</div>
   </div>
 </section>
-
+<div style="text-align:center; padding: 12px 0 32px;">
+  <button class="btn-accedi" onclick="openAccessPanel()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    Hai già acquistato? Accedi al kit
+  </button>
+</div>
+  
 <div class="divider"></div>
 
 <!-- FAQ -->
