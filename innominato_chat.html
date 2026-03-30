@@ -414,7 +414,7 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
       try {
         const response = await fetch('/functions/proxy', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-Access-Code': sessionStorage.getItem('icv_access') || '' },
           body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
             messages: [
