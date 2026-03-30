@@ -154,6 +154,14 @@
   .header-name { font-family:"Cinzel",serif; font-size:1rem; font-weight:700; color:var(--pergamena); }
   .header-ruolo { font-family:"EB Garamond",serif; font-style:italic; font-size:0.85rem; color:var(--grigio); }
   .status-dot { width:8px; height:8px; border-radius:50%; background:#52B788; margin-left:auto; box-shadow:0 0 6px #52B788; }
+  .nav-links { display:flex; gap:0.8rem; margin-right:0.5rem; }
+  .nav-link {
+    font-family:"Cinzel",serif; font-size:0.65rem; font-weight:600;
+    letter-spacing:0.1em; color:var(--oro); text-decoration:none;
+    padding:0.3rem 0.6rem; border:1px solid rgba(201,168,76,0.3);
+    transition:all 0.2s; white-space:nowrap; cursor:pointer;
+  }
+  .nav-link:hover { border-color:var(--oro); background:rgba(201,168,76,0.1); color:#E8C97A; }
   .messages-area {
     grid-column: 2; grid-row: 2;
     padding: 1.5rem;
@@ -217,6 +225,10 @@
   @media (max-width:768px) {
     .chat-layout { grid-template-columns:1fr; }
     #loop-video { opacity:0.2; }
+    .chat-header { flex-wrap:wrap; gap:0.5rem; padding:0.7rem 1rem; }
+    .header-ruolo { display:none; }
+    .header-divider { display:none; }
+    .nav-links { order:-1; }
   }
 </style>
 </head>
@@ -245,6 +257,10 @@
   <div class="bg-overlay"></div>
   <div class="chat-layout">
     <header class="chat-header">
+      <div class="nav-links">
+        <a class="nav-link" onclick="history.back()">← INDIETRO</a>
+        <a class="nav-link" href="/portale/">🏠 HOME</a>
+      </div>
       <span class="header-name">L'INNOMINATO</span>
       <div class="header-divider"></div>
       <span class="header-ruolo">Signore feudale, Lombardia XVII secolo</span>
@@ -388,7 +404,7 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
     let attempts = 0;
     while (attempts < 3) {
       try {
-        const response = await fetch('/proxy', {
+        const response = await fetch('/functions/proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
