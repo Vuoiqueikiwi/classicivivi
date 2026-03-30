@@ -7,8 +7,35 @@
 <link rel="apple-touch-icon" href="../favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I Classici Vivi — Portale</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+<script>
+  (function() {
+    var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (prefs.saved === true && prefs.fonts === false) {
+      document.documentElement.classList.add('fonts-blocked');
+    } else {
+      var preconnect = document.createElement('link');
+      preconnect.rel = 'preconnect';
+      preconnect.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(preconnect);
+
+      var preconnect2 = document.createElement('link');
+      preconnect2.rel = 'preconnect';
+      preconnect2.href = 'https://fonts.gstatic.com';
+      preconnect2.crossOrigin = 'anonymous';
+      document.head.appendChild(preconnect2);
+
+      var fonts = document.createElement('link');
+      fonts.rel = 'stylesheet';
+      fonts.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
+      document.head.appendChild(fonts);
+    }
+
+    // Blocco iframe OneDrive se rifiutato
+    window.__onedrive_blocked = (prefs.saved === true && prefs.onedrive === false);
+  })();
+</script>
+  <style>
+
 
   :root {
     --oro: #c9a84c;
@@ -331,6 +358,28 @@
 
   @media (max-width: 900px) { #sidebar { width: 220px; } }
   @media (max-width: 700px) { #sidebar { display: none; } .prof-panel { display: none; } .pdf-viewer-frame { height: 60vh; } }
+    .fonts-blocked * {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif !important;
+  }
+  .gdpr-placeholder {
+    width: 100%; height: 75vh;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem; text-align: center; padding: 2rem;
+  }
+  .gdpr-placeholder p {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic; font-size: 0.95rem;
+    color: rgba(245,230,200,0.5); max-width: 400px; line-height: 1.6;
+  }
+  .gdpr-placeholder button {
+    background: transparent; border: 1px solid rgba(201,168,76,0.4);
+    color: #C9A84C; font-family: 'Cinzel', serif; font-size: 0.7rem;
+    letter-spacing: 0.15em; padding: 0.6rem 1.5rem; cursor: pointer; transition: all 0.2s;
+  }
+  .gdpr-placeholder button:hover { background: rgba(201,168,76,0.1); border-color: #C9A84C; }
 </style>
 </head>
 <body>
@@ -812,5 +861,37 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     isSending = false;
   }
 </script>
+  <script>
+  (function() {
+    if (!window.__onedrive_blocked) return;
+
+    // Intercetta tutti gli iframe OneDrive dopo il rendering
+    document.addEventListener('DOMContentLoaded', function() {
+      replaceIframes();
+    });
+
+    // Intercetta anche quando si naviga nelle sezioni (showContent)
+    var _origShowContent = window.showContent;
+    if (typeof _origShowContent === 'function') {
+      window.showContent = function(key) {
+        _origShowContent(key);
+        setTimeout(replaceIframes, 50);
+      };
+    }
+
+    function replaceIframes() {
+      var iframes = document.querySelectorAll('iframe.pdf-viewer-frame');
+      iframes.forEach(function(iframe) {
+        if (iframe.src && iframe.src.indexOf('1drv.ms') !== -1) {
+          var placeholder = document.createElement('div');
+          placeholder.className = 'gdpr-placeholder';
+          placeholder.innerHTML = '<p>Hai rifiutato i cookie di terze parti. Per visualizzare questo contenuto è necessario accettare i cookie Microsoft OneDrive.</p><button onclick="window.location.href=\'/cookie.html\'">GESTISCI PREFERENZE</button>';
+          iframe.parentNode.replaceChild(placeholder, iframe);
+        }
+      });
+    }
+  })();
+</script>
+
 </body>
 </html>
