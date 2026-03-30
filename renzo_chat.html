@@ -233,6 +233,14 @@
 </style>
 </head>
 <body>
+<script>
+  // ── AUTH ──
+  (function() {
+    if (!sessionStorage.getItem('icv_access')) {
+      window.location.href = '/accedi';
+    }
+  })();
+</script>
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
