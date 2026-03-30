@@ -1,24 +1,5 @@
-export async function onRequest(context) {
+export async function onRequestPost(context) {
   const { request, env } = context;
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-Access-Code'
-      }
-    });
-  }
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
-    });
-  }
   try {
     // ── AUTH CHECK ──
     const accessCodeRaw = request.headers.get('X-Access-Code');
@@ -34,7 +15,7 @@ export async function onRequest(context) {
     // Decode from Base64 (frontend stores btoa(code))
     let accessCode;
     try {
-      accessCode = atob(accessCodeRaw);
+      accessCode = atob(accessCodeRaw).trim().toUpperCase();
     } catch (e) {
       return new Response(JSON.stringify({ error: 'Invalid access code format' }), {
         status: 403,
@@ -46,8 +27,8 @@ export async function onRequest(context) {
     }
     const CODES = env.CODES;
     if (CODES) {
-      const status = await CODES.get(accessCode);
-      if (status !== 'active') {
+      const value = await CODES.get(accessCode);
+      if (value === null) {
         return new Response(JSON.stringify({ error: 'Invalid or expired code' }), {
           status: 403,
           headers: {
@@ -104,4 +85,15 @@ export async function onRequest(context) {
       }
     });
   }
+}
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Access-Code'
+    }
+  });
 }
