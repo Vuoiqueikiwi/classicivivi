@@ -412,6 +412,80 @@
     window.location.href = '/portale';
   }
 </script>
+<!-- ═══════════════════════════════════════════════════════════
+     COOKIE BANNER — da incollare PRIMA di </body> su:
+     - index.html (root)
+     - accedi/index.html
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  #cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: #0d1117;
+    border-top: 1px solid rgba(201,168,76,0.25);
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: 'Georgia', serif;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.6);
+  }
+  #cookie-banner p {
+    flex: 1; min-width: 260px;
+    font-size: 0.85rem; color: #D4B85A; line-height: 1.6; margin: 0;
+  }
+  #cookie-banner a { color: #C9A84C; text-decoration: underline; }
+  .cookie-btn-wrap {
+    display: flex; gap: 0.6rem; flex-shrink: 0; flex-wrap: wrap;
+  }
+  .cookie-btn {
+    font-family: 'Georgia', serif; font-size: 0.78rem;
+    letter-spacing: 0.08em; padding: 0.5rem 1.2rem;
+    cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap;
+  }
+  .cookie-btn-accept { background: #C9A84C; color: #080808; }
+  .cookie-btn-accept:hover { background: #E8C97A; }
+  .cookie-btn-reject { background: transparent; color: #8B6914; border: 1px solid #2A1E00; }
+  .cookie-btn-reject:hover { border-color: #C9A84C; color: #C9A84C; }
+  .cookie-btn-settings { background: transparent; color: #8B6914; border: 1px solid #2A1E00; }
+  .cookie-btn-settings:hover { border-color: #C9A84C; color: #C9A84C; }
+</style>
+
+<div id="cookie-banner" style="display:none;">
+  <p>
+    Questo sito utilizza cookie tecnici necessari e, con il tuo consenso, cookie di terze parti
+    (Google Fonts, Microsoft OneDrive). Puoi accettare tutto, rifiutare i cookie facoltativi
+    o personalizzare le tue scelte.
+    <a href="/cookie.html" target="_blank">Cookie Policy</a> —
+    <a href="/privacy.html" target="_blank">Privacy Policy</a>
+  </p>
+  <div class="cookie-btn-wrap">
+    <button class="cookie-btn cookie-btn-accept" onclick="cookieAcceptAll()">ACCETTA TUTTO</button>
+    <button class="cookie-btn cookie-btn-reject" onclick="cookieRejectAll()">RIFIUTA</button>
+    <button class="cookie-btn cookie-btn-settings" onclick="window.location.href='/cookie.html'">PERSONALIZZA</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (!prefs.saved) {
+      document.getElementById('cookie-banner').style.display = 'flex';
+    }
+  })();
+
+  function cookieAcceptAll() {
+    localStorage.setItem('icv_cookie_prefs', JSON.stringify({
+      fonts: true, onedrive: true, saved: true, date: new Date().toISOString()
+    }));
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  function cookieRejectAll() {
+    localStorage.setItem('icv_cookie_prefs', JSON.stringify({
+      fonts: false, onedrive: false, saved: true, date: new Date().toISOString()
+    }));
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
