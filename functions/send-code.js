@@ -1,6 +1,12 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  // Verifica webhook secret Payhip
+  const payhipSecret = request.headers.get("X-Payhip-Secret");
+  if (!payhipSecret || payhipSecret !== env.PAYHIP_SECRET) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const body = await request.json();
 
   // Estrai email acquirente da Payhip
