@@ -1,16 +1,30 @@
+async function verifyPayhipSignature(signature, apiKey) {
+  if (!signature) return false;
+  const encoder = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(apiKey));
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const expected = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  return signature === expected;
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Verifica webhook secret Payhip
-  const payhipSecret = request.headers.get("X-Payhip-Secret");
-  if (!payhipSecret || payhipSecret !== env.PAYHIP_SECRET) {
+  const body = await request.json();
+
+  // Verifica firma Payhip
+  const isValid = await verifyPayhipSignature(body.signature, env.PAYHIP_API_KEY);
+  if (!isValid) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const body = await request.json();
+  // Accetta solo eventi "paid"
+  if (body.type !== "paid") {
+    return new Response("Ignored", { status: 200 });
+  }
 
-  // Estrai email acquirente da Payhip
-  const buyerEmail = body?.buyer?.email;
+  // Estrai email acquirente
+  const buyerEmail = body?.email;
   if (!buyerEmail) {
     return new Response("Missing email", { status: 400 });
   }
@@ -22,7 +36,6 @@ export async function onRequestPost(context) {
   outer:
   while (true) {
     const listResult = await env.CODES.list({ limit: 100, cursor });
-
     for (const key of listResult.keys) {
       const value = await env.CODES.get(key.name);
       if (value === "ACTIVE") {
@@ -30,7 +43,6 @@ export async function onRequestPost(context) {
         break outer;
       }
     }
-
     if (listResult.list_complete) break;
     cursor = listResult.cursor;
   }
@@ -39,7 +51,7 @@ export async function onRequestPost(context) {
     return new Response("No active codes available", { status: 500 });
   }
 
-  // Marca il codice come usato PRIMA di inviare (evita doppio uso)
+  // Marca il codice come usato PRIMA di inviare
   await env.CODES.put(foundCode, "USED");
 
   // Invia email via Brevo
@@ -69,7 +81,6 @@ export async function onRequestPost(context) {
 
   if (!emailRes.ok) {
     const err = await emailRes.text();
-    // Ripristina il codice se l'email fallisce
     await env.CODES.put(foundCode, "ACTIVE");
     return new Response("Email error: " + err, { status: 500 });
   }
