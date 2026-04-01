@@ -1,4 +1,4 @@
-async function verifyPayhipSignature(signature, apiKey) { 
+async function verifyPayhipSignature(signature, apiKey) {
   if (!signature) return false;
   const encoder = new TextEncoder();
   const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(apiKey));
@@ -96,4 +96,4 @@ export async function onRequestOptions() {
       "Access-Control-Allow-Headers": "Content-Type",
     },
   });
-}
+} 
