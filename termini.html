@@ -1,153 +1,252 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Termini di Servizio — I Classici Vivi</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --oro: #C9A84C;
-    --nero: #080808;
-    --pergamena: #F5E6C8;
-    --pergamena-scura: #D4C4A0;
-    --grigio: #888888;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: "EB Garamond", serif;
-    background: var(--nero);
-    color: var(--pergamena);
-    line-height: 1.8;
-    min-height: 100vh;
-  }
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
-  }
-  .back-link {
-    display: inline-block;
-    font-family: "Cinzel", serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: var(--oro);
-    text-decoration: none;
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 0.3rem 0.8rem;
-    margin-bottom: 2rem;
-    transition: all 0.2s;
-  }
-  .back-link:hover { border-color: var(--oro); background: rgba(201,168,76,0.1); }
-  .brand {
-    font-family: "Cinzel", serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.5em;
-    color: var(--oro);
-    opacity: 0.8;
-    margin-bottom: 0.5rem;
-  }
-  h1 {
-    font-family: "Cinzel", serif;
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    font-weight: 700;
-    color: var(--pergamena);
-    margin-bottom: 0.5rem;
-  }
-  .last-update {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--grigio);
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(201,168,76,0.15);
-  }
-  h2 {
-    font-family: "Cinzel", serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--oro);
-    margin-top: 2.5rem;
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.05em;
-  }
-  p {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: var(--pergamena-scura);
-  }
-  a { color: var(--oro); }
-  a:hover { color: #E8C97A; }
-  .footer-legal {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(201,168,76,0.15);
-    text-align: center;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--grigio);
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termini e Condizioni — I Classici Vivi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #080808;
+      color: #F5E6C8;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      padding: 0;
+    }
+
+    header {
+      background-color: #080808;
+      border-bottom: 1px solid #C9A84C33;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    header a {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: #C9A84C;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    header a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: #C9A84C;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #C9A84C99;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: #C9A84C;
+      letter-spacing: 0.04em;
+      margin-top: 2.5rem;
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid #C9A84C33;
+      padding-bottom: 0.4rem;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+
+    ul li { margin-bottom: 0.4rem; }
+
+    a {
+      color: #C9A84C;
+      text-decoration: underline;
+    }
+
+    a:hover { opacity: 0.8; }
+
+    .highlight-box {
+      border: 1px solid #C9A84C44;
+      background-color: #C9A84C0A;
+      border-radius: 6px;
+      padding: 1rem 1.4rem;
+      margin: 1.5rem 0;
+      font-size: 0.97rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #C9A84C22;
+      font-size: 0.85rem;
+      color: #C9A84C77;
+    }
+
+    footer a { color: #C9A84C99; }
+  </style>
 </head>
 <body>
+
+<header>
+  <a href="/">← I Classici Vivi</a>
+</header>
+
 <div class="container">
 
-  <a href="/" class="back-link">← TORNA AL SITO</a>
+  <h1>Termini e Condizioni di Servizio</h1>
+  <p class="subtitle">Ultima modifica: aprile 2026</p>
 
-  <div class="brand">I CLASSICI VIVI</div>
-  <h1>Termini di Servizio</h1>
-  <p class="last-update">Ultimo aggiornamento: 30 marzo 2026</p>
+  <p>
+    I presenti Termini e Condizioni di Servizio (di seguito "Termini") disciplinano l'accesso e l'utilizzo della piattaforma web educativa <strong>I Classici Vivi</strong>, disponibile all'indirizzo <a href="https://classicivivi.it">classicivivi.it</a> (di seguito "Piattaforma"), gestita da Lorenzo Arici con sede in Italia, contattabile all'indirizzo e-mail <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>.
+  </p>
+  <p>
+    Accedendo alla Piattaforma o effettuando un acquisto, l'utente dichiara di aver letto, compreso e accettato integralmente i presenti Termini. Se l'utente non accetta tali condizioni, è pregato di non utilizzare la Piattaforma.
+  </p>
 
-  <h2>1. Definizioni</h2>
-  <p>Con "I Classici Vivi" (di seguito anche "il Titolare", "noi") si intende il progetto editoriale digitale raggiungibile all'indirizzo classicivivi.it. Con "Kit" si intende il prodotto digitale denominato "Kit I Classici Vivi — I Promessi Sposi", comprensivo di tutti i materiali descritti nella pagina di vendita. Con "Utente" si intende qualsiasi persona che accede al sito o acquista il Kit. Con "Codice di Accesso" si intende il codice univoco nel formato ICV-XXXX-XXXX inviato via email dopo l'acquisto.</p>
+  <h2>1. Descrizione del Servizio</h2>
+  <p>
+    I Classici Vivi è una piattaforma educativa digitale dedicata allo studio de <em>I Promessi Sposi</em> di Alessandro Manzoni. Il servizio consiste nell'accesso a un kit digitale (di seguito "Kit") comprendente:
+  </p>
+  <ul>
+    <li>Chat interattive con intelligenza artificiale nei panni di personaggi del romanzo (Tutor, Don Abbondio, Renzo, Innominato);</li>
+    <li>Podcast audio in 38 episodi;</li>
+    <li>Flashcard di studio (versione zero e versione completa);</li>
+    <li>Quiz finale e Quiz premium;</li>
+    <li>Librogame "La Grande Paura" (140 pagine);</li>
+    <li>Script cinematografici originali (76 pagine);</li>
+    <li>Interviste impossibili ai personaggi;</li>
+    <li>PDF del testo originale integrale (opera in pubblico dominio).</li>
+  </ul>
+  <p>
+    L'accesso al Kit avviene tramite un codice personale univoco (formato ICV-XXXX-XXXX) ricevuto via e-mail al completamento dell'acquisto. Il codice consente l'accesso alla sezione protetta della Piattaforma tramite il proprio browser. Il servizio è esclusivamente digitale e non prevede la consegna di alcun prodotto fisico.
+  </p>
 
-  <h2>2. Oggetto del servizio</h2>
-  <p>I Classici Vivi è una piattaforma educativa digitale dedicata allo studio de "I Promessi Sposi" di Alessandro Manzoni. Il Kit include materiali didattici in formato digitale (PDF, chat AI interattive, podcast, flashcard, quiz e altri contenuti) accessibili tramite il portale riservato del sito dopo l'inserimento di un Codice di Accesso valido.</p>
+  <h2>2. Acquisto e Pagamento</h2>
+  <p>
+    L'acquisto del Kit avviene tramite la piattaforma di pagamento terza <strong>Payhip</strong> (<a href="https://payhip.com/b/J0paf" target="_blank" rel="noopener">payhip.com/b/J0paf</a>). Il prezzo è di <strong>€ 9,90 (IVA inclusa)</strong>, salvo diversa indicazione pubblicata sul sito al momento dell'acquisto. Il pagamento è effettuato in un'unica soluzione (one-time payment) e non dà luogo ad alcun abbonamento ricorrente.
+  </p>
+  <p>
+    Le modalità di pagamento accettate sono quelle messe a disposizione da Payhip (carte di credito/debito, PayPal e altri). I Classici Vivi non raccoglie né archivia i dati di pagamento dell'utente, che sono gestiti esclusivamente da Payhip conformemente alle proprie politiche.
+  </p>
+  <p>
+    Al completamento del pagamento, il sistema invia automaticamente all'indirizzo e-mail indicato in fase d'acquisto il codice di accesso personale. In caso di mancata ricezione entro 30 minuti, l'utente è invitato a verificare la cartella spam o a contattare <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>.
+  </p>
 
-  <h2>3. Acquisto e accesso</h2>
-  <p>L'acquisto del Kit avviene tramite la piattaforma di pagamento Payhip (payhip.com). Completato il pagamento, l'Utente riceve via email un Codice di Accesso personale e non trasferibile. Tale codice consente l'accesso al portale riservato su classicivivi.it. L'Utente è responsabile della custodia del proprio Codice di Accesso e si impegna a non condividerlo con terzi.</p>
-
-  <h2>4. Prezzo e pagamento</h2>
-  <p>Il prezzo del Kit è quello indicato sulla pagina di vendita al momento dell'acquisto. Il pagamento viene gestito interamente da Payhip, che opera come rivenditore (Merchant of Record). L'IVA, ove applicabile, è inclusa nel prezzo e gestita da Payhip in conformità con le normative fiscali vigenti.</p>
-
-  <h2>5. Natura del prodotto digitale e politica di rimborso</h2>
-  <p>Il Kit è un prodotto digitale ad accesso immediato. Ai sensi dell'art. 59, comma 1, lettera o) del Codice del Consumo (D.Lgs. 206/2005), il diritto di recesso è escluso per la fornitura di contenuto digitale non fornito su supporto materiale, quando l'esecuzione è iniziata con il consenso espresso del consumatore e con la sua accettazione della perdita del diritto di recesso. Procedendo all'acquisto e utilizzando il Codice di Accesso, l'Utente accetta espressamente che la fornitura del contenuto digitale abbia inizio immediatamente e riconosce di perdere il diritto di recesso. Non sono pertanto previsti rimborsi una volta che il Codice di Accesso è stato attivato.</p>
-
-  <h2>6. Licenza d'uso</h2>
-  <p>L'acquisto del Kit conferisce all'Utente una licenza d'uso personale, non esclusiva e non trasferibile. L'Utente può utilizzare i materiali per studio e uso personale. È vietata la riproduzione, redistribuzione, rivendita, pubblicazione o condivisione, anche parziale, dei contenuti del Kit senza autorizzazione scritta del Titolare. La violazione di questa clausola comporta la revoca immediata dell'accesso senza diritto a rimborso.</p>
-
-  <h2>7. Chat AI interattive</h2>
-  <p>Il Kit include chat AI che simulano conversazioni con personaggi de "I Promessi Sposi". Queste chat sono strumenti didattici e non sostituiscono il parere di docenti, tutor o professionisti dell'istruzione. Le risposte generate dall'intelligenza artificiale possono contenere imprecisioni. Il Titolare non garantisce l'accuratezza, la completezza o l'idoneità delle risposte generate per scopi specifici, inclusi compiti scolastici, esami o valutazioni accademiche.</p>
-
-  <h2>8. Disponibilità del servizio</h2>
-  <p>Il Titolare si impegna a mantenere il portale accessibile, ma non garantisce la disponibilità ininterrotta del servizio. Eventuali interruzioni per manutenzione, aggiornamenti tecnici o cause di forza maggiore non danno diritto a rimborsi o risarcimenti. Il Titolare si riserva il diritto di modificare, aggiornare o rimuovere contenuti del Kit in qualsiasi momento per migliorare il servizio.</p>
-
-  <h2>9. Proprietà intellettuale</h2>
-  <p>Tutti i contenuti del Kit — inclusi testi, grafica, audio, video, prompt AI, struttura didattica e design — sono di proprietà del Titolare o utilizzati su licenza, e sono protetti dalle leggi italiane e internazionali sul diritto d'autore. Il testo de "I Promessi Sposi" di Alessandro Manzoni è opera di pubblico dominio. I materiali originali creati per il Kit (analisi, flashcard, quiz, script, podcast, chat AI) restano di esclusiva proprietà del Titolare.</p>
-
-  <h2>10. Limitazione di responsabilità</h2>
-  <p>Il Kit è fornito "così com'è" (as is). Il Titolare non è responsabile per danni diretti, indiretti, incidentali o consequenziali derivanti dall'uso o dall'impossibilità di uso del Kit, inclusi ma non limitati a: risultati scolastici o accademici, perdita di dati, interruzioni del servizio, o comportamento delle chat AI. La responsabilità complessiva del Titolare, in ogni caso, non potrà superare l'importo effettivamente pagato dall'Utente per l'acquisto del Kit.</p>
-
-  <h2>11. Protezione dei dati personali</h2>
-  <p>Il trattamento dei dati personali è disciplinato dalla Privacy Policy, disponibile all'indirizzo <a href="/privacy.html">classicivivi.it/privacy.html</a>. Il Titolare tratta i dati in conformità al Regolamento UE 2016/679 (GDPR) e alla normativa italiana vigente. I pagamenti sono gestiti da Payhip: il Titolare non raccoglie né conserva dati di pagamento (carte di credito, conti PayPal, ecc.).</p>
-
-  <h2>12. Condotta dell'utente</h2>
-  <p>L'Utente si impegna a utilizzare il Kit e le chat AI in modo lecito e conforme ai presenti Termini. È vietato: utilizzare le chat AI per generare contenuti offensivi, illeciti o inappropriati; tentare di aggirare i sistemi di sicurezza o di accesso; condividere il Codice di Accesso con terzi; utilizzare sistemi automatizzati (bot, scraper) per accedere ai contenuti. Il Titolare si riserva il diritto di sospendere o revocare l'accesso in caso di violazione, senza preavviso e senza diritto a rimborso.</p>
-
-  <h2>13. Modifiche ai Termini</h2>
-  <p>Il Titolare si riserva il diritto di modificare i presenti Termini di Servizio in qualsiasi momento. Le modifiche saranno pubblicate su questa pagina con aggiornamento della data in alto. L'uso continuato del servizio dopo la pubblicazione delle modifiche costituisce accettazione dei nuovi Termini.</p>
-
-  <h2>14. Legge applicabile e foro competente</h2>
-  <p>I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia derivante dall'interpretazione o dall'esecuzione dei presenti Termini, sarà competente il Foro del luogo di residenza o domicilio del consumatore, ai sensi dell'art. 33, comma 2, lettera u) del Codice del Consumo, qualora l'Utente sia qualificabile come consumatore. In tutti gli altri casi, sarà competente il Foro di Milano.</p>
-
-  <h2>15. Contatti</h2>
-  <p>Per qualsiasi domanda relativa ai presenti Termini di Servizio, è possibile contattarci all'indirizzo email: <a href="mailto:info@classicivivi.it">info@classicivivi.it</a></p>
-
-  <div class="footer-legal">
-    © 2026 I Classici Vivi · classicivivi.it
+  <h2>3. Diritto di Recesso</h2>
+  <div class="highlight-box">
+    <strong>Nota importante:</strong> Ai sensi dell'art. 59, comma 1, lett. o) del D.Lgs. 206/2005 (Codice del Consumo), il diritto di recesso <strong>non si applica</strong> ai contratti aventi ad oggetto la fornitura di contenuto digitale mediante supporto non materiale, qualora l'esecuzione sia iniziata con il consenso espresso del consumatore e con la sua espressa rinuncia al diritto di recesso.
   </div>
+  <p>
+    Completando l'acquisto e accedendo al Kit tramite il codice personale, l'utente presta esplicitamente il proprio consenso all'avvio immediato della prestazione digitale e rinuncia consapevolmente al diritto di recesso di 14 giorni previsto dalla normativa europea per i consumatori (Direttiva 2011/83/UE). Di conseguenza, <strong>non è previsto alcun rimborso</strong> una volta che il codice di accesso è stato consegnato e/o utilizzato.
+  </p>
+  <p>
+    In caso di errori tecnici imputabili alla Piattaforma che impediscano l'accesso al servizio acquistato, l'utente può contattare <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>: ogni caso sarà valutato singolarmente e con buona fede.
+  </p>
+
+  <h2>4. Codice di Accesso Personale</h2>
+  <p>
+    Il codice di accesso è strettamente personale e non cedibile a terzi. È consentito l'utilizzo su più dispositivi personali dello stesso utente. È vietata la condivisione del codice con altri soggetti, la sua diffusione pubblica o il suo utilizzo a fini commerciali. I Classici Vivi si riserva il diritto di revocare l'accesso in caso di utilizzo improprio, abusivo o in violazione dei presenti Termini, senza obbligo di rimborso.
+  </p>
+
+  <h2>5. Proprietà Intellettuale</h2>
+  <p>
+    Tutti i contenuti originali presenti nella Piattaforma — inclusi, a titolo esemplificativo e non esaustivo, i testi, le flashcard, i quiz, il librogame, gli script cinematografici, le interviste impossibili, il podcast e le interfacce delle chat AI — sono di proprietà esclusiva di I Classici Vivi e sono protetti dalle norme vigenti in materia di diritto d'autore (L. 633/1941 e successive modifiche) e dalla normativa europea applicabile.
+  </p>
+  <p>
+    L'acquisto del Kit conferisce all'utente una licenza personale, non esclusiva, non trasferibile e revocabile per l'utilizzo dei contenuti a fini esclusivamente privati e di studio. È espressamente vietato:
+  </p>
+  <ul>
+    <li>riprodurre, distribuire o pubblicare i contenuti del Kit in qualsiasi forma;</li>
+    <li>vendere, cedere o sublicenziare l'accesso o i contenuti a terzi;</li>
+    <li>utilizzare i contenuti per scopi commerciali;</li>
+    <li>effettuare il download non autorizzato dei materiali protetti (ad eccezione del PDF del testo originale, opera in pubblico dominio, ove espressamente consentito).</li>
+  </ul>
+  <p>
+    Il testo integrale de <em>I Promessi Sposi</em> di Alessandro Manzoni è opera in pubblico dominio e il relativo PDF è fornito esclusivamente a titolo di comodità per lo studio.
+  </p>
+
+  <h2>6. Utilizzo dell'Intelligenza Artificiale</h2>
+  <p>
+    Le chat interattive con i personaggi del romanzo sono alimentate da modelli di intelligenza artificiale di terze parti. Le risposte generate dall'AI sono a scopo esclusivamente educativo e di intrattenimento culturale. I Classici Vivi non garantisce l'accuratezza assoluta, la completezza o l'aggiornamento delle risposte generate dall'AI, le quali non sostituiscono in alcun caso la consultazione di fonti accademiche, insegnanti o testi specializzati.
+  </p>
+  <p>
+    L'utente è responsabile dell'uso che fa delle informazioni ottenute tramite le funzionalità AI della Piattaforma.
+  </p>
+
+  <h2>7. Limitazione di Responsabilità</h2>
+  <p>
+    I Classici Vivi si impegna a garantire la continuità e il corretto funzionamento della Piattaforma, ma non può assicurare un servizio privo di interruzioni, errori o malfunzionamenti. La Piattaforma è fornita "così com'è" (<em>as is</em>).
+  </p>
+  <p>
+    Nei limiti consentiti dalla legge applicabile, I Classici Vivi non è responsabile per:
+  </p>
+  <ul>
+    <li>interruzioni temporanee del servizio dovute a manutenzione, guasti tecnici o cause di forza maggiore;</li>
+    <li>malfunzionamenti dipendenti da servizi terzi (Cloudflare, Microsoft OneDrive, Groq, Payhip, Brevo);</li>
+    <li>danni diretti o indiretti derivanti dall'utilizzo o dall'impossibilità di utilizzo della Piattaforma;</li>
+    <li>perdita del codice di accesso per negligenza dell'utente.</li>
+  </ul>
+  <p>
+    In ogni caso, la responsabilità massima di I Classici Vivi nei confronti dell'utente non potrà eccedere l'importo pagato per il Kit.
+  </p>
+
+  <h2>8. Servizi di Terze Parti</h2>
+  <p>
+    La Piattaforma si avvale di servizi forniti da soggetti terzi indipendenti, tra cui Payhip (pagamenti), Microsoft OneDrive (hosting materiali), Groq (intelligenza artificiale), Brevo (invio e-mail) e Cloudflare (hosting e CDN). I Classici Vivi non è responsabile delle politiche, dei comportamenti o delle eventuali interruzioni di tali servizi. L'utilizzo di tali piattaforme è soggetto ai rispettivi termini e condizioni.
+  </p>
+
+  <h2>9. Privacy e Protezione dei Dati</h2>
+  <p>
+    Il trattamento dei dati personali degli utenti è disciplinato dalla <a href="/privacy.html">Informativa sulla Privacy</a> e dalla <a href="/cookie.html">Cookie Policy</a>, consultabili nelle rispettive pagine dedicate. I Classici Vivi tratta i dati personali in conformità al Regolamento (UE) 2016/679 (GDPR) e alla normativa italiana vigente.
+  </p>
+
+  <h2>10. Modifiche ai Termini</h2>
+  <p>
+    I Classici Vivi si riserva il diritto di modificare i presenti Termini in qualsiasi momento, dandone comunicazione mediante aggiornamento della presente pagina con indicazione della data di ultima modifica. L'utilizzo continuato della Piattaforma successivamente alla pubblicazione delle modifiche costituisce accettazione dei nuovi Termini. Si raccomanda di consultare periodicamente questa pagina.
+  </p>
+
+  <h2>11. Legge Applicabile e Foro Competente</h2>
+  <p>
+    I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia relativa all'interpretazione, all'esecuzione o alla risoluzione dei presenti Termini, le parti si impegnano a ricercare in primo luogo una soluzione amichevole. In caso di mancato accordo, sarà competente in via esclusiva il Tribunale del luogo di residenza o domicilio del consumatore, come previsto dalla normativa vigente a tutela del consumatore.
+  </p>
+  <p>
+    Per la risoluzione alternativa delle controversie, l'utente consumatore può inoltre fare ricorso alla piattaforma ODR (Online Dispute Resolution) messa a disposizione dalla Commissione Europea all'indirizzo <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
+  </p>
+
+  <h2>12. Contatti</h2>
+  <p>
+    Per qualsiasi domanda, richiesta o segnalazione relativa ai presenti Termini o al servizio offerto, l'utente può contattare I Classici Vivi al seguente indirizzo e-mail: <a href="mailto:info@classicivivi.it">info@classicivivi.it</a>.
+  </p>
 
 </div>
+
+<footer>
+  <p>
+    <a href="/privacy.html">Privacy Policy</a> &nbsp;|&nbsp;
+    <a href="/cookie.html">Cookie Policy</a> &nbsp;|&nbsp;
+    <a href="/termini.html">Termini e Condizioni</a> &nbsp;|&nbsp;
+    <a href="mailto:info@classicivivi.it">Contatti</a>
+  </p>
+  <p style="margin-top:0.8rem;">© 2026 I Classici Vivi — Tutti i diritti riservati</p>
+</footer>
+
 </body>
 </html>
