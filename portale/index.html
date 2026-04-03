@@ -643,11 +643,26 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
         <p class="section-desc">38 capitoli trasformati in narrazione audio cinematografica. Ascolta la storia come non l'hai mai sentita prima.</p>
         <div class="podcast-wrap">
           <div class="podcast-note">
-            Gli episodi si aprono in una nuova scheda nel tuo browser. Clicca sul capitolo che vuoi ascoltare — non è necessario scaricare nulla.
-          </div>
-          <a href="https://1drv.ms/f/c/84fa0c94011fae7e/IgCCG86Vbm8DSqIoO4eDiuoFAdL01nJHxYmeuRkZgsHH-dI?e=jZ4fSx"
-             target="_blank" class="podcast-open-btn">▶ &nbsp;ASCOLTA I PODCAST</a>
-        </div>`
+           <div class="podcast-wrap">
+
+  <!-- LISTA -->
+  <div class="podcast-lista" id="podcastLista"></div>
+
+  <!-- PLAYER -->
+  <div class="podcast-player">
+    <div class="podcast-player-header">
+      <div class="podcast-now-label">In ascolto</div>
+      <div class="podcast-now-title" id="podcastNowTitle">Seleziona un episodio</div>
+    </div>
+    <div class="podcast-iframe-wrap" id="podcastIframeWrap">
+      <div class="podcast-placeholder">
+        <span>🎙</span>
+        Seleziona un capitolo dalla lista per ascoltarlo
+      </div>
+    </div>
+  </div>
+
+</div>
     },
     flashcard: {
       title: 'Flashcard',
@@ -911,5 +926,237 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     isSending = false;
   }
 </script>
+<!-- PODCAST PLAYER — I Classici Vivi -->
+<!-- Incolla questo codice nella sezione Podcast del portale/index.html -->
+<!-- Sostituisce il link cartella OneDrive esistente -->
+
+<style>
+.podcast-wrap {
+  display: flex;
+  gap: 1rem;
+  height: 520px;
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+/* LISTA EPISODI */
+.podcast-lista {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.podcast-lista::-webkit-scrollbar { width: 3px; }
+.podcast-lista::-webkit-scrollbar-track { background: transparent; }
+.podcast-lista::-webkit-scrollbar-thumb { background: #C9A84C44; border-radius: 2px; }
+
+.ep-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.ep-item:hover {
+  background: #C9A84C11;
+  border-color: #C9A84C22;
+}
+
+.ep-item.attivo {
+  background: #C9A84C18;
+  border-color: #C9A84C55;
+}
+
+.ep-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: #C9A84C77;
+  min-width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ep-titolo {
+  font-size: 0.85rem;
+  color: #F5E6C8cc;
+  line-height: 1.3;
+}
+
+.ep-item.attivo .ep-titolo {
+  color: #C9A84C;
+}
+
+/* PLAYER IFRAME */
+.podcast-player {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.podcast-player-header {
+  flex-shrink: 0;
+}
+
+.podcast-now-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: #C9A84C88;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.podcast-now-title {
+  font-size: 1rem;
+  color: #F5E6C8;
+  min-height: 1.5rem;
+}
+
+.podcast-iframe-wrap {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #C9A84C22;
+  background: #0a0a0a;
+}
+
+.podcast-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.podcast-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  color: #F5E6C855;
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.podcast-placeholder span {
+  font-size: 2rem;
+  opacity: 0.4;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .podcast-wrap {
+    flex-direction: column;
+    height: auto;
+  }
+  .podcast-lista {
+    width: 100%;
+    max-height: 200px;
+  }
+  .podcast-player {
+    height: 320px;
+  }
+}
+</style>
+
+<div class="podcast-wrap">
+
+  <!-- LISTA -->
+  <div class="podcast-lista" id="podcastLista"></div>
+
+  <!-- PLAYER -->
+  <div class="podcast-player">
+    <div class="podcast-player-header">
+      <div class="podcast-now-label">In ascolto</div>
+      <div class="podcast-now-title" id="podcastNowTitle">Seleziona un episodio</div>
+    </div>
+    <div class="podcast-iframe-wrap" id="podcastIframeWrap">
+      <div class="podcast-placeholder">
+        <span>🎙</span>
+        Seleziona un capitolo dalla lista per ascoltarlo
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const episodi = [
+    { label: "Capitolo 1",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN" },
+    { label: "Capitolo 2",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW" },
+    { label: "Capitolo 3",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy" },
+    { label: "Capitolo 4",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa" },
+    { label: "Capitolo 5",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKSC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc" },
+    { label: "Capitolo 6",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDnFHZX3l4iRI02jNT5qCUaAdN8guCEdtQMA61iouTqTEo?e=lqK9DK" },
+    { label: "Capitolo 7",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCRyyeLHJxQTKnyTKwGWIVdAeO2bnJfgPlJYRJMi-Wykdc?e=S67a0F" },
+    { label: "Capitolo 8",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC-2C3F2JvHRYd1KSW02JBkAa90ebU3m3bENV1Vg4mI9Qs?e=84LRU6" },
+    { label: "Capitolo 9",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD9xibfPo35TJTPvpQmoaEUAXLGmN8KH6QVcNh6vtz6ZnY?e=NMHTw0" },
+    { label: "Capitolo 10",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQA0LjDiOcXYSYzTGk9TqQ5oAfrN_0KaVc9HH5_E7t-FI7s?e=GtcxfQ" },
+    { label: "Capitolo 11",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD6YecR20XeT5VhWsGd_3ONARvleBZsg48a4ansYb9XCec?e=iCFOZh" },
+    { label: "Capitolo 12",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCW6qVQgQbNS5x07bQL5c7-AbrzdhMbHiB4PQPAy3QbnkE?e=gPqyHB" },
+    { label: "Capitolo 13",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBemNwZmJ5cRbDntoYUz_dJAaQo3Nnf7wiYNOG8G2UY5jA?e=71Zwdn" },
+    { label: "Capitolo 14",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAr655jMNvISaRLceb5kOENAcGC4FFWu-CPjLW7xyHtKrs?e=98WLRl" },
+    { label: "Capitolo 15",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCbaJLOK2uNRY9rrgqEqNVsAQ1kNroRTy8vsoIIME_dG68?e=fN1NU7" },
+    { label: "Capitoli 16-17", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCaiMf1LLn9Tb_2DlSLm82nAVYuXNlJswGrkH2blZxWl0k?e=u4kN2m" },
+    { label: "Capitolo 18",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBW_-4ba5yqQboiLLhfu4ieAbQIC45FJkonPYhUv6pWOOc?e=N12YDh" },
+    { label: "Capitolo 19",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBRu6xl-mIIS61sGgA6S6CpAbFk7FdKqiK16BLa8RDZ7vs?e=e463Rt" },
+    { label: "Capitolo 20",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDemGBXktQ5T58GSWNgntVcASO0k2SSz1n-wKqy_JQHmIU?e=GNQejr" },
+    { label: "Capitolo 21",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDmVcEOf8kQR7Bu6ZNPHsZKAVy6IfTbNhas77tolGsHAG8?e=xkWRm1" },
+    { label: "Capitolo 22",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC3hEMQB61rS5q4BmrlhnwKAaHYR6-TheDV7wLcCC9vOqg?e=DilqNK" },
+    { label: "Capitolo 23",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDKiVMmm4WXRpgxU2uBY0xDAXkYRMDIxr5QHYI0lgNVBWY?e=FWJrY3" },
+    { label: "Capitolo 24",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAZPOiRCtxATKQSS_B2cVaQAYhHbB8x-mkUBhwQ5ou8mvE?e=ZX72oS" },
+    { label: "Capitolo 25",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCaaNzai_dPTbNVTOmJqQ3XAecZr-r-tza9Adu1axJlAe4?e=GFOfmh" },
+    { label: "Capitolo 26",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBDssdX4070TJhOfSqhrRTQARjpjZDLVBBAzGBfs72NSoY?e=RTppfI" },
+    { label: "Capitolo 27",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQB03x0Oi89ZQpL4UBpPxftyAWuJVMV3veXxuwb7FJFY_QQ?e=T8Dqvt" },
+    { label: "Capitolo 28",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQB8LljVDnvOQYS9dDTEUpt3AT9IA17VJsQuCBjKgUBZs5I?e=vykxnL" },
+    { label: "Capitolo 29",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDTZQSp20vKSJywZ3sfkzQXAWmAFhtsrQyhv0yluIVleaQ?e=bpUqRf" },
+    { label: "Capitolo 30",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAokLRdTm-pQY_rhSKTry5DAdet6QzRpOKqYmqh6y85uEY?e=KQTlRH" },
+    { label: "Capitolo 31",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD0qc13rKfFSLi1v17Vo1hIAeln7hoKo3FKjfmDJf16HJA?e=DG7emX" },
+    { label: "Capitolo 32",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCUO6dbZm_FRIqPcTIub8qAAcwXvogB7slxev0kzhB4GQw?e=wDanCn" },
+    { label: "Capitolo 33",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBWh0QzsYBlTL_95uXAsQ1oAQ-w3yrAFfIu25xZ_HgMSS0?e=MaNkq7" },
+    { label: "Capitolo 34",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC8DNXFx9LEQrsHLAkkRY-QAZjVQlYYi9babI0x2svDqyQ?e=W1RrFj" },
+    { label: "Capitolo 35",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBxNn-fY2FcTLUHqVO8v-v_ATq0MZXPTXzKCbdJYmcCw5A?e=nNucKz" },
+    { label: "Capitolo 36",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAC3vc0_3OKQpuSotwcQAHdAafhi0C0eV8OEcH1wkSLakk?e=KXmzxe" },
+    { label: "Capitolo 37",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAqIpB95HMSRZfQv3dV7toMAW4IrAfruvEn3rPjH0lyCOk?e=VzpseM" },
+    { label: "Capitolo 38",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDT2LKZd5kZT7eBvrdPptPQAd0GzJZ9iw1BXPS62BInjNQ?e=w8JMdU" },
+  ];
+
+  const lista = document.getElementById('podcastLista');
+  const nowTitle = document.getElementById('podcastNowTitle');
+  const iframeWrap = document.getElementById('podcastIframeWrap');
+
+  episodi.forEach((ep, i) => {
+    const item = document.createElement('div');
+    item.className = 'ep-item';
+    item.innerHTML = `
+      <span class="ep-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="ep-titolo">${ep.label}</span>
+    `;
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.ep-item').forEach(el => el.classList.remove('attivo'));
+      item.classList.add('attivo');
+      nowTitle.textContent = 'Podcast — ' + ep.label;
+      iframeWrap.innerHTML = `<iframe src="${ep.url}" allowfullscreen></iframe>`;
+    });
+    lista.appendChild(item);
+  });
+})();
+</script>
+  
 </body>
 </html>
