@@ -802,6 +802,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     document.getElementById('content-view').style.display = 'flex';
     document.getElementById('content-title').textContent = c.title;
     document.getElementById('content-body').innerHTML = c.html;
+if (key === 'podcast') initPodcastPlayer();
     document.getElementById('nav-tutor').classList.remove('active');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     const allNavItems = document.querySelectorAll('.nav-item');
@@ -921,7 +922,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   }
 </script>
 <script>
-(function() {
+function initPodcastPlayer() {
   const episodi = [
     { label: "Capitolo 1",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN" },
     { label: "Capitolo 2",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW" },
@@ -974,11 +975,11 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     a.innerHTML = `
       <span class="ep-num">${String(i + 1).padStart(2, '0')}</span>
       <span class="ep-icon">▶</span>
-      <span class="ep-titolo">Podcast — ${ep.label}</span>
+       <span class="ep-titolo">Podcast — ${ep.label}</span>
     `;
     lista.appendChild(a);
   });
-})();
+}
 </script>
 
 </body>
