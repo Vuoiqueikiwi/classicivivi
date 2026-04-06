@@ -890,11 +890,11 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
 
         <div class="pdf-viewer-label" style="margin-bottom:0.5rem;">QUIZ FINALE — 33 domande · 3 livelli</div>
         <div class="pdf-viewer-desc" style="margin-bottom:1rem;">Facile, Medio, Difficile. Trama, analisi e critica. Clicca la carta per vedere la risposta modello.</div>
-        <div class="qv-wrap" id="qf-viewer"></div>
+        <div class="qv-wrap" id="qfViewer"></div>
 
         <div class="pdf-viewer-label" style="margin-bottom:0.5rem;margin-top:2rem;">QUIZ PREMIUM — 14 domande · stile maturità</div>
         <div class="pdf-viewer-desc" style="margin-bottom:1rem;">Stile, Narratore, Proemio, Contesto. Per chi si prepara all'esame di maturità.</div>
-        <div class="qv-wrap" id="qp-viewer"></div>
+        <div class="qv-wrap" id="qpViewer"></div>
       `
     },
     librogame: {
@@ -1310,14 +1310,17 @@ function initPodcastPlayer() {
 
   // ── INIT QUIZ VIEWERS (chiamato da showContent) ───────────────────
   function initQuizViewers() {
-    makeQuizEngine('qf-viewer', 'Quiz Finale — I Promessi Sposi',
+    makeQuizEngine('qfViewer', 'Quiz Finale — I Promessi Sposi',
       { facile: qfFacile, medio: qfMedio, difficile: qfDifficile },
       [ {key:'facile', label:'&#9733; Facile'}, {key:'medio', label:'&#9733;&#9733; Medio'}, {key:'difficile', label:'&#9733;&#9733;&#9733; Difficile'} ]
     );
-    makeQuizEngine('qp-viewer', 'Quiz Premium — I Promessi Sposi',
+    makeQuizEngine('qpViewer', 'Quiz Premium — I Promessi Sposi',
       { stile: qpStile, contesto: qpContesto },
       [ {key:'stile', label:'Stile &amp; Narratore'}, {key:'contesto', label:'Proemio &amp; Contesto'} ]
     );
   }
 
 </script>
+
+</body>
+</html>
