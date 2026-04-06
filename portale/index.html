@@ -357,6 +357,48 @@
     width: 100%; height: 75vh; border: none; background: #080808; display: block;
   }
 
+  /* ── FLASHCARD VIEWER ───────────────────────────────────────────── */
+  .fc-wrap {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: #080808;
+    min-height: 520px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 680px;
+  }
+  .fc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px; }
+  .fc-title-label { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 0; }
+  .fc-tabs { display: flex; gap: 6px; }
+  .fc-tab { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: rgba(201,168,76,0.55); cursor: pointer; transition: all 0.2s; }
+  .fc-tab.fc-active { background: #C9A84C; color: #080808; border-color: #C9A84C; }
+  .fc-tab:hover:not(.fc-active) { background: rgba(201,168,76,0.13); color: #C9A84C; }
+  .fc-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; }
+  .fc-counter { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 1px; white-space: nowrap; }
+  .fc-bar-bg { flex: 1; height: 2px; background: #222; border-radius: 2px; }
+  .fc-bar-fill { height: 100%; background: #C9A84C; border-radius: 2px; transition: width 0.3s; }
+  .fc-scene { perspective: 1200px; width: 100%; max-width: 520px; margin: 0 auto; height: 270px; cursor: pointer; }
+  .fc-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+  .fc-card.fc-flipped { transform: rotateY(180deg); }
+  .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; padding: 1.3rem 1.5rem; box-sizing: border-box; display: flex; flex-direction: column; }
+  .fc-front { background: #111; border: 1px solid rgba(201,168,76,0.27); }
+  .fc-back { background: #0d0d0d; border: 1px solid rgba(201,168,76,0.53); transform: rotateY(180deg); }
+  .fc-card-id { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 10px; letter-spacing: 2px; margin-bottom: 8px; }
+  .fc-lbl { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: rgba(201,168,76,0.47); margin-bottom: 6px; }
+  .fc-belief { color: rgba(245,230,200,0.44); font-size: 13px; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
+  .fc-question { color: #F5E6C8; font-size: 16px; line-height: 1.6; flex: 1; }
+  .fc-hint { font-size: 12px; color: rgba(201,168,76,0.33); margin-top: 10px; font-style: italic; text-align: center; }
+  .fc-check { color: #C9A84C; font-size: 18px; margin-bottom: 6px; }
+  .fc-answer { color: #F5E6C8; font-size: 14px; line-height: 1.65; flex: 1; }
+  .fc-controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.2rem; align-items: center; }
+  .fc-btn { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 9px 18px; border-radius: 5px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: #C9A84C; cursor: pointer; transition: all 0.2s; }
+  .fc-btn:hover { background: rgba(201,168,76,0.13); border-color: #C9A84C; }
+  .fc-btn:disabled { opacity: 0.2; cursor: default; }
+  .fc-btn-primary { background: #C9A84C; color: #080808; border-color: #C9A84C; }
+  .fc-btn-primary:hover { background: #d4b05a; }
+  .fc-end { text-align: center; padding: 2rem 1rem; }
+  .fc-end-title { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 17px; margin-bottom: 0.8rem; }
+  .fc-end-sub { color: rgba(245,230,200,0.5); font-size: 14px; font-style: italic; }
+
   /* ── PODCAST ────────────────────────────────────────────────────── */
   .podcast-intro {
     font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.88rem;
@@ -368,20 +410,17 @@
   }
   .podcast-lista::-webkit-scrollbar { width: 3px; }
   .podcast-lista::-webkit-scrollbar-track { background: transparent; }
-  .podcast-lista::-webkit-scrollbar-thumb { background: #C9A84C44; border-radius: 2px; }
+  .podcast-lista::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.27); border-radius: 2px; }
   .ep-item {
     display: flex; align-items: center; gap: 0.7rem;
     padding: 0.6rem 0.9rem; border-radius: 6px;
     border: 1px solid transparent; text-decoration: none;
     transition: background 0.15s, border-color 0.15s;
   }
-  .ep-item:hover { background: #C9A84C11; border-color: #C9A84C33; }
-  .ep-num {
-    font-family: 'Cinzel', serif; font-size: 0.7rem;
-    color: #C9A84C77; min-width: 22px; text-align: right; flex-shrink: 0;
-  }
+  .ep-item:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.2); }
+  .ep-num { font-family: 'Cinzel', serif; font-size: 0.7rem; color: rgba(201,168,76,0.47); min-width: 22px; text-align: right; flex-shrink: 0; }
   .ep-icon { font-size: 0.75rem; color: #C9A84C; flex-shrink: 0; }
-  .ep-titolo { font-size: 0.9rem; color: #F5E6C8cc; }
+  .ep-titolo { font-size: 0.9rem; color: rgba(245,230,200,0.8); }
   .ep-item:hover .ep-titolo { color: #C9A84C; }
 
   /* ── LIBRO DOWNLOAD ─────────────────────────────────────────────── */
@@ -429,14 +468,14 @@
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
-  <button class="play-audio-btn" id="play-btn" onclick="startWithAudio()">▶ &nbsp;INCONTRA IL TUTOR</button>
+  <button class="play-audio-btn" id="play-btn" onclick="startWithAudio()">&#9654; &nbsp;INCONTRA IL TUTOR</button>
   <video id="intro-video" muted playsinline></video>
   <div class="intro-overlay">
     <div class="intro-brand">I Classici Vivi</div>
     <div class="intro-title">Il Tutor</div>
     <div class="intro-subtitle">La tua guida attraverso il kit</div>
   </div>
-  <button class="skip-btn" onclick="goToPortale()">SALTA ›</button>
+  <button class="skip-btn" onclick="goToPortale()">SALTA &#8250;</button>
 </div>
 
 <!-- PORTALE BODY -->
@@ -570,7 +609,7 @@
         <div class="input-wrapper">
           <textarea class="input-field" id="user-input" placeholder="Scrivi al Tutor…" rows="1"
             onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-          <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">&#10148;</button>
         </div>
         <div class="input-hint">Premi Invio per inviare · Shift+Invio per andare a capo</div>
       </div>
@@ -583,7 +622,7 @@
       <div class="header-brand">I Classici Vivi</div>
       <div class="header-divider"></div>
       <div class="content-header-title" id="content-title">Materiali</div>
-      <button class="content-header-back" onclick="showChat()">← Torna al Tutor</button>
+      <button class="content-header-back" onclick="showChat()">&#8592; Torna al Tutor</button>
     </div>
     <div class="content-body" id="content-body"></div>
   </div>
@@ -614,7 +653,6 @@
     document.getElementById('cookie-notice').classList.remove('visible');
     window.__onedrive_blocked = false;
     window.__cookie_not_set = false;
-    // Ricarica la sezione corrente se aperta
     if (window.__current_content_key) {
       showContent(window.__current_content_key);
     }
@@ -647,6 +685,146 @@ NON fare compiti, temi, riassunti pronti. Prima manda al kit, poi supporta.
 
 STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico per Manzoni.`;
 
+  // ── FLASHCARD DATA ────────────────────────────────────────────────
+  var fcZero = [
+    {id:"#Z01", name:"Lucia", belief:"Tutti dicono che Lucia è il personaggio più debole e passivo del romanzo.", question:"Ma sai chi fa tremare l'Innominato — l'uomo più pericoloso della Lombardia — con sole due parole?", answer:"Lucia stessa. La sua preghiera nella notte scatena una crisi esistenziale nell'Innominato che nessuna forza fisica avrebbe potuto provocare. La sua debolezza apparente è la sua forza assoluta."},
+    {id:"#Z02", name:"Don Abbondio", belief:"Hai sempre creduto che Don Abbondio sia il cattivo della storia.", question:"E se ti dicessi che Manzoni lo ha scritto come la prima vittima del sistema — non come il suo complice?", answer:"Don Abbondio è un vaso di coccio tra vasi di ferro. La sua codardia non è un vizio personale — è la risposta razionale di chi non ha protezioni in una società dove il potere decide tutto. Manzoni usa lui per accusare il clero e il sistema, non l'uomo."},
+    {id:"#Z03", name:"Renzo", belief:"Renzo è l'eroe che salva la sua amata. Giusto?", question:"Quante volte Renzo si mette nei guai completamente da solo nel corso del romanzo? Contali.", answer:"Per metà del romanzo Renzo combina solo disastri — si ubriaca, fa discorsi in piazza durante i tumulti, viene arrestato, rischia di annegare l'Adda. Manzoni lo vuole così: un eroe imperfetto che cresce attraverso gli errori, non un protagonista da favola."},
+    {id:"#Z04", name:"L'Innominato", belief:"L'Innominato si converte perché ha paura della morte o del giudizio divino.", question:"E se la sua conversione fosse una crisi esistenziale già in corso da tempo — e Lucia ne fosse solo la scintilla?", answer:"L'Innominato aveva già tutto — potere, ricchezza, rispetto fondato sul terrore — e sentiva un vuoto che non sapeva nominare. Non è la paura a convertirlo: è il riconoscimento che la vita che ha costruito è vuota. Lucia è solo l'ultima goccia."},
+    {id:"#Z05", name:"Fra Cristoforo", belief:"Fra Cristoforo è sempre stato un uomo di fede, un frate buono fin dalla nascita.", question:"Cosa ha fatto Fra Cristoforo prima di diventare frate? Sai davvero chi era?", answer:"Si chiamava Lodovico e ha ucciso un uomo in duello — per una questione di precedenza stradale. La sua vocazione non nasce dalla fede, ma dal rimorso. È uno degli archi di trasformazione più potenti del romanzo."}
+  ];
+
+  var fcCapitolo = [
+    {id:"#C01", question:"Nel 'Proemio', come definisce l'Anonimo il rapporto tra la Storia e il Tempo?", answer:"Una guerra illustre contro il Tempo che richiama in vita gli anni prigionieri e già fatti cadaveri."},
+    {id:"#C02", question:"Quale critica muove Manzoni allo stile del 'buon secentista' autore del manoscritto originale?", answer:"Lo giudica rozzo e insieme affettato, pieno di idiotismi lombardi, frasi a sproposito e declamazioni ampollose."},
+    {id:"#C03", question:"Perché Manzoni decide di 'rifarne la dicitura' invece di limitarsi a trascrivere il manoscritto?", answer:"Perché la dicitura originale era intollerabile per i lettori moderni, nonostante la storia fosse considerata molto bella."},
+    {id:"#C04", question:"Quale caratteristica fisica rende il monte Resegone immediatamente distinguibile secondo la descrizione del Capitolo I?", answer:"I suoi molti cocuzzoli in fila che lo fanno somigliare a una sega."},
+    {id:"#C05", question:"Qual era la funzione dei soldati spagnoli stanziati a Lecco nel 1628?", answer:"Alloggiare come guarnigione, 'insegnare la modestia' alle donne e derubare i contadini durante la vendemmia."},
+    {id:"#C06", question:"Per quale motivo Don Abbondio, durante la sua passeggiata, leggeva il breviario?", answer:"Stava recitando tranquillamente il suo ufizio quotidiano."},
+    {id:"#C07", question:"Cosa indica specificamente l'abbigliamento dei 'bravi' (reticella verde, ciuffo enorme, mustacchi arricciati)?", answer:"La loro appartenenza a una specie di sgherri al servizio dei signorotti locali."},
+    {id:"#C08", question:"Qual è l'ordine perentorio che i bravi riferiscono a Don Abbondio riguardo a Renzo e Lucia?", answer:"Il matrimonio non deve essere celebrato né il giorno seguente, né mai."},
+    {id:"#C09", question:"Chi è il mandante della minaccia subita da Don Abbondio al tabernacolo?", answer:"L'illustrissimo signor Don Rodrigo."},
+    {id:"#C10", question:"Quale metafora usa Manzoni per spiegare la fragilità sociale di Don Abbondio?", answer:"Quella di un vaso di terra cotta costretto a viaggiare in compagnia di molti vasi di ferro."},
+    {id:"#C11", question:"Qual era il 'sistema' adottato da Don Abbondio per sopravvivere in una società violenta?", answer:"Scansare ogni contrasto, cedere in quelli inevitabili e schierarsi sempre con il più forte."},
+    {id:"#C12", question:"Chi è Perpetua e qual è il suo ruolo nella casa di Don Abbondio?", answer:"È la serva affezionata e fedele, capace di ubbidire e comandare a seconda dell'occasione."},
+    {id:"#C13", question:"Quale consiglio 'politico' dà Perpetua a Don Abbondio per risolvere il problema delle minacce?", answer:"Scrivere una lettera all'arcivescovo, noto per essere un 'uomo di polso' che protegge i curati."},
+    {id:"#C14", question:"Qual è il piano d'emergenza ideato da Don Abbondio durante la notte d'angoscia nel Capitolo II?", answer:"Guadagnare tempo menando Renzo per le lunghe con pretesti legali fino al tempo proibito per le nozze."},
+    {id:"#C15", question:"Professione di Renzo Tramaglino: in quale settore operava?", answer:"Era un filatore di seta, professione ereditaria e allora in decadenza."},
+    {id:"#C16", question:"Quale termine usa Renzo per disprezzare il linguaggio tecnico-latino usato dal curato per confonderlo?", answer:"Latinorum."},
+    {id:"#C17", question:"In che modo Renzo riesce a estorcere la verità a Perpetua nel Capitolo II?", answer:"Fingendo di sapere già qualcosa e stuzzicando la sua propensione al pettegolezzo."},
+    {id:"#C18", question:"Qual è la reazione psicologica di Don Abbondio quando Renzo scopre il nome di Don Rodrigo?", answer:"Viene assalito dal terrore di aver violato il divieto di parlare e si pente di aver ceduto alle domande."},
+    {id:"#C19", question:"Come viene descritta Lucia Mondella al momento del suo ingresso nella narrazione?", answer:"Dotata di una modesta bellezza, ornata per le nozze con una corona di spilloni d'argento e un busto di broccato."},
+    {id:"#C20", question:"Quale errore fondamentale commette l'avvocato Azzecca-garbugli durante il colloquio con Renzo?", answer:"Scambia Renzo per un bravo che ha commesso un reato e cerca di aiutarlo a eludere le gride."},
+    {id:"#C21", question:"Perché l'Azzecca-garbugli scaccia Renzo in malo modo dalla sua casa?", answer:"Perché Renzo fa il nome di Don Rodrigo, rivelandosi una vittima e non un complice del potere."},
+    {id:"#C22", question:"Chi è Fra Cristoforo e qual è la sua missione iniziale nel romanzo?", answer:"Un frate cappuccino che agisce come protettore degli oppressi, in particolare di Renzo e Lucia."},
+    {id:"#C23", question:"Quale evento scatenò la conversione di Lodovico (il futuro Fra Cristoforo)?", answer:"L'uccisione di un nobile borioso durante una disputa per una precedenza stradale, in cui morì anche il suo fedele servitore."},
+    {id:"#C24", question:"Qual è il significato del gesto di Fra Cristoforo di conservare il 'pane del perdono'?", answer:"Rappresenta il simbolo tangibile della riconciliazione avvenuta con la famiglia dell'ucciso."},
+    {id:"#C25", question:"Quale sfida propone il Conte Attilio al Podestà durante il banchetto a casa di Don Rodrigo?", answer:"Una disputa cavalleresca sulla legittimità di bastonare un messo che rechi una sfida ingiusta."},
+    {id:"#C26", question:"In cosa consiste il 'matrimonio a sorpresa' proposto da Agnese?", answer:"Nel presentarsi improvvisamente davanti al curato con due testimoni e pronunciare le formule di consenso."},
+    {id:"#C27", question:"Chi è la 'Signora' (Gertrude) e perché Lucia viene mandata da lei a Monza?", answer:"È una monaca di nobile famiglia che gode di grandi privilegi e può offrire asilo nel suo monastero."},
+    {id:"#C28", question:"Quale meccanismo di coercizione ha portato Gertrude alla monacazione forzata?", answer:"La volontà tirannica del Principe Padre, che ha pianificato il suo destino sin dalla nascita per non dividere il patrimonio."},
+    {id:"#C29", question:"Chi è Egidio e quale ruolo funesto ha nella vita di Gertrude?", answer:"Un giovane scellerato che vive accanto al monastero e con cui Gertrude intreccia una relazione peccaminosa."},
+    {id:"#C30", question:"Perché Don Rodrigo si rivolge all'Innominato?", answer:"Perché le sue forze non bastano a rapire Lucia dal monastero di Monza e necessita dell'aiuto di un potente criminale."},
+    {id:"#C31", question:"Qual è la reazione psicologica dell'Innominato alla vista di Lucia nel suo castello?", answer:"Prova una insolita commozione e un senso di colpa che accelera la sua crisi spirituale già in atto."},
+    {id:"#C32", question:"Quale celebre frase di Lucia durante la prigionia scuote profondamente l'Innominato?", answer:"«Dio perdona tante cose, per un'opera di misericordia!»"},
+    {id:"#C33", question:"Cosa decide di fare Lucia durante la 'notte degli imbrogli' per invocare l'aiuto divino?", answer:"Fa voto di verginità alla Madonna, promettendo di non sposarsi se sarà liberata."},
+    {id:"#C34", question:"Quale figura religiosa accoglie l'Innominato favorendo la sua conversione?", answer:"Il Cardinale Federigo Borromeo, arcivescovo di Milano."},
+    {id:"#C35", question:"Perché Don Abbondio deve accompagnare l'Innominato a riprendere Lucia?", answer:"Per fornire a Lucia una figura familiare che la rassicuri dopo il trauma del rapimento."},
+    {id:"#C36", question:"Chi sono Donna Prassede e Don Ferrante?", answer:"Una coppia di nobili milanesi che accoglie Lucia; lei è dedita a fare un 'bene' spesso indiscreto, lui è un erudito pedante."},
+    {id:"#C37", question:"Su quale teoria Don Ferrante basa la sua convinzione dell'inesistenza della peste?", answer:"Sulla negazione aristotelica, sostenendo che il contagio non sia né sostanza né accidente, ma un influsso astrale."},
+    {id:"#C38", question:"Cosa causa la rivolta del pane a Milano a cui partecipa Renzo?", answer:"La carestia e il rincaro del prezzo del pane, aggravati dalle decisioni economiche errate di Antonio Ferrer."},
+    {id:"#C39", question:"Qual è l'atteggiamento di Antonio Ferrer verso la folla durante il salvataggio del Vicario di Provvisione?", answer:"Usa una politica ambigua, promettendo giustizia in italiano e ordinando cautela in spagnolo ('Adelante, Pedro, con juicio')."},
+    {id:"#C40", question:"Perché Renzo viene arrestato a Milano dopo il tumulto?", answer:"Perché viene scambiato per uno dei capi della sommossa a causa dei suoi discorsi imprudenti nell'osteria della Luna Piena."},
+    {id:"#C41", question:"Come riesce Renzo a sfuggire ai birri che lo stavano conducendo in prigione?", answer:"Sfrutta un assembramento di persone per strada, attirando la loro simpatia e facendosi liberare dalla folla."},
+    {id:"#C42", question:"Quale fiume deve attraversare Renzo per mettersi in salvo nel territorio di Bergamo?", answer:"L'Adda, che segna il confine tra lo Stato di Milano e la Repubblica di Venezia."},
+    {id:"#C43", question:"Chi è Bortolo e come aiuta Renzo una volta giunto nel Bergamasco?", answer:"È il cugino di Renzo, che lo accoglie e gli trova lavoro nel suo filatoio di seta."},
+    {id:"#C44", question:"Cosa rappresenta il Lazzaretto di Milano nella descrizione manzoniana?", answer:"Un luogo di sofferenza estrema e caos, ma anche di eroica carità cristiana gestito dai Cappuccini."},
+    {id:"#C45", question:"Qual è il destino finale di Don Rodrigo nel romanzo?", answer:"Muore di peste nel Lazzaretto, dopo essere stato tradito dal suo servitore Griso."},
+    {id:"#C46", question:"Chi è Padre Felice Casati?", answer:"Il frate cappuccino che governa il Lazzaretto con straordinaria prudenza e dedizione durante l'epidemia."},
+    {id:"#C47", question:"In che modo Fra Cristoforo risolve il problema del voto di Lucia nel Lazzaretto?", answer:"Esercita la sua autorità religiosa per sciogliere Lucia dal voto, spiegandole che non poteva disporre di una volontà già impegnata con Renzo."},
+    {id:"#C48", question:"Perché Renzo cerca Don Rodrigo nel Lazzaretto?", answer:"Inizialmente per vendetta, ma poi, guidato da Fra Cristoforo, per perdonarlo cristianamente."},
+    {id:"#C49", question:"Quale evento atmosferico segna simbolicamente la fine della peste e la purificazione della città?", answer:"Una pioggia torrenziale e benefica che lava via il contagio."},
+    {id:"#C50", question:"Chi acquista i beni di Renzo e Lucia alla fine della storia e a quale prezzo?", answer:"Il nuovo Marchese, successore di Don Rodrigo, che li paga il doppio del valore reale come forma di risarcimento morale."},
+    {id:"#C51", question:"Qual è il 'sugo della storia' che Renzo e Lucia traggono dalle loro peripezie?", answer:"Che i guai vengono spesso per colpa, ma anche l'innocenza non ne è esente; la fiducia in Dio però li raddolcisce e li rende utili per una vita migliore."},
+    {id:"#C52", question:"Quale critica rivolge il Cardinale Borromeo a Don Abbondio durante la visita pastorale?", answer:"Gli rimprovera di aver anteposto la propria vita al dovere del ministero e alla cura delle anime loro affidate."},
+    {id:"#C53", question:"Chi sono gli 'untori' nella mentalità popolare del Seicento milanese?", answer:"Individui sospettati di spargere unguenti malefici per diffondere deliberatamente il contagio della peste."},
+    {id:"#C54", question:"Qual è la sorte del Griso dopo il tradimento a Don Rodrigo?", answer:"Muore anch'egli di peste, contagiato proprio mentre rubava i vestiti del suo padrone ammalato."},
+    {id:"#C55", question:"Quale ruolo ha la 'Provvidenza' nell'economia del romanzo?", answer:"È la forza divina che guida gli eventi umani verso il bene, anche attraverso la sofferenza e i percorsi tortuosi della storia."}
+  ];
+
+  // ── FLASHCARD ENGINE ──────────────────────────────────────────────
+  var fcState = { tab: 'zero', cards: fcZero, current: 0, flipped: false };
+
+  function fcSetTab(t) {
+    fcState.tab = t;
+    fcState.cards = (t === 'zero') ? fcZero : fcCapitolo;
+    fcState.current = 0;
+    fcState.flipped = false;
+    fcRender();
+  }
+
+  function fcTabsHTML() {
+    return '<div class="fc-tabs">' +
+      '<button class="fc-tab' + (fcState.tab === 'zero' ? ' fc-active' : '') + '" onclick="fcSetTab(\'zero\')">Zero</button>' +
+      '<button class="fc-tab' + (fcState.tab === 'capitolo' ? ' fc-active' : '') + '" onclick="fcSetTab(\'capitolo\')">Top</button>' +
+      '</div>';
+  }
+
+  function fcRender() {
+    var el = document.getElementById('fc-viewer');
+    if (!el) return;
+    if (fcState.current >= fcState.cards.length) { fcRenderEnd(el); return; }
+    var c = fcState.cards[fcState.current];
+    var pct = Math.round((fcState.current / fcState.cards.length) * 100);
+    var isZero = (fcState.tab === 'zero');
+    var frontMid = isZero && c.belief
+      ? '<div class="fc-lbl">QUELLO CHE TUTTI CREDONO:</div><div class="fc-belief">' + c.belief + '</div><div class="fc-lbl">LA VERA DOMANDA:</div>'
+      : '<div class="fc-lbl">DOMANDA:</div>';
+    var cardName = (isZero && c.name) ? ' — ' + c.name : '';
+    var answerLabel = isZero ? 'LA RISPOSTA CHE NESSUNO TI DICE:' : 'RISPOSTA:';
+    el.innerHTML =
+      '<div class="fc-top"><p class="fc-title-label">Flashcard Complete — I Promessi Sposi</p>' + fcTabsHTML() + '</div>' +
+      '<div class="fc-progress-row"><span class="fc-counter">' + (fcState.current + 1) + ' / ' + fcState.cards.length + '</span>' +
+      '<div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
+      '<div class="fc-scene" onclick="fcFlip()">' +
+        '<div class="fc-card' + (fcState.flipped ? ' fc-flipped' : '') + '" id="fc-card">' +
+          '<div class="fc-face fc-front">' +
+            '<div class="fc-card-id">' + c.id + cardName + '</div>' +
+            frontMid +
+            '<div class="fc-question">' + c.question + '</div>' +
+            '<div class="fc-hint">Clicca la carta per vedere la risposta</div>' +
+          '</div>' +
+          '<div class="fc-face fc-back">' +
+            '<div class="fc-card-id">' + c.id + cardName + '</div>' +
+            '<div class="fc-check">✓</div>' +
+            '<div class="fc-lbl">' + answerLabel + '</div>' +
+            '<div class="fc-answer">' + c.answer + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="fc-controls">' +
+        '<button class="fc-btn" onclick="fcPrev()"' + (fcState.current === 0 ? ' disabled' : '') + '>&#8592; Indietro</button>' +
+        '<button class="fc-btn fc-btn-primary" onclick="fcNext()">' + (fcState.current === fcState.cards.length - 1 ? 'Fine' : 'Avanti &#8594;') + '</button>' +
+      '</div>';
+  }
+
+  function fcRenderEnd(el) {
+    var isZero = (fcState.tab === 'zero');
+    el.innerHTML =
+      '<div class="fc-top"><p class="fc-title-label">Flashcard Complete — I Promessi Sposi</p>' + fcTabsHTML() + '</div>' +
+      '<div class="fc-end">' +
+        '<p class="fc-end-title">' + (isZero ? 'Flashcard Zero completate!' : 'Flashcard Top completate!') + '</p>' +
+        '<p class="fc-end-sub">' + (isZero ? 'Ora passa alle carte Top per verificare la tua conoscenza.' : 'Ottimo lavoro. Hai completato tutte le carte.') + '</p>' +
+        (isZero ? '<button class="fc-btn fc-btn-primary" style="margin:1.2rem 0.4rem 0;" onclick="fcSetTab(\'capitolo\')">Vai alle Top &#8594;</button>' : '') +
+        '<button class="fc-btn" style="margin:1.2rem 0.4rem 0;" onclick="fcRestart()">Ricomincia</button>' +
+      '</div>';
+  }
+
+  function fcFlip() { fcState.flipped = !fcState.flipped; var c = document.getElementById('fc-card'); if (c) c.classList.toggle('fc-flipped'); }
+  function fcNext() { fcState.current++; fcState.flipped = false; fcRender(); }
+  function fcPrev() { if (fcState.current > 0) { fcState.current--; fcState.flipped = false; fcRender(); } }
+  function fcRestart() { fcState.current = 0; fcState.flipped = false; fcRender(); }
+
   // ── CONTENT DATA ──────────────────────────────────────────────────
   const contents = {
     podcast: {
@@ -662,23 +840,9 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
       title: 'Flashcard',
       html: `
         <div class="section-title">Flashcard</div>
-        <p class="section-desc">Dallo zero al completo: due strumenti per entrare e studiare il romanzo.</p>
-        <div class="pdf-viewer-wrap">
-          <div class="pdf-viewer-label">PDF · 12 pagine</div>
-          <div class="pdf-viewer-title">Flashcard Zero</div>
-          <div class="pdf-viewer-desc">5 carte hook per entrare subito nel mondo del romanzo. Sfidano i tuoi pregiudizi. Inizia da qui.</div>
-          <iframe class="pdf-viewer-frame"
-            src="https://1drv.ms/b/c/84fa0c94011fae7e/IQTpQLkUbyjPTJRElU33LG6jAQtpWwx-LnfZKGT_RF55aac"
-            frameborder="0" scrolling="yes" allowfullscreen></iframe>
-        </div>
-        <div class="pdf-viewer-wrap">
-          <div class="pdf-viewer-label">PDF · 124 pagine</div>
-          <div class="pdf-viewer-title">Flashcard Complete</div>
-          <div class="pdf-viewer-desc">Il cuore del kit. Tutti i capitoli: personaggi, temi, citazioni chiave, analisi rapide.</div>
-          <iframe class="pdf-viewer-frame"
-            src="https://1drv.ms/b/c/84fa0c94011fae7e/IQRIUKeIUlofR65sjvCdhTdvAVPeF1TkmZfVSukpsEQol0w"
-            frameborder="0" scrolling="yes" allowfullscreen></iframe>
-        </div>`
+        <p class="section-desc">Dallo zero al completo: due mazzi per entrare e studiare il romanzo carta per carta.</p>
+        <div class="fc-wrap" id="fc-viewer"></div>
+      `
     },
     quiz: {
       title: 'Quiz',
@@ -753,7 +917,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
           Il libro originale è un testo di pubblico dominio: puoi scaricarlo e tenerlo con te.
         </div>
         <a href="https://1drv.ms/b/c/84fa0c94011fae7e/IQQOa2XgphjsRqSgENVTjGvHAT_a-ASOTiyX3ypWvMt2Jvk"
-           target="_blank" class="download-btn">⬇ &nbsp;SCARICA IL PDF</a>
+           target="_blank" class="download-btn">&#11015; &nbsp;SCARICA IL PDF</a>
         <div class="pdf-viewer-wrap">
           <div class="pdf-viewer-label">PDF · 895 pagine</div>
           <div class="pdf-viewer-title">I Promessi Sposi — Alessandro Manzoni</div>
@@ -802,12 +966,17 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     document.getElementById('content-view').style.display = 'flex';
     document.getElementById('content-title').textContent = c.title;
     document.getElementById('content-body').innerHTML = c.html;
-if (key === 'podcast') initPodcastPlayer();
+    if (key === 'podcast') initPodcastPlayer();
+    if (key === 'flashcard') {
+      fcState.current = 0;
+      fcState.flipped = false;
+      fcRender();
+    }
     document.getElementById('nav-tutor').classList.remove('active');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    const allNavItems = document.querySelectorAll('.nav-item');
     const keyMap = ['podcast','flashcard','quiz','librogame','script','interviste','libro'];
     const idx = keyMap.indexOf(key);
+    const allNavItems = document.querySelectorAll('.nav-item');
     if (idx >= 0 && allNavItems[idx]) allNavItems[idx].classList.add('active');
   }
 
@@ -837,10 +1006,10 @@ if (key === 'podcast') initPodcastPlayer();
   function addMessage(role, text) {
     const area = document.getElementById('messages-area');
     const div = document.createElement('div');
-    div.className = `message ${role === 'user' ? 'user' : 'ai'}`;
-    div.innerHTML = `
-      <div class="message-name">${role === 'user' ? 'TU' : 'IL TUTOR'}</div>
-      <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+    div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
+    div.innerHTML =
+      '<div class="message-name">' + (role === 'user' ? 'TU' : 'IL TUTOR') + '</div>' +
+      '<div class="message-bubble">' + text.replace(/\n/g, '<br>') + '</div>';
     area.appendChild(div);
     area.scrollTop = area.scrollHeight;
   }
@@ -972,11 +1141,10 @@ function initPodcastPlayer() {
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
     a.className = 'ep-item';
-    a.innerHTML = `
-      <span class="ep-num">${String(i + 1).padStart(2, '0')}</span>
-      <span class="ep-icon">▶</span>
-       <span class="ep-titolo">Podcast — ${ep.label}</span>
-    `;
+    a.innerHTML =
+      '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+      '<span class="ep-icon">&#9654;</span>' +
+      '<span class="ep-titolo">Podcast — ' + ep.label + '</span>';
     lista.appendChild(a);
   });
 }
