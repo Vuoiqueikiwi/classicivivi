@@ -1181,6 +1181,7 @@ function initPodcastPlayer() {
   });
 }
 
+
   // ── QUIZ FINALE DATA ─────────────────────────────────────────────
   var qfFacile=[
     {n:"F1",q:"Chi sono i protagonisti del romanzo?",a:"Renzo Tramaglino e Lucia Mondella, due giovani fidanzati di un paesino sul lago di Como.",c:"Ricorda: sono due promessi sposi che non riescono a sposarsi."},
@@ -1242,29 +1243,33 @@ function initPodcastPlayer() {
     {n:"C7",q:"Analizza il tema della memoria e della storia nel romanzo: perché Manzoni vuole 'salvare dall'oblio' la storia degli umili?",a:"Nel Proemio l'anonimo descrive la sua opera come 'guerra illustre contro il Tempo che richiama in vita gli anni prigionieri'. Manzoni riprende questo tema: la storia tradizionale ricorda solo i potenti. Il romanzo è un atto di memoria alternativa: salvare dalla dimenticanza chi non ha lasciato tracce scritte.",c:"Cita la frase dell'anonimo sul Tempo — è una delle più belle del romanzo."}
   ];
 
-  // ── QUIZ ENGINE ───────────────────────────────────────────────────
+  // ── QUIZ ENGINE (usa addEventListener — niente onclick inline) ─────
   function makeQuizEngine(containerId, titleLabel, datasets, tabDefs) {
     var state = { tab: tabDefs[0].key, cards: datasets[tabDefs[0].key], current: 0, flipped: false };
-
-    function tabsHTML() {
-      return '<div class="qv-tabs">' +
-        tabDefs.map(function(t) {
-          return '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') + '" onclick="' + containerId + '_setTab(\'' + t.key + '\')">' + t.label + '</button>';
-        }).join('') + '</div>';
-    }
+    var isPremium = titleLabel.indexOf('Premium') !== -1;
 
     function render() {
       var el = document.getElementById(containerId);
       if (!el) return;
-      if (state.current >= state.cards.length) { renderEnd(el); return; }
+
+      if (state.current >= state.cards.length) {
+        renderEnd(el); return;
+      }
       var c = state.cards[state.current];
       var pct = Math.round((state.current / state.cards.length) * 100);
+
+      var tabsHtml = tabDefs.map(function(t) {
+        return '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') +
+               '" data-tab="' + t.key + '" data-cid="' + containerId + '">' + t.label + '</button>';
+      }).join('');
+
       el.innerHTML =
-        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' + tabsHTML() + '</div>' +
+        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' +
+        '<div class="qv-tabs">' + tabsHtml + '</div></div>' +
         '<div class="qv-prog"><span class="qv-cnt">' + (state.current + 1) + ' / ' + state.cards.length + '</span>' +
         '<div class="qv-bar-bg"><div class="qv-bar-fill" style="width:' + pct + '%"></div></div></div>' +
-        '<div class="qv-scene" onclick="' + containerId + '_flip()">' +
-          '<div class="qv-card' + (state.flipped ? ' qv-flipped' : '') + '" id="' + containerId + '_card">' +
+        '<div class="qv-scene" data-action="flip" data-cid="' + containerId + '">' +
+          '<div class="qv-card' + (state.flipped ? ' qv-flipped' : '') + '" id="' + containerId + 'Card">' +
             '<div class="qv-face qv-front">' +
               '<div class="qv-cid">' + c.n + '</div>' +
               '<div class="qv-lbl">Domanda:</div>' +
@@ -1276,39 +1281,99 @@ function initPodcastPlayer() {
               '<div class="qv-check">&#10003;</div>' +
               '<div class="qv-lbl">Risposta modello:</div>' +
               '<div class="qv-answer">' + c.a + '</div>' +
-              '<div class="qv-nota"><div class="qv-nota-lbl">' + (titleLabel.indexOf('Premium') !== -1 ? 'Nota per la maturità:' : 'Consiglio del professore:') + '</div><div class="qv-nota-txt">' + c.c + '</div></div>' +
+              '<div class="qv-nota"><div class="qv-nota-lbl">' + (isPremium ? 'Nota per la maturità:' : 'Consiglio del professore:') + '</div>' +
+              '<div class="qv-nota-txt">' + c.c + '</div></div>' +
             '</div>' +
           '</div>' +
         '</div>' +
         '<div class="qv-controls">' +
-          '<button class="qv-btn" onclick="' + containerId + '_prev()"' + (state.current === 0 ? ' disabled' : '') + '>&#8592; Indietro</button>' +
-          '<button class="qv-btn qv-btn-p" onclick="' + containerId + '_next()">' + (state.current === state.cards.length - 1 ? 'Fine' : 'Avanti &#8594;') + '</button>' +
+          '<button class="qv-btn" data-action="prev" data-cid="' + containerId + '"' + (state.current === 0 ? ' disabled' : '') + '>&#8592; Indietro</button>' +
+          '<button class="qv-btn qv-btn-p" data-action="next" data-cid="' + containerId + '">' + (state.current === state.cards.length - 1 ? 'Fine' : 'Avanti &#8594;') + '</button>' +
         '</div>';
+
+      bindEvents(el, state, datasets, tabDefs);
     }
 
     function renderEnd(el) {
-      var curIdx = tabDefs.findIndex(function(t) { return t.key === state.tab; });
+      var curIdx = -1;
+      for (var i = 0; i < tabDefs.length; i++) { if (tabDefs[i].key === state.tab) { curIdx = i; break; } }
       var nextTab = curIdx < tabDefs.length - 1 ? tabDefs[curIdx + 1] : null;
+      var tabsHtml = tabDefs.map(function(t) {
+        return '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') +
+               '" data-tab="' + t.key + '" data-cid="' + containerId + '">' + t.label + '</button>';
+      }).join('');
+
       el.innerHTML =
-        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' + tabsHTML() + '</div>' +
+        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' +
+        '<div class="qv-tabs">' + tabsHtml + '</div></div>' +
         '<div class="qv-end">' +
           '<p class="qv-end-title">' + tabDefs[curIdx].label + ' completato!</p>' +
           '<p class="qv-end-sub">' + (nextTab ? 'Passa al livello successivo.' : 'Hai completato tutte le domande.') + '</p>' +
-          (nextTab ? '<button class="qv-btn qv-btn-p" style="margin:1.2rem 0.4rem 0;" onclick="' + containerId + '_setTab(\'' + nextTab.key + '\')">Avanti &#8594;</button>' : '') +
-          '<button class="qv-btn" style="margin:1.2rem 0.4rem 0;" onclick="' + containerId + '_restart()">Ricomincia</button>' +
+          (nextTab ? '<button class="qv-btn qv-btn-p" style="margin:1.2rem 0.4rem 0;" data-tab="' + nextTab.key + '" data-cid="' + containerId + '">Avanti &#8594;</button>' : '') +
+          '<button class="qv-btn" style="margin:1.2rem 0.4rem 0;" data-action="restart" data-cid="' + containerId + '">Ricomincia</button>' +
         '</div>';
+
+      bindEvents(el, state, datasets, tabDefs);
     }
 
-    window[containerId + '_setTab'] = function(t) { state.tab = t; state.cards = datasets[t]; state.current = 0; state.flipped = false; render(); };
-    window[containerId + '_flip']   = function() { state.flipped = !state.flipped; var c = document.getElementById(containerId + '_card'); if (c) c.classList.toggle('qv-flipped'); };
-    window[containerId + '_next']   = function() { state.current++; state.flipped = false; render(); };
-    window[containerId + '_prev']   = function() { if (state.current > 0) { state.current--; state.flipped = false; render(); } };
-    window[containerId + '_restart']= function() { state.current = 0; state.flipped = false; render(); };
+    function bindEvents(el, state, datasets, tabDefs) {
+      // Tab buttons
+      el.querySelectorAll('[data-tab]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var newTab = btn.getAttribute('data-tab');
+          state.tab = newTab;
+          state.cards = datasets[newTab];
+          state.current = 0;
+          state.flipped = false;
+          render();
+        });
+      });
+      // Flip (card scene)
+      var scene = el.querySelector('[data-action="flip"]');
+      if (scene) {
+        scene.addEventListener('click', function() {
+          state.flipped = !state.flipped;
+          var card = document.getElementById(containerId + 'Card');
+          if (card) card.classList.toggle('qv-flipped');
+        });
+      }
+      // Next
+      var nextBtn = el.querySelector('[data-action="next"]');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          state.current++;
+          state.flipped = false;
+          render();
+        });
+      }
+      // Prev
+      var prevBtn = el.querySelector('[data-action="prev"]');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          state.current--;
+          state.flipped = false;
+          render();
+        });
+      }
+      // Restart
+      var restartBtn = el.querySelector('[data-action="restart"]');
+      if (restartBtn) {
+        restartBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          state.current = 0;
+          state.flipped = false;
+          render();
+        });
+      }
+    }
 
     render();
   }
 
-  // ── INIT QUIZ VIEWERS (chiamato da showContent) ───────────────────
+  // ── INIT QUIZ VIEWERS ─────────────────────────────────────────────
   function initQuizViewers() {
     makeQuizEngine('qfViewer', 'Quiz Finale — I Promessi Sposi',
       { facile: qfFacile, medio: qfMedio, difficile: qfDifficile },
