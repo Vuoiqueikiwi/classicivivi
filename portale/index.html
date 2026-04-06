@@ -451,7 +451,45 @@
 
   @media (max-width: 900px) { #sidebar { width: 220px; } }
   @media (max-width: 700px) { #sidebar { display: none; } .prof-panel { display: none; } .pdf-viewer-frame { height: 60vh; } }
-</style>
+
+    /* ── QUIZ VIEWER ── */
+    .qv-wrap{font-family:'EB Garamond',Georgia,serif;background:#080808;min-height:520px;padding:1.5rem;border-radius:8px;max-width:680px;margin-bottom:2rem;}
+    .qv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px;}
+    .qv-title-lbl{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0;}
+    .qv-tabs{display:flex;gap:5px;}
+    .qv-tab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;padding:6px 10px;border-radius:4px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:rgba(201,168,76,0.55);cursor:pointer;transition:all 0.2s;}
+    .qv-tab.qv-active{background:#C9A84C;color:#080808;border-color:#C9A84C;}
+    .qv-tab:hover:not(.qv-active){background:rgba(201,168,76,0.13);color:#C9A84C;}
+    .qv-prog{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;}
+    .qv-cnt{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:1px;white-space:nowrap;}
+    .qv-bar-bg{flex:1;height:2px;background:#222;border-radius:2px;}
+    .qv-bar-fill{height:100%;background:#C9A84C;border-radius:2px;transition:width 0.3s;}
+    .qv-scene{perspective:1200px;width:100%;max-width:520px;margin:0 auto;height:290px;cursor:pointer;}
+    .qv-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
+    .qv-card.qv-flipped{transform:rotateY(180deg);}
+    .qv-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;padding:1.3rem 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;}
+    .qv-front{background:#111;border:1px solid rgba(201,168,76,0.27);}
+    .qv-back{background:#0d0d0d;border:1px solid rgba(201,168,76,0.53);transform:rotateY(180deg);}
+    .qv-cid{font-family:'Cinzel',serif;color:#C9A84C;font-size:10px;letter-spacing:2px;margin-bottom:8px;}
+    .qv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:rgba(201,168,76,0.47);margin-bottom:8px;}
+    .qv-question{color:#F5E6C8;font-size:16px;line-height:1.65;flex:1;}
+    .qv-hint{font-size:12px;color:rgba(201,168,76,0.33);margin-top:10px;font-style:italic;text-align:center;}
+    .qv-check{color:#C9A84C;font-size:18px;margin-bottom:6px;}
+    .qv-answer{color:#F5E6C8;font-size:13.5px;line-height:1.7;flex:1;overflow-y:auto;}
+    .qv-nota{margin-top:10px;padding:8px 12px;border-left:2px solid #C9A84C;background:rgba(201,168,76,0.07);border-radius:0 5px 5px 0;}
+    .qv-nota-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;color:#C9A84C;margin-bottom:3px;}
+    .qv-nota-txt{color:rgba(245,230,200,0.75);font-size:12.5px;font-style:italic;}
+    .qv-controls{display:flex;gap:10px;justify-content:center;margin-top:1.2rem;}
+    .qv-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;padding:9px 18px;border-radius:5px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:#C9A84C;cursor:pointer;transition:all 0.2s;}
+    .qv-btn:hover{background:rgba(201,168,76,0.13);border-color:#C9A84C;}
+    .qv-btn:disabled{opacity:0.2;cursor:default;}
+    .qv-btn-p{background:#C9A84C;color:#080808;border-color:#C9A84C;}
+    .qv-btn-p:hover{background:#d4b05a;}
+    .qv-end{text-align:center;padding:2rem 1rem;}
+    .qv-end-title{font-family:'Cinzel',serif;color:#C9A84C;font-size:17px;margin-bottom:0.8rem;}
+    .qv-end-sub{color:rgba(245,230,200,0.5);font-size:14px;font-style:italic;}
+
+  </style>
 </head>
 <body>
 
@@ -848,36 +886,31 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
       title: 'Quiz',
       html: `
         <div class="section-title">Quiz</div>
-        <p class="section-desc">Testa la tua preparazione. Due livelli per due obiettivi diversi.</p>
+        <p class="section-desc">Testa la tua preparazione. Due strumenti per due obiettivi diversi.</p>
+
+        <div class="pdf-viewer-label" style="margin-bottom:0.5rem;">QUIZ FINALE — 33 domande · 3 livelli</div>
+        <div class="pdf-viewer-desc" style="margin-bottom:1rem;">Facile, Medio, Difficile. Trama, analisi e critica. Clicca la carta per vedere la risposta modello.</div>
+        <div class="qv-wrap" id="qf-viewer"></div>
+
+        <div class="pdf-viewer-label" style="margin-bottom:0.5rem;margin-top:2rem;">QUIZ PREMIUM — 14 domande · stile maturità</div>
+        <div class="pdf-viewer-desc" style="margin-bottom:1rem;">Stile, Narratore, Proemio, Contesto. Per chi si prepara all'esame di maturità.</div>
+        <div class="qv-wrap" id="qp-viewer"></div>
+      `
+    },
+    librogame: {
+      title: 'Librogame',
+      html: `
+        <div class="section-title">Librogame</div>
+        <p class="section-desc">Non sei uno spettatore: sei dentro la storia.</p>
         <div class="pdf-viewer-wrap">
-          <div class="pdf-viewer-label">PDF · 33 domande · 3 livelli</div>
-          <div class="pdf-viewer-title">Quiz Finale</div>
-          <div class="pdf-viewer-desc">Facile, Medio, Difficile. Per testare la preparazione capitolo per capitolo.</div>
+          <div class="pdf-viewer-label">PDF · 140 pagine · 332 link cliccabili</div>
+          <div class="pdf-viewer-title">La Grande Paura</div>
+          <div class="pdf-viewer-desc">252 nodi narrativi, scelte che cambiano il finale. Vivi la storia in prima persona come Toni.</div>
           <iframe class="pdf-viewer-frame"
-            src="https://1drv.ms/b/c/84fa0c94011fae7e/IQSqdCrMr_CDRITXk7oF8sxyAVZkLQ8ioMpHt2PQ6H-Xa_8"
-            frameborder="0" scrolling="yes" allowfullscreen></iframe>
-        </div>
-        <div class="pdf-viewer-wrap">
-          <div class="pdf-viewer-label">PDF · 14 domande · stile maturità</div>
-          <div class="pdf-viewer-title">Quiz Premium</div>
-          <div class="pdf-viewer-desc">Stile, Narratore, Proemio, Contesto storico. Per chi si prepara all'esame di maturità.</div>
-          <iframe class="pdf-viewer-frame"
-            src="https://1drv.ms/b/c/84fa0c94011fae7e/IQRTFO4yWYGBRLK6WG4mSrg5ATutFOYLeo7vqRr9wOBstQs"
+            src="https://1drv.ms/b/c/84fa0c94011fae7e/IQSWH7n8v6aTR7wCZqIxJBFFATdmjlXfRgnagZj5fUe0LmI"
             frameborder="0" scrolling="yes" allowfullscreen></iframe>
         </div>`
     },
-   librogame: {
-  title: 'Librogame',
-  html: `
-    <div class="section-title">Librogame</div>
-    <p class="section-desc">Non sei uno spettatore: sei dentro la storia.</p>
-    <div style="width:100%; height:82vh; border:1px solid rgba(201,168,76,0.15); border-radius:4px; overflow:hidden;">
-      <iframe
-        src="/LaGrandePaura_Interattivo.html"
-        style="width:100%; height:100%; border:none; display:block;"
-        allowfullscreen></iframe>
-    </div>`
-},
     script: {
       title: 'Script Cinematografici',
       html: `
@@ -965,6 +998,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     document.getElementById('content-title').textContent = c.title;
     document.getElementById('content-body').innerHTML = c.html;
     if (key === 'podcast') initPodcastPlayer();
+    if (key === 'quiz') initQuizViewers();
     if (key === 'flashcard') {
       fcState.current = 0;
       fcState.flipped = false;
@@ -1146,7 +1180,144 @@ function initPodcastPlayer() {
     lista.appendChild(a);
   });
 }
-</script>
 
-</body>
-</html>
+  // ── QUIZ FINALE DATA ─────────────────────────────────────────────
+  var qfFacile=[
+    {n:"F1",q:"Chi sono i protagonisti del romanzo?",a:"Renzo Tramaglino e Lucia Mondella, due giovani fidanzati di un paesino sul lago di Como.",c:"Ricorda: sono due promessi sposi che non riescono a sposarsi."},
+    {n:"F2",q:"Per quale motivo Don Abbondio rifiuta di celebrare il matrimonio tra Renzo e Lucia?",a:"Perché i bravi di Don Rodrigo lo hanno minacciato ordinandogli di non celebrare le nozze.",c:"Don Abbondio è un codardo — la paura guida ogni sua scelta."},
+    {n:"F3",q:"Chi è Don Rodrigo e qual è il suo ruolo nella storia?",a:"È il nobile prepotente che si oppone al matrimonio di Renzo e Lucia per una scommessa, diventando il principale antagonista del romanzo.",c:"Non ama davvero Lucia — per lui è solo una questione di onore e potere."},
+    {n:"F4",q:"Cosa significa il termine 'bravi' nel romanzo?",a:"Erano sgherri armati al servizio dei signorotti locali, usati per intimidire e compiere azioni illegali per conto dei loro padroni.",c:"Manzoni descrive i bravi nelle prime pagine citando le gride spagnole."},
+    {n:"F5",q:"Chi è Fra Cristoforo e che ruolo ha nella storia?",a:"È un frate cappuccino che protegge e aiuta Renzo e Lucia. Prima di farsi frate si chiamava Lodovico e aveva ucciso un uomo in duello.",c:"Il suo passato violento rende il suo percorso di redenzione più significativo."},
+    {n:"F6",q:"Dove viene mandata Lucia per rifugiarsi dal pericolo di Don Rodrigo?",a:"Nel monastero di Monza, affidato alle cure della Signora (Gertrude), una monaca di nobile famiglia.",c:"Il monastero si rivelerà tutt'altro che un luogo sicuro."},
+    {n:"F7",q:"Chi è l'Innominato e cosa fa nella storia?",a:"È un potente signore feudale che vive isolato in un castello. Rapisce Lucia su richiesta di Don Rodrigo, ma poi si converte e diventa strumento della sua liberazione.",c:"La sua conversione è uno dei momenti più importanti del romanzo."},
+    {n:"F8",q:"Cosa succede a Milano quando Renzo arriva in città?",a:"Renzo arriva durante i tumulti per il pane — la città è in rivolta per la carestia. Si ubriaca, fa discorsi sediziosi e viene arrestato, riuscendo però a fuggire.",c:"Renzo combina guai per metà del romanzo — è un eroe imperfetto."},
+    {n:"F9",q:"Come si conclude la storia di Don Rodrigo?",a:"Muore di peste nel Lazzaretto di Milano, tradito dal suo stesso servitore Griso che lo aveva abbandonato ammalato.",c:"La giustizia nel romanzo arriva attraverso la Provvidenza, non per mano degli uomini."},
+    {n:"F10",q:"Cosa rappresenta il 'sugo della storia' che Manzoni esprime alla fine del romanzo?",a:"Che i guai vengono spesso per colpa degli uomini, ma anche l'innocente non ne è esente; la fiducia in Dio però li addolcisce e li rende utili per una vita migliore.",c:"È il messaggio morale e religioso centrale di tutto il romanzo."},
+    {n:"F11",q:"In quale periodo storico è ambientato il romanzo?",a:"Nel XVII secolo, tra il 1628 e il 1630, in Lombardia sotto la dominazione spagnola.",c:"La dominazione spagnola è fondamentale per capire il contesto di oppressione."},
+    {n:"F12",q:"Chi è Perpetua?",a:"È la fedele servante di Don Abbondio — curiosa, pettegola, ma affezionata al suo padrone. È lei che involontariamente rivela a Renzo il nome di Don Rodrigo.",c:"Renzo la stuzzica facendo finta di sapere già tutto."},
+    {n:"F13",q:"Cosa è il Lazzaretto nel romanzo?",a:"È un grande recinto fuori Milano dove venivano ricoverati i malati di peste. È il luogo dove si incontrano di nuovo molti personaggi alla fine del romanzo.",c:"Nel Lazzaretto si compie la redenzione di molti personaggi, incluso Fra Cristoforo."},
+    {n:"F14",q:"Che cos'è il 'matrimonio a sorpresa' ideato da Agnese?",a:"Un espediente legale per cui Renzo e Lucia si presentano davanti a Don Abbondio con due testimoni e pronunciano le parole del consenso matrimoniale direttamente al curato.",c:"Il piano fallisce perché Don Abbondio chiude la bocca a Lucia prima che possa finire la frase."},
+    {n:"F15",q:"Chi è il Cardinale Federigo Borromeo e che ruolo ha?",a:"È l'arcivescovo di Milano, uomo di grande virtù e autorità morale. Accoglie l'Innominato durante la sua conversione e rappresenta il potere della fede autentica.",c:"È uno dei pochi personaggi storici reali inseriti da Manzoni nel romanzo."}
+  ];
+  var qfMedio=[
+    {n:"M1",q:"Qual è la funzione del 'sistema' di Don Abbondio nella società descritta da Manzoni?",a:"Don Abbondio rappresenta chi si adatta al potere per sopravvivere. Il suo 'sistema' non è una colpa individuale ma la risposta razionale a una società senza giustizia. Manzoni lo usa per criticare la Chiesa codarda e il sistema di oppressione spagnolo.",c:"Non giudicarlo solo come codardo — pensa al contesto storico."},
+    {n:"M2",q:"Perché Manzoni definisce Renzo un 'eroe involontario'? Porta esempi dal testo.",a:"Renzo non è un eroe classico — agisce per impulso, sbaglia spesso e si mette nei guai da solo. Si ubriaca e viene arrestato a Milano, rischia di annegare l'Adda, si fida dell'Azzecca-garbugli. La sua crescita avviene attraverso gli errori, non attraverso la virtù.",c:"Fai almeno 2-3 esempi concreti di errori di Renzo."},
+    {n:"M3",q:"Analizza la figura di Gertrude (la Monaca di Monza): vittima o colpevole?",a:"Gertrude è insieme vittima e complice. Vittima della volontà tirannica del padre. Ma diventa complice attiva quando permette il rapimento di Lucia per coprire la sua relazione con Egidio. Manzoni ne fa una figura tragica: corrotta dal sistema ma non assolta dalle sue scelte.",c:"La risposta deve tenere conto di entrambe le dimensioni — non è solo vittima."},
+    {n:"M4",q:"Qual è il significato della conversione dell'Innominato? È credibile per Manzoni?",a:"Per Manzoni la conversione è autentica e psicologicamente credibile perché non avviene per paura ma per crisi esistenziale. L'Innominato aveva già tutto il potere possibile e sentiva un vuoto interiore. Lucia è la scintilla finale di una crisi già in corso.",c:"La parola chiave è 'crisi esistenziale' — non è una conversione improvvisa."},
+    {n:"M5",q:"Come usa Manzoni la storia della peste per sviluppare i temi del romanzo?",a:"La peste serve a mostrare l'uguaglianza di fronte alla morte (Don Rodrigo muore come un plebeo), per esaltare la carità cristiana (Fra Cristoforo nel Lazzaretto), per criticare la superstizione popolare degli untori, e per creare il contesto della redenzione finale.",c:"La peste non è solo sfondo storico — ha una funzione narrativa e morale precisa."},
+    {n:"M6",q:"Che cos'è il 'latinorum' e qual è il suo significato nel romanzo?",a:"È il termine con cui Renzo deride il linguaggio tecnico-latino usato da Don Abbondio per confonderlo. Simbolicamente rappresenta come il potere usa il linguaggio oscuro per tenere il popolo nell'ignoranza. Manzoni critica la complicità tra cultura e oppressione.",c:"Non è solo una battuta comica — ha un significato sociale preciso."},
+    {n:"M7",q:"Qual è il ruolo della Provvidenza nel romanzo? Fai esempi.",a:"La Provvidenza è la forza divina che guida gli eventi verso il bene anche attraverso la sofferenza. Esempi: la conversione dell'Innominato salva Lucia, la peste elimina Don Rodrigo, Fra Cristoforo scioglie il voto di Lucia. Non è fatalismo — i personaggi agiscono liberamente.",c:"Distingui Provvidenza da fatalismo — i personaggi fanno scelte libere."},
+    {n:"M8",q:"Perché Manzoni sceglie protagonisti umili (un filatore, una contadina) invece di nobili?",a:"È una scelta ideologica precisa: Manzoni vuole raccontare la storia dal basso, dalla prospettiva dei poveri e degli oppressi. I 'vasi di coccio' — Renzo e Lucia — sono i veri protagonisti della storia, non i nobili e i potenti.",c:"Collega questa scelta alla visione cristiana e illuminista di Manzoni."},
+    {n:"M9",q:"Come si manifesta la critica di Manzoni alla società del '600 nel romanzo?",a:"Attraverso: le gride spagnole inutili e inefficaci, i nobili prepotenti (Don Rodrigo), la Chiesa codarda (Don Abbondio), i giuristi corrotti (Azzecca-garbugli), la superstizione degli untori durante la peste. Manzoni usa il '600 come specchio per criticare le ingiustizie della sua epoca.",c:"Ogni personaggio negativo rappresenta una stortura sociale specifica."},
+    {n:"M10",q:"Qual è la funzione del narratore nel romanzo? Come interviene Manzoni nella storia?",a:"Manzoni usa un narratore onnisciente che commenta gli eventi con ironia, giudica i personaggi, si rivolge direttamente al lettore. Finge di trascrivere un manoscritto del '600. Il narratore non è neutro — ha una voce morale e religiosa precisa.",c:"Il 'manoscritto trovato' è un espediente letterario tipico del romanzo storico romantico."}
+  ];
+  var qfDifficile=[
+    {n:"D1",q:"Analizza il Proemio dei Promessi Sposi: qual è la strategia narrativa di Manzoni e perché sceglie l'espediente del 'manoscritto trovato'?",a:"Nel Proemio Manzoni finge di aver trovato un manoscritto del '600. Questo espediente serve a: creare distanza ironica tra autore e narrazione, legittimare storicamente la vicenda, permettere a Manzoni di commentare con la propria voce. L'ironia sul 'buon secentista' è già una critica stilistica e sociale.",c:"L'espediente del manoscritto è tipico del Romanticismo storico — cita Walter Scott."},
+    {n:"D2",q:"I Promessi Sposi sono un romanzo storico, romantico o cristiano? Argomenta la tua risposta.",a:"È tutte e tre le cose insieme. Romantico per l'ambientazione storica e i personaggi umili come protagonisti. Storico per la ricostruzione accurata del '600 lombardo. Cristiano per la centralità della Provvidenza, della grazia, della conversione come motore narrativo.",c:"Non scegliere una sola risposta — la complessità è la risposta corretta."},
+    {n:"D3",q:"Confronta la figura di Fra Cristoforo con quella del Cardinale Borromeo: due modi diversi di essere uomini di Chiesa.",a:"Fra Cristoforo è un uomo che ha vissuto nel peccato — la sua fede è nata dal rimorso e si esprime nell'azione concreta e nel sacrificio. Il Cardinale Borromeo è l'uomo di Chiesa ideale — dotto, austero, capace di convertire l'Innominato con la sola forza morale. Insieme si contrappongono a Don Abbondio.",c:"La risposta deve includere il contrasto con Don Abbondio per essere completa."},
+    {n:"D4",q:"Analizza il tema della giustizia nel romanzo: chi la esercita davvero e perché le istituzioni falliscono?",a:"Le istituzioni umane falliscono sistematicamente: le gride sono inapplicate, i giudici corrotti, i nobili impuniti. La vera giustizia arriva solo attraverso la Provvidenza — Don Rodrigo muore di peste, il Griso viene punito, l'Innominato si converte.",c:"Distingui giustizia umana (fallisce) e giustizia provvidenziale (funziona sempre)."},
+    {n:"D5",q:"Qual è il rapporto tra Manzoni e la lingua italiana nel romanzo? Perché è importante storicamente?",a:"Manzoni scrisse due versioni (1827 e 1840) e nella revisione 'sciacquò i panni in Arno' — sostituì i lombardismi con il fiorentino parlato colto. Credeva che l'Italia unita avesse bisogno di una lingua comune viva. Il romanzo divenne il modello della prosa italiana moderna.",c:"Le due versioni del romanzo e la questione della lingua sono fondamentali per la maturità."},
+    {n:"D6",q:"Analizza la figura di Lucia: è davvero un personaggio passivo o ha una forza propria? Porta esempi.",a:"Lucia sembra passiva perché raramente agisce fisicamente — ma ha una forza morale straordinaria. La sua preghiera scuote l'Innominato più di qualsiasi forza militare. Il suo voto alla Madonna è una scelta attiva di sacrificio. La sua resistenza morale a Don Rodrigo è una forma di coraggio.",c:"La chiave è distinguere forza fisica (assente) da forza morale (fortissima)."},
+    {n:"D7",q:"Come si inserisce il romanzo nel contesto del Romanticismo italiano? Cosa lo differenzia dal Romanticismo europeo?",a:"Manzoni condivide col Romanticismo: l'interesse per la storia, i personaggi umili, il colore locale. Ma si distingue per: il rifiuto del titanismo byroniano, la centralità della fede cattolica, l'ironia distaccata del narratore contro il sentimentalismo romantico.",c:"Il confronto con Byron e Scott chiarisce le specificità di Manzoni."},
+    {n:"D8",q:"Perché il romanzo finisce con un matrimonio 'in sordina' e non con una celebrazione trionfale? Cosa dice questo finale sulla visione di Manzoni?",a:"Renzo e Lucia si sposano in modo quasi discreto, senza trionfi, dopo anni di sofferenze. Il 'sugo della storia' non è 'vissero felici e contenti' — è che si può trovare pace e saggezza attraverso le prove. Un finale romantico avrebbe tradito il messaggio cristiano.",c:"Confronta questo finale con quello di un tipico romanzo romantico sentimentale."}
+  ];
+
+  // ── QUIZ PREMIUM DATA ─────────────────────────────────────────────
+  var qpStile=[
+    {n:"S1",q:"Cos'è il 'manoscritto trovato' e perché Manzoni usa questo espediente nel Proemio?",a:"Nel Proemio Manzoni finge di aver trovato un manoscritto del '600 scritto da un anonimo 'buon secentista'. Lo riscrive in italiano moderno perché l'originale era 'rozzo e affettato'. L'espediente serve a: legittimare storicamente la vicenda, creare distanza ironica tra autore e narrazione, e permettere a Manzoni di commentare con la propria voce.",c:"Il Proemio è quasi sempre all'interrogazione — imparalo bene."},
+    {n:"S2",q:"Come si manifesta l'ironia di Manzoni nel romanzo? Porta almeno due esempi concreti.",a:"L'ironia manzoniana è sottile e distaccata. Esempi: nella descrizione di Don Abbondio — 'non era nato con un cuor di leone' è un eufemismo ironico per codardo. Nella descrizione delle gride spagnole — cita leggi inutili con tono burocratico per ridicolizzarle. Nel ritratto di Don Ferrante — lo descrive come 'uomo di studio' per poi svelare le sue teorie assurde sulla peste.",c:"L'ironia manzoniana non è mai aggressiva — è sempre distaccata e sorridente."},
+    {n:"S3",q:"Qual è il ruolo del narratore nei Promessi Sposi? È neutro o ha una voce propria?",a:"Il narratore è tutt'altro che neutro. È onnisciente — conosce pensieri e sentimenti di tutti i personaggi. Interviene direttamente con commenti morali e religiosi. Si rivolge al lettore in prima persona. Giudica i personaggi esplicitamente — condanna Don Rodrigo, compatisce Don Abbondio, esalta Fra Cristoforo.",c:"Distingui narratore onnisciente (tecnica) da narratore giudicante (funzione)."},
+    {n:"S4",q:"Perché Manzoni riscrisse il romanzo tra il 1827 e il 1840? Cosa cambiò e perché è importante?",a:"Manzoni riscrisse i Promessi Sposi per risolvere la questione della lingua italiana. Nella revisione del 1840 'sciacquò i panni in Arno' — sostituì i lombardismi e i francesismi con il fiorentino parlato colto, che riteneva la base per una lingua italiana comune. Questa scelta era anche politica: l'Italia stava per unificarsi.",c:"'Sciacquare i panni in Arno' è una delle citazioni più famose della letteratura italiana."},
+    {n:"S5",q:"Individua e spiega una figura retorica significativa nei Promessi Sposi con esempio testuale.",a:"Esempi: METAFORA — 'vaso di coccio tra vasi di ferro' per Don Abbondio, che rende visivamente la sua fragilità sociale. IRONIA — 'non era nato con un cuor di leone'. SINEDDOCHE — 'il Resegone' per indicare l'intera zona di Lecco. PERIFRASI — 'l'Innominato' per non nominare il personaggio.",c:"Scegli la figura che sai spiegare meglio — non quella più complicata."},
+    {n:"S6",q:"Cosa rappresenta la descrizione del paesaggio nell'incipit del Capitolo I? Perché Manzoni inizia così?",a:"L'incipit con la descrizione del lago di Como e del Resegone non è solo sfondo — è una scelta ideologica. Manzoni introduce un paesaggio reale, identificabile, concreto, radicato nella storia. È il 'colore locale' tipico del romanzo storico romantico. Serve anche a stabilire il contrasto tra la bellezza naturale e la violenza sociale che seguirà.",c:"L'incipit è quasi sempre chiesto — sai descrivere il paesaggio E spiegarne la funzione."},
+    {n:"S7",q:"Come si distingue il linguaggio dei personaggi nobili da quello dei personaggi popolari nel romanzo?",a:"Manzoni usa il linguaggio come specchio sociale. I nobili parlano con autorità, frasi brevi e perentorie. I personaggi popolari usano espressioni concrete, proverbiali, spesso dialettali. Don Abbondio usa il latinorum per nascondersi dietro l'autorità. Il Cardinale Borromeo usa un linguaggio solenne ma diretto.",c:"Il latinorum di Don Abbondio è l'esempio più citato — usalo sempre."}
+  ];
+  var qpContesto=[
+    {n:"C1",q:"Qual è la struttura del Proemio e cosa annuncia al lettore?",a:"Il Proemio si articola in tre momenti: 1) Manzoni finge di trovare il manoscritto del '600 e ne descrive il contenuto con ironia. 2) Decide di riscriverlo in italiano moderno perché l'originale è illeggibile. 3) Presenta brevemente la materia del romanzo — una storia di umili in tempi di oppressione. Annuncia i temi centrali: storia dal basso, critica del potere, questione della lingua.",c:"Il Proemio è un testo autonomo — sai riassumerlo in 4-5 punti chiave."},
+    {n:"C2",q:"Qual è il rapporto tra I Promessi Sposi e il romanzo storico europeo? Cosa deve Manzoni a Walter Scott?",a:"Manzoni conosce e ammira Walter Scott, padre del romanzo storico romantico. Da Scott prende: l'ambientazione storica rigorosa, i personaggi storici reali mescolati a quelli inventati, il colore locale, la prospettiva dal basso. Ma se ne distanzia per: la centralità della fede cattolica, il rifiuto del titanismo romantico, la funzione morale esplicita del narratore.",c:"Il confronto con Scott è una domanda classica da commissione di maturità."},
+    {n:"C3",q:"Come si inserisce Manzoni nel dibattito tra Classicismo e Romanticismo in Italia?",a:"Manzoni è una figura chiave del Romanticismo italiano, ma con posizioni originali. Rifiuta le unità aristoteliche di tempo e luogo nel teatro. Abbraccia la storia come materia letteraria. Ma si distanzia dal Romanticismo europeo laico e titanico: il suo Romanticismo è cattolico, moderato, civile.",c:"Conosci almeno un testo teorico di Manzoni oltre al romanzo."},
+    {n:"C4",q:"Quali fonti storiche usa Manzoni per ricostruire il '600 lombardo? Fai esempi dal testo.",a:"Manzoni studia fonti storiche reali: la Relatione del contagio di Tadino per la peste, i documenti dell'Archivio di Stato per le gride spagnole, le cronache dell'epoca per i tumulti del pane. Inserisce personaggi storici reali: il Cardinale Federigo Borromeo, Antonio Ferrer, il conte di Collalto.",c:"La Storia della colonna infame è il testo complementare ai Promessi Sposi — citala."},
+    {n:"C5",q:"Qual è il significato della dedica 'Agli umili' implicita nel romanzo? Come si collega alla visione cristiana di Manzoni?",a:"La scelta di protagonisti popolari è una dichiarazione programmatica. La visione cristiana di Manzoni vede negli umili i veri protagonisti della storia — non i potenti. È il ribaltamento evangelico: gli ultimi saranno i primi. Renzo e Lucia non trionfano per virtù eroica ma per la grazia divina.",c:"Collega questa visione al Vangelo delle Beatitudini — il professore apprezza i riferimenti culturali ampi."},
+    {n:"C6",q:"Perché I Promessi Sposi divennero il testo fondamentale per l'alfabetizzazione dell'Italia unita?",a:"Dopo l'Unità d'Italia (1861) il paese era diviso da dialetti incomprensibili e l'analfabetismo era altissimo. I Promessi Sposi avevano tre qualità uniche: una lingua italiana moderna accessibile, contenuti morali e civili adatti all'educazione nazionale, una narrativa avvincente. De Amicis e i pedagogisti post-unitari ne fecero il libro scolastico per eccellenza.",c:"Questo collegamento storia-letteratura-politica impressiona sempre i professori."},
+    {n:"C7",q:"Analizza il tema della memoria e della storia nel romanzo: perché Manzoni vuole 'salvare dall'oblio' la storia degli umili?",a:"Nel Proemio l'anonimo descrive la sua opera come 'guerra illustre contro il Tempo che richiama in vita gli anni prigionieri'. Manzoni riprende questo tema: la storia tradizionale ricorda solo i potenti. Il romanzo è un atto di memoria alternativa: salvare dalla dimenticanza chi non ha lasciato tracce scritte.",c:"Cita la frase dell'anonimo sul Tempo — è una delle più belle del romanzo."}
+  ];
+
+  // ── QUIZ ENGINE ───────────────────────────────────────────────────
+  function makeQuizEngine(containerId, titleLabel, datasets, tabDefs) {
+    var state = { tab: tabDefs[0].key, cards: datasets[tabDefs[0].key], current: 0, flipped: false };
+
+    function tabsHTML() {
+      return '<div class="qv-tabs">' +
+        tabDefs.map(function(t) {
+          return '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') + '" onclick="' + containerId + '_setTab(\'' + t.key + '\')">' + t.label + '</button>';
+        }).join('') + '</div>';
+    }
+
+    function render() {
+      var el = document.getElementById(containerId);
+      if (!el) return;
+      if (state.current >= state.cards.length) { renderEnd(el); return; }
+      var c = state.cards[state.current];
+      var pct = Math.round((state.current / state.cards.length) * 100);
+      el.innerHTML =
+        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' + tabsHTML() + '</div>' +
+        '<div class="qv-prog"><span class="qv-cnt">' + (state.current + 1) + ' / ' + state.cards.length + '</span>' +
+        '<div class="qv-bar-bg"><div class="qv-bar-fill" style="width:' + pct + '%"></div></div></div>' +
+        '<div class="qv-scene" onclick="' + containerId + '_flip()">' +
+          '<div class="qv-card' + (state.flipped ? ' qv-flipped' : '') + '" id="' + containerId + '_card">' +
+            '<div class="qv-face qv-front">' +
+              '<div class="qv-cid">' + c.n + '</div>' +
+              '<div class="qv-lbl">Domanda:</div>' +
+              '<div class="qv-question">' + c.q + '</div>' +
+              '<div class="qv-hint">Clicca la carta per vedere la risposta modello</div>' +
+            '</div>' +
+            '<div class="qv-face qv-back">' +
+              '<div class="qv-cid">' + c.n + '</div>' +
+              '<div class="qv-check">&#10003;</div>' +
+              '<div class="qv-lbl">Risposta modello:</div>' +
+              '<div class="qv-answer">' + c.a + '</div>' +
+              '<div class="qv-nota"><div class="qv-nota-lbl">' + (titleLabel.indexOf('Premium') !== -1 ? 'Nota per la maturità:' : 'Consiglio del professore:') + '</div><div class="qv-nota-txt">' + c.c + '</div></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="qv-controls">' +
+          '<button class="qv-btn" onclick="' + containerId + '_prev()"' + (state.current === 0 ? ' disabled' : '') + '>&#8592; Indietro</button>' +
+          '<button class="qv-btn qv-btn-p" onclick="' + containerId + '_next()">' + (state.current === state.cards.length - 1 ? 'Fine' : 'Avanti &#8594;') + '</button>' +
+        '</div>';
+    }
+
+    function renderEnd(el) {
+      var curIdx = tabDefs.findIndex(function(t) { return t.key === state.tab; });
+      var nextTab = curIdx < tabDefs.length - 1 ? tabDefs[curIdx + 1] : null;
+      el.innerHTML =
+        '<div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p>' + tabsHTML() + '</div>' +
+        '<div class="qv-end">' +
+          '<p class="qv-end-title">' + tabDefs[curIdx].label + ' completato!</p>' +
+          '<p class="qv-end-sub">' + (nextTab ? 'Passa al livello successivo.' : 'Hai completato tutte le domande.') + '</p>' +
+          (nextTab ? '<button class="qv-btn qv-btn-p" style="margin:1.2rem 0.4rem 0;" onclick="' + containerId + '_setTab(\'' + nextTab.key + '\')">Avanti &#8594;</button>' : '') +
+          '<button class="qv-btn" style="margin:1.2rem 0.4rem 0;" onclick="' + containerId + '_restart()">Ricomincia</button>' +
+        '</div>';
+    }
+
+    window[containerId + '_setTab'] = function(t) { state.tab = t; state.cards = datasets[t]; state.current = 0; state.flipped = false; render(); };
+    window[containerId + '_flip']   = function() { state.flipped = !state.flipped; var c = document.getElementById(containerId + '_card'); if (c) c.classList.toggle('qv-flipped'); };
+    window[containerId + '_next']   = function() { state.current++; state.flipped = false; render(); };
+    window[containerId + '_prev']   = function() { if (state.current > 0) { state.current--; state.flipped = false; render(); } };
+    window[containerId + '_restart']= function() { state.current = 0; state.flipped = false; render(); };
+
+    render();
+  }
+
+  // ── INIT QUIZ VIEWERS (chiamato da showContent) ───────────────────
+  function initQuizViewers() {
+    makeQuizEngine('qf-viewer', 'Quiz Finale — I Promessi Sposi',
+      { facile: qfFacile, medio: qfMedio, difficile: qfDifficile },
+      [ {key:'facile', label:'&#9733; Facile'}, {key:'medio', label:'&#9733;&#9733; Medio'}, {key:'difficile', label:'&#9733;&#9733;&#9733; Difficile'} ]
+    );
+    makeQuizEngine('qp-viewer', 'Quiz Premium — I Promessi Sposi',
+      { stile: qpStile, contesto: qpContesto },
+      [ {key:'stile', label:'Stile &amp; Narratore'}, {key:'contesto', label:'Proemio &amp; Contesto'} ]
+    );
+  }
+
+</script>
