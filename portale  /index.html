@@ -542,9 +542,9 @@
     #portale-body { flex-direction: column; }
     #sidebar { display: none; }
     .prof-panel { display: none; }
-    #main { flex-direction: column; flex: 1; overflow: hidden; }
-    #chat-view { flex: 1; overflow: hidden; }
-    #bottom-nav-bar { display: flex; }
+    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
+    #chat-view { flex: 1; overflow: hidden; min-height: 0; }
+    #bottom-nav-bar { display: flex; flex-shrink: 0; }
     .chat-panel { flex: 1; overflow: hidden; }
     .messages-area { padding: 1rem; }
     .content-body { padding: 1.5rem; padding-bottom: 80px; }
