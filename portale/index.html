@@ -448,9 +448,54 @@
   @keyframes typingDot { 0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)} }
   @keyframes fadeIn { from{opacity:0}to{opacity:1} }
   @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+#mobile-menu-bar { display: none; }
+@media (max-width: 900px) { #sidebar { width: 220px; } }
+@media (max-width: 700px) {
+  #sidebar { display: none; }
+  .prof-panel { display: none; }
+  .pdf-viewer-frame { height: 60vh; }
 
-  @media (max-width: 900px) { #sidebar { width: 220px; } }
-  @media (max-width: 700px) { #sidebar { display: none; } .prof-panel { display: none; } .pdf-viewer-frame { height: 60vh; } }
+  #mobile-menu-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: #0d1117;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    flex-shrink: 0;
+  }
+  #hamburger-btn {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: #C9A84C;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+  }
+  #mobile-menu {
+    background: #0d1117;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    flex-shrink: 0;
+  }
+  .mob-item {
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    color: #F5E6C8;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .mob-item a {
+    color: #F5E6C8;
+    text-decoration: none;
+    display: block;
+  }
+  .mob-item:hover {
+    background: rgba(201,168,76,0.08);
+    color: #C9A84C;
+  }
+}
 
     /* ── QUIZ VIEWER ── */
     .qv-wrap{font-family:'EB Garamond',Georgia,serif;background:#080808;min-height:520px;padding:1.5rem;border-radius:8px;max-width:680px;margin-bottom:2rem;}
@@ -515,7 +560,28 @@
   </div>
   <button class="skip-btn" onclick="goToPortale()">SALTA &#8250;</button>
 </div>
+<!-- MENU MOBILE -->
+<div id="mobile-menu-bar">
+  <button id="hamburger-btn" onclick="toggleMobileMenu()">☰ Menu</button>
+</div>
+<div id="mobile-menu" style="display:none;">
+  <div class="mob-item" onclick="showChat();closeMobileMenu()">🎓 Il Tutor</div>
+  <div class="mob-item"><a href="../don_abbondio_chat.html">⛪ Don Abbondio</a></div>
+  <div class="mob-item"><a href="../renzo_chat.html">⚔️ Renzo</a></div>
+  <div class="mob-item"><a href="../innominato_chat.html">🌑 L'Innominato</a></div>
+  <div class="mob-item" onclick="showContent('podcast');closeMobileMenu()">🎙️ Podcast</div>
+  <div class="mob-item" onclick="showContent('flashcard');closeMobileMenu()">📚 Flashcard</div>
+  <div class="mob-item" onclick="showContent('quiz');closeMobileMenu()">✏️ Quiz</div>
+  <div class="mob-item" onclick="showContent('librogame');closeMobileMenu()">🎲 Librogame</div>
+  <div class="mob-item" onclick="showContent('script');closeMobileMenu()">🎬 Script</div>
+  <div class="mob-item" onclick="showContent('interviste');closeMobileMenu()">🎤 Interviste</div>
+  <div class="mob-item" onclick="showContent('libro');closeMobileMenu()">📖 Libro Originale</div>
+</div>
 
+<!-- PORTALE BODY -->
+<div id="portale-body">
+<!-- SIDEBAR -->
+<div id="sidebar">
 <!-- PORTALE BODY -->
 <div id="portale-body">
 
@@ -1371,6 +1437,14 @@ function initPodcastPlayer() {
     }
 
     render();
+  }
+
+function toggleMobileMenu() {
+    var m = document.getElementById('mobile-menu');
+    m.style.display = m.style.display === 'none' ? 'block' : 'none';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').style.display = 'none';
   }
 
   // ── INIT QUIZ VIEWERS ─────────────────────────────────────────────
