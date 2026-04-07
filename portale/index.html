@@ -1436,14 +1436,16 @@ function initPodcastPlayer() {
 
     render();
   }
-
 function toggleMobileMenu() {
-    var m = document.getElementById('mobile-menu');
-    m.style.display = m.style.display === 'none' ? 'block' : 'none';
-  }
-  function closeMobileMenu() {
-    document.getElementById('mobile-menu').style.display = 'none';
-  }
+  var m = document.getElementById('mobile-menu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').style.display = 'none';
+}
+
+function initPodcastPlayer() {
+  const episodi = [
 
   // ── INIT QUIZ VIEWERS ─────────────────────────────────────────────
   function initQuizViewers() {
