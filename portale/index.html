@@ -455,6 +455,17 @@
   .prof-panel { display: none; }
   .pdf-viewer-frame { height: 60vh; }
   #main { flex-direction: column; }
+  #chat-view {
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .chat-panel {
+    flex: 1;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+  }
   #mobile-menu-bar {
     display: flex;
     align-items: center;
