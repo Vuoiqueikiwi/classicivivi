@@ -471,9 +471,7 @@
 
       if (data.valid) {
         // Salva il codice validato nel sessionStorage
-        const encoded = btoa(code);
-        sessionStorage.setItem('icv_access', encoded);
-        localStorage.setItem('icv_access', encoded);
+        sessionStorage.setItem('icv_access', btoa(code));
         sessionStorage.setItem('icv_ts', Date.now().toString());
         // Flag per evitare redirect infiniti
         sessionStorage.setItem('icv_redirect_done', 'true');
@@ -486,7 +484,7 @@
         cleanUrl();
         setTimeout(() => {
           // Usa history.replace per non aggiungere alla storia del browser
-          window.location.href = 'https://classicivivi.it/portale';
+          window.location.replace('/portale');
         }, 800);
       } else {
         showError('Codice non valido. Controlla l\'email di acquisto.');
@@ -515,7 +513,7 @@
     // Pulizia URL
     cleanUrl();
     // Usa replace per non aggiungere alla storia del browser
-    window.location.replace('https://classicivivi.it/portale');
+    window.location.replace('/portale');
   } else if (redirectDone) {
     // Reset il flag per future visite
     sessionStorage.removeItem('icv_redirect_done');
