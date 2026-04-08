@@ -892,15 +892,14 @@
     window.__onedrive_blocked = false;
   }
 
-  // ── INTRO ──────────────────────────────────────────────────────────
- function skipIntro() {
+// ── INTRO ──────────────────────────────────────────────────────────
+  window.skipIntro = function() {
     const intro = document.getElementById('intro-screen');
     const vid = document.getElementById('intro-video');
     vid.pause();
     intro.classList.add('fade-out');
     setTimeout(() => { intro.style.display = 'none'; }, 800);
   }
-
   // Gestione autoplay con audio
   const introVid = document.getElementById('intro-video');
   const playBtn = document.getElementById('play-btn');
