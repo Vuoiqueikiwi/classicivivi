@@ -1,5 +1,13 @@
+const ALLOWED_ORIGINS = ['https://classicivivi.it', 'https://www.classicivivi.it'];
+
+function getCorsOrigin(request) {
+  const origin = request.headers.get('Origin') || '';
+  return ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const corsOrigin = getCorsOrigin(request);
   try {
     // ── AUTH CHECK ──
     const accessCodeRaw = request.headers.get('X-Access-Code');
@@ -8,7 +16,7 @@ export async function onRequestPost(context) {
         status: 401,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': corsOrigin
         }
       });
     }
@@ -21,22 +29,29 @@ export async function onRequestPost(context) {
         status: 403,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': corsOrigin
         }
       });
     }
     const CODES = env.CODES;
-    if (CODES) {
-      const value = await CODES.get(accessCode);
-      if (value === null) {
-        return new Response(JSON.stringify({ error: 'Invalid or expired code' }), {
-          status: 403,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          }
-        });
-      }
+    if (!CODES) {
+      return new Response(JSON.stringify({ error: 'Service unavailable' }), {
+        status: 503,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': corsOrigin
+        }
+      });
+    }
+    const value = await CODES.get(accessCode);
+    if (value === null) {
+      return new Response(JSON.stringify({ error: 'Invalid or expired code' }), {
+        status: 403,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': corsOrigin
+        }
+      });
     }
     // ── END AUTH CHECK ──
 
@@ -45,14 +60,20 @@ export async function onRequestPost(context) {
     if (!messages || !Array.isArray(messages)) {
       return new Response(JSON.stringify({ error: 'Invalid request' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': corsOrigin
+        }
       });
     }
     const GROQ_API_KEY = env.GROQ_API_KEY;
     if (!GROQ_API_KEY) {
       return new Response(JSON.stringify({ error: 'Missing API key' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': corsOrigin
+        }
       });
     }
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -73,7 +94,7 @@ export async function onRequestPost(context) {
       status: response.status,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': corsOrigin
       }
     });
   } catch (err) {
@@ -81,17 +102,18 @@ export async function onRequestPost(context) {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': corsOrigin
       }
     });
   }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions({ request }) {
+  const corsOrigin = getCorsOrigin(request);
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': corsOrigin,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, X-Access-Code'
     }
