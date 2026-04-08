@@ -533,23 +533,26 @@
   }
 
   /* ── RESPONSIVE LAYOUT ───────────────────────────────────────────── */
- @media (max-width: 900px) { 
+  @media (max-width: 900px) { 
     #sidebar { width: 220px; } 
   }
+
   @media (max-width: 768px) {
-    body { overflow: hidden; max-width: 100vw; }
-    #portale-body { flex-direction: column; overflow: hidden; }
+    body { overflow: hidden;max-width: 100vw; }
+    #portale-body { flex-direction: column; }
     #sidebar { display: none; }
     .prof-panel { display: none; }
-    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; max-height: 100%; }
-    #chat-view { flex: 1; overflow: hidden; min-height: 0; max-height: 100%; }
-    .chat-panel { flex: 1; min-height: 0; overflow: hidden; }
-    .input-area { flex-shrink: 0; }
-    #bottom-nav-bar { display: flex; flex-shrink: 0; height: 60px; min-height: 60px; }
+    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
+    #chat-view { flex: 1; overflow: hidden; min-height: 0; }
+    #bottom-nav-bar { display: flex; flex-shrink: 0; }
+    .chat-panel { flex: 1; overflow: hidden; }
     .messages-area { padding: 1rem; }
     .content-body { padding: 1.5rem; padding-bottom: 80px; }
     .pdf-viewer-frame { height: 60vh; }
   }
+</style>
+</head>
+<body>
 
 <!-- COOKIE NOTICE -->
 <div id="cookie-notice">
