@@ -771,43 +771,99 @@
   </div>
 
   <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
+ <!-- OVERLAY sottomenu -->
+  <div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
+
+  <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
   <div id="bottom-nav-bar">
-    <div class="bottom-nav-item active" data-nav="chat" onclick="showChatMobile()">
-      <div class="bottom-nav-icon">🎓</div>
+
+    <!-- CHAT con sottomenu -->
+    <div class="bottom-nav-item active" data-nav="chat" onclick="toggleSubmenu('submenu-chat', 'chat')">
+      <div class="bottom-nav-icon">💬</div>
       <div class="bottom-nav-label">CHAT</div>
     </div>
-    <div class="bottom-nav-item" data-nav="podcast" onclick="showContentMobile('podcast')">
+
+    <!-- PODCAST diretto -->
+    <div class="bottom-nav-item" data-nav="podcast" onclick="navDirect('podcast')">
       <div class="bottom-nav-icon">🎧</div>
-      <div class="bottom-nav-label">POD</div>
+      <div class="bottom-nav-label">PODCAST</div>
     </div>
-    <div class="bottom-nav-item" data-nav="flashcard" onclick="showContentMobile('flashcard')">
-      <div class="bottom-nav-icon">🎴</div>
-      <div class="bottom-nav-label">CARDS</div>
+
+    <!-- STUDIO con sottomenu -->
+    <div class="bottom-nav-item" data-nav="studio" onclick="toggleSubmenu('submenu-studio', 'studio')">
+      <div class="bottom-nav-icon">📖</div>
+      <div class="bottom-nav-label">STUDIO</div>
     </div>
-    <div class="bottom-nav-item" data-nav="quiz" onclick="showContentMobile('quiz')">
-      <div class="bottom-nav-icon">❓</div>
-      <div class="bottom-nav-label">QUIZ</div>
-    </div>
-    <div class="bottom-nav-item" data-nav="librogame" onclick="showContentMobile('librogame')">
-      <div class="bottom-nav-icon">🎮</div>
-      <div class="bottom-nav-label">GIOCO</div>
-    </div>
-    <div class="bottom-nav-item" data-nav="script" onclick="showContentMobile('script')">
-      <div class="bottom-nav-icon">🎬</div>
-      <div class="bottom-nav-label">FILM</div>
-    </div>
-    <div class="bottom-nav-item" data-nav="interviste" onclick="showContentMobile('interviste')">
+
+    <!-- MEDIA con sottomenu -->
+    <div class="bottom-nav-item" data-nav="media" onclick="toggleSubmenu('submenu-media', 'media')">
       <div class="bottom-nav-icon">🎞️</div>
-      <div class="bottom-nav-label">VIDEO</div>
+      <div class="bottom-nav-label">MEDIA</div>
     </div>
-    <div class="bottom-nav-item" data-nav="libro" onclick="showContentMobile('libro')">
+
+    <!-- LEGGIMI con sottomenu -->
+    <div class="bottom-nav-item" data-nav="leggimi" onclick="toggleSubmenu('submenu-leggimi', 'leggimi')">
       <div class="bottom-nav-icon">📕</div>
-      <div class="bottom-nav-label">LIBRO</div>
+      <div class="bottom-nav-label">LEGGIMI</div>
+    </div>
+
+  </div>
+
+  <!-- SOTTOMENU CHAT -->
+  <div class="bottom-submenu" id="submenu-chat">
+    <div class="submenu-item" onclick="navChat('tutor')">
+      <span class="submenu-item-icon">🎓</span>
+      <span class="submenu-item-label">Il Tutor</span>
+    </div>
+    <a class="submenu-item" href="../don_abbondio_chat.html">
+      <span class="submenu-item-icon">⛪</span>
+      <span class="submenu-item-label">Don Abbondio</span>
+    </a>
+    <a class="submenu-item" href="../renzo_chat.html">
+      <span class="submenu-item-icon">⚔️</span>
+      <span class="submenu-item-label">Renzo</span>
+    </a>
+    <a class="submenu-item" href="../innominato_chat.html">
+      <span class="submenu-item-icon">🌑</span>
+      <span class="submenu-item-label">L'Innominato</span>
+    </a>
+  </div>
+
+  <!-- SOTTOMENU STUDIO -->
+  <div class="bottom-submenu" id="submenu-studio">
+    <div class="submenu-item" onclick="navContent('flashcard', 'studio')">
+      <span class="submenu-item-icon">🎴</span>
+      <span class="submenu-item-label">Flashcard</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('quiz', 'studio')">
+      <span class="submenu-item-icon">❓</span>
+      <span class="submenu-item-label">Quiz</span>
     </div>
   </div>
-</div>
 
-<script>
+  <!-- SOTTOMENU MEDIA -->
+  <div class="bottom-submenu" id="submenu-media">
+    <div class="submenu-item" onclick="navContent('script', 'media')">
+      <span class="submenu-item-icon">🎬</span>
+      <span class="submenu-item-label">Script Cinematografici</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('interviste', 'media')">
+      <span class="submenu-item-icon">🎞️</span>
+      <span class="submenu-item-label">Interviste Impossibili</span>
+    </div>
+  </div>
+
+  <!-- SOTTOMENU LEGGIMI -->
+  <div class="bottom-submenu" id="submenu-leggimi">
+    <div class="submenu-item" onclick="navContent('librogame', 'leggimi')">
+      <span class="submenu-item-icon">🎮</span>
+      <span class="submenu-item-label">Librogame</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('libro', 'leggimi')">
+      <span class="submenu-item-icon">📕</span>
+      <span class="submenu-item-label">Libro Originale</span>
+    </div>
+  </div>
   // ── AUTH & INIT ────────────────────────────────────────────────────
   (function() {
     if (!sessionStorage.getItem('icv_access')) {
