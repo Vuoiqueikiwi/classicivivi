@@ -874,7 +874,12 @@
   </div>
   // ── AUTH & INIT ────────────────────────────────────────────────────
   (function() {
-    if (!sessionStorage.getItem('icv_access')) {
+    const token = sessionStorage.getItem('icv_access');
+    const ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+    const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 ore in ms
+    if (!token || (Date.now() - ts) > SESSION_TTL) {
+      sessionStorage.removeItem('icv_access');
+      sessionStorage.removeItem('icv_ts');
       window.location.href = '/accedi';
     }
   })();
@@ -906,7 +911,7 @@
   }).catch(() => {
     // Chrome ha bloccato l'audio: mostra il pulsante
     introVid.muted = true;
-    introVid.play();
+    introVid.play().catch(() => {});
     playBtn.style.display = 'block';
   });
 
@@ -970,7 +975,6 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   }
 
   function fcRenderEnd(el) {
-    var curIdx = (fcState.tab === 'zero') ? 0 : 1;
     el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">Sezione completata!</p><p class="fc-end-sub">Hai finito tutte le flashcard.</p><button class="fc-btn fc-btn-primary" onclick="fcSetTab(\'' + fcState.tab + '\')">Ricomincia</button></div></div>';
   }
 
@@ -1073,9 +1077,20 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
 
   function addMessage(role, text) {
     const area = document.getElementById('messages-area');
+    if (!area) return;
     const div = document.createElement('div');
     div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
-    div.innerHTML = '<div class="message-name">' + (role === 'user' ? 'TU' : 'IL TUTOR') + '</div><div class="message-bubble">' + text.replace(/\n/g, '<br>') + '</div>';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'message-name';
+    nameEl.textContent = role === 'user' ? 'TU' : 'IL TUTOR';
+    const bubbleEl = document.createElement('div');
+    bubbleEl.className = 'message-bubble';
+    text.split('\n').forEach((line, i, arr) => {
+      bubbleEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
+    });
+    div.appendChild(nameEl);
+    div.appendChild(bubbleEl);
     area.appendChild(div);
     area.scrollTop = area.scrollHeight;
   }
