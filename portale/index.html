@@ -45,7 +45,7 @@
     --blu-chiaro: #2d6a9f;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
 
   body {
     font-family: 'EB Garamond', serif;
@@ -538,7 +538,7 @@
   }
 
   @media (max-width: 768px) {
-    body { overflow: hidden; }
+    body { overflow: hidden;max-width: 100vw; }
     #portale-body { flex-direction: column; }
     #sidebar { display: none; }
     .prof-panel { display: none; }
@@ -567,7 +567,7 @@
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
-  <video id="intro-video" autoplay muted playsinline></video>
+  <video id="intro-video" autoplay muted playsinline src="../avatar_tutor.mp4"></video>
   <button class="play-audio-btn" id="play-btn" style="display:none;">INCONTRA IL TUTOR</button>
   <button class="skip-btn" onclick="skipIntro()">SALTA</button>
   <div class="intro-overlay">
