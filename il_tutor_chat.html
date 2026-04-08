@@ -367,7 +367,10 @@ Ricorda: sei il Tutor, non un assistente generico. Hai una personalità precisa,
     nameEl.textContent = role === 'user' ? 'TU' : 'IL TUTOR';
     const bubbleEl = document.createElement('div');
     bubbleEl.className = 'message-bubble';
-    bubbleEl.innerHTML = text.replace(/\n/g, '<br>');
+    text.split('\n').forEach((line, i, arr) => {
+      bubbleEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
+    });
     div.appendChild(nameEl);
     div.appendChild(bubbleEl);
     area.appendChild(div);
