@@ -996,8 +996,9 @@
 <script>
   // ── AUTH & INIT ────────────────────────────────────────────────────
   (function() {
-    if (!sessionStorage.getItem('icv_access')) {
-      window.location.href = '/accedi';
+    var _access = sessionStorage.getItem('icv_access') || localStorage.getItem('icv_access');
+    if (!_access) { window.location.href = '/accedi'; }
+    else { sessionStorage.setItem('icv_access', _access); }
     }
   })();
 
