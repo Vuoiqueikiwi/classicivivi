@@ -480,253 +480,76 @@
   @keyframes typingDot { 0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)} }
   @keyframes fadeIn { from{opacity:0}to{opacity:1} }
   @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
-  @keyframes submenuIn { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
 
-  /* ── BOTTOM NAV (MOBILE ONLY) ───────────────────────────────────── */
-  #bottom-nav-bar { display: none; }
+  /* ── BOTTOM NAVIGATION BAR (MOBILE ONLY) ────────────────────────── */
+  #bottom-nav-bar {
+    display: none;
+    flex-shrink: 0;
+    height: 60px;
+    background: var(--bruno-medio);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 50;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 
-  /* ── MOBILE VIDEO BG ────────────────────────────────────────────── */
-  #mobile-video-bg { display: none; }
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: rgba(245,230,200,0.5);
+    border-bottom: 2px solid transparent;
+  }
+
+  .bottom-nav-item:hover {
+    background: rgba(201,168,76,0.08);
+    color: rgba(245,230,200,0.8);
+  }
+
+  .bottom-nav-item.active {
+    color: var(--oro);
+    border-bottom-color: var(--oro);
+    background: rgba(201,168,76,0.06);
+  }
+
+  .bottom-nav-icon {
+    font-size: 1.3rem;
+  }
+
+  .bottom-nav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
 
   /* ── RESPONSIVE LAYOUT ───────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    #sidebar { width: 220px; }
+  @media (max-width: 900px) { 
+    #sidebar { width: 220px; } 
   }
 
   @media (max-width: 768px) {
-
-    /* Body e layout principale */
-    body {
-      overflow: hidden;
-      height: 100dvh; /* dynamic viewport height per mobile */
-    }
-
-    #portale-body {
-      flex-direction: column;
-      height: 100%;
-      overflow: visible;
-    }
-
-    /* Nascondi elementi desktop */
+    body { overflow: hidden; }
+    #portale-body { flex-direction: column; }
     #sidebar { display: none; }
     .prof-panel { display: none; }
-    .quick-actions { display: none; }
-    .input-hint { display: none; }
-    .header-sub { display: none; }
-    .header-brand { display: none; }
-    .header-divider { display: none; }
-
-    /* Main area */
-    #main {
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Video di sfondo mobile */
-    #mobile-video-bg {
-      display: block;
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    #mobile-video-bg video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.18;
-      filter: brightness(0.6) saturate(0.7);
-    }
-    #mobile-video-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom,
-        rgba(8,8,8,0.5) 0%,
-        rgba(8,8,8,0.2) 40%,
-        rgba(8,8,8,0.7) 100%
-      );
-    }
-
-    /* Chat view mobile */
-    #chat-view {
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Chat panel mobile */
-    .chat-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      background: transparent;
-      border-left: none;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Header mobile */
-    .chat-header {
-      padding: 0.75rem 1rem;
-      background: rgba(8,8,8,0.85);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-      flex-shrink: 0;
-    }
-    .header-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-    }
-
-    /* Messages */
-    .messages-area {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 0.75rem;
-      gap: 0.75rem;
-    }
-    .message-bubble {
-      padding: 0.7rem 0.9rem;
-      font-size: 0.9rem;
-      line-height: 1.55;
-    }
-    .message.user .message-bubble {
-      background: rgba(201,168,76,0.15);
-      backdrop-filter: blur(4px);
-    }
-    .message.ai .message-bubble {
-      background: rgba(13,17,23,0.75);
-      backdrop-filter: blur(4px);
-    }
-
-    /* Input area mobile */
-    .input-area {
-      padding: 0.6rem 0.75rem;
-      background: rgba(8,8,8,0.9);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(201,168,76,0.15);
-      flex-shrink: 0;
-    }
-    .input-field {
-      font-size: 0.95rem;
-      padding: 0.65rem 0.8rem;
-      min-height: 42px;
-    }
-    .send-btn {
-      padding: 0.65rem 1rem;
-      font-size: 0.8rem;
-    }
-
-    /* Content view mobile */
-    #content-view {
-      position: relative;
-      z-index: 1;
-    }
-    .content-header {
-      padding: 0.75rem 1rem;
-      background: rgba(8,8,8,0.9);
-      backdrop-filter: blur(10px);
-    }
-    .content-header-title { font-size: 0.85rem; }
-    .content-body {
-      padding: 1rem;
-      padding-bottom: 20px;
-    }
+    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
+    #chat-view { flex: 1; overflow: hidden; min-height: 0; }
+    #bottom-nav-bar { display: flex; flex-shrink: 0; }
+    .chat-panel { flex: 1; overflow: hidden; }
+    .messages-area { padding: 1rem; }
+    .content-body { padding: 1.5rem; padding-bottom: 80px; }
     .pdf-viewer-frame { height: 60vh; }
-
-    /* Typing indicator mobile */
-    .typing-indicator {
-      margin: 0 0.75rem 0.5rem;
-    }
-
-    /* ── BOTTOM NAV BAR MOBILE ─────────────────────────── */
-    #bottom-nav-bar {
-      display: flex;
-      flex-direction: row;
-      flex-shrink: 0;
-      height: 58px;
-      background: rgba(8,8,8,0.95);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(201,168,76,0.2);
-      z-index: 100;
-      padding-bottom: env(safe-area-inset-bottom);
-      position: relative;
-    }
-
-    .bnav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: rgba(245,230,200,0.45);
-      border-top: 2px solid transparent;
-      position: relative;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .bnav-item:active { background: rgba(201,168,76,0.08); }
-    .bnav-item.active {
-      color: var(--oro);
-      border-top-color: var(--oro);
-    }
-    .bnav-icon { font-size: 1.2rem; line-height: 1; }
-    .bnav-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.48rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      line-height: 1;
-    }
-
-    /* ── SOTTOMENU ─────────────────────────────────────── */
-    .bnav-submenu {
-      display: none;
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(13,17,23,0.97);
-      border: 1px solid rgba(201,168,76,0.25);
-      backdrop-filter: blur(12px);
-      min-width: 160px;
-      z-index: 200;
-      animation: submenuIn 0.2s ease;
-      margin-bottom: 4px;
-    }
-    .bnav-submenu.open { display: block; }
-    .bnav-submenu-item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.7rem 1rem;
-      cursor: pointer;
-      transition: background 0.15s;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
-      -webkit-tap-highlight-color: transparent;
-    }
-    .bnav-submenu-item:last-child { border-bottom: none; }
-    .bnav-submenu-item:active { background: rgba(201,168,76,0.12); }
-    .bnav-submenu-emoji { font-size: 0.9rem; }
-    .bnav-submenu-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      color: var(--pergamena);
-    }
-
-  } /* end @media 768px */
-
+  }
 </style>
 </head>
 <body>
@@ -756,14 +579,14 @@
 
 <!-- PORTALE BODY -->
 <div id="portale-body">
-
-  <!-- SIDEBAR (Desktop only) -->
+  <!-- SIDEBAR (Desktop) -->
   <div id="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-logo-top">I Classici Vivi</div>
       <div class="sidebar-logo-title">I Promessi Sposi</div>
       <div class="sidebar-logo-sub">Portale di Studio</div>
     </div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-label">Chat AI</div>
       <div class="nav-card active" onclick="showChat()" id="nav-tutor">
@@ -795,6 +618,7 @@
         </div>
       </a>
     </div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-label">Materiali</div>
       <div class="nav-item" onclick="showContent('podcast')">
@@ -827,6 +651,7 @@
         <span class="nav-text">Libro Originale</span>
       </div>
     </div>
+
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="logout()">LOGOUT</button>
     </div>
@@ -834,14 +659,6 @@
 
   <!-- MAIN CONTENT -->
   <div id="main">
-
-    <!-- VIDEO SFONDO MOBILE -->
-    <div id="mobile-video-bg">
-      <video id="mobile-bg-video" autoplay muted loop playsinline>
-        <source src="../loop_tutor.mp4" type="video/mp4">
-      </video>
-    </div>
-
     <!-- CHAT VIEW -->
     <div id="chat-view">
       <div class="prof-panel">
@@ -857,11 +674,12 @@
           </div>
         </div>
       </div>
+
       <div class="chat-panel">
         <header class="chat-header">
           <div class="header-brand">I CLASSICI VIVI</div>
           <div class="header-divider"></div>
-          <div class="header-title" id="chat-header-title">Il Tutor</div>
+          <div class="header-title">Il Tutor</div>
           <div class="header-sub">I Promessi Sposi — guida al kit</div>
         </header>
         <div class="messages-area" id="messages-area">
@@ -905,93 +723,44 @@
       </div>
       <div class="content-body" id="content-body"></div>
     </div>
+  </div>
 
-  </div><!-- end #main -->
-
-  <!-- BOTTOM NAV BAR (Mobile Only) -->
+  <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
   <div id="bottom-nav-bar">
-
-    <!-- CHAT con sottomenu -->
-    <div class="bnav-item active" id="bnav-chat" onclick="toggleSubmenu('submenu-chat', 'bnav-chat')">
-      <div class="bnav-submenu" id="submenu-chat">
-        <div class="bnav-submenu-item" onclick="selectChat('tutor', 'Il Tutor', '../loop_tutor.mp4'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🎓</span>
-          <span class="bnav-submenu-label">Il Tutor</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="openCharChat('../don_abbondio_chat.html'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">⛪</span>
-          <span class="bnav-submenu-label">Don Abbondio</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="openCharChat('../renzo_chat.html'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">⚔️</span>
-          <span class="bnav-submenu-label">Renzo</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="openCharChat('../innominato_chat.html'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🌑</span>
-          <span class="bnav-submenu-label">L'Innominato</span>
-        </div>
-      </div>
-      <div class="bnav-icon">💬</div>
-      <div class="bnav-label">CHAT</div>
+    <div class="bottom-nav-item active" data-nav="chat" onclick="showChatMobile()">
+      <div class="bottom-nav-icon">🎓</div>
+      <div class="bottom-nav-label">CHAT</div>
     </div>
-
-    <!-- PODCAST diretto -->
-    <div class="bnav-item" id="bnav-podcast" onclick="showContentMobile('podcast', 'bnav-podcast')">
-      <div class="bnav-icon">🎧</div>
-      <div class="bnav-label">PODCAST</div>
+    <div class="bottom-nav-item" data-nav="podcast" onclick="showContentMobile('podcast')">
+      <div class="bottom-nav-icon">🎧</div>
+      <div class="bottom-nav-label">POD</div>
     </div>
-
-    <!-- STUDIO con sottomenu -->
-    <div class="bnav-item" id="bnav-studio" onclick="toggleSubmenu('submenu-studio', 'bnav-studio')">
-      <div class="bnav-submenu" id="submenu-studio">
-        <div class="bnav-submenu-item" onclick="showContentMobile('flashcard', 'bnav-studio'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🎴</span>
-          <span class="bnav-submenu-label">Flashcard</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="showContentMobile('quiz', 'bnav-studio'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">❓</span>
-          <span class="bnav-submenu-label">Quiz</span>
-        </div>
-      </div>
-      <div class="bnav-icon">📖</div>
-      <div class="bnav-label">STUDIO</div>
+    <div class="bottom-nav-item" data-nav="flashcard" onclick="showContentMobile('flashcard')">
+      <div class="bottom-nav-icon">🎴</div>
+      <div class="bottom-nav-label">CARDS</div>
     </div>
-
-    <!-- MEDIA con sottomenu -->
-    <div class="bnav-item" id="bnav-media" onclick="toggleSubmenu('submenu-media', 'bnav-media')">
-      <div class="bnav-submenu" id="submenu-media">
-        <div class="bnav-submenu-item" onclick="showContentMobile('script', 'bnav-media'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🎬</span>
-          <span class="bnav-submenu-label">Script</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="showContentMobile('interviste', 'bnav-media'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🎞️</span>
-          <span class="bnav-submenu-label">Interviste</span>
-        </div>
-      </div>
-      <div class="bnav-icon">🎞️</div>
-      <div class="bnav-label">MEDIA</div>
+    <div class="bottom-nav-item" data-nav="quiz" onclick="showContentMobile('quiz')">
+      <div class="bottom-nav-icon">❓</div>
+      <div class="bottom-nav-label">QUIZ</div>
     </div>
-
-    <!-- LEGGIMI con sottomenu -->
-    <div class="bnav-item" id="bnav-leggimi" onclick="toggleSubmenu('submenu-leggimi', 'bnav-leggimi')">
-      <div class="bnav-submenu" id="submenu-leggimi">
-        <div class="bnav-submenu-item" onclick="showContentMobile('librogame', 'bnav-leggimi'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">🎮</span>
-          <span class="bnav-submenu-label">Librogame</span>
-        </div>
-        <div class="bnav-submenu-item" onclick="showContentMobile('libro', 'bnav-leggimi'); closeAllSubmenus()">
-          <span class="bnav-submenu-emoji">📕</span>
-          <span class="bnav-submenu-label">Libro Originale</span>
-        </div>
-      </div>
-      <div class="bnav-icon">📕</div>
-      <div class="bnav-label">LEGGIMI</div>
+    <div class="bottom-nav-item" data-nav="librogame" onclick="showContentMobile('librogame')">
+      <div class="bottom-nav-icon">🎮</div>
+      <div class="bottom-nav-label">GIOCO</div>
     </div>
-
-  </div><!-- end #bottom-nav-bar -->
-
-</div><!-- end #portale-body -->
+    <div class="bottom-nav-item" data-nav="script" onclick="showContentMobile('script')">
+      <div class="bottom-nav-icon">🎬</div>
+      <div class="bottom-nav-label">FILM</div>
+    </div>
+    <div class="bottom-nav-item" data-nav="interviste" onclick="showContentMobile('interviste')">
+      <div class="bottom-nav-icon">🎞️</div>
+      <div class="bottom-nav-label">VIDEO</div>
+    </div>
+    <div class="bottom-nav-item" data-nav="libro" onclick="showContentMobile('libro')">
+      <div class="bottom-nav-icon">📕</div>
+      <div class="bottom-nav-label">LIBRO</div>
+    </div>
+  </div>
+</div>
 
 <script>
   // ── AUTH & INIT ────────────────────────────────────────────────────
@@ -1012,11 +781,15 @@
   // ── INTRO ──────────────────────────────────────────────────────────
   function skipIntro() {
     const intro = document.getElementById('intro-screen');
-    const introVideo = document.getElementById('intro-video');
-    if (introVideo) { introVideo.pause(); introVideo.muted = true; }
+    document.querySelectorAll('video, audio').forEach(el => {
+      el.pause();
+      el.muted = true;
+    });
     intro.classList.add('fade-out');
     setTimeout(() => { intro.style.display = 'none'; }, 800);
   }
+
+  // Init intro screen
   setTimeout(skipIntro, 4000);
 
   // ── SYSTEM PROMPT ──────────────────────────────────────────────────
@@ -1070,6 +843,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   }
 
   function fcRenderEnd(el) {
+    var curIdx = (fcState.tab === 'zero') ? 0 : 1;
     el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">Sezione completata!</p><p class="fc-end-sub">Hai finito tutte le flashcard.</p><button class="fc-btn fc-btn-primary" onclick="fcSetTab(\'' + fcState.tab + '\')">Ricomincia</button></div></div>';
   }
 
@@ -1077,7 +851,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   function fcNext() { fcState.current++; fcState.flipped = false; fcRender(); }
   function fcPrev() { fcState.current--; fcState.flipped = false; fcRender(); }
 
-  // ── NAVIGATION DESKTOP ─────────────────────────────────────────────
+  // ── NAVIGATION ─────────────────────────────────────────────────────
   function showChat() {
     document.getElementById('chat-view').style.display = 'flex';
     document.getElementById('content-view').style.display = 'none';
@@ -1100,81 +874,25 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   }
 
+  function showChatMobile() {
+    showChat();
+    updateBottomNav('chat');
+  }
+
+  function showContentMobile(key) {
+    showContent(key);
+    updateBottomNav(key);
+  }
+
+  function updateBottomNav(active) {
+    document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelector('[data-nav="' + active + '"]')?.classList.add('active');
+  }
+
   function logout() {
     sessionStorage.removeItem('icv_access');
     window.location.href = '/';
   }
-
-  // ── MOBILE NAVIGATION ──────────────────────────────────────────────
-
-  // Mappa video per personaggio
-  var chatVideos = {
-    tutor: '../loop_tutor.mp4',
-    don_abbondio: '../loop_don_abbondio_final.mp4',
-    renzo: '../loop_renzo_final.mp4',
-    innominato: '../loop_innominato_final.mp4'
-  };
-
-  function setMobileBgVideo(src) {
-    var vid = document.getElementById('mobile-bg-video');
-    if (!vid) return;
-    if (vid.src !== window.location.origin + '/' + src && vid.getAttribute('src') !== src) {
-      vid.src = src;
-      vid.load();
-      vid.play().catch(function(){});
-    }
-  }
-
-  function selectChat(charKey, charName, videoSrc) {
-    // Aggiorna header
-    document.getElementById('chat-header-title').textContent = charName;
-    // Aggiorna video sfondo
-    setMobileBgVideo(videoSrc);
-    // Mostra chat
-    showChat();
-    // Aggiorna bottom nav
-    setActiveBnav('bnav-chat');
-  }
-
-  function openCharChat(url) {
-    window.location.href = url;
-  }
-
-  function showContentMobile(key, bnavId) {
-    showContent(key);
-    setActiveBnav(bnavId);
-  }
-
-  function setActiveBnav(id) {
-    document.querySelectorAll('.bnav-item').forEach(el => el.classList.remove('active'));
-    var el = document.getElementById(id);
-    if (el) el.classList.add('active');
-  }
-
-  function toggleSubmenu(submenuId, bnavId) {
-    var submenu = document.getElementById(submenuId);
-    var isOpen = submenu.classList.contains('open');
-    // Chiudi tutti
-    closeAllSubmenus();
-    // Se era chiuso, aprilo
-    if (!isOpen) {
-      submenu.classList.add('open');
-      setActiveBnav(bnavId);
-    }
-  }
-
-  function closeAllSubmenus() {
-    document.querySelectorAll('.bnav-submenu').forEach(el => el.classList.remove('open'));
-  }
-
-  // Chiudi sottomenu toccando fuori (click e touch per Android)
-  function closeIfOutside(e) {
-    if (!e.target.closest('.bnav-item')) {
-      closeAllSubmenus();
-    }
-  }
-  document.addEventListener('click', closeIfOutside);
-  document.addEventListener('touchstart', closeIfOutside, { passive: true });
 
   // ── CONTENTS ───────────────────────────────────────────────────────
   const contents = {
@@ -1310,43 +1028,11 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   // ── PODCAST PLAYER ─────────────────────────────────────────────────
   function initPodcastPlayer() {
     const episodi = [
-      { label: "Capitolo 1",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN" },
-      { label: "Capitolo 2",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW" },
-      { label: "Capitolo 3",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy" },
-      { label: "Capitolo 4",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa" },
-      { label: "Capitolo 5",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKSC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc" },
-      { label: "Capitolo 6",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDnFHZX3l4iRI02jNT5qCUaAdN8guCEdtQMA61iouTqTEo?e=lqK9DK" },
-      { label: "Capitolo 7",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCRyyeLHJxQTKnyTKwGWIVdAeO2bnJfgPlJYRJMi-Wykdc?e=S67a0F" },
-      { label: "Capitolo 8",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC-2C3F2JvHRYd1KSW02JBkAa90ebU3m3bENV1Vg4mI9Qs?e=84LRU6" },
-      { label: "Capitolo 9",     url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD9xibfPo35TJTPvpQmoaEUAXLGmN8KH6QVcNh6vtz6ZnY?e=NMHTw0" },
-      { label: "Capitolo 10",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQA0LjDiOcXYSYzTGk9TqQ5oAfrN_0KaVc9HH5_E7t-FI7s?e=GtcxfQ" },
-      { label: "Capitolo 11",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD6YecR20XeT5VhWsGd_3ONARvleBZsg48a4ansYb9XCec?e=iCFOZh" },
-      { label: "Capitolo 12",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCW6qVQgQbNS5x07bQL5c7-AbrzdhMbHiB4PQPAy3QbnkE?e=gPqyHB" },
-      { label: "Capitolo 13",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBemNwZmJ5cRbDntoYUz_dJAaQo3Nnf7wiYNOG8G2UY5jA?e=71Zwdn" },
-      { label: "Capitolo 14",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAr655jMNvISaRLceb5kOENAcGC4FFWu-CPjLW7xyHtKrs?e=98WLRl" },
-      { label: "Capitolo 15",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCbaJLOK2uNRY9rrgqEqNVsAQ1kNroRTy8vsoIIME_dG68?e=fN1NU7" },
-      { label: "Capitolo 16-17", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCaiMf1LLn9Tb_2DlSLm82nAVYuXNlJswGrkH2blZxWl0k?e=u4kN2m" },
-      { label: "Capitolo 18",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBW_-4ba5yqQboiLLhfu4ieAbQIC45FJkonPYhUv6pWOOc?e=N12YDh" },
-      { label: "Capitolo 19",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBRu6xl-mIIS61sGgA6S6CpAbFk7FdKqiK16BLa8RDZ7vs?e=e463Rt" },
-      { label: "Capitolo 20",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDemGBXktQ5T58GSWNgntVcASO0k2SSz1n-wKqy_JQHmIU?e=GNQejr" },
-      { label: "Capitolo 21",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDmVcEOf8kQR7Bu6ZNPHsZKAVy6IfTbNhas77tolGsHAG8?e=xkWRm1" },
-      { label: "Capitolo 22",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC3hEMQB61rS5q4BmrlhnwKAaHYR6-TheDV7wLcCC9vOqg?e=DilqNK" },
-      { label: "Capitolo 23",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDKiVMmm4WXRpgxU2uBY0xDAXkYRMDIxr5QHYI0lgNVBWY?e=FWJrY3" },
-      { label: "Capitolo 24",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAZPOiRCtxATKQSS_B2cVaQAYhHbB8x-mkUBhwQ5ou8mvE?e=ZX72oS" },
-      { label: "Capitolo 25",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCaaNzai_dPTbNVTOmJqQ3XAecZr-r-tza9Adu1axJlAe4?e=GFOfmh" },
-      { label: "Capitolo 26",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBDssdX4070TJhOfSqhrRTQARjpjZDLVBBAzGBfs72NSoY?e=RTppfI" },
-      { label: "Capitolo 27",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQB03x0Oi89ZQpL4UBpPxftyAWuJVMV3veXxuwb7FJFY_QQ?e=T8Dqvt" },
-      { label: "Capitolo 28",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQB8LljVDnvOQYS9dDTEUpt3AT9IA17VJsQuCBjKgUBZs5I?e=vykxnL" },
-      { label: "Capitolo 29",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDTZQSp20vKSJywZ3sfkzQXAWmAFhtsrQyhv0yluIVleaQ?e=bpUqRf" },
-      { label: "Capitolo 30",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAokLRdTm-pQY_rhSKTry5DAdet6QzRpOKqYmqh6y85uEY?e=KQTlRH" },
-      { label: "Capitolo 31",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQD0qc13rKfFSLi1v17Vo1hIAeln7hoKo3FKjfmDJf16HJA?e=DG7emX" },
-      { label: "Capitolo 32",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQCUO6dbZm_FRIqPcTIub8qAAcwXvogB7slxev0kzhB4GQw?e=wDanCn" },
-      { label: "Capitolo 33",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBWh0QzsYBlTL_95uXAsQ1oAQ-w3yrAFfIu25xZ_HgMSS0?e=MaNkq7" },
-      { label: "Capitolo 34",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQC8DNXFx9LEQrsHLAkkRY-QAZjVQlYYi9babI0x2svDqyQ?e=W1RrFj" },
-      { label: "Capitolo 35",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQBxNn-fY2FcTLUHqVO8v-v_ATq0MZXPTXzKCbdJYmcCw5A?e=nNucKz" },
-      { label: "Capitolo 36",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAC3vc0_3OKQpuSotwcQAHdAafhi0C0eV8OEcH1wkSLakk?e=KXmzxe" },
-      { label: "Capitolo 37",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAqIpB95HMSRZfQv3dV7toMAW4IrAfruvEn3rPjH0lyCOk?e=VzpseM" },
-      { label: "Capitolo 38",    url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDT2LKZd5kZT7eBvrdPptPQAd0GzJZ9iw1BXPS62BInjNQ?e=w8JMdU" }
+      { label: "Capitolo 1", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN" },
+      { label: "Capitolo 2", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW" },
+      { label: "Capitolo 3", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy" },
+      { label: "Capitolo 4", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa" },
+      { label: "Capitolo 5", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKZC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc" }
     ];
     const lista = document.getElementById('podcastLista');
     if (!lista) return;
@@ -1366,15 +1052,19 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     {n:"F1",q:"Chi sono i protagonisti del romanzo?",a:"Renzo Tramaglino e Lucia Mondella, due giovani fidanzati di un paesino sul lago di Como.",c:"Ricorda: sono promessi sposi che non riescono a sposarsi."},
     {n:"F2",q:"Per quale motivo Don Abbondio rifiuta di celebrare il matrimonio?",a:"Perché i bravi di Don Rodrigo lo hanno minacciato.",c:"Don Abbondio è un codardo — la paura guida ogni sua scelta."}
   ];
+
   var qfMedio = [
     {n:"M1",q:"Qual è la caratteristica fisica del monte Resegone?",a:"I suoi molti cocuzzoli in fila che lo fanno somigliare a una sega.",c:"Dettaglio importante per l'ambientazione dell'Incipit."}
   ];
+
   var qfDifficile = [
     {n:"D1",q:"Quale metafora usa Manzoni per spiegare la fragilità di Don Abbondio?",a:"Quella di un vaso di terra cotta costretto a viaggiare in compagnia di molti vasi di ferro.",c:"Una delle metafore più belle e significative del romanzo."}
   ];
+
   var qpStile = [
     {n:"S1",q:"Analizza il ruolo del narratore nei primi capitoli del romanzo.",a:"L'Anonimo narratore critica lo stile del manoscritto originale, proponendo una riscrittura moderna.",c:"Il tema della riscrittura è fondamentale per comprendere l'opera."}
   ];
+
   var qpContesto = [
     {n:"C1",q:"Quali sono le unità aristoteliche che Manzoni rifiuta nel suo romanzo?",a:"Le unità di tempo, luogo e azione — Manzoni adotta lo stile moderno e storico.",c:"Importante per il contesto romantico europeo."}
   ];
@@ -1453,7 +1143,6 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
 
   // Show chat on init
   showChat();
-
 </script>
 
 </body>
