@@ -1262,7 +1262,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Access-Code': sessionStorage.getItem('icv_access') || ''
+            'X-Access-Code': sessionStorage.getItem('icv_access') || localStorage.getItem('icv_access') || ''
           },
           body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
