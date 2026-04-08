@@ -558,21 +558,25 @@
   .submenu-item-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
   .submenu-item-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.05em; }
 
-  /* Overlay per chiudere sottomenu */
-#submenu-overlay {
+
+/* Overlay per chiudere sottomenu */
+  #submenu-overlay {
     display: none;
-    position: fixed;
-    inset: 0;
-    bottom: 60px;
-    z-index: 48;
-    background: rgba(0,0,0,0.4);
     pointer-events: none;
   }
-  #submenu-overlay.open { 
-    display: block;
-    pointer-events: auto;
+  @media (max-width: 768px) {
+    #submenu-overlay {
+      position: fixed;
+      inset: 0;
+      bottom: 60px;
+      z-index: 48;
+      background: rgba(0,0,0,0.4);
+    }
+    #submenu-overlay.open {
+      display: block;
+      pointer-events: auto;
+    }
   }
-
   /* ── RESPONSIVE LAYOUT ───────────────────────────────────────────── */
   @media (max-width: 900px) { 
     #sidebar { width: 220px; } 
