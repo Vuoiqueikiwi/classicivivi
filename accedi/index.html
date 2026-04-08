@@ -471,7 +471,9 @@
 
       if (data.valid) {
         // Salva il codice validato nel sessionStorage
-        sessionStorage.setItem('icv_access', btoa(code));
+        const encoded = btoa(code);
+        sessionStorage.setItem('icv_access', encoded);
+        localStorage.setItem('icv_access', encoded);
         sessionStorage.setItem('icv_ts', Date.now().toString());
         // Flag per evitare redirect infiniti
         sessionStorage.setItem('icv_redirect_done', 'true');
