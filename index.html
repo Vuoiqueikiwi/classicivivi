@@ -1275,7 +1275,7 @@
       setLoading(false);
       if (data && data.valid === true) {
         // ✅ Codice valido
-        sessionStorage.setItem('icv_access', 'btoa(raw)');
+        sessionStorage.setItem('icv_access', btoa(raw));
         sessionStorage.setItem('icv_code', raw);
         closeAccessPanel();
         window.location.href = '/portale';
