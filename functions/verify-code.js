@@ -7,7 +7,14 @@ export async function onRequestPost(context) {
     'Content-Type': 'application/json'
   };
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ valid: false }), {
+        status: 400, headers: corsHeaders
+      });
+    }
     const { code } = body;
     if (!code || typeof code !== 'string') {
       return new Response(JSON.stringify({ valid: false }), {
@@ -22,7 +29,7 @@ export async function onRequestPost(context) {
       });
     } else {
       return new Response(JSON.stringify({ valid: false }), {
-        status: 200, headers: corsHeaders
+        status: 404, headers: corsHeaders
       });
     }
   } catch (err) {
