@@ -10,7 +10,12 @@ async function verifyPayhipSignature(signature, apiKey) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  const body = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return new Response("Invalid request body", { status: 400 });
+  }
 
   // Verifica firma Payhip
   const isValid = await verifyPayhipSignature(body.signature, env.PAYHIP_API_KEY);
@@ -25,26 +30,31 @@ export async function onRequestPost(context) {
 
   // Estrai email acquirente
   const buyerEmail = body?.email;
-  if (!buyerEmail) {
-    return new Response("Missing email", { status: 400 });
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!buyerEmail || !emailRegex.test(buyerEmail)) {
+    return new Response("Missing or invalid email", { status: 400 });
   }
 
   // Cerca un codice ACTIVE nel KV
   let foundCode = null;
   let cursor = undefined;
 
-  outer:
-  while (true) {
-    const listResult = await env.CODES.list({ limit: 100, cursor });
-    for (const key of listResult.keys) {
-      const value = await env.CODES.get(key.name);
-      if (value === "ACTIVE") {
-        foundCode = key.name;
-        break outer;
+  try {
+    outer:
+    while (true) {
+      const listResult = await env.CODES.list({ limit: 100, cursor });
+      for (const key of listResult.keys) {
+        const value = await env.CODES.get(key.name);
+        if (value === "ACTIVE") {
+          foundCode = key.name;
+          break outer;
+        }
       }
+      if (listResult.list_complete) break;
+      cursor = listResult.cursor;
     }
-    if (listResult.list_complete) break;
-    cursor = listResult.cursor;
+  } catch (err) {
+    return new Response("KV error: " + err.message, { status: 503 });
   }
 
   if (!foundCode) {
@@ -52,7 +62,11 @@ export async function onRequestPost(context) {
   }
 
   // Marca il codice come usato PRIMA di inviare
-  await env.CODES.put(foundCode, "USED");
+  try {
+    await env.CODES.put(foundCode, "USED");
+  } catch (err) {
+    return new Response("KV error: " + err.message, { status: 503 });
+  }
 
   // Invia email via Brevo
   const emailRes = await fetch("https://api.brevo.com/v3/smtp/email", {
