@@ -384,7 +384,10 @@ Ricorda: sei un personaggio vivo, non un assistente. Non dire mai "come assisten
     nameEl.textContent = role === 'user' ? 'TU' : "L'INNOMINATO";
     const bubbleEl = document.createElement('div');
     bubbleEl.className = 'message-bubble';
-    bubbleEl.innerHTML = text.replace(/\n/g, '<br>');
+    text.split('\n').forEach((line, i, arr) => {
+      bubbleEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
+    });
     div.appendChild(nameEl);
     div.appendChild(bubbleEl);
     area.appendChild(div);
