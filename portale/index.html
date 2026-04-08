@@ -567,7 +567,7 @@
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
-  <video id="intro-video" autoplay muted playsinline src="../avatar_tutor.mp4"></video>
+  <video id="intro-video" autoplay playsinline src="../avatar_tutor.mp4"></video>
   <button class="play-audio-btn" id="play-btn" style="display:none;">INCONTRA IL TUTOR</button>
   <button class="skip-btn" onclick="skipIntro()">SALTA</button>
   <div class="intro-overlay">
@@ -779,18 +779,36 @@
   }
 
   // ── INTRO ──────────────────────────────────────────────────────────
-  function skipIntro() {
+ function skipIntro() {
     const intro = document.getElementById('intro-screen');
-    document.querySelectorAll('video, audio').forEach(el => {
-      el.pause();
-      el.muted = true;
-    });
+    const vid = document.getElementById('intro-video');
+    vid.pause();
     intro.classList.add('fade-out');
     setTimeout(() => { intro.style.display = 'none'; }, 800);
   }
 
-  // Init intro screen
-  setTimeout(skipIntro, 4000);
+  // Gestione autoplay con audio
+  const introVid = document.getElementById('intro-video');
+  const playBtn = document.getElementById('play-btn');
+
+  introVid.play().then(() => {
+    // autoplay con audio riuscito (raro su mobile)
+    playBtn.style.display = 'none';
+  }).catch(() => {
+    // Chrome ha bloccato l'audio: mostra il pulsante
+    introVid.muted = true;
+    introVid.play();
+    playBtn.style.display = 'block';
+  });
+
+  playBtn.addEventListener('click', () => {
+    introVid.muted = false;
+    introVid.currentTime = 0;
+    introVid.play();
+    playBtn.style.display = 'none';
+  });
+
+  setTimeout(skipIntro, 12000);
 
   // ── SYSTEM PROMPT ──────────────────────────────────────────────────
   const SYSTEM_PROMPT = `Sei il Tutor, la guida ufficiale di "I Classici Vivi" su I Promessi Sposi.
