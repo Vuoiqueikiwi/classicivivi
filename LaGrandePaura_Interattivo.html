@@ -195,9 +195,9 @@
     /* ── DADO ── */
     .dado-section { display:flex; flex-direction:column; align-items:center; gap:1rem; padding:0.5rem 0 1rem; }
     .dado-display {
-      width:140px; height:140px; border:2px solid var(--bordo); border-radius:18px;
+      width:min(140px,60vw); height:min(140px,60vw); border:2px solid var(--bordo); border-radius:18px;
       background:var(--bg-card); display:flex; align-items:center; justify-content:center;
-      font-family:"Cinzel",serif; font-size:3.5rem; color:var(--oro);
+      font-family:"Cinzel",serif; font-size:clamp(2rem,8vw,3.5rem); color:var(--oro);
       transition:all 0.15s; user-select:none;
     }
     .dado-display.rolling { animation: rollAnim 0.4s ease; }
@@ -252,6 +252,7 @@
       .main-scroll.panel-open { margin-right:0; }
       .side-panel { width:100%; }
       .libro-title { font-size:1.5rem; }
+      .dado-history { font-size:clamp(1rem,4vw,1.2rem); }
     }
   
     .intro-page { max-width:620px; margin:0 auto 4rem; padding:2rem 0; }
