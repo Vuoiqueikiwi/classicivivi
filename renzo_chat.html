@@ -229,6 +229,10 @@
     .header-ruolo { display:none; }
     .header-divider { display:none; }
     .nav-links { order:-1; }
+    .messages-area { grid-column:1; }
+    .input-area { grid-column:1; }
+    .input-hint { grid-column:1; }
+    .typing-indicator { grid-column:1; }
   }
 </style>
 </head>
@@ -236,7 +240,12 @@
 <script>
   // ── AUTH ──
   (function() {
-    if (!sessionStorage.getItem('icv_access')) {
+    var token = sessionStorage.getItem('icv_access');
+    var ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+    var SESSION_TTL = 8 * 60 * 60 * 1000;
+    if (!token || (Date.now() - ts) > SESSION_TTL) {
+      sessionStorage.removeItem('icv_access');
+      sessionStorage.removeItem('icv_ts');
       window.location.href = '/accedi';
     }
   })();
