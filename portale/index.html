@@ -1023,7 +1023,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
       ? '<div class="fc-lbl">QUELLO CHE TUTTI CREDONO:</div><div class="fc-belief">' + c.belief + '</div><div class="fc-lbl">LA VERA DOMANDA:</div>'
       : '<div class="fc-lbl">DOMANDA:</div>';
     var cardName = (isZero && c.name) ? ' — ' + c.name : '';
-    var tabsHtml = '<button class="fc-tab' + (fcState.tab === 'zero' ? ' fc-active' : '') + '" onclick="fcSetTab(\'zero\')">Zero</button><button class="fc-tab' + (fcState.tab === 'capitolo' ? ' fc-active' : '') + '" onclick="fcSetTab(\'capitolo\')">Capitoli</button>';
+    vvar tabsHtml = '<button class="fc-tab' + (fcState.tab === 'zero' ? ' fc-active' : '') + '" onclick="fcSetTab(\'zero\')">Zero</button><button class="fc-tab' + (fcState.tab === 'capitolo' ? ' fc-active' : '') + '" onclick="fcSetTab(\'capitolo\')">Campione</button>';
     el.innerHTML = '<div class="fc-wrap"><div class="fc-top"><p class="fc-title-label">Flashcard</p><div class="fc-tabs">' + tabsHtml + '</div></div>' +
       '<div class="fc-progress-row"><span class="fc-counter">' + (fcState.current + 1) + ' / ' + fcState.cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
       '<div class="fc-scene" onclick="fcFlip()"><div class="fc-card' + (fcState.flipped ? ' fc-flipped' : '') + '" id="fcCard"><div class="fc-face fc-front">' +
