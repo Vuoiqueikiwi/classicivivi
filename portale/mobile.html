@@ -100,13 +100,12 @@
     min-height: 0;
     overflow: hidden;
     position: relative;
-    padding-bottom: 60px;
   }
 
   /* ── CHAT VIEW (schermata principale) ── */
   #chat-view {
     position: absolute;
-    inset: 0;
+    inset: 0 0 60px 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -119,7 +118,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.35;
+    opacity: 0.55;
     z-index: 0;
   }
 
@@ -290,7 +289,7 @@
   /* ── CONTENT VIEW ── */
   #content-view {
     position: absolute;
-    inset: 0;
+    inset: 0 0 60px 0;
     display: none;
     flex-direction: column;
     overflow: hidden;
@@ -919,7 +918,7 @@ var contents = {
   },
   libro: {
     title: 'Libro Originale',
-    html: '<div class="download-note">Leggi e scarica il testo completo di <strong>I Promessi Sposi</strong>.</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=eUZeiJ" target="_blank" rel="noopener noreferrer">APRI IL LIBRO →</a>'
+    html: '<div class="download-note">Leggi e scarica il testo completo di <strong>I Promessi Sposi</strong>.</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=eUZeiJ" target="_blank" rel="noopener noreferrer">APRI IL LIBRO →</a><div style="margin-top:2rem;padding:1.5rem;border:1px solid rgba(201,168,76,0.15);background:rgba(13,17,23,0.5);border-radius:4px;"><div style="font-family:Cinzel,serif;color:#C9A84C;font-size:0.8rem;letter-spacing:0.2em;margin-bottom:1rem;">IL ROMANZO</div><p style="font-family:EB Garamond,serif;font-style:italic;font-size:0.95rem;line-height:1.8;color:rgba(245,230,200,0.7);">I Promessi Sposi è il romanzo storico più importante della letteratura italiana. Scritto da Alessandro Manzoni e pubblicato nella versione definitiva nel 1840, racconta la storia di Renzo e Lucia nella Lombardia del XVII secolo sotto la dominazione spagnola.</p></div>'
   }
 };
 
