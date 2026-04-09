@@ -250,9 +250,13 @@
     @media(max-width:700px){
       .main-scroll { padding:1.5rem 1.2rem 5rem; }
       .main-scroll.panel-open { margin-right:0; }
-      .side-panel { width:100%; }
+      .side-panel { width:100%; overflow-x:hidden; }
+      .panel-body { overflow-x:hidden; }
       .libro-title { font-size:1.5rem; }
-      .dado-history { font-size:clamp(1rem,4vw,1.2rem); }
+      .dado-history { font-size:clamp(1.2rem,5vw,1.5rem); padding:0.5rem; }
+      #contentDado { overflow-x:hidden; width:100%; }
+      .dado-section { width:100%; box-sizing:border-box; align-items:center; }
+      .dado-display { margin:0 auto; display:flex; }
     }
   
     .intro-page { max-width:620px; margin:0 auto 4rem; padding:2rem 0; }
