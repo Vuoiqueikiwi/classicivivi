@@ -1059,6 +1059,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     if (key === 'podcast') initPodcastPlayer();
     if (key === 'flashcard') { fcState.current = 0; fcState.flipped = false; fcRender(); }
     if (key === 'quiz') initQuizViewers();
+    if (key === 'interviste') { intState.current = 0; intState.flipped = false; intRender(); }
     document.getElementById('nav-tutor').classList.remove('active');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   }
@@ -1084,7 +1085,7 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   }
 
   // ── CONTENTS ───────────────────────────────────────────────────────
-  const contents = {
+const contents = {
     podcast: {
       title: 'Podcast',
       html: '<p class="podcast-intro">38 episodi di analisi audiovisiva del romanzo. Ogni episodio dura circa 8 minuti.</p><div class="podcast-lista" id="podcastLista"></div>'
@@ -1103,15 +1104,15 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
     },
     script: {
       title: 'Script Cinematografici',
-      html: '<div class="pdf-viewer-title">Script Cinematografici — I Promessi Sposi</div><div class="pdf-viewer-desc">Analisi dei capitoli in forma di copioni.</div><iframe class="pdf-viewer-frame" src="https://1drv.ms/b/c/84fa0c94011fae7e/IQAfNDnUJ1BxS404gZEVVx0gAZy4BXjMGaR0UTNgOKG1_Uc?e=l8CcaZ" frameborder="0" scrolling="yes" allowfullscreen></iframe>'
+      html: '<div class="pdf-viewer-title">Script Cinematografici — I Promessi Sposi</div><div class="pdf-viewer-desc">Analisi dei capitoli in forma di copioni cinematografici.</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAfNDnUJ1BxS404gZEVVx0gAZy4BXjMGaR0UTNgOKG1_Uc?e=l8CcaZ" target="_blank" rel="noopener noreferrer">APRI DOCUMENTO →</a>'
     },
     interviste: {
       title: 'Interviste Impossibili',
-      html: '<div class="pdf-viewer-title">Interviste Impossibili — I Promessi Sposi nel 2026</div><div class="pdf-viewer-desc">I personaggi riportati ai giorni nostri.</div><iframe class="pdf-viewer-frame" src="https://1drv.ms/b/c/84fa0c94011fae7e/IQDTmfPrRJGnTr18wEue6SttAQ0qwhI8CSRgWkGelT6HdeI?e=zaBUYm" frameborder="0" scrolling="yes" allowfullscreen></iframe>'
+      html: '<div id="int-viewer"></div>'
     },
     libro: {
       title: 'Libro Originale',
-      html: '<div class="download-note">Scarica il testo completo di <strong>I Promessi Sposi</strong> (dominio pubblico).</div><a class="download-btn" href="../I_Promessi_Sposi_Completo.pdf" download>SCARICA PDF</a><div class="pdf-viewer-title">Leggi online</div><iframe class="pdf-viewer-frame" src="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=eUZeiJ" frameborder="0" scrolling="yes" allowfullscreen></iframe>'
+      html: '<div class="download-note">Scarica il testo completo di <strong>I Promessi Sposi</strong> (dominio pubblico).</div><a class="download-btn" href="../I_Promessi_Sposi_Completo.pdf" download>SCARICA PDF</a><div style="margin-top:1.5rem;"><div class="pdf-viewer-title">Leggi online</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=eUZeiJ" target="_blank" rel="noopener noreferrer">APRI SU ONEDRIVE →</a></div>'
     }
   };
 
@@ -1280,6 +1281,185 @@ STILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico
   }
 
 // ── QUIZ FINALE DATA ───────────────────────────────────────────────
+  // ── INTERVISTE IMPOSSIBILI DATA ────────────────────────────────────
+  var intervisteData = {
+    abbondio: {
+      nome: 'Don Abbondio',
+      ruolo: 'Curato di campagna · Lombardia, XVII sec.',
+      emoji: '⛪',
+      cards: [
+        {
+          d: 'Don Abbondio, la chiamo così o preferisce "Don"? Sa, oggi i titoli sono un po\' passati di moda...',
+          r: '(Si schiarisce la gola tre volte, si sistema il collare con le dita tremanti.) Don Abbondio va benissimo, grazie. E no, i titoli non sono passati di moda — sono semplicemente stati sostituiti da altri titoli, che voi chiamate "follower" o "like". Il concetto è lo stesso: chi ne ha tanti comanda, chi ne ha pochi... ecco, fa il curato di campagna. Sono io. Il vigliacco ufficiale della letteratura italiana. Potete sedervi e iniziare — ho già le palpitazioni.'
+        },
+        {
+          d: 'Parliamo di quella famosa sera. I bravi di Don Rodrigo. Lei svenne? Fuggì? Cosa successe esattamente?',
+          r: '"Svenne" è una parola grossa. Diciamo che... le mie gambe presero una decisione autonoma prima che il mio cervello potesse intervenire. È una risposta fisiologica normalissima allo stress estremo. Oggi la chiamano "risposta di volo" e ci fanno dei documentari su Netflix. E comunque — lo dico una volta sola — io non sono un codardo. Sono un realista. Carneade, chi era Carneade? Era qualcuno che probabilmente non aveva mai incontrato un bravo alle undici di sera su una strada buia. Io sì. E sono ancora qui a parlarvene.'
+        },
+        {
+          d: 'Ma lei sapeva benissimo che Renzo e Lucia avevano diritto a sposarsi. Come si sente oggi, guardandosi indietro?',
+          r: 'Come mi sento. Sapete cosa si prova quando siete svegli alle tre di notte e ripensate a tutte le cose che avreste dovuto fare e non avete fatto? Ecco. Moltiplicate per quarant\'anni di ministero. Non è che non volessi aiutarli. È che volevo continuare a vivere. E questi due obiettivi, in quel momento storico, erano incompatibili. Il sistema era marcio — Don Rodrigo, i bravi, l\'Azzecca-garbugli. Io ero un ingranaggio piccolo piccolo in una macchina enorme. Cosa avrei dovuto fare? Morire da eroe? Per una dote e un contratto matrimoniale?'
+        },
+        {
+          d: 'Nel 2026 avrebbe potuto fare il whistleblower. Denunciare tutto su Twitter, fare un podcast, aprire un account TikTok...',
+          r: '(Lo guarda come se avesse appena proposto di fare il bagno nel Lambro.) Twitter. Mi state dicendo che avrei potuto salvare Lucia... con Twitter. Cari miei, nel 2026 avrei probabilmente già il panico da notifiche. Ho vissuto con il terrore costante di Don Rodrigo — immaginate cosa mi farebbero i commenti anonimi. E poi, sia chiaro: anche oggi ci sono i bravi. Si chiamano diversamente, magari, ma esistono. In ogni ufficio, in ogni condominio, in ogni consiglio di amministrazione. L\'unica differenza è che adesso possono mandarvi messaggi vocali alle due di notte.'
+        },
+        {
+          d: 'Una cosa che non le è mai stata perdonata: quella frase sul latinorum. La difende ancora?',
+          r: '(Piccolo sorriso — il primo dell\'intervista.) Quella frase è l\'unica cosa divertente che Manzoni mi abbia mai fatto dire. E ha perfettamente ragione. Il latinorum esiste ancora. Si chiama "clausola 7.3 dell\'allegato B", si chiama "regolamento GDPR", si chiama "termini e condizioni" che nessuno legge. Il potere ha sempre avuto bisogno di un linguaggio incomprensibile per i poveri. E i poveri hanno sempre avuto bisogno di qualcuno che glielo traducesse. Il problema è che quello qualcuno, di solito, lavora per chi parla il latinorum.'
+        }
+      ]
+    },
+    renzo: {
+      nome: 'Renzo Tramaglino',
+      ruolo: 'Filatore di seta · Lecco, XVII sec.',
+      emoji: '⚔️',
+      cards: [
+        {
+          d: 'Renzo, prima domanda diretta: è vero che ha fatto quasi tutto sbagliato?',
+          r: '(Si sporge in avanti, i pugni sul tavolo, lo sguardo acceso.) Quasi tutto sbagliato. Quasi. Sì, sono andato a Milano senza un piano. Sì, mi sono ubriacato nell\'osteria del Luna Piena. Sì, ho fatto un discorso in pubblico che era più un incitamento alla rivolta che un\'arringa difensiva. E sì, mi sono lasciato portare via da due notai senza sapere dove stavo andando. Soddisfatti? Ma adesso vi faccio io una domanda: cosa avreste fatto voi, con vent\'anni, senza soldi, con la ragazza rapita, il prete che si rifiuta di sposarvi e un signorotto che vi vuole morto? Allora state zitti.'
+        },
+        {
+          d: 'Parliamo di Lucia. Lei l\'ha amata davvero o era più una questione di principio — il matrimonio negato come affronto all\'onore?',
+          r: '(La domanda lo colpisce come uno schiaffo inaspettato. Silenzio. Poi, piano, le spalle si abbassano un poco.) Domanda cattiva. Bella, ma cattiva. All\'inizio era tutte e due le cose insieme e non riuscivo a separarle. L\'amavo e mi sentivo umiliato, e queste due cose si alimentavano a vicenda. Lo so. Non sono fiero di averlo capito solo dopo. Ma poi — nelle notti a Bergamo, quando non sapevo dov\'era, quando non sapevo se era viva — è rimasta solo lei. Solo Lucia. Senza l\'orgoglio ferito, senza il punto di principio. E quella paura... quella è amore. Non so cos\'altro potrebbe essere.'
+        },
+        {
+          d: 'Se potesse mandare un messaggio a Don Rodrigo — oggi, nel 2026 — cosa gli scriverebbe?',
+          r: '(Sorride. Non il sorriso di chi perdona — il sorriso di chi ha vinto e lo sa.) Gli manderei uno screenshot. Io e Lucia, davanti alla nostra casa, coi nostri figli. Con la didascalia: "Buongiorno". Niente insulti, niente discorsi. Solo la prova che siamo ancora qui. Che abbiamo costruito qualcosa di concreto, di reale, di onesto. Lui invece è morto di peste a Milano, solo, nel lazzaretto. A volte la vita è giusta. Non spesso. Ma a volte.'
+        },
+        {
+          d: 'Nel 2026 sarebbe un leader sindacale? Un attivista? Un agitatore social?',
+          r: '(Ride — una risata vera, spontanea, la prima.) Sicuramente bannato da almeno quattro piattaforme. Questo è certo. Sì, probabilmente farei il sindacalista. O l\'avvocato del popolo — anche se la mia esperienza con gli avvocati non è delle migliori, visto l\'Azzecca-garbugli. Ma il punto è quello: c\'è sempre qualcuno che ha troppo potere e qualcun altro che ne ha troppo poco. E io non riesco a stare fermo davanti a questa cosa. È un difetto, lo so. Ma preferisco avere questo difetto che l\'altro — quello di Don Abbondio, intendo.'
+        },
+        {
+          d: 'Cosa direbbe a uno studente di oggi che trova I Promessi Sposi noioso?',
+          r: '(Tono serio, improvvisamente.) Gli direi che ha ragione a trovarlo noioso se lo legge come un compito. Come una lista di cose da memorizzare per l\'interrogazione. Ma se prova a entrare dentro — a chiedersi cosa avrebbe fatto lui al posto mio, o al posto di Lucia, o anche al posto di Don Abbondio — allora non è più noioso. È uno specchio. E gli specchi, a vent\'anni, sono sempre un po\' scomodi. Io non sono un personaggio del Seicento. Sono uno che ha fatto tutto sbagliato per le ragioni giuste. E questo, mi dicono, è ancora abbastanza comune.'
+        }
+      ]
+    },
+    gertrude: {
+      nome: 'Gertrude',
+      ruolo: 'Monaca di Monza · Lombardia, XVII sec.',
+      emoji: '🏛️',
+      cards: [
+        {
+          d: 'Signora, come si sta davvero in quel convento di Monza?',
+          r: '(Si sistema il velo con un gesto lento, quasi teatrale.) Ancora questa domanda? Il cibo è irrilevante. È cibo da anime morte, condito con l\'umiltà forzata che queste povere sciocche qui dentro chiamano virtù. Se volete sapere come si sta davvero, vi dirò che si soffoca. Non è l\'odore dell\'incenso a mancare l\'aria, ma il peso di queste mura che mi sono state cucite addosso come un sudario prima ancora che imparassi a camminare.'
+        },
+        {
+          d: 'Chi frequenta? Come trascorre le giornate?',
+          r: 'Circondata da menti strette come i loro soggoli. Lucia? Quella creatura mi irrita... così pura, così libera nella sua povertà. Mi guarda come se cercasse una santa, e io cerco solo di non urlare. Il mio unico svago è il potere che ancora esercito, anche da questa prigione dorata. E forse... qualche distrazione che arriva da oltre il muro del giardino.'
+        },
+        {
+          d: 'Egidio. Il suo nome brilla sul microfono ogni volta che lo nominiamo. È vero?',
+          r: '(Osserva con un sorriso gelido e impercettibile.) "La sventurata rispose." Ecco la vostra citazione per il podcast. Ho risposto a lui perché era l\'unico modo per ricordare che il mio sangue non è acqua benedetta, ma fuoco. Egidio non è una colpa, è una vendetta contro un padre che mi ha sepolta viva e una Chiesa che ha accettato l\'offerta senza battere ciglio. Volete continuare con queste domande banali o vogliamo finalmente parlare di quanto sia squisito il sapore della disobbedienza nel 2026?'
+        },
+        {
+          d: 'Si dice che una conversa curiosa sia... sparita. Vuole commentare?',
+          r: '"Cambiato aria", dite? Che espressione deliziosamente volgare. Quella ragazza aveva un vizio terribile per una monaca: la curiosità. Si era spinta troppo oltre, aveva visto riflessi in uno specchio che non le apparteneva. Ci sono segreti che pesano così tanto da sprofondare naturalmente nel terreno. Non serve spingere troppo forte. In questo convento di Monza, io sono la Legge. Se una conversa svanisce, è perché la sua presenza era diventata un rumore insopportabile nel mio silenzio.'
+        },
+        {
+          d: 'La definiscono la "regina cattiva" di questo romanzo. Perché è così affascinata da Lucia?',
+          r: '"Regina cattiva"? Che definizione deliziosamente pop. Lucia non mi piace per la sua bontà. La bontà di Lucia è noiosa. È un riflesso condizionato, una mancanza di immaginazione. Lei è buona perché non ha mai avuto il potere di essere altro. Mi affascina perché è un insulto vivente alla mia intera esistenza. Lei è una contadina, eppure ha avuto il coraggio di dire "no" a un tiranno per amore di un filatore di seta. Io? Io sono una de Leyva e non ho avuto il coraggio di dire "no" a un padre che mi stava seppellendo viva.'
+        }
+      ]
+    },
+    innominato: {
+      nome: 'L\'Innominato',
+      ruolo: 'Signore feudale · Lombardia, XVII sec.',
+      emoji: '🌑',
+      cards: [
+        {
+          d: 'Come si definisce?',
+          r: '(Non risponde subito. Vi guarda come se stesse valutando se la domanda merita risposta.) Non mi definisco. Le definizioni sono per chi ha bisogno di essere capito dagli altri. Io non ho questo bisogno. Se volete un\'etichetta: sono qualcuno che ha costruito un sistema in cui le leggi non arrivano. Non perché le abbia corrotte — le ho semplicemente rese irrilevanti. C\'è una differenza. Il corrotto ha ancora paura. Io no.'
+        },
+        {
+          d: 'Ha mai avuto paura?',
+          r: '(Lunga pausa. Gli occhi fissi su un punto a metà strada tra voi e l\'infinito.) Una volta. Una sola. E non era paura di un uomo, di un esercito, di un processo. Era paura di me stesso. Di guardarmi dentro e non trovare nulla che valesse la pena salvare. Quella notte ho capito che c\'è un tipo di vuoto che non si riempie con il potere. Ho cercato di ignorarlo per anni. Quella notte non ci sono riuscito.'
+        },
+        {
+          d: 'Parliamo di Lucia. L\'ha fatta rapire. Come giustifica questo?',
+          r: '(Non batte ciglio. Ma qualcosa nel respiro cambia.) Non lo giustifico. Era un ordine come tanti altri. Una cosa da fare. Poi l\'ho vista. E ho capito che mi riguardava eccome. Non per lei — o non solo per lei. Ma perché in trent\'anni non avevo mai incontrato qualcuno che mi guardasse senza paura. Senza calcolo. Mi ha guardato come si guarda un uomo. Non un\'arma, non un pericolo. Un uomo. Non sapevo più come gestire quello sguardo.'
+        },
+        {
+          d: 'Cosa è successo quella notte della conversione?',
+          r: '(Diverso. Non nella postura — è ancora immobile. Ma c\'è qualcosa di meno compresso nell\'aria intorno a lui.) Non lo so spiegare in modo che suoni credibile a chi non c\'era. Il Cardinale mi ha chiesto perché ero venuto da lui. Gli ho risposto che non lo sapevo. E mentre lo dicevo, ho capito che era la prima risposta vera che davo a qualcuno da decenni. Sapevo solo che quello che avevo costruito stava crollando dall\'interno. E che nessun muro lo poteva fermare.'
+        },
+        {
+          d: 'Nel 2026, dopo una vita come la sua, cosa farebbe?',
+          r: '(Quasi sorride. Non del tutto — ma quasi.) Nel 2026 ci sarebbero telecamere ovunque. Non avrei costruito quello che ho costruito. Ma ammettendo di esserci comunque — credo che l\'unica cosa onesta sarebbe rispondere. Non con un comunicato, non con un avvocato, non con una fondazione con il mio nome sopra. Rispondere di persona. Guardare in faccia chi ho fatto del male. Uno per uno. Non so se è abbastanza. Ma è l\'unica cosa che, guardandomi dentro, sembra reale.'
+        },
+        {
+          d: 'Se dovesse dire una cosa sola a uno studente che studia I Promessi Sposi domani mattina?',
+          r: '(Silenzio. Poi, con una chiarezza senza peso.) Che il male non ha un volto ovvio. Non è sempre rumore e violenza. A volte è silenzio. A volte è convenienza. A volte è non fare niente quando potresti fare qualcosa. E che il cambiamento vero non arriva quando qualcuno ti convince. Arriva quando non riesci più a convincere te stesso.'
+        }
+      ]
+    }
+  };
+
+  // ── INTERVISTE ENGINE ──────────────────────────────────────────────
+  var intState = { tab: 'abbondio', current: 0, flipped: false };
+
+  function intSetTab(t) {
+    intState.tab = t;
+    intState.current = 0;
+    intState.flipped = false;
+    intRender();
+  }
+
+  function intRender() {
+    var el = document.getElementById('int-viewer');
+    if (!el) return;
+    var persona = intervisteData[intState.tab];
+    if (!persona) return;
+    var cards = persona.cards;
+    if (intState.current >= cards.length) { intRenderEnd(el, persona); return; }
+    var c = cards[intState.current];
+    var pct = Math.round((intState.current / cards.length) * 100);
+    var tabsHtml = Object.keys(intervisteData).map(function(k) {
+      var p = intervisteData[k];
+      return '<button class="fc-tab' + (intState.tab === k ? ' fc-active' : '') + '" onclick="intSetTab(\'' + k + '\')">' + p.emoji + ' ' + p.nome + '</button>';
+    }).join('');
+    el.innerHTML = '<div class="fc-wrap">' +
+      '<div class="fc-top"><p class="fc-title-label">Interviste Impossibili</p></div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;">' + tabsHtml + '</div>' +
+      '<div style="font-family:\'EB Garamond\',serif;font-style:italic;font-size:0.8rem;color:rgba(201,168,76,0.6);margin-bottom:0.8rem;">' + persona.ruolo + '</div>' +
+      '<div class="fc-progress-row"><span class="fc-counter">' + (intState.current + 1) + ' / ' + cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
+      '<div class="fc-scene" onclick="intFlip()"><div class="fc-card' + (intState.flipped ? ' fc-flipped' : '') + '" id="intCard">' +
+      '<div class="fc-face fc-front">' +
+      '<div class="fc-card-id">DOMANDA ' + (intState.current + 1) + '</div>' +
+      '<div class="fc-lbl">IL GIORNALISTA CHIEDE:</div>' +
+      '<div class="fc-question">' + c.d + '</div>' +
+      '<div class="fc-hint">Clicca per la risposta</div>' +
+      '</div>' +
+      '<div class="fc-face fc-back">' +
+      '<div class="fc-card-id">' + persona.emoji + ' ' + persona.nome.toUpperCase() + '</div>' +
+      '<div class="fc-check">✦</div>' +
+      '<div class="fc-answer" style="overflow-y:auto;">' + c.r + '</div>' +
+      '</div>' +
+      '</div></div>' +
+      '<div class="fc-controls">' +
+      '<button class="fc-btn" onclick="intPrev()"' + (intState.current === 0 ? ' disabled' : '') + '>← Indietro</button>' +
+      '<button class="fc-btn fc-btn-primary" onclick="intNext()">' + (intState.current === cards.length - 1 ? 'Fine' : 'Avanti →') + '</button>' +
+      '</div></div>';
+  }
+
+  function intRenderEnd(el, persona) {
+    el.innerHTML = '<div class="fc-wrap"><div class="fc-end">' +
+      '<p class="fc-end-title">' + persona.emoji + ' Intervista completata!</p>' +
+      '<p class="fc-end-sub" style="margin-bottom:1rem;">Hai letto tutta l\'intervista a ' + persona.nome + '.</p>' +
+      '<button class="fc-btn fc-btn-primary" onclick="intSetTab(\'' + intState.tab + '\')">Rileggi</button>' +
+      '</div></div>';
+  }
+
+  function intFlip() {
+    intState.flipped = !intState.flipped;
+    var c = document.getElementById('intCard');
+    if (c) c.classList.toggle('fc-flipped');
+  }
+  function intNext() { intState.current++; intState.flipped = false; intRender(); }
+  function intPrev() { intState.current--; intState.flipped = false; intRender(); }
+  
   var qfFacile = [
     {n:"F01",q:"Chi sono i protagonisti del romanzo?",a:"Renzo Tramaglino e Lucia Mondella, due giovani fidanzati di un paesino sul lago di Como.",c:"Ricorda: sono due promessi sposi che non riescono a sposarsi."},
     {n:"F02",q:"Per quale motivo Don Abbondio rifiuta di celebrare il matrimonio tra Renzo e Lucia?",a:"Perché i bravi di Don Rodrigo lo hanno minacciato ordinandogli di non celebrare le nozze.",c:"Don Abbondio è un codardo — la paura guida ogni sua scelta."},
