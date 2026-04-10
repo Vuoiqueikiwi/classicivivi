@@ -110,7 +110,7 @@
   /* ── CHAT VIEW (schermata principale) ── */
   #chat-view {
     position: absolute;
-    inset: 0 0 60px 0;
+    inset: 0 0 33vh 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -601,6 +601,15 @@
             onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
           <button class="send-btn" onclick="sendMessage()">↳</button>
         </div>
+      </div>
+
+      <div id="deco-bar" style="position:fixed;bottom:60px;left:0;right:0;height:calc(33vh - 60px);background:linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, rgba(8,8,8,1) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;gap:12px;">
+        <svg width="280" height="24" viewBox="0 0 280 24" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="greca" x="0" y="0" width="40" height="24" patternUnits="userSpaceOnUse">
+            <path d="M0,12 L10,12 L10,4 L20,4 L20,20 L30,20 L30,12 L40,12" stroke="#C9A84C" stroke-width="1.5" fill="none" opacity="0.5"/>
+          </pattern>
+          <rect width="280" height="24" fill="url(#greca)"/>
+        </svg>
       </div>
     </div>
 
