@@ -896,7 +896,7 @@
   }
 
   // ── INTRO ──────────────────────────────────────────────────────────
- function skipIntro() {
+ window.skipIntro = function() {
     const intro = document.getElementById('intro-screen');
     const vid = document.getElementById('intro-video');
     vid.pause();
