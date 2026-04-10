@@ -16,12 +16,15 @@
     --bruno: #8B6914;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html {
+    height: -webkit-fill-available;
+  }
   html, body { height:100%; overflow:hidden; }
   body {
     font-family: "EB Garamond", serif;
     background: var(--nero);
     color: var(--pergamena);
-    height: 100vh;
+    height: 100dvh;
   }
 
   /* ── INTRO SCREEN ── */
@@ -194,7 +197,11 @@
   }
   .input-area {
     grid-column:2; grid-row:3;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
     padding:1rem 1.5rem 0.5rem;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
     display:flex; gap:0.5rem; align-items:flex-end;
     border-top:1px solid rgba(201,168,76,0.1);
     background:rgba(8,8,8,0.6); backdrop-filter:blur(8px);
@@ -230,7 +237,7 @@
     .header-divider { display:none; }
     .nav-links { order:-1; }
     .messages-area { grid-column:1; }
-    .input-area { grid-column:1; padding-bottom: env(safe-area-inset-bottom, 80px); }
+    .input-area { grid-column:1; }
     .input-hint { grid-column:1; }
     .typing-indicator { grid-column:1; }
     .input-hint {
