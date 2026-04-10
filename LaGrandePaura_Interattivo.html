@@ -22,6 +22,11 @@
     }
     * { margin:0; padding:0; box-sizing:border-box; }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: "EB Garamond", Georgia, serif;
       background: var(--bruno);
@@ -248,6 +253,7 @@
     }
 
     @media(max-width:700px){
+      html, body { max-width:100%; overflow-x:hidden; }
       .main-scroll { padding:1.5rem 1.2rem 5rem; }
       .main-scroll.panel-open { margin-right:0; }
       .side-panel { width:100%; overflow-x:hidden; }
@@ -291,13 +297,10 @@
 <body>
 
 <header class="site-header">
-  <span class="hdr-brand">I Classici Vivi</span>
-  <div class="hdr-div"></div>
+  <button class="hdr-btn" id="btnDado" onclick="togglePanel('dado')">&#9670; Dado</button>
   <span class="hdr-title">La Grande Paura</span>
   <div class="hdr-actions">
     <button class="hdr-btn" id="btnScheda" onclick="togglePanel('scheda')">&#9654; Scheda &amp; Note</button>
-    <button class="hdr-btn" id="btnDado"   onclick="togglePanel('dado')">&#9670; Dado</button>
-    
   </div>
 </header>
 
