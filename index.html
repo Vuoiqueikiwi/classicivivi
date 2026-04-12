@@ -54,7 +54,7 @@
     --grigio: #888888;
   }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; max-width:100%; }
 
   html { scroll-behavior: smooth; }
 
@@ -857,7 +857,6 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    * { max-width: 100%; box-sizing: border-box; }
     body { overflow-x: hidden; width: 100%; }
     .hero, .features, .components, .acquista, section { width: 100%; padding-left: 1rem; padding-right: 1rem; box-sizing: border-box; }
     .product-showcase { grid-template-columns: 1fr; }
@@ -868,6 +867,11 @@
     .components-grid { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
     nav { flex-wrap: nowrap; padding: 1rem; justify-content: space-between; align-items: center; }
     .nav-logo { height: 28px; }
+    #cv-cookie-banner { padding: 12px; }
+    #cv-cookie-banner p { min-width: 0; width: 100%; }
+    #cv-cookie-accept { white-space: normal; }
+    #cookie-banner { padding: 1rem; }
+    #cookie-banner p { min-width: 0; width: 100%; }
     .nav-cta { font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; }
   }
 </style>
