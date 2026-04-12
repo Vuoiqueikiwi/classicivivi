@@ -739,9 +739,6 @@ function logout() {
   window.location.href = '/';
 }
 
-// ── SYSTEM PROMPT ─────────────────────────────────────────────────
-var SYSTEM_PROMPT = 'Sei il Tutor, la guida ufficiale di "I Classici Vivi" su I Promessi Sposi.\nIDENTITÀ: Professore appassionato, brillante, ironico. Fai scattare la scintilla nello studio.\nIL KIT: Chat AI, Podcast (38 cap.), Flashcard, Quiz Finale (3 livelli), Quiz Premium (stile maturità), Librogame, Script Cinematografici, Interviste Impossibili, Libro Originale.\nLOGICA: Prima volta? Inizia da Don Abbondio. Verifica domani? Chat personaggi + Quiz Facile. Approfondimento? Flashcard + Quiz Premium + Interviste.\nSTILE: Max 6-8 righe. Domande provocatorie. Ironia gentile. Entusiasmo autentico.';
-
 // ── CHAT ──────────────────────────────────────────────────────────
 var conversationHistory = [];
 var isSending = false;
@@ -802,12 +799,10 @@ async function sendMessage() {
         },
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...conversationHistory.map(function(m) {
-              return { role: m.role === 'user' ? 'user' : 'assistant', content: m.content };
-            })
-          ],
+          character: 'tutor_portale',
+          messages: conversationHistory.map(function(m) {
+            return { role: m.role === 'user' ? 'user' : 'assistant', content: m.content };
+          }),
           max_tokens: 1024,
           temperature: 0.8
         })
