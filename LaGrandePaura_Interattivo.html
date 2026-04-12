@@ -41,8 +41,10 @@
 
     /* ── HEADER ── */
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       background: #080808;
       border-bottom: 1px solid var(--bordo);
       padding: 0.75rem 1.5rem;
@@ -67,7 +69,7 @@
 
     /* ── LAYOUT ── */
     .layout {
-      flex:1; display:flex; overflow:hidden; position:relative;
+      flex:1; display:flex; overflow:hidden; position:relative; padding-top: 48px;
     }
 
     /* ── TESTO PRINCIPALE ── */
@@ -75,6 +77,7 @@
       flex:1; overflow-y:auto; overflow-x:hidden; padding:2.5rem 3rem 6rem;
       scrollbar-width:thin; scrollbar-color:rgba(201,168,76,0.2) transparent;
       transition: margin-right 0.35s ease;
+      scroll-padding-top: 56px;
     }
     .main-scroll.panel-open { margin-right: var(--panel-w); }
 
@@ -92,7 +95,7 @@
       font-family:"Cinzel",serif; font-size:0.7rem; letter-spacing:0.5em;
       color:var(--oro); opacity:0.55; margin-top:3rem; margin-bottom:0.8rem;
       padding-top:2rem; border-top:1px solid rgba(201,168,76,0.1);
-      text-align:center;
+      text-align:center; scroll-margin-top: 56px;
       scroll-margin-top: 48px;
     }
     h3.paragrafo-num::before { content:"— "; }
