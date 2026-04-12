@@ -305,6 +305,19 @@
   </style>
 </head>
 <body>
+<script>
+// ── AUTH ──────────────────────────────────────────────────────────
+(function() {
+  var token = sessionStorage.getItem('icv_access');
+  var ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+  var SESSION_TTL = 8 * 60 * 60 * 1000;
+  if (!token || (Date.now() - ts) > SESSION_TTL) {
+    sessionStorage.removeItem('icv_access');
+    sessionStorage.removeItem('icv_ts');
+    window.location.href = '/accedi';
+  }
+})();
+</script>
 
 <header class="site-header">
   <button class="hdr-btn" id="btnDado" onclick="togglePanel('dado')">&#9670; Dado</button>
