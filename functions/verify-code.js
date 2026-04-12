@@ -1,11 +1,23 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
+const ALLOWED_ORIGINS = [
+  'https://classicivivi.it',
+  'https://www.classicivivi.it'
+];
+
+function getCorsHeaders(request) {
+  const origin = request.headers.get('Origin') || '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json'
   };
+}
+
+export async function onRequestPost(context) {
+  const { request, env } = context;
+  const corsHeaders = getCorsHeaders(request);
+
   try {
     let body;
     try {
@@ -15,14 +27,17 @@ export async function onRequestPost(context) {
         status: 400, headers: corsHeaders
       });
     }
+
     const { code } = body;
     if (!code || typeof code !== 'string') {
       return new Response(JSON.stringify({ valid: false }), {
         status: 400, headers: corsHeaders
       });
     }
+
     const normalizedCode = code.trim().toUpperCase();
     const value = await env.CODES.get(normalizedCode);
+
     if (value !== null) {
       return new Response(JSON.stringify({ valid: true }), {
         status: 200, headers: corsHeaders
@@ -39,13 +54,10 @@ export async function onRequestPost(context) {
   }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+  const corsHeaders = getCorsHeaders(context.request);
   return new Response(null, {
     status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
-    }
+    headers: corsHeaders
   });
 }
