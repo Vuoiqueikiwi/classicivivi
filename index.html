@@ -1250,47 +1250,6 @@
     }
   }
 
-  window.submitAccessCode = function() {
-    clearError();
-
-    var raw = document.getElementById('access-code-input').value.trim().toUpperCase();
-
-    if (!raw) {
-      showError('Inserisci il codice di accesso.');
-      return;
-    }
-
-    setLoading(true);
-
-    fetch('/verify-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: raw })
-    })
-    .then(function(res) {
-      if (!res.ok) throw new Error('Errore di rete (' + res.status + ')');
-      return res.json();
-    })
-    .then(function(data) {
-      setLoading(false);
-      if (data && data.valid === true) {
-        // ✅ Codice valido
-        sessionStorage.setItem('icv_access', btoa(raw));
-        sessionStorage.setItem('icv_code', raw);
-        closeAccessPanel();
-        window.location.href = '/portale';
-      } else {
-        // ❌ Codice non valido
-        showError('Codice non valido o già utilizzato. Controlla l\'email di acquisto.');
-      }
-    })
-    .catch(function(err) {
-      setLoading(false);
-      showError('Errore di connessione. Riprova tra qualche secondo.');
-      console.error('[ICV Access]', err);
-    });
-  };
-
 })();
 </script>
 
@@ -1441,6 +1400,7 @@
       if (data && data.valid === true) {
         // ✅ Codice valido
         sessionStorage.setItem('icv_access', btoa(raw));
+        sessionStorage.setItem('icv_ts', Date.now().toString());
         sessionStorage.setItem('icv_code', raw);
         closeAccessPanel();
         window.location.href = '/portale';
