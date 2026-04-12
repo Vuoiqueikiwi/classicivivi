@@ -878,6 +878,10 @@ function showChat() {
 }
 
 function openContent(key, bnavKey) {
+  if (key === 'librogame') {
+    window.location.href = '../LaGrandePaura_Interattivo.html';
+    return;
+  }
   closeAllSubmenus();
   var c = contents[key];
   if (!c) return;
