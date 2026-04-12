@@ -247,6 +247,97 @@
       padding-bottom: env(safe-area-inset-bottom, 20px);
     }
   }
+  #bottom-nav {
+    flex-shrink: 0;
+    height: 60px;
+    min-height: 60px;
+    background: rgba(13,17,23,0.98);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .bnav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(245,230,200,0.45);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .bnav-item.active { color: var(--oro); border-bottom-color: var(--oro); }
+  .bnav-item:active { background: rgba(201,168,76,0.08); }
+  .bnav-icon { font-size: 1.3rem; }
+  .bnav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  /* ── SOTTOMENU ── */
+  #submenu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    bottom: 60px;
+    z-index: 100;
+    background: rgba(0,0,0,0.5);
+  }
+  #submenu-overlay.open { display: block; }
+  .submenu {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 0; right: 0;
+    background: rgba(13,17,23,0.99);
+    border-top: 1px solid rgba(201,168,76,0.25);
+    z-index: 101;
+    flex-direction: column;
+    padding: 0.3rem 0;
+  }
+  .submenu.open { display: flex; }
+  .submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    color: rgba(245,230,200,0.75);
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .submenu-item:active { background: rgba(201,168,76,0.1); }
+  .submenu-item-icon { font-size: 1.1rem; width: 26px; text-align: center; flex-shrink: 0; }
+  .submenu-item-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--pergamena);
+  }
+  .submenu-item-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(245,230,200,0.4);
+    margin-left: auto;
+  }
 </style>   <script type="text/javascript">       (function(c,l,a,r,i,t,y){           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);       })(window, document, "clarity", "script", "w7l4bipy35");   </script> </head>
 <body>
 <script>
@@ -420,6 +511,122 @@
       }
     }
   }
+}
+
+var currentBnav = 'chat';
+
+function handleBnav(key) {
+  if (key === 'podcast') {
+    closeAllSubmenus();
+    openContent('podcast', 'podcast');
+    return;
+  }
+  // tasti con sottomenu
+  var menuId = 'submenu-' + key;
+  var menu = document.getElementById(menuId);
+  if (!menu) return;
+  var isOpen = menu.classList.contains('open');
+  closeAllSubmenus();
+  if (!isOpen) {
+    menu.classList.add('open');
+    document.getElementById('submenu-overlay').classList.add('open');
+  }
+  setActiveBnav(key);
+}
+
+function closeAllSubmenus() {
+  document.querySelectorAll('.submenu').forEach(function(m) { m.classList.remove('open'); });
+  document.getElementById('submenu-overlay').classList.remove('open');
+}
+
+function setActiveBnav(key) {
+  document.querySelectorAll('.bnav-item').forEach(function(el) { el.classList.remove('active'); });
+  var el = document.getElementById('bnav-' + key);
+  if (el) el.classList.add('active');
+  currentBnav = key;
+}
 </script>
+  <div id="bottom-nav">
+    <div class="bnav-item active" id="bnav-chat" onclick="handleBnav('chat')">
+      <div class="bnav-icon">💬</div>
+      <div class="bnav-label">CHAT</div>
+    </div>
+    <div class="bnav-item" id="bnav-podcast" onclick="handleBnav('podcast')">
+      <div class="bnav-icon">🎧</div>
+      <div class="bnav-label">PODCAST</div>
+    </div>
+    <div class="bnav-item" id="bnav-studio" onclick="handleBnav('studio')">
+      <div class="bnav-icon">📖</div>
+      <div class="bnav-label">STUDIO</div>
+    </div>
+    <div class="bnav-item" id="bnav-media" onclick="handleBnav('media')">
+      <div class="bnav-icon">🎞️</div>
+      <div class="bnav-label">MEDIA</div>
+    </div>
+    <div class="bnav-item" id="bnav-leggimi" onclick="handleBnav('leggimi')">
+      <div class="bnav-icon">📕</div>
+      <div class="bnav-label">LEGGIMI</div>
+    </div>
+  </div>
+<!-- OVERLAY -->
+<div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
+<!-- SUBMENU CHAT -->
+<div class="submenu" id="submenu-chat">
+  <div class="submenu-item" onclick="closeAllSubmenus(); showChat();">
+    <span class="submenu-item-icon">🎓</span>
+    <span class="submenu-item-label">Il Tutor</span>
+    <span class="submenu-item-desc">la tua guida al kit</span>
+  </div>
+  <a class="submenu-item" href="../don_abbondio_chat.html">
+    <span class="submenu-item-icon">⛪</span>
+    <span class="submenu-item-label">Don Abbondio</span>
+    <span class="submenu-item-desc">il curato codardo</span>
+  </a>
+  <a class="submenu-item" href="../renzo_chat.html">
+    <span class="submenu-item-icon">⚔️</span>
+    <span class="submenu-item-label">Renzo</span>
+    <span class="submenu-item-desc">il protagonista</span>
+  </a>
+  <a class="submenu-item" href="../innominato_chat.html">
+    <span class="submenu-item-icon">🌑</span>
+    <span class="submenu-item-label">L'Innominato</span>
+    <span class="submenu-item-desc">prima e dopo</span>
+  </a>
+</div>
+<!-- SUBMENU STUDIO -->
+<div class="submenu" id="submenu-studio">
+  <a class="submenu-item" href="../portale/mobile.html" target="_blank">
+    <span class="submenu-item-icon">🎴</span>
+    <span class="submenu-item-label">Flashcard</span>
+    <span class="submenu-item-desc">Zero + Campione</span>
+  </a>
+  <a class="submenu-item" href="../portale/mobile.html" target="_blank">
+    <span class="submenu-item-icon">❓</span>
+    <span class="submenu-item-label">Quiz</span>
+    <span class="submenu-item-desc">Finale + Premium</span>
+  </a>
+</div>
+<!-- SUBMENU MEDIA -->
+<div class="submenu" id="submenu-media">
+  <a class="submenu-item" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAfNDnUJ1BxS404gZEVVx0gAZy4BXjMGaR0UTNgOKG1_Uc?e=l8CcaZ" target="_blank" rel="noopener noreferrer">
+    <span class="submenu-item-icon">🎬</span>
+    <span class="submenu-item-label">Script Cinematografici</span>
+  </a>
+  <a class="submenu-item" href="../portale/mobile.html" target="_blank">
+    <span class="submenu-item-icon">🎞️</span>
+    <span class="submenu-item-label">Interviste Impossibili</span>
+  </a>
+</div>
+<!-- SUBMENU LEGGIMI -->
+<div class="submenu" id="submenu-leggimi">
+  <a class="submenu-item" href="../LaGrandePaura_Interattivo.html" target="_blank">
+    <span class="submenu-item-icon">🎮</span>
+    <span class="submenu-item-label">Librogame</span>
+  </a>
+  <a class="submenu-item" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=eUZeiJ" target="_blank" rel="noopener noreferrer">
+    <span class="submenu-item-icon">📕</span>
+    <span class="submenu-item-label">Libro Originale</span>
+  </a>
+</div>
 </body>
 </html>
