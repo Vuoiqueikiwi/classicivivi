@@ -37,7 +37,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    padding-bottom: 3rem;
+    padding-bottom: calc(3rem + 80px);
   }
   #intro-screen.hidden { display: none; }
   #intro-video {
@@ -201,7 +201,7 @@
     bottom: 0;
     z-index: 10;
     padding:1rem 1.5rem 0.5rem;
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
     display:flex; gap:0.5rem; align-items:flex-end;
     border-top:1px solid rgba(201,168,76,0.1);
     background:rgba(8,8,8,0.6); backdrop-filter:blur(8px);
@@ -571,11 +571,11 @@ function setActiveBnav(key) {
 <div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
 <!-- SUBMENU CHAT -->
 <div class="submenu" id="submenu-chat">
-  <div class="submenu-item" onclick="closeAllSubmenus();">
+  <a class="submenu-item" href="/portale/mobile.html">
     <span class="submenu-item-icon">🎓</span>
     <span class="submenu-item-label">Il Tutor</span>
     <span class="submenu-item-desc">la tua guida al kit</span>
-  </div>
+  </a>
   <a class="submenu-item" href="../don_abbondio_chat.html">
     <span class="submenu-item-icon">⛪</span>
     <span class="submenu-item-label">Don Abbondio</span>
