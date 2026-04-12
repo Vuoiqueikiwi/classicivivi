@@ -857,6 +857,8 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    * { max-width: 100%; box-sizing: border-box; }
+    body { overflow-x: hidden; }
     .product-showcase { grid-template-columns: 1fr; }
     .tutor-portrait { display: none; }
     .characters-row { grid-template-columns: repeat(2,1fr); }
