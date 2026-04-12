@@ -867,9 +867,9 @@
     .components-grid { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
     nav { flex-wrap: nowrap; padding: 1rem; justify-content: space-between; align-items: center; }
     .nav-logo { height: 28px; }
-    #cv-cookie-banner { padding: 12px; }
-    #cv-cookie-banner p { min-width: 0; width: 100%; }
-    #cv-cookie-accept { white-space: normal; }
+    #cv-cookie-banner { padding: 12px !important; flex-direction: column; }
+    #cv-cookie-banner p { min-width: 0 !important; width: 100%; }
+    #cv-cookie-accept { white-space: normal !important; width: 100%; }
     #cookie-banner { padding: 1rem; }
     #cookie-banner p { min-width: 0; width: 100%; }
     .nav-cta { font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; }
@@ -891,6 +891,9 @@
     justify-content: space-between;
     gap: 20px;
     flex-wrap: wrap;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
   }
   #cv-cookie-banner p {
     color: #D4B85A;
