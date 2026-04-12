@@ -515,11 +515,6 @@
 var currentBnav = 'chat';
 
 function handleBnav(key) {
-  if (key === 'podcast') {
-    closeAllSubmenus();
-    openContent('podcast', 'podcast');
-    return;
-  }
   // tasti con sottomenu
   var menuId = 'submenu-' + key;
   var menu = document.getElementById(menuId);
@@ -549,10 +544,6 @@ function setActiveBnav(key) {
     <div class="bnav-item active" id="bnav-chat" onclick="handleBnav('chat')">
       <div class="bnav-icon">💬</div>
       <div class="bnav-label">CHAT</div>
-    </div>
-    <div class="bnav-item" id="bnav-podcast" onclick="handleBnav('podcast')">
-      <div class="bnav-icon">🎧</div>
-      <div class="bnav-label">PODCAST</div>
     </div>
     <div class="bnav-item" id="bnav-studio" onclick="handleBnav('studio')">
       <div class="bnav-icon">📖</div>
