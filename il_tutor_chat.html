@@ -2,10 +2,25 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>I Classici Vivi — Il Tutor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (!(prefs.saved === true && prefs.fonts === false)) {
+      var pc = document.createElement('link');
+      pc.rel = 'preconnect'; pc.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(pc);
+      var pc2 = document.createElement('link');
+      pc2.rel = 'preconnect'; pc2.href = 'https://fonts.gstatic.com'; pc2.crossOrigin = 'anonymous';
+      document.head.appendChild(pc2);
+      var f = document.createElement('link');
+      f.rel = 'stylesheet';
+      f.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap';
+      document.head.appendChild(f);
+    }
+  })();
+</script>
 <style>
   :root {
     --oro: #C9A84C;
