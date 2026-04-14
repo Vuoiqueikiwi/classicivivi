@@ -244,13 +244,6 @@
     font-size:0.7rem; color:rgba(136,136,136,0.5); padding:0.3rem 1.5rem 1rem;
     background:rgba(8,8,8,0.6);
   }
-  .chat-disclaimer {
-    grid-column:2; grid-row:5;
-    font-family:"EB Garamond",serif; font-style:italic;
-    font-size:0.75rem; color:rgba(201,168,76,0.5);
-    text-align:center; margin-top:0.5rem;
-    padding:0 1.5rem 0.8rem; background:rgba(8,8,8,0.6);
-  }
   @media (max-width:768px) {
     .chat-layout { grid-template-columns:1fr; }
     #loop-video { opacity:0.75; filter:brightness(2.0); }
@@ -421,8 +414,7 @@
         onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="send-btn" id="send-btn" onclick="sendMessage()">&#9658;</button>
     </div>
-    <div class="input-hint">Premi Invio per inviare &nbsp;·&nbsp; Shift+Invio per andare a capo</div>
-    <p class="chat-disclaimer">Personaggio generato da intelligenza artificiale — può commettere errori. Non utilizzare come unica fonte di studio.</p>
+    <div class="input-hint">Personaggio generato da intelligenza artificiale — può commettere errori. Non utilizzare come unica fonte di studio.</div>
   </div>
 </div>
 
