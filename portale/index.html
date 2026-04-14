@@ -1166,11 +1166,43 @@
   // ── PODCAST PLAYER ─────────────────────────────────────────────────
   function initPodcastPlayer() {
     const episodi = [
-      { label: "Capitolo 1", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN" },
-      { label: "Capitolo 2", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW" },
-      { label: "Capitolo 3", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy" },
-      { label: "Capitolo 4", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa" },
-      { label: "Capitolo 5", url: "https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKZC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc" }
+      {n:1,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN'},
+      {n:2,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW'},
+      {n:3,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy'},
+      {n:4,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa'},
+      {n:5,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKSC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc'},
+      {n:6,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDnFHZX3l4iRI02jNT5qCUaAdN8guCEdtQMA61iouTqTEo?e=lqK9DK'},
+      {n:7,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCRyyeLHJxQTKnyTKwGWIVdAeO2bnJfgPlJYRJMi-Wykdc?e=S67a0F'},
+      {n:8,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC-2C3F2JvHRYd1KSW02JBkAa90ebU3m3bENV1Vg4mI9Qs?e=84LRU6'},
+      {n:9,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD9xibfPo35TJTPvpQmoaEUAXLGmN8KH6QVcNh6vtz6ZnY?e=NMHTw0'},
+      {n:10,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQA0LjDiOcXYSYzTGk9TqQ5oAfrN_0KaVc9HH5_E7t-FI7s?e=GtcxfQ'},
+      {n:11,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD6YecR20XeT5VhWsGd_3ONARvleBZsg48a4ansYb9XCec?e=iCFOZh'},
+      {n:12,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCW6qVQgQbNS5x07bQL5c7-AbrzdhMbHiB4PQPAy3QbnkE?e=gPqyHB'},
+      {n:13,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBemNwZmJ5cRbDntoYUz_dJAaQo3Nnf7wiYNOG8G2UY5jA?e=71Zwdn'},
+      {n:14,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAr655jMNvISaRLceb5kOENAcGC4FFWu-CPjLW7xyHtKrs?e=98WLRl'},
+      {n:15,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCbaJLOK2uNRY9rrgqEqNVsAQ1kNroRTy8vsoIIME_dG68?e=fN1NU7'},
+      {n:'16-17', url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCaiMf1LLn9Tb_2DlSLm82nAVYuXNlJswGrkH2blZxWl0k?e=u4kN2m'},
+      {n:18,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBW_-4ba5yqQboiLLhfu4ieAbQIC45FJkonPYhUv6pWOOc?e=N12YDh'},
+      {n:19,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBRu6xl-mIIS61sGgA6S6CpAbFk7FdKqiK16BLa8RDZ7vs?e=e463Rt'},
+      {n:20,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDemGBXktQ5T58GSWNgntVcASO0k2SSz1n-wKqy_JQHmIU?e=GNQejr'},
+      {n:21,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDmVcEOf8kQR7Bu6ZNPHsZKAVy6IfTbNhas77tolGsHAG8?e=xkWRm1'},
+      {n:22,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC3hEMQB61rS5q4BmrlhnwKAaHYR6-TheDV7wLcCC9vOqg?e=DilqNK'},
+      {n:23,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDKiVMmm4WXRpgxU2uBY0xDAXkYRMDIxr5QHYI0lgNVBWY?e=FWJrY3'},
+      {n:24,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAZPOiRCtxATKQSS_B2cVaQAYhHbB8x-mkUBhwQ5ou8mvE?e=ZX72oS'},
+      {n:25,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCaaNzai_dPTbNVTOmJqQ3XAecZr-r-tza9Adu1axJlAe4?e=GFOfmh'},
+      {n:26,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBDssdX4070TJhOfSqhrRTQARjpjZDLVBBAzGBfs72NSoY?e=RTppfI'},
+      {n:27,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB03x0Oi89ZQpL4UBpPxftyAWuJVMV3veXxuwb7FJFY_QQ?e=T8Dqvt'},
+      {n:28,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB8LljVDnvOQYS9dDTEUpt3AT9IA17VJsQuCBjKgUBZs5I?e=vykxnL'},
+      {n:29,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDTZQSp20vKSJywZ3sfkzQXAWmAFhtsrQyhv0yluIVleaQ?e=bpUqRf'},
+      {n:30,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAokLRdTm-pQY_rhSKTry5DAdet6QzRpOKqYmqh6y85uEY?e=KQTlRH'},
+      {n:31,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD0qc13rKfFSLi1v17Vo1hIAeln7hoKo3FKjfmDJf16HJA?e=DG7emX'},
+      {n:32,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCUO6dbZm_FRIqPcTIub8qAAcwXvogB7slxev0kzhB4GQw?e=wDanCn'},
+      {n:33,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBWh0QzsYBlTL_95uXAsQ1oAQ-w3yrAFfIu25xZ_HgMSS0?e=MaNkq7'},
+      {n:34,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC8DNXFx9LEQrsHLAkkRY-QAZjVQlYYi9babI0x2svDqyQ?e=W1RrFj'},
+      {n:35,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBxNn-fY2FcTLUHqVO8v-v_ATq0MZXPTXzKCbdJYmcCw5A?e=nNucKz'},
+      {n:36,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAC3vc0_3OKQpuSotwcQAHdAafhi0C0eV8OEcH1wkSLakk?e=KXmzxe'},
+      {n:37,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAqIpB95HMSRZfQv3dV7toMAW4IrAfruvEn3rPjH0lyCOk?e=VzpseM'},
+      {n:38,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDT2LKZd5kZT7eBvrdPptPQAd0GzJZ9iw1BXPS62BInjNQ?e=w8JMdU'}
     ];
     const lista = document.getElementById('podcastLista');
     if (!lista) return;
@@ -1180,7 +1212,7 @@
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.className = 'ep-item';
-      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span><span class="ep-icon">▶</span><span class="ep-titolo">Podcast — ' + ep.label + '</span>';
+      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span><span class="ep-icon">▶</span><span class="ep-titolo">Podcast — Capitolo ' + ep.n + '</span>';
       lista.appendChild(a);
     });
   }
