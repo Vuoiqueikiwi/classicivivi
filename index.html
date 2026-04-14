@@ -213,6 +213,24 @@
   }
   .btn-secondary:hover { border-color: var(--oro); color: var(--oro); }
 
+  .btn-outline-oro {
+    background: transparent;
+    color: var(--oro);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    padding: 0.85rem 1.8rem;
+    border: 1px solid var(--oro);
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-outline-oro:hover { background: rgba(201,168,76,0.1); transform: translateY(-2px); }
+
+  @media (max-width: 768px) {
+    .btn-outline-oro { width: auto; }
+  }
+
   .hero-price {
     margin-top: 2rem;
     opacity: 0;
@@ -1354,6 +1372,7 @@
     <div class="hero-actions">
 <a href="javascript:void(0)" onclick="document.getElementById('acquista').scrollIntoView({behavior:'smooth'})" class="btn-primary">OTTIENI IL KIT — 9,90 €</a>
 <a href="javascript:void(0)" onclick="document.getElementById('cosa-contiene').scrollIntoView({behavior:'smooth'})" class="btn-secondary">SCOPRI COSA C'È DENTRO</a>
+  <a href="/accedi" class="btn-outline-oro">Hai già acquistato? Accedi al kit →</a>
     </div>
     <div class="hero-price">
       <div class="price-badge">
