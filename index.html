@@ -94,6 +94,8 @@
     height: 36px;
     opacity: 0.95;
   }
+  .nav-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+  .nav-brand-text { font-family: 'Cinzel', serif; font-style: italic; color: var(--oro); font-size: 1.1rem; letter-spacing: 0.12em; }
 
   .nav-cta {
     background: var(--oro);
@@ -498,6 +500,15 @@
     background: rgba(201,168,76,0.05);
   }
 
+  .characters-disclaimer {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(201,168,76,0.5);
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
   .character-emoji {
     font-size: 2rem;
     display: block;
@@ -892,7 +903,7 @@
     .components-grid { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
     nav { flex-wrap: nowrap; padding: 1rem; justify-content: space-between; align-items: center; width: 100%; max-width: 100%; overflow: hidden; }
     .nav-logo { height: auto; max-width: 120px; display: none; }
-    nav::before { content: "I Classici Vivi"; font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--oro); letter-spacing: 0.1em; }
+
     #cookie-banner { padding: 1rem; }
     #cookie-banner p { min-width: 0; width: 100%; }
     .nav-cta { font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; }
@@ -1352,7 +1363,10 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/"><img src="/favicon.png" class="nav-logo" alt="I Classici Vivi"></a>
+  <a href="/" class="nav-brand">
+    <img src="/favicon.png" class="nav-logo" alt="I Classici Vivi">
+    <span class="nav-brand-text">I Classici Vivi</span>
+  </a>
 </nav>
 
 <!-- HERO -->
@@ -1557,6 +1571,7 @@
       <div class="character-role">Signore feudale</div>
     </div>
   </div>
+  <p class="characters-disclaimer">I personaggi sono generati da intelligenza artificiale e possono commettere errori. Non utilizzare come unica fonte di studio.</p>
 </section>
 
 <div class="divider"></div>
