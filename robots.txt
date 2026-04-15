@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /portale/
+Disallow: /accedi/
+Sitemap: https://classicivivi.it/sitemap.xml
