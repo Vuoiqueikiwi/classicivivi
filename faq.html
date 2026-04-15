@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — I Classici Vivi</title>
+  <meta name="description" content="Domande frequenti su I Classici Vivi — il kit didattico interattivo su I Promessi Sposi.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <script>
+    // Google Fonts condizionali (GDPR)
+    try {
+      var p = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+      if (p.analytics !== false) {
+        var l1 = document.createElement('link');
+        l1.rel = 'preconnect'; l1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(l1);
+        var l2 = document.createElement('link');
+        l2.rel = 'preconnect'; l2.href = 'https://fonts.gstatic.com'; l2.crossOrigin = '';
+        document.head.appendChild(l2);
+        var l3 = document.createElement('link');
+        l3.rel = 'stylesheet';
+        l3.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
+        document.head.appendChild(l3);
+      }
+    } catch(e) {}
+  </script>
+
+  <style>
+    :root {
+      --nero: #080808;
+      --bruno-medio: #0d1117;
+      --bruno-chiaro: #161b22;
+      --oro: #C9A84C;
+      --oro-chiaro: #E8C97A;
+      --pergamena: #F5E6C8;
+      --pergamena-scura: #D4C4A0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--nero);
+      color: var(--pergamena);
+      font-family: 'EB Garamond', Palatino, Georgia, serif;
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo { height: 36px; opacity: 0.95; }
+
+    .nav-brand-text {
+      font-family: 'Cinzel', serif;
+      font-style: italic;
+      color: var(--oro);
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-back {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      color: var(--pergamena-scura);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--oro); }
+
+    /* HERO */
+    .faq-hero {
+      padding: 7rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .faq-hero-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--oro);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .faq-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--pergamena);
+      font-weight: 400;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .faq-hero p {
+      font-size: 1.1rem;
+      color: var(--pergamena-scura);
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* CONTAINER */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* SEZIONI */
+    .faq-section {
+      margin-bottom: 3rem;
+    }
+
+    .faq-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--oro);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    /* ACCORDION */
+    .faq-item {
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1.2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .faq-question:hover .faq-q-text { color: var(--oro); }
+
+    .faq-q-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--pergamena);
+      transition: color 0.2s;
+      flex: 1;
+    }
+
+    .faq-icon {
+      font-size: 1rem;
+      color: var(--oro);
+      opacity: 0.7;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 600px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 0 1.4rem 0;
+      color: var(--pergamena-scura);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .faq-answer-inner a {
+      color: var(--oro);
+      text-decoration: none;
+    }
+    .faq-answer-inner a:hover {
+      text-decoration: underline;
+    }
+
+    .faq-answer-inner strong {
+      color: var(--pergamena);
+      font-weight: 500;
+    }
+
+    /* DISCLAIMER BOX */
+    .disclaimer-box {
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-left: 3px solid var(--oro);
+      padding: 1.5rem 1.8rem;
+      margin: 3rem 0;
+    }
+
+    .disclaimer-box-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: var(--oro);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .disclaimer-box p {
+      color: var(--pergamena-scura);
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* CTA */
+    .faq-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .faq-cta p {
+      font-style: italic;
+      color: var(--pergamena-scura);
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .btn-oro {
+      display: inline-block;
+      background: var(--oro);
+      color: var(--nero);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 0.9rem 2.2rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-oro:hover { background: var(--oro-chiaro); transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      font-size: 0.8rem;
+      color: rgba(201,168,76,0.35);
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.1em;
+    }
+
+    footer a {
+      color: rgba(201,168,76,0.5);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    footer a:hover { color: var(--oro); }
+
+    @media (max-width: 600px) {
+      .faq-hero { padding: 6rem 1.2rem 2rem; }
+      .faq-container { padding: 2rem 1.2rem 4rem; }
+      .faq-q-text { font-size: 1rem; }
+      nav { padding: 1rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">
+    <img src="/favicon.png" class="nav-logo" alt="I Classici Vivi">
+    <span class="nav-brand-text">I Classici Vivi</span>
+  </a>
+  <a href="/" class="nav-back">← Torna al sito</a>
+</nav>
+
+<!-- HERO -->
+<div class="faq-hero">
+  <div class="faq-hero-label">Domande Frequenti</div>
+  <h1>Hai qualche dubbio?</h1>
+  <p>Abbiamo raccolto le domande più comuni. Se non trovi quello che cerchi, scrivici.</p>
+</div>
+
+<!-- FAQ -->
+<div class="faq-container">
+
+  <!-- SEZIONE 1: IL KIT -->
+  <div class="faq-section">
+    <div class="faq-section-title">Il Kit</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Cosa contiene esattamente il kit?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Il kit è un portale didattico completo su <em>I Promessi Sposi</em> che include: <strong>chat AI con i personaggi</strong> del romanzo (Don Abbondio, Renzo, L'Innominato), <strong>38 episodi podcast</strong> che raccontano ogni capitolo, <strong>flashcard di studio</strong>, <strong>quiz su tre livelli di difficoltà</strong>, un <strong>quiz premium</strong> in stile maturità, il <strong>librogame</strong> La Grande Paura, <strong>script cinematografici</strong>, <strong>interviste impossibili</strong> ai personaggi e il <strong>testo originale</strong> del romanzo.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">A chi è rivolto?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Principalmente a <strong>studenti delle scuole superiori</strong> che devono studiare o approfondire <em>I Promessi Sposi</em> — per interrogazioni, esami di recupero o la maturità. È utile anche per chi vuole riscoprire il romanzo in modo coinvolgente, senza la noia dei riassunti tradizionali.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Quanto costa e cosa si riceve dopo l'acquisto?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Il kit ha un prezzo unico di <strong>€9,90</strong>. Dopo l'acquisto su Payhip riceverai via email un <strong>codice di accesso personale</strong> (formato ICV-XXXX-XXXX). Inseriscilo su <a href="/accedi">/accedi</a> per entrare nel portale. Nessun abbonamento, nessun rinnovo automatico.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Il codice scade? Per quanto tempo ho accesso?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Il codice non ha una data di scadenza prefissata. Una volta acquistato, l'accesso è tuo. La sessione nel browser dura <strong>8 ore</strong> per ragioni di sicurezza — dopo devi semplicemente reinserire il codice. Ti consigliamo di salvarlo in un posto sicuro.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Posso usarlo su più dispositivi?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sì, il codice funziona su smartphone, tablet e computer. Il portale ha una versione ottimizzata per mobile e una per desktop — si seleziona automaticamente in base al dispositivo. Il kit è pensato per essere usato comodamente da qualsiasi schermo.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEZIONE 2: ACCESSO E TECNICO -->
+  <div class="faq-section">
+    <div class="faq-section-title">Accesso e Tecnico</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Non ho ricevuto il codice via email. Cosa faccio?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Controlla prima la <strong>cartella spam o posta indesiderata</strong> — l'email automatica a volte finisce lì. Se dopo qualche minuto non è ancora arrivata, contattaci all'indirizzo riportato in fondo alla pagina indicando il tuo nome e l'email usata per l'acquisto. Risolviamo nel più breve tempo possibile.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Ho inserito il codice ma compare un errore. Cosa faccio?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Prova questi passaggi nell'ordine: <strong>1)</strong> Verifica di aver copiato il codice correttamente, inclusi i trattini (formato ICV-XXXX-XXXX). <strong>2)</strong> Prova a cancellare i dati del browser: apri gli strumenti di sviluppo (F12 su Chrome), vai alla console e digita <em>sessionStorage.clear()</em>, poi ricarica la pagina. <strong>3)</strong> Prova con un browser diverso o in modalità navigazione privata. Se il problema persiste, contattaci.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Il browser ricorda il mio codice?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sì — la pagina di accesso è configurata per permettere al browser di salvare il codice. Su <strong>Safari iOS</strong> e <strong>Chrome Android</strong> verrà proposto automaticamente di salvarlo al primo inserimento. In questo modo non dovrai digitarlo ogni volta.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Funziona su iPhone e Android?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sì, il portale è ottimizzato per entrambi. È stato testato su <strong>Safari iOS</strong> e <strong>Chrome Android</strong>. La versione mobile ha una navigazione dedicata con barra inferiore per passare rapidamente tra le sezioni.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">I contenuti sono scaricabili?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          I contenuti sono fruibili <strong>online tramite il portale</strong>. I podcast si aprono in una nuova scheda. Il testo originale del romanzo è in formato pubblico dominio. Gli altri materiali (script, flashcard, quiz, interviste) sono integrati nel portale e accessibili finché hai il codice attivo.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEZIONE 3: I PERSONAGGI AI -->
+  <div class="faq-section">
+    <div class="faq-section-title">I Personaggi AI</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Come funziona la chat con i personaggi?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Puoi scrivere liberamente a <strong>Don Abbondio, Renzo e L'Innominato</strong> come se stessi parlando con loro. Ogni personaggio risponde in carattere, in prima persona, con la propria personalità e il proprio punto di vista sulla storia. Puoi fargli domande sul romanzo, sul Seicento lombardo, sulle loro motivazioni — è un modo per studiare dialogando, non memorizzando.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">I personaggi mi fanno il riassunto o il tema?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          No — e questa è una scelta precisa. I personaggi sono progettati per <strong>aiutarti a capire</strong>, non a sostituirsi al tuo studio. Se chiedi un riassunto completo o un tema pronto, ti risponderanno in character invitandoti a ragionare con loro. Ti faranno domande, ti daranno spunti, ma il lavoro lo fai tu. Funziona molto meglio così.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">I personaggi possono sbagliare?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sì. I personaggi sono generati da intelligenza artificiale e, come ogni sistema AI, <strong>possono commettere errori</strong> — specialmente su dettagli minori o su argomenti non esplicitamente trattati nel romanzo. Sono uno strumento di studio coinvolgente, non un'enciclopedia infallibile. Ti consigliamo di usarli in combinazione con gli altri materiali del kit e con il testo originale.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">I miei messaggi vengono salvati?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Le conversazioni non vengono salvate in modo permanente né associate alla tua identità. Ogni sessione di chat è indipendente — quando chiudi il browser la conversazione non viene conservata. Per le informazioni sulla gestione dei dati consulta la nostra <a href="/termini.html">pagina termini</a> e il banner cookie.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DISCLAIMER BOX -->
+  <div class="disclaimer-box">
+    <div class="disclaimer-box-title">Nota sull'Intelligenza Artificiale</div>
+    <p>I personaggi presenti in questo kit sono generati da intelligenza artificiale. Possono commettere errori, omissioni o imprecisioni, specialmente su dettagli non esplicitamente trattati nel romanzo <em>I Promessi Sposi</em> di Alessandro Manzoni. Non utilizzare le risposte dei personaggi come unica fonte di studio o come riferimento per verifiche e interrogazioni senza averle confrontate con il testo originale o con altre fonti affidabili.</p>
+  </div>
+
+  <!-- SEZIONE 4: PAGAMENTI E RIMBORSI -->
+  <div class="faq-section">
+    <div class="faq-section-title">Pagamenti e Rimborsi</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Quali metodi di pagamento sono accettati?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Il pagamento avviene tramite <strong>Payhip</strong>, che accetta carte di credito e debito (Visa, Mastercard, American Express) e PayPal. La transazione è gestita interamente da Payhip in ambiente sicuro — noi non riceviamo né conserviamo i tuoi dati di pagamento.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Posso richiedere un rimborso?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Trattandosi di un <strong>prodotto digitale con accesso immediato</strong>, il diritto di recesso decade nel momento in cui accedi al portale con il codice ricevuto, in conformità con il Codice del Consumo (art. 59, comma 1, lett. o). Per problemi tecnici o mancata ricezione del codice contattaci — risolviamo sempre. Per i dettagli legali consulta i nostri <a href="/termini.html">Termini e Condizioni</a>.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="faq-cta">
+    <p>Non hai trovato risposta alla tua domanda?</p>
+    <a href="mailto:info@classicivivi.it" class="btn-oro">SCRIVICI</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="margin-bottom: 0.8rem;">
+    <a href="/">Home</a>
+    <a href="/termini.html">Termini</a>
+    <a href="/cookie.html">Cookie</a>
+    <a href="/chi-siamo.html">Chi siamo</a>
+  </div>
+  © 2026 I Classici Vivi — Tutti i diritti riservati
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    // chiudi tutti
+    document.querySelectorAll('.faq-item.open').forEach(function(el) {
+      el.classList.remove('open');
+    });
+    // apri quello cliccato se era chiuso
+    if (!isOpen) {
+      item.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
