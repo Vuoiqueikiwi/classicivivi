@@ -1257,12 +1257,26 @@
       return;
     }
 
+    var generateUUID = function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        var v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    };
+
+    var deviceId = localStorage.getItem('icv_device_id');
+    if (!deviceId) {
+      deviceId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : generateUUID();
+      localStorage.setItem('icv_device_id', deviceId);
+    }
+
     setLoading(true);
 
     fetch('/verify-code', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: raw })
+      body: JSON.stringify({ code: raw, deviceId: deviceId })
     })
     .then(function(res) {
       if (!res.ok) throw new Error('Errore di rete (' + res.status + ')');
@@ -1278,7 +1292,11 @@
         window.location.href = '/portale';
       } else {
         // ❌ Codice non valido
-        showError('Codice non valido o già utilizzato. Controlla l\'email di acquisto.');
+        if (data && data.reason === 'device_limit') {
+          showError('Questo codice ha raggiunto il limite di dispositivi autorizzati.');
+        } else {
+          showError('Codice non valido o già utilizzato. Controlla l\'email di acquisto.');
+        }
       }
     })
     .catch(function(err) {
