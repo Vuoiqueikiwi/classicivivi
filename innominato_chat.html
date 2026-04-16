@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>I Classici Vivi — L'Innominato</title>
+<title>I Classici Vivi — Don Abbondio</title>
 <script>
   (function() {
     var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
@@ -28,7 +28,7 @@
     --pergamena: #F5E6C8;
     --pergamena-scura: #D4C4A0;
     --grigio: #888888;
-    --bruno: #2C1810;
+    --bruno: #5C4A1E;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html {
@@ -60,7 +60,7 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
   .intro-overlay {
     position: absolute;
@@ -140,7 +140,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
+    opacity: 0.7;
     z-index: 0;
   }
   .bg-overlay {
@@ -377,22 +377,22 @@
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
   <video id="intro-video" playsinline>
-    <source src="avatar_innominato_final.mp4" type="video/mp4">
+    <source src="avatar_don_abbondio_final.mp4" type="video/mp4">
   </video>
   <div class="intro-overlay"></div>
   <button class="skip-btn" onclick="goToChat()">SALTA INTRO ›</button>
   <div class="intro-content">
     <div class="intro-brand">I CLASSICI VIVI</div>
-    <div class="intro-title">L'Innominato</div>
-    <div class="intro-subtitle">Signore feudale, Lombardia XVII secolo</div>
-    <button class="intro-btn" onclick="startIntro()">▶ &nbsp;INCONTRA L'INNOMINATO</button>
+    <div class="intro-title">Don Abbondio</div>
+    <div class="intro-subtitle">Curato di campagna, XVII secolo</div>
+    <button class="intro-btn" onclick="startIntro()">▶ &nbsp;INCONTRA DON ABBONDIO</button>
   </div>
 </div>
 
 <!-- CHAT SCREEN -->
 <div id="chat-screen">
   <video id="loop-video" autoplay muted loop playsinline>
-    <source src="loop_innominato_final.mp4" type="video/mp4">
+    <source src="loop_don_abbondio_final.mp4" type="video/mp4">
   </video>
   <div class="bg-overlay"></div>
   <div class="chat-layout">
@@ -401,20 +401,20 @@
         <a class="nav-link" onclick="history.back()">← INDIETRO</a>
         <a class="nav-link" href="/portale/">🏠 HOME</a>
       </div>
-      <span class="header-name">L'INNOMINATO</span>
+      <span class="header-name">DON ABBONDIO</span>
       <div class="header-divider"></div>
-      <span class="header-ruolo">Signore feudale, Lombardia XVII secolo</span>
+      <span class="header-ruolo">Curato di campagna, XVII secolo</span>
       <div class="status-dot"></div>
     </header>
     <div class="messages-area" id="messages-area">
       <div class="initial-message">
-        <div class="message-name">L'INNOMINATO</div>
-        <p>Chi sei, e cosa vuoi da me? Non sono abituato a ricevere visite. Sono l'Innominato. Ho fatto cose che non si nominano. Ma qualcosa è cambiato in me. Se vuoi capire questa storia, chiedimi pure... se hai il coraggio. Potrei sbagliarmi. Succede raramente, ma succede. Il romanzo è lì — controllalo.</p>
+        <div class="message-name">DON ABBONDIO</div>
+        <p>Ah, figliolo... o figliola, non so chi tu sia. Siediti, siediti pure. Sono Don Abbondio, curato di questa povera parrocchia. Se hai domande sul libro, sulla mia vita, o su questi tempi bui del Seicento lombardo... chiedimi pure. Nei limiti del possibile. Oimè, e se qualcosa non ti torna... il romanzo è lì nel kit, figliolo.</p>
       </div>
     </div>
-    <div class="typing-indicator" id="typing-indicator">L'Innominato sta scrivendo...</div>
+    <div class="typing-indicator" id="typing-indicator">Don Abbondio sta scrivendo...</div>
     <div class="input-area">
-      <textarea id="user-input" placeholder="Scrivi all'Innominato..." rows="1"
+      <textarea id="user-input" placeholder="Scrivi a Don Abbondio..." rows="1"
         onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="send-btn" id="send-btn" onclick="sendMessage()">&#9658;</button>
     </div>
@@ -466,7 +466,7 @@
     div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
     const nameEl = document.createElement('div');
     nameEl.className = 'message-name';
-    nameEl.textContent = role === 'user' ? 'TU' : "L'INNOMINATO";
+    nameEl.textContent = role === 'user' ? 'TU' : 'DON ABBONDIO';
     const bubbleEl = document.createElement('div');
     bubbleEl.className = 'message-bubble';
     text.split('\n').forEach((line, i, arr) => {
@@ -504,7 +504,7 @@
           headers: { 'Content-Type': 'application/json', 'X-Access-Code': sessionStorage.getItem('icv_access') || '' },
           body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
-            character: 'innominato',
+            character: 'don_abbondio',
             messages: conversationHistory.map(m => ({
               role: m.role === 'user' ? 'user' : 'assistant',
               content: m.content
