@@ -75,7 +75,7 @@ export async function onRequestPost(context) {
 
     // Device già registrato
     if (entry.devices.includes(deviceId)) {
-      return new Response(JSON.stringify({ valid: true }), {
+      return new Response(JSON.stringify({ valid: true, libro: entry.libro || 'promessi-sposi' }), {
         status: 200, headers: corsHeaders
       });
     }
@@ -91,7 +91,7 @@ export async function onRequestPost(context) {
     entry.devices.push(deviceId);
     await env.CODES.put(normalizedCode, JSON.stringify(entry));
 
-    return new Response(JSON.stringify({ valid: true }), {
+    return new Response(JSON.stringify({ valid: true, libro: entry.libro || 'promessi-sposi' }), {
       status: 200, headers: corsHeaders
     });
 
