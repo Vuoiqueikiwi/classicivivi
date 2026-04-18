@@ -505,6 +505,7 @@
         // Salva il codice validato nel sessionStorage
         sessionStorage.setItem('icv_access', btoa(code));
         sessionStorage.setItem('icv_ts', Date.now().toString());
+        sessionStorage.setItem('icv_libro', data.libro || 'promessi-sposi');
         // Flag per evitare redirect infiniti
         sessionStorage.setItem('icv_redirect_done', 'true');
 
@@ -516,7 +517,7 @@
         cleanUrl();
         setTimeout(() => {
           // Usa history.replace per non aggiungere alla storia del browser
-          window.location.replace('/portale');
+          window.location.replace('/portale/');
         }, 800);
       } else {
         if (data.reason === 'device_limit') {
@@ -549,7 +550,7 @@
     // Pulizia URL
     cleanUrl();
     // Usa replace per non aggiungere alla storia del browser
-    window.location.replace('/portale');
+    window.location.replace('/portale/');
   } else if (redirectDone) {
     // Reset il flag per future visite
     sessionStorage.removeItem('icv_redirect_done');
