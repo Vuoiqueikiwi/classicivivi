@@ -2,1517 +2,560 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/x-icon" href="../favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
-<link rel="apple-touch-icon" href="../favicon.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I Classici Vivi — Portale</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Accedi al Kit — I Classici Vivi</title>
+<meta name="description" content="Inserisci il tuo codice di accesso per entrare nel portale didattico su I Promessi Sposi.">
 <script>
   (function() {
     var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
-    if (prefs.saved === true && prefs.fonts === false) {
-      document.documentElement.classList.add('fonts-blocked');
-    } else {
-      var preconnect = document.createElement('link');
-      preconnect.rel = 'preconnect';
-      preconnect.href = 'https://fonts.googleapis.com';
-      document.head.appendChild(preconnect);
-      var preconnect2 = document.createElement('link');
-      preconnect2.rel = 'preconnect';
-      preconnect2.href = 'https://fonts.gstatic.com';
-      preconnect2.crossOrigin = 'anonymous';
-      document.head.appendChild(preconnect2);
-      var fonts = document.createElement('link');
-      fonts.rel = 'stylesheet';
-      fonts.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
-      document.head.appendChild(fonts);
+    if (!(prefs.saved === true && prefs.fonts === false)) {
+      var pc = document.createElement('link');
+      pc.rel = 'preconnect'; pc.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(pc);
+      var pc2 = document.createElement('link');
+      pc2.rel = 'preconnect'; pc2.href = 'https://fonts.gstatic.com'; pc2.crossOrigin = 'anonymous';
+      document.head.appendChild(pc2);
+      var f = document.createElement('link');
+      f.rel = 'stylesheet';
+      f.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap';
+      document.head.appendChild(f);
     }
-    window.__onedrive_blocked = (prefs.saved === true && prefs.onedrive === false);
-    window.__cookie_not_set = !prefs.saved;
   })();
 </script>
-<script type="text/javascript">       (function(c,l,a,r,i,t,y){           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);       })(window, document, "clarity", "script", "w7l4bipy35");   </script>
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --oro: #c9a84c;
-    --oro-chiaro: #e8c97a;
-    --bruno: #080808;
-    --bruno-medio: #0d1117;
-    --bruno-chiaro: #161b22;
-    --pergamena: #f5e6c8;
-    --pergamena-scura: #d4c4a0;
-    --blu-prof: #1a3a5c;
-    --blu-chiaro: #2d6a9f;
+    --nero: #080808;
+    --oro: #C9A84C;
+    --oro-chiaro: #E8C97A;
+    --pergamena: #F5E6C8;
+    --oro-scuro: #2a1e00;
+    --oro-bg: #0f0a00;
+    --grigio-scuro: #1a1a1a;
+    --grigio-medio: #333;
+    --grigio-testo: #666;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
-
-  body {
-    font-family: 'EB Garamond', serif;
-    background: var(--bruno);
-    color: var(--pergamena);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── COOKIE NOTICE ──────────────────────────────────────────────── */
-  #cookie-notice {
-    display: none;
-    background: #0d1117;
-    border-bottom: 1px solid rgba(201,168,76,0.3);
-    padding: 0.8rem 1.5rem;
-    flex-shrink: 0;
-    z-index: 100;
-  }
-  #cookie-notice.visible { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-  .cookie-notice-text {
-    flex: 1; min-width: 200px;
-    font-family: 'EB Garamond', serif; font-style: italic;
-    font-size: 0.85rem; color: rgba(245,230,200,0.7); line-height: 1.5;
-  }
-  .cookie-notice-text strong { color: var(--oro); font-style: normal; }
-  .cookie-notice-btns { display: flex; gap: 0.5rem; flex-shrink: 0; }
-  .cookie-notice-accept {
-    background: var(--oro); color: var(--bruno); border: none;
-    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
-    padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.2s;
-  }
-  .cookie-notice-accept:hover { background: var(--oro-chiaro); }
-  .cookie-notice-info {
-    background: transparent; color: rgba(245,230,200,0.4);
-    border: 1px solid rgba(201,168,76,0.2);
-    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.1em;
-    padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s;
-    text-decoration: none; display: inline-block;
-  }
-  .cookie-notice-info:hover { border-color: rgba(201,168,76,0.4); color: var(--pergamena); }
-
-  /* ── PORTALE BODY ───────────────────────────────────────────────── */
-  #portale-body {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-  }
-
-  /* ── INTRO SCREEN ───────────────────────────────────────────────── */
-  #intro-screen {
-    position: fixed; inset: 0; z-index: 200;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: #000; transition: opacity 0.8s ease;
-  }
-  #intro-screen.fade-out { opacity: 0; pointer-events: none; }
-  #intro-video {
-    width: 100%; height: 100%; object-fit: contain;
-    position: absolute; inset: 0; background: #000;
-  }
-  .intro-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
-    text-align: center; padding: 2rem 2rem 5rem; pointer-events: none;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-  }
-  .intro-brand {
-    font-family: 'Cinzel', serif; font-size: clamp(0.7rem, 2vw, 0.9rem);
-    letter-spacing: 0.4em; color: var(--oro); text-transform: uppercase; margin-bottom: 0.5rem;
-    opacity: 0; animation: fadeInUp 1s ease 0.5s forwards;
-  }
-  .intro-title {
-    font-family: 'Cinzel', serif; font-size: clamp(2rem, 6vw, 3.5rem);
-    color: var(--pergamena); line-height: 1.1;
-    opacity: 0; animation: fadeInUp 1s ease 0.8s forwards;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-  }
-  .intro-subtitle {
-    font-family: 'EB Garamond', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: var(--pergamena-scura); margin-top: 0.5rem;
-    opacity: 0; animation: fadeInUp 1s ease 1.1s forwards;
-  }
-  .play-audio-btn {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
-    background: rgba(201,168,76,0.9); border: none; color: var(--bruno);
-    font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.2em;
-    padding: 1rem 2.5rem; cursor: pointer; transition: all 0.3s;
-  }
-  .play-audio-btn:hover { background: var(--oro-chiaro); }
-  .skip-btn {
-    position: absolute; bottom: 2rem; right: 2rem; z-index: 3;
-    background: rgba(0,0,0,0.5); border: 1px solid rgba(201,168,76,0.4);
-    color: var(--oro); font-family: 'Cinzel', serif; font-size: 0.75rem;
-    letter-spacing: 0.2em; padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.3s;
-    opacity: 0; animation: fadeIn 1s ease 2s forwards;
-  }
-  .skip-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--oro); }
-
-  /* ── SIDEBAR ────────────────────────────────────────────────────── */
-  #sidebar {
-    width: 270px; flex-shrink: 0;
-    background: var(--bruno-medio);
-    border-right: 1px solid rgba(201,168,76,0.12);
-    display: flex; flex-direction: column;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(201,168,76,0.15) transparent;
-  }
-  .sidebar-logo {
-    padding: 1.4rem 1.2rem 1rem;
-    border-bottom: 1px solid rgba(201,168,76,0.12);
-  }
-  .sidebar-logo-top {
-    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.4em;
-    color: var(--oro); text-transform: uppercase; opacity: 0.7; margin-bottom: 0.2rem;
-  }
-  .sidebar-logo-title { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--pergamena); font-weight: 700; }
-  .sidebar-logo-sub { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.75rem; color: var(--oro-chiaro); opacity: 0.6; margin-top: 0.15rem; }
-
-  .sidebar-section { padding: 1rem 0.8rem 0.4rem; }
-  .sidebar-section-label {
-    font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.3em;
-    color: var(--oro); text-transform: uppercase; opacity: 0.5;
-    padding: 0 0.4rem; margin-bottom: 0.5rem;
-  }
-  .nav-card {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.65rem 0.8rem; cursor: pointer; border-radius: 2px;
-    transition: all 0.2s; text-decoration: none; color: var(--pergamena);
-    border: 1px solid rgba(201,168,76,0.18); background: rgba(201,168,76,0.05);
-    margin-bottom: 0.3rem;
-  }
-  .nav-card:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.35); }
-  .nav-card.active { background: rgba(201,168,76,0.14); border-color: var(--oro); }
-  .nav-card-emoji { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
-  .nav-card-texts { display: flex; flex-direction: column; }
-  .nav-card-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.04em; line-height: 1.1; }
-  .nav-card-desc { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.68rem; color: rgba(245,230,200,0.45); margin-top: 0.1rem; }
-
-  .nav-item {
-    display: flex; align-items: center; gap: 0.7rem;
-    padding: 0.5rem 0.8rem; cursor: pointer; border-radius: 2px;
-    transition: all 0.2s; text-decoration: none;
-    color: rgba(245,230,200,0.6); border: 1px solid transparent;
-  }
-  .nav-item:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.12); color: var(--pergamena); }
-  .nav-item.active { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.25); color: var(--pergamena); }
-  .nav-num { font-family: 'Cinzel', serif; font-size: 0.62rem; color: rgba(201,168,76,0.45); width: 16px; flex-shrink: 0; }
-  .nav-item.active .nav-num { color: var(--oro); }
-  .nav-text { font-family: 'EB Garamond', serif; font-size: 0.83rem; }
-  .nav-badge {
-    margin-left: auto; font-family: 'Cinzel', serif; font-size: 0.52rem;
-    letter-spacing: 0.08em; padding: 0.12rem 0.35rem;
-    background: rgba(201,168,76,0.12); color: var(--oro);
-    border: 1px solid rgba(201,168,76,0.2); flex-shrink: 0;
-  }
-  .sidebar-footer {
-    margin-top: auto; padding: 1rem 0.8rem;
-    border-top: 1px solid rgba(201,168,76,0.1);
-  }
-  .logout-btn {
-    width: 100%; background: transparent; border: 1px solid rgba(201,168,76,0.15);
-    color: rgba(245,230,200,0.4); font-family: 'Cinzel', serif; font-size: 0.58rem;
-    letter-spacing: 0.2em; padding: 0.5rem; cursor: pointer; transition: all 0.2s;
-  }
-  .logout-btn:hover { border-color: rgba(201,168,76,0.3); color: rgba(245,230,200,0.7); }
-
-  /* ── MAIN ───────────────────────────────────────────────────────── */
-  #main { flex: 1; display: flex; overflow: hidden; }
-
-  /* ── CHAT VIEW ──────────────────────────────────────────────────── */
-  #chat-view { display: flex; flex: 1; overflow: hidden; }
-
-  .prof-panel { width: 310px; flex-shrink: 0; position: relative; overflow: hidden; background: var(--bruno); }
-  .prof-bg {
-    position: absolute; inset: 0;
-    background-image: url('../Foto_Prof.png');
-    background-size: cover; background-position: center top;
-    filter: brightness(0.55) saturate(0.8);
-  }
-  .prof-gradient {
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, transparent 0%, rgba(13,17,23,0.3) 70%, rgba(13,17,23,0.95) 100%),
-                linear-gradient(to top, rgba(13,17,23,0.9) 0%, transparent 40%);
-  }
-  .prof-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 1.5rem; }
-  .prof-badge {
-    display: inline-block; background: var(--oro); color: var(--bruno);
-    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em;
-    padding: 0.3rem 0.8rem; margin-bottom: 0.6rem;
-  }
-  .prof-name {
-    font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--pergamena);
-    font-weight: 700; line-height: 1; margin-bottom: 0.3rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-  }
-  .prof-role { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.9rem; color: var(--oro-chiaro); opacity: 0.9; margin-bottom: 1rem; }
-  .prof-status { display: flex; align-items: center; gap: 0.5rem; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulse 2s infinite; }
-  .status-text { font-family: 'EB Garamond', serif; font-size: 0.8rem; color: rgba(245,230,200,0.6); }
-
-  .chat-panel {
-    flex: 1; display: grid; grid-template-rows: auto 1fr auto;
-    background: var(--bruno-chiaro); border-left: 1px solid rgba(201,168,76,0.1); overflow: hidden;
-  }
-  .chat-header {
-    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15);
-    background: rgba(13,17,23,0.8); display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
-  }
-  .header-brand { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.4em; color: var(--oro); }
-  .header-divider { width: 1px; height: 24px; background: rgba(201,168,76,0.3); }
-  .header-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--pergamena); }
-  .header-sub { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--oro-chiaro); opacity: 0.7; margin-left: auto; }
-
-  .messages-area {
-    overflow-y: auto; padding: 1.5rem;
-    display: flex; flex-direction: column; gap: 1rem;
-    scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.2) transparent;
-  }
-  .message { display: flex; flex-direction: column; max-width: 90%; animation: msgIn 0.35s ease; }
-  .message.user { align-self: flex-end; align-items: flex-end; }
-  .message.ai { align-self: flex-start; align-items: flex-start; }
-  .message-name { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--oro); margin-bottom: 0.3rem; opacity: 0.7; }
-  .message-bubble { padding: 0.9rem 1.2rem; font-size: 0.95rem; line-height: 1.65; }
-  .message.user .message-bubble { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25); color: var(--pergamena); }
-  .message.ai .message-bubble { background: rgba(26,58,92,0.25); border: 1px solid rgba(45,106,159,0.3); color: var(--pergamena); }
-
-  .typing-indicator {
-    display: none; align-self: flex-start; padding: 0.7rem 1rem;
-    background: rgba(26,58,92,0.25); border: 1px solid rgba(45,106,159,0.3);
-    gap: 4px; align-items: center; margin: 0 1.5rem 0.5rem;
-  }
-  .typing-indicator.active { display: flex; }
-  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--oro); opacity: 0.4; animation: typingDot 1.4s infinite; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  .quick-actions {
-    padding: 0.5rem 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;
-    border-top: 1px solid rgba(201,168,76,0.08); flex-shrink: 0;
-  }
-  .quick-btn {
-    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
-    color: var(--oro-chiaro); font-family: 'EB Garamond', serif; font-size: 0.8rem;
-    padding: 0.3rem 0.8rem; cursor: pointer; transition: all 0.2s; font-style: italic;
-  }
-  .quick-btn:hover { background: rgba(201,168,76,0.18); border-color: var(--oro); color: var(--pergamena); }
-
-  .input-area {
-    padding: 1rem 1.5rem 1.5rem; background: rgba(13,17,23,0.6);
-    border-top: 1px solid rgba(201,168,76,0.1); backdrop-filter: blur(10px); flex-shrink: 0;
-  }
-  .input-wrapper { display: flex; gap: 0.8rem; align-items: flex-end; }
-  .input-field {
-    flex: 1; background: rgba(245,230,200,0.05); border: 1px solid rgba(201,168,76,0.2);
-    color: var(--pergamena); font-family: 'EB Garamond', serif; font-size: 1rem;
-    padding: 0.8rem 1rem; resize: none; outline: none;
-    min-height: 48px; max-height: 120px; line-height: 1.5; transition: border-color 0.3s;
-  }
-  .input-field:focus { border-color: rgba(201,168,76,0.5); }
-  .input-field::placeholder { color: rgba(245,230,200,0.25); font-style: italic; }
-  .send-btn {
-    background: var(--oro); color: var(--bruno); border: none;
-    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em;
-    padding: 0.8rem 1.5rem; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
-  }
-  .send-btn:hover { background: var(--oro-chiaro); }
-  .input-hint {
-    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.65rem;
-    color: rgba(245,230,200,0.25); margin-top: 0.4rem;
-  }
-
-  /* ── CONTENT AREA ───────────────────────────────────────────────── */
-  #content-view {
-    flex: 1; display: none; flex-direction: column; overflow: hidden;
-  }
-  .content-header {
-    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15);
-    background: rgba(13,17,23,0.8); display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
-  }
-  .content-header-title {
-    font-family: 'Cinzel', serif; font-size: 1rem; color: var(--pergamena); flex: 1;
-  }
-  .content-header-back {
-    background: transparent; border: 1px solid rgba(201,168,76,0.2);
-    color: rgba(245,230,200,0.6); font-family: 'Cinzel', serif; font-size: 0.7rem;
-    letter-spacing: 0.1em; padding: 0.4rem 1rem; cursor: pointer; transition: all 0.2s;
-  }
-  .content-header-back:hover { border-color: var(--oro); color: var(--pergamena); }
-  .content-body {
-    flex: 1; overflow-y: auto; padding: 2rem;
-    scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.2) transparent;
-  }
-
-  /* ── PDF VIEWER ─────────────────────────────────────────────────── */
-  .pdf-viewer-frame {
-    width: 100%; height: 75vh; border: none; background: #080808; display: block;
-  }
-  .pdf-viewer-title {
-    font-family: 'Cinzel', serif; color: #C9A84C; font-size: 1.2rem; margin-bottom: 0.5rem;
-  }
-  .pdf-viewer-desc {
-    font-family: 'EB Garamond', serif; font-style: italic; color: rgba(245,230,200,0.6);
-    font-size: 0.9rem; margin-bottom: 1.5rem;
-  }
-
-  /* ── FLASHCARD VIEWER ───────────────────────────────────────────── */
-  .fc-wrap {
-    font-family: 'EB Garamond', Georgia, serif;
-    background: #080808;
-    min-height: 520px;
-    padding: 1.5rem;
-    border-radius: 8px;
-    max-width: 680px;
-  }
-  .fc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px; }
-  .fc-title-label { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 0; }
-  .fc-tabs { display: flex; gap: 6px; }
-  .fc-tab { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: rgba(201,168,76,0.55); cursor: pointer; transition: all 0.2s; }
-  .fc-tab.fc-active { background: #C9A84C; color: #080808; border-color: #C9A84C; }
-  .fc-tab:hover:not(.fc-active) { background: rgba(201,168,76,0.13); color: #C9A84C; }
-  .fc-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; }
-  .fc-counter { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 1px; white-space: nowrap; }
-  .fc-bar-bg { flex: 1; height: 2px; background: #222; border-radius: 2px; }
-  .fc-bar-fill { height: 100%; background: #C9A84C; border-radius: 2px; transition: width 0.3s; }
-  .fc-scene { perspective: 1200px; width: 100%; max-width: 520px; margin: 0 auto; height: 270px; cursor: pointer; }
-  .fc-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
-  .fc-card.fc-flipped { transform: rotateY(180deg); }
-  .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; padding: 1.3rem 1.5rem; box-sizing: border-box; display: flex; flex-direction: column; }
-  .fc-front { background: #111; border: 1px solid rgba(201,168,76,0.27); }
-  .fc-back { background: #0d0d0d; border: 1px solid rgba(201,168,76,0.53); transform: rotateY(180deg); }
-  .fc-card-id { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 10px; letter-spacing: 2px; margin-bottom: 8px; }
-  .fc-lbl { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: rgba(201,168,76,0.47); margin-bottom: 6px; }
-  .fc-belief { color: rgba(245,230,200,0.44); font-size: 13px; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
-  .fc-question { color: #F5E6C8; font-size: 16px; line-height: 1.6; flex: 1; }
-  .fc-hint { font-size: 12px; color: rgba(201,168,76,0.33); margin-top: 10px; font-style: italic; text-align: center; }
-  .fc-check { color: #C9A84C; font-size: 18px; margin-bottom: 6px; }
-  .fc-answer { color: #F5E6C8; font-size: 14px; line-height: 1.65; flex: 1; }
-  .fc-controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.2rem; align-items: center; }
-  .fc-btn { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 9px 18px; border-radius: 5px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: #C9A84C; cursor: pointer; transition: all 0.2s; }
-  .fc-btn:hover { background: rgba(201,168,76,0.13); border-color: #C9A84C; }
-  .fc-btn:disabled { opacity: 0.2; cursor: default; }
-  .fc-btn-primary { background: #C9A84C; color: #080808; border-color: #C9A84C; }
-  .fc-btn-primary:hover { background: #d4b05a; }
-  .fc-end { text-align: center; padding: 2rem 1rem; }
-  .fc-end-title { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 17px; margin-bottom: 0.8rem; }
-  .fc-end-sub { color: rgba(245,230,200,0.5); font-size: 14px; font-style: italic; }
-
-  /* ── PODCAST ────────────────────────────────────────────────────── */
-  .podcast-intro {
-    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.88rem;
-    color: rgba(245,230,200,0.55); margin-bottom: 1rem; line-height: 1.6;
-  }
-  .podcast-lista {
-    display: flex; flex-direction: column; gap: 3px;
-    max-height: 460px; overflow-y: auto; padding-right: 4px;
-  }
-  .podcast-lista::-webkit-scrollbar { width: 3px; }
-  .podcast-lista::-webkit-scrollbar-track { background: transparent; }
-  .podcast-lista::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.27); border-radius: 2px; }
-  .ep-item {
-    display: flex; align-items: center; gap: 0.7rem;
-    padding: 0.6rem 0.9rem; border-radius: 6px;
-    border: 1px solid transparent; text-decoration: none;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .ep-item:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.2); }
-  .ep-num { font-family: 'Cinzel', serif; font-size: 0.7rem; color: rgba(201,168,76,0.47); min-width: 22px; text-align: right; flex-shrink: 0; }
-  .ep-icon { font-size: 0.75rem; color: #C9A84C; flex-shrink: 0; }
-  .ep-titolo { font-size: 0.9rem; color: rgba(245,230,200,0.8); }
-  .ep-item:hover .ep-titolo { color: #C9A84C; }
-
-  /* ── LIBRO DOWNLOAD ─────────────────────────────────────────────── */
-  .download-note {
-    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.85rem;
-    color: rgba(245,230,200,0.45); margin-bottom: 1.2rem; line-height: 1.6;
-    padding: 0.8rem 1rem; border-left: 2px solid rgba(201,168,76,0.3); max-width: 600px;
-  }
-  .download-btn {
-    display: inline-block; background: transparent; color: var(--oro);
-    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.15em;
-    padding: 0.75rem 2rem; text-decoration: none; transition: all 0.2s;
-    border: 1px solid rgba(201,168,76,0.4); margin-bottom: 1.5rem;
-  }
-  .download-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--oro); }
-
-  /* ── QUIZ VIEWER ── */
-  .qv-wrap{font-family:'EB Garamond',Georgia,serif;background:#080808;min-height:520px;padding:1.5rem;border-radius:8px;max-width:680px;margin-bottom:2rem;}
-  .qv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px;}
-  .qv-title-lbl{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0;}
-  .qv-tabs{display:flex;gap:5px;}
-  .qv-tab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;padding:6px 10px;border-radius:4px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:rgba(201,168,76,0.55);cursor:pointer;transition:all 0.2s;}
-  .qv-tab.qv-active{background:#C9A84C;color:#080808;border-color:#C9A84C;}
-  .qv-tab:hover:not(.qv-active){background:rgba(201,168,76,0.13);color:#C9A84C;}
-  .qv-prog{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;}
-  .qv-cnt{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:1px;white-space:nowrap;}
-  .qv-bar-bg{flex:1;height:2px;background:#222;border-radius:2px;}
-  .qv-bar-fill{height:100%;background:#C9A84C;border-radius:2px;transition:width 0.3s;}
-  .qv-scene{perspective:1200px;width:100%;max-width:520px;margin:0 auto;height:290px;cursor:pointer;}
-  .qv-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
-  .qv-card.qv-flipped{transform:rotateY(180deg);}
-  .qv-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;padding:1.3rem 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;}
-  .qv-front{background:#111;border:1px solid rgba(201,168,76,0.27);}
-  .qv-back{background:#0d0d0d;border:1px solid rgba(201,168,76,0.53);transform:rotateY(180deg);}
-  .qv-cid{font-family:'Cinzel',serif;color:#C9A84C;font-size:10px;letter-spacing:2px;margin-bottom:8px;}
-  .qv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:rgba(201,168,76,0.47);margin-bottom:8px;}
-  .qv-question{color:#F5E6C8;font-size:16px;line-height:1.65;flex:1;}
-  .qv-hint{font-size:12px;color:rgba(201,168,76,0.33);margin-top:10px;font-style:italic;text-align:center;}
-  .qv-check{color:#C9A84C;font-size:18px;margin-bottom:6px;}
-  .qv-answer{color:#F5E6C8;font-size:13.5px;line-height:1.7;flex:1;overflow-y:auto;}
-  .qv-nota{margin-top:10px;padding:8px 12px;border-left:2px solid #C9A84C;background:rgba(201,168,76,0.07);border-radius:0 5px 5px 0;}
-  .qv-nota-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;color:#C9A84C;margin-bottom:3px;}
-  .qv-nota-txt{color:rgba(245,230,200,0.75);font-size:12.5px;font-style:italic;}
-  .qv-controls{display:flex;gap:10px;justify-content:center;margin-top:1.2rem;}
-  .qv-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;padding:9px 18px;border-radius:5px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:#C9A84C;cursor:pointer;transition:all 0.2s;}
-  .qv-btn:hover{background:rgba(201,168,76,0.13);border-color:#C9A84C;}
-  .qv-btn:disabled{opacity:0.2;cursor:default;}
-  .qv-btn-p{background:#C9A84C;color:#080808;border-color:#C9A84C;}
-  .qv-btn-p:hover{background:#d4b05a;}
-  .qv-end{text-align:center;padding:2rem 1rem;}
-  .qv-end-title{font-family:'Cinzel',serif;color:#C9A84C;font-size:17px;margin-bottom:0.8rem;}
-  .qv-end-sub{color:rgba(245,230,200,0.5);font-size:14px;font-style:italic;}
-
-  /* ── FONTS BLOCKED ──────────────────────────────────────────────── */
-  .fonts-blocked * {
-    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif !important;
-  }
-
-  /* ── ANIMATIONS ─────────────────────────────────────────────────── */
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
-  @keyframes msgIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
-  @keyframes typingDot { 0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)} }
-  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
-  @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
-
-  /* ── BOTTOM NAVIGATION BAR (MOBILE ONLY) ────────────────────────── */
-/* ── BOTTOM NAVIGATION BAR (MOBILE ONLY) ────────────────────────── */
-  #bottom-nav-bar {
-    display: none;
-    flex-shrink: 0;
-    height: 60px;
-    min-height: 60px;
-    background: var(--bruno-medio);
-    border-top: 1px solid rgba(201,168,76,0.2);
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom);
-    position: relative;
-  }
-
-  .bottom-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    flex: 1;
+  html, body {
     height: 100%;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: rgba(245,230,200,0.5);
-    border-bottom: 2px solid transparent;
-    position: relative;
-  }
-
-  .bottom-nav-item:hover { background: rgba(201,168,76,0.08); color: rgba(245,230,200,0.8); }
-  .bottom-nav-item.active { color: var(--oro); border-bottom-color: var(--oro); background: rgba(201,168,76,0.06); }
-
-  .bottom-nav-icon { font-size: 1.3rem; }
-  .bottom-nav-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.5rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  /* Sottomenu */
-  .bottom-submenu {
-    display: none;
-    position: fixed;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-    background: var(--bruno-medio);
-    border-top: 1px solid rgba(201,168,76,0.25);
-    border-bottom: none;
-    z-index: 101;
-    flex-direction: column;
-    padding: 0.4rem 0;
-  }
-  .bottom-submenu.open { display: flex; }
-
-  .submenu-item {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.75rem 1.5rem;
-    cursor: pointer;
-    color: rgba(245,230,200,0.7);
+    background: var(--nero);
+    color: var(--pergamena);
     font-family: 'EB Garamond', serif;
-    font-size: 0.95rem;
-    transition: all 0.15s;
-    border-bottom: 1px solid rgba(201,168,76,0.06);
+    overflow: hidden;
+  }
+
+  .bg {
+    position: fixed;
+    inset: 0;
+    background: var(--nero);
+    z-index: 0;
+  }
+
+  .bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 50%, #1a1200 0%, transparent 70%);
+    opacity: 0.6;
+  }
+
+  .bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 80px,
+        rgba(201,168,76,0.03) 80px,
+        rgba(201,168,76,0.03) 81px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(201,168,76,0.03) 80px,
+        rgba(201,168,76,0.03) 81px
+      );
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .logo-area {
+    text-align: center;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .logo-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 5px;
+    color: var(--oro);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .logo-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 36px;
+    font-style: italic;
+    color: var(--pergamena);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .logo-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    color: var(--grigio-testo);
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--oro), transparent);
+    margin: 20px auto;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(13,13,13,0.95);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 40px 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--oro);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .card-desc {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--grigio-testo);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .input-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .code-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    padding: 16px 20px;
+    color: var(--pergamena);
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+
+  .code-input::placeholder {
+    color: rgba(201,168,76,0.2);
+    letter-spacing: 3px;
+    font-size: 13px;
+  }
+
+  .code-input:focus {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(201,168,76,0.03);
+  }
+
+  .code-input.error {
+    border-color: rgba(200, 60, 60, 0.6);
+    animation: shake 0.4s ease;
+  }
+
+  .btn {
+    width: 100%;
+    background: var(--oro);
+    border: none;
+    border-radius: 8px;
+    padding: 15px 20px;
+    color: var(--nero);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+
+  .btn:hover { background: var(--oro-chiaro); }
+  .btn:active { transform: scale(0.98); }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-loading {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(8,8,8,0.3);
+    border-top-color: var(--nero);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: #c84040;
+    text-align: center;
+    margin-top: 12px;
+    min-height: 18px;
+    font-style: italic;
+  }
+
+  .footer-note {
+    margin-top: 28px;
+    font-size: 12px;
+    color: rgba(102,102,102,0.7);
+    text-align: center;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .footer-note a {
+    color: var(--oro);
     text-decoration: none;
-  }
-  .submenu-item:hover { background: rgba(201,168,76,0.1); color: var(--pergamena); }
-  .submenu-item-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
-  .submenu-item-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.05em; }
-
-
-/* Overlay per chiudere sottomenu */
-  #submenu-overlay {
-    display: none;
-    pointer-events: none;
-  }
-  @media (max-width: 768px) {
-    #submenu-overlay {
-      position: fixed;
-      inset: 0;
-      bottom: 60px;
-      z-index: 100;
-      background: rgba(0,0,0,0.4);
-    }
-    #submenu-overlay.open {
-      display: block;
-      pointer-events: auto;
-    }
-  }
-  /* ── RESPONSIVE LAYOUT ───────────────────────────────────────────── */
-  @media (max-width: 900px) { 
-    #sidebar { width: 220px; } 
+    opacity: 0.7;
   }
 
-@media (max-width: 768px) {
-    body { 
-      overflow: hidden; 
-      height: 100dvh;
-    }
-    #portale-body { 
-      flex-direction: column; 
-      height: calc(100dvh - 60px);
-      overflow: hidden;
-    }
-    #sidebar { display: none; }
-    .prof-panel { display: none; }
-    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
-    #chat-view { flex: 1; overflow: hidden; min-height: 0; }
-    .chat-panel { flex: 1; min-height: 0; overflow: hidden; }
-    .input-area { flex-shrink: 0; }
-    #bottom-nav-bar { display: flex; flex-shrink: 0; height: 60px; min-height: 60px; }
-    .messages-area { padding: 1rem; }
-    .content-body { padding: 1rem; padding-bottom: 20px; overflow-y: auto; }
-    .pdf-viewer-frame { height: 60vh; }
+  .footer-note a:hover { opacity: 1; }
+
+  .corner-deco {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: rgba(201,168,76,0.15);
+    border-style: solid;
   }
+  .corner-deco.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 32px 24px; }
+    .logo-title { font-size: 28px; }
+  }
+
+  /* ── COOKIE BANNER ── */
+  #cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: #0d1117;
+    border-top: 1px solid rgba(201,168,76,0.25);
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: 'Georgia', serif;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.6);
+  }
+  #cookie-banner p {
+    flex: 1; min-width: 260px;
+    font-size: 0.85rem; color: #D4B85A; line-height: 1.6; margin: 0;
+  }
+  #cookie-banner a { color: #C9A84C; text-decoration: underline; }
+  .cookie-btn-wrap {
+    display: flex; gap: 0.6rem; flex-shrink: 0; flex-wrap: wrap;
+  }
+  .cookie-btn {
+    font-family: 'Georgia', serif; font-size: 0.78rem;
+    letter-spacing: 0.08em; padding: 0.5rem 1.2rem;
+    cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap;
+  }
+  .cookie-btn-accept { background: #C9A84C; color: #080808; }
+  .cookie-btn-accept:hover { background: #E8C97A; }
+  .cookie-btn-reject { background: transparent; color: #8B6914; border: 1px solid #2A1E00; }
+  .cookie-btn-reject:hover { border-color: #C9A84C; color: #C9A84C; }
+  .cookie-btn-settings { background: transparent; color: #8B6914; border: 1px solid #2A1E00; }
+  .cookie-btn-settings:hover { border-color: #C9A84C; color: #C9A84C; }
 </style>
+
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "w7l4bipy35");
+</script>
+
 </head>
 <body>
 
-<!-- COOKIE NOTICE -->
-<div id="cookie-notice">
-  <div class="cookie-notice-text">
-    <strong>Cookie e tracciamento:</strong> Usiamo cookie per preferenze e analytics. Accetta o gestisci le tue scelte.
+<div class="bg">
+  <div class="bg-lines"></div>
+</div>
+
+<div class="container">
+<main>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+
+  <div class="logo-area">
+    <div class="logo-brand">I Classici Vivi</div>
+    <div class="logo-title">I Promessi Sposi.<br>Finalmente vivi.</div>
+    <div class="divider"></div>
+    <div class="logo-sub">Area riservata </div>
   </div>
-  <div class="cookie-notice-btns">
-    <button class="cookie-notice-accept" onclick="acceptCookies()">ACCETTA</button>
-    <a class="cookie-notice-info" href="/cookie.html" target="_blank">DETTAGLI</a>
+
+  <div class="card">
+    <div class="card-title">Accesso al kit</div>
+    <div class="card-desc">Inserisci il codice ricevuto via email dopo l'acquisto.</div>
+
+    <div class="input-wrap">
+      <input
+        type="text"
+        id="codeInput"
+        class="code-input"
+        placeholder="ICV-XXXX-XXXX"
+        maxlength="13"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+      />
+    </div>
+
+    <button class="btn" id="accessBtn" onclick="handleAccess()">
+      Entra nel kit
+    </button>
+
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="footer-note">
+    Non hai ricevuto il codice? <a href="mailto:info@classicivivi.it">Contattaci</a><br>
+    <a href="/" style="margin-top:6px; display:inline-block;">← Torna al sito</a>
+  </div>
+</div>
+</main>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;">
+  <p>
+    Questo sito utilizza cookie tecnici necessari e, con il tuo consenso, cookie di terze parti
+    (Google Fonts, Microsoft OneDrive). Puoi accettare tutto, rifiutare i cookie facoltativi
+    o personalizzare le tue scelte.
+    <a href="/cookie.html" target="_blank">Cookie Policy</a> —
+    <a href="/privacy.html" target="_blank">Privacy Policy</a>
+  </p>
+  <div class="cookie-btn-wrap">
+    <button class="cookie-btn cookie-btn-accept" onclick="cookieAcceptAll()">ACCETTA TUTTO</button>
+    <button class="cookie-btn cookie-btn-reject" onclick="cookieRejectAll()">RIFIUTA</button>
+    <button class="cookie-btn cookie-btn-settings" onclick="window.location.href='/cookie.html'">PERSONALIZZA</button>
   </div>
 </div>
 
-<!-- INTRO SCREEN -->
-<div id="intro-screen">
-  <video id="intro-video" autoplay playsinline src="../avatar_tutor.mp4"></video>
-  <button class="play-audio-btn" id="play-btn" style="display:none;">ATTIVA AUDIO</button>
-  <button class="skip-btn" onclick="skipIntro()">SALTA</button>
-  <div class="intro-overlay">
-    <div class="intro-brand">I Classici Vivi</div>
-    <div class="intro-title">I Promessi Sposi</div>
-    <div class="intro-subtitle">Entra nel portale di studio</div>
-  </div>
-</div>
-
-<!-- PORTALE BODY -->
-<div id="portale-body">
-  <!-- SIDEBAR (Desktop) -->
-  <div id="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-top">I Classici Vivi</div>
-      <div class="sidebar-logo-title">I Promessi Sposi</div>
-      <div class="sidebar-logo-sub">Portale di Studio</div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Chat AI</div>
-      <div class="nav-card active" onclick="showChat()" id="nav-tutor">
-        <span class="nav-card-emoji">🎓</span>
-        <div class="nav-card-texts">
-          <span class="nav-card-label">Il Tutor</span>
-          <span class="nav-card-desc">Guida al kit e al romanzo</span>
-        </div>
-      </div>
-      <a href="../don_abbondio_chat.html" class="nav-card">
-        <span class="nav-card-emoji">⛪</span>
-        <div class="nav-card-texts">
-          <span class="nav-card-label">Don Abbondio</span>
-          <span class="nav-card-desc">Il curato codardo</span>
-        </div>
-      </a>
-      <a href="../renzo_chat.html" class="nav-card">
-        <span class="nav-card-emoji">⚔️</span>
-        <div class="nav-card-texts">
-          <span class="nav-card-label">Renzo</span>
-          <span class="nav-card-desc">Il protagonista</span>
-        </div>
-      </a>
-      <a href="../innominato_chat.html" class="nav-card">
-        <span class="nav-card-emoji">🌑</span>
-        <div class="nav-card-texts">
-          <span class="nav-card-label">L'Innominato</span>
-          <span class="nav-card-desc">Prima e dopo la conversione</span>
-        </div>
-      </a>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Materiali</div>
-      <div class="nav-item" onclick="showContent('podcast')">
-        <span class="nav-num">①</span>
-        <span class="nav-text">Podcast</span>
-        <span class="nav-badge">38</span>
-      </div>
-      <div class="nav-item" onclick="showContent('flashcard')">
-        <span class="nav-num">②</span>
-        <span class="nav-text">Flashcard</span>
-      </div>
-      <div class="nav-item" onclick="showContent('quiz')">
-        <span class="nav-num">③</span>
-        <span class="nav-text">Quiz</span>
-      </div>
-      <div class="nav-item" onclick="showContent('librogame')">
-        <span class="nav-num">④</span>
-        <span class="nav-text">Librogame</span>
-      </div>
-      <div class="nav-item" onclick="showContent('script')">
-        <span class="nav-num">⑤</span>
-        <span class="nav-text">Script Cinematografici</span>
-      </div>
-      <div class="nav-item" onclick="showContent('interviste')">
-        <span class="nav-num">⑥</span>
-        <span class="nav-text">Interviste Impossibili</span>
-      </div>
-      <div class="nav-item" onclick="showContent('libro')">
-        <span class="nav-num">⑦</span>
-        <span class="nav-text">Libro Originale</span>
-      </div>
-    </div>
-
-    <div class="sidebar-footer">
-      <button class="logout-btn" onclick="logout()">LOGOUT</button>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div id="main">
-    <!-- CHAT VIEW -->
-    <div id="chat-view">
-      <div class="prof-panel">
-        <div class="prof-bg"></div>
-        <div class="prof-gradient"></div>
-        <div class="prof-info">
-          <div class="prof-badge">TUTOR IA</div>
-          <div class="prof-name">Il Tutor</div>
-          <div class="prof-role">La tua guida attraverso il kit</div>
-          <div class="prof-status">
-            <div class="status-dot"></div>
-            <div class="status-text">Pronto ad aiutarti</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-panel">
-        <header class="chat-header">
-          <div class="header-brand">I CLASSICI VIVI</div>
-          <div class="header-divider"></div>
-          <div class="header-title">Il Tutor</div>
-          <div class="header-sub">I Promessi Sposi — guida al kit</div>
-        </header>
-        <div class="messages-area" id="messages-area">
-          <div class="message ai">
-            <div class="message-name">IL TUTOR</div>
-            <div class="message-bubble">
-              Ciao! Sono il Tutor, la tua guida attraverso I Classici Vivi.<br><br>
-              Prima di tutto dimmi — da dove partiamo? Stai studiando I Promessi Sposi per la prima volta, oppure hai già una verifica domani e hai bisogno di ripassare in fretta?<br><br>
-              In base a quello che mi dici, ti indico il percorso giusto nel kit.
-            </div>
-          </div>
-        </div>
-        <div class="typing-indicator" id="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-        </div>
-        <div class="quick-actions">
-          <button class="quick-btn" onclick="quickSend('È la prima volta che studio il libro')">Prima volta</button>
-          <button class="quick-btn" onclick="quickSend('Ho una verifica domani')">Verifica domani</button>
-          <button class="quick-btn" onclick="quickSend('Voglio capire i personaggi')">I personaggi</button>
-          <button class="quick-btn" onclick="quickSend('Mi preparo per la maturità')">Maturità</button>
-        </div>
-        <div class="input-area">
-          <div class="input-wrapper">
-            <textarea class="input-field" id="user-input" placeholder="Scrivi al Tutor…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-            <button class="send-btn" id="send-btn" onclick="sendMessage()">↳</button>
-          </div>
-          <div class="input-hint">Invio = invia · Shift+Invio = riga nuova</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONTENT VIEW -->
-    <div id="content-view">
-      <div class="content-header">
-        <div class="header-brand">I CLASSICI VIVI</div>
-        <div class="header-divider"></div>
-        <div class="content-header-title" id="content-title">Materiali</div>
-        <button class="content-header-back" onclick="showChat()">↶ Torna</button>
-      </div>
-      <div class="content-body" id="content-body"></div>
-    </div>
-  </div>
-
-  <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
- <!-- OVERLAY sottomenu -->
-  <div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
-
-  <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
-  <div id="bottom-nav-bar">
-
-    <!-- CHAT con sottomenu -->
-    <div class="bottom-nav-item active" data-nav="chat" onclick="toggleSubmenu('submenu-chat', 'chat')">
-      <div class="bottom-nav-icon">💬</div>
-      <div class="bottom-nav-label">CHAT</div>
-    </div>
-
-    <!-- PODCAST diretto -->
-    <div class="bottom-nav-item" data-nav="podcast" onclick="navDirect('podcast')">
-      <div class="bottom-nav-icon">🎧</div>
-      <div class="bottom-nav-label">PODCAST</div>
-    </div>
-
-    <!-- STUDIO con sottomenu -->
-    <div class="bottom-nav-item" data-nav="studio" onclick="toggleSubmenu('submenu-studio', 'studio')">
-      <div class="bottom-nav-icon">📖</div>
-      <div class="bottom-nav-label">STUDIO</div>
-    </div>
-
-    <!-- MEDIA con sottomenu -->
-    <div class="bottom-nav-item" data-nav="media" onclick="toggleSubmenu('submenu-media', 'media')">
-      <div class="bottom-nav-icon">🎞️</div>
-      <div class="bottom-nav-label">MEDIA</div>
-    </div>
-
-    <!-- LEGGIMI con sottomenu -->
-    <div class="bottom-nav-item" data-nav="leggimi" onclick="toggleSubmenu('submenu-leggimi', 'leggimi')">
-      <div class="bottom-nav-icon">📕</div>
-      <div class="bottom-nav-label">LEGGIMI</div>
-    </div>
-
-  </div>
-
-  <!-- SOTTOMENU CHAT -->
-  <div class="bottom-submenu" id="submenu-chat">
-    <div class="submenu-item" onclick="navChat('tutor')">
-      <span class="submenu-item-icon">🎓</span>
-      <span class="submenu-item-label">Il Tutor</span>
-    </div>
-    <a class="submenu-item" href="../don_abbondio_chat.html">
-      <span class="submenu-item-icon">⛪</span>
-      <span class="submenu-item-label">Don Abbondio</span>
-    </a>
-    <a class="submenu-item" href="../renzo_chat.html">
-      <span class="submenu-item-icon">⚔️</span>
-      <span class="submenu-item-label">Renzo</span>
-    </a>
-    <a class="submenu-item" href="../innominato_chat.html">
-      <span class="submenu-item-icon">🌑</span>
-      <span class="submenu-item-label">L'Innominato</span>
-    </a>
-  </div>
-
-  <!-- SOTTOMENU STUDIO -->
-  <div class="bottom-submenu" id="submenu-studio">
-    <div class="submenu-item" onclick="navContent('flashcard', 'studio')">
-      <span class="submenu-item-icon">🎴</span>
-      <span class="submenu-item-label">Flashcard</span>
-    </div>
-    <div class="submenu-item" onclick="navContent('quiz', 'studio')">
-      <span class="submenu-item-icon">❓</span>
-      <span class="submenu-item-label">Quiz</span>
-    </div>
-  </div>
-
-  <!-- SOTTOMENU MEDIA -->
-  <div class="bottom-submenu" id="submenu-media">
-    <div class="submenu-item" onclick="navContent('script', 'media')">
-      <span class="submenu-item-icon">🎬</span>
-      <span class="submenu-item-label">Script Cinematografici</span>
-    </div>
-    <div class="submenu-item" onclick="navContent('interviste', 'media')">
-      <span class="submenu-item-icon">🎞️</span>
-      <span class="submenu-item-label">Interviste Impossibili</span>
-    </div>
-  </div>
-
-  <!-- SOTTOMENU LEGGIMI -->
-  <div class="bottom-submenu" id="submenu-leggimi">
-    <div class="submenu-item" onclick="navContent('librogame', 'leggimi')">
-      <span class="submenu-item-icon">🎮</span>
-      <span class="submenu-item-label">Librogame</span>
-    </div>
-    <div class="submenu-item" onclick="navContent('libro', 'leggimi')">
-      <span class="submenu-item-icon">📕</span>
-      <span class="submenu-item-label">Libro Originale</span>
-    </div>
-  </div>
 <script>
-  // ── AUTH & INIT ────────────────────────────────────────────────────
-  (function() {
-    const token = sessionStorage.getItem('icv_access');
-    const ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
-    const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 ore in ms
-    if (!token || (Date.now() - ts) > SESSION_TTL) {
-      sessionStorage.removeItem('icv_access');
-      sessionStorage.removeItem('icv_ts');
-      window.location.href = '/accedi';
+  // ── PULIZIA URL DA PARAMETRI TRACKING ──────────────────────────────
+  function cleanUrl() {
+    const url = new URL(window.location);
+    // Rimuovi tutti i parametri di tracking Siteimprove
+    url.searchParams.delete('_sm_pdc');
+    url.searchParams.delete('_sm_rid');
+    // Se ci sono altri parametri di tracking, rimuovili
+    const paramsToRemove = ['fbclid', 'gclid', 'utm_source', 'utm_medium', 'utm_campaign'];
+    paramsToRemove.forEach(param => url.searchParams.delete(param));
+    // Se l'URL è stato modificato, aggiornalo silenziosamente
+    if (url.toString() !== window.location.toString()) {
+      window.history.replaceState({}, document.title, url.toString());
     }
-    if (window.innerWidth < 768) {
-      window.location.replace('/portale/mobile.html');
+  }
+
+  // ── COOKIE BANNER ──────────────────────────────────────────────────
+  (function() {
+    const prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (!prefs.saved) {
+      document.getElementById('cookie-banner').style.display = 'flex';
     }
   })();
 
-  function acceptCookies() {
+  function cookieAcceptAll() {
     localStorage.setItem('icv_cookie_prefs', JSON.stringify({
-      fonts: true, onedrive: true, saved: true, analytics: true
+      fonts: true, onedrive: true, saved: true, date: new Date().toISOString()
     }));
-    document.getElementById('cookie-notice').classList.remove('visible');
-    window.__onedrive_blocked = false;
+    document.getElementById('cookie-banner').style.display = 'none';
   }
 
-  // ── INTRO ──────────────────────────────────────────────────────────
- window.skipIntro = function() {
-    const intro = document.getElementById('intro-screen');
-    const vid = document.getElementById('intro-video');
-    vid.pause();
-    intro.classList.add('fade-out');
-    setTimeout(() => { intro.style.display = 'none'; }, 800);
+  function cookieRejectAll() {
+    localStorage.setItem('icv_cookie_prefs', JSON.stringify({
+      fonts: false, onedrive: false, saved: true, date: new Date().toISOString()
+    }));
+    document.getElementById('cookie-banner').style.display = 'none';
   }
 
-  // Gestione autoplay con audio
-  const introVid = document.getElementById('intro-video');
-  const playBtn = document.getElementById('play-btn');
+  // ── FORM HANDLER ───────────────────────────────────────────────────
+  const input = document.getElementById('codeInput');
+  const btn = document.getElementById('accessBtn');
+  const errorMsg = document.getElementById('errorMsg');
 
-  introVid.play().then(() => {
-    // autoplay con audio riuscito (raro su mobile)
-    playBtn.style.display = 'none';
-  }).catch(() => {
-    // Chrome ha bloccato l'audio: mostra il pulsante
-    introVid.muted = true;
-    introVid.play().catch(() => {});
-    playBtn.style.display = 'block';
+  // Formatta automaticamente il codice mentre si digita
+  input.addEventListener('input', function() {
+    let val = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    let formatted = '';
+    if (val.length > 0) formatted = val.substring(0, 3);
+    if (val.length > 3) formatted += '-' + val.substring(3, 7);
+    if (val.length > 7) formatted += '-' + val.substring(7, 11);
+    this.value = formatted;
+    errorMsg.textContent = '';
+    this.classList.remove('error');
   });
 
-  playBtn.addEventListener('click', () => {
-    introVid.muted = false;
-    introVid.currentTime = 0;
-    introVid.play();
-    playBtn.style.display = 'none';
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleAccess();
   });
 
-  setTimeout(skipIntro, 12000);
+  async function handleAccess() {
+    const code = input.value.trim();
 
-  // ── FLASHCARD DATA ────────────────────────────────────────────────
-  // ============================================================
-  // FLASHCARD ZERO — 5 card
-  // ============================================================
-  const fcZero = [
-    { id: '#Z01', personaggio: 'LUCIA', domanda: 'Ma sai chi fa tremare l\'Innominato — l\'uomo più pericoloso della Lombardia — con sole due parole?', risposta: 'Lucia stessa. La sua preghiera nella notte scatena una crisi esistenziale nell\'Innominato che nessuna forza fisica avrebbe potuto provocare. La sua debolezza apparente è la sua forza assoluta.' },
-    { id: '#Z02', personaggio: 'DON ABBONDIO', domanda: 'E se ti dicessi che Manzoni lo ha scritto come la prima vittima del sistema — non come il suo complice?', risposta: 'Don Abbondio è un vaso di coccio tra vasi di ferro. La sua codardia non è un vizio personale — è la risposta razionale di chi non ha protezioni in una società dove il potere decide tutto. Manzoni usa lui per accusare il clero e il sistema, non l\'uomo.' },
-    { id: '#Z03', personaggio: 'RENZO', domanda: 'Quante volte Renzo si mette nei guai completamente da solo nel corso del romanzo? Contali.', risposta: 'Per metà del romanzo Renzo combina solo disastri — si ubriaca, fa discorsi in piazza durante i tumulti, viene arrestato, rischia di annegare l\'Adda. Manzoni lo vuole così: un eroe imperfetto che cresce attraverso gli errori, non un protagonista da favola.' },
-    { id: '#Z04', personaggio: 'L\'INNOMINATO', domanda: 'E se la sua conversione fosse una crisi esistenziale già in corso da tempo — e Lucia ne fosse solo la scintilla?', risposta: 'L\'Innominato aveva già tutto — potere, ricchezza, rispetto fondato sul terrore — e sentiva un vuoto che non sapeva nominare. Non è la paura a convertirlo: è il riconoscimento che la vita che ha costruito è vuota. Lucia è solo l\'ultima goccia.' },
-    { id: '#Z05', personaggio: 'FRA CRISTOFORO', domanda: 'Cosa ha fatto Fra Cristoforo prima di diventare frate? Sai davvero chi era?', risposta: 'Si chiamava Lodovico e ha ucciso un uomo in duello — per una questione di precedenza stradale. La sua vocazione non nasce dalla fede, ma dal rimorso. È uno degli archi di trasformazione più potenti del romanzo.' },
-  ];
-
-  // ============================================================
-  // FLASHCARD CAPITOLO — 55 card
-  // ============================================================
-  const fcCapitolo = [
-    { id: '#C01', domanda: 'Nel \'Proemio\', come definisce l\'Anonimo il rapporto tra la Storia e il Tempo?', risposta: 'Una guerra illustre contro il Tempo che richiama in vita gli anni prigionieri e già fatti cadaveri.' },
-    { id: '#C02', domanda: 'Quale critica muove Manzoni allo stile del \'buon secentista\' autore del manoscritto originale?', risposta: 'Lo giudica rozzo e insieme affettato, pieno di idiotismi lombardi, frasi a sproposito e declamazioni ampollose.' },
-    { id: '#C03', domanda: 'Perché Manzoni decide di \'rifarne la dicitura\' invece di limitarsi a trascrivere il manoscritto?', risposta: 'Perché la dicitura originale era intollerabile per i lettori moderni, nonostante la storia fosse considerata molto bella.' },
-    { id: '#C04', domanda: 'Quale caratteristica fisica rende il monte Resegone immediatamente distinguibile secondo la descrizione del Capitolo I?', risposta: 'I suoi molti cocuzzoli in fila che lo fanno somigliare a una sega.' },
-    { id: '#C05', domanda: 'Qual era la funzione dei soldati spagnoli stanziati a Lecco nel 1628?', risposta: 'Alloggiare come guarnigione, \'insegnare la modestia\' alle donne e derubare i contadini durante la vendemmia.' },
-    { id: '#C06', domanda: 'Per quale motivo Don Abbondio, durante la sua passeggiata, leggeva il breviario?', risposta: 'Stava recitando tranquillamente il suo ufizio quotidiano.' },
-    { id: '#C07', domanda: 'Cosa indica specificamente l\'abbigliamento dei \'bravi\' (reticella verde, ciuffo enorme, mustacchi arricciati)?', risposta: 'La loro appartenenza a una specie di sgherri al servizio dei signorotti locali.' },
-    { id: '#C08', domanda: 'Qual è l\'ordine perentorio che i bravi riferiscono a Don Abbondio riguardo a Renzo e Lucia?', risposta: 'Il matrimonio non deve essere celebrato né il giorno seguente, né mai.' },
-    { id: '#C09', domanda: 'Chi è il mandante della minaccia subita da Don Abbondio al tabernacolo?', risposta: 'L\'illustrissimo signor Don Rodrigo.' },
-    { id: '#C10', domanda: 'Quale metafora usa Manzoni per spiegare la fragilità sociale di Don Abbondio?', risposta: 'Quella di un vaso di terra cotta costretto a viaggiare in compagnia di molti vasi di ferro.' },
-    { id: '#C11', domanda: 'Qual era il \'sistema\' adottato da Don Abbondio per sopravvivere in una società violenta?', risposta: 'Scansare ogni contrasto, cedere in quelli inevitabili e schierarsi sempre con il più forte.' },
-    { id: '#C12', domanda: 'Chi è Perpetua e qual è il suo ruolo nella casa di Don Abbondio?', risposta: 'È la serva affezionata e fedele, capace di ubbidire e comandare a seconda dell\'occasione.' },
-    { id: '#C13', domanda: 'Quale consiglio \'politico\' dà Perpetua a Don Abbondio per risolvere il problema delle minacce?', risposta: 'Scrivere una lettera all\'arcivescovo, noto per essere un \'uomo di polso\' che protegge i curati.' },
-    { id: '#C14', domanda: 'Qual è il piano d\'emergenza ideato da Don Abbondio durante la notte d\'angoscia nel Capitolo II?', risposta: 'Guadagnare tempo menando Renzo per le lunghe con pretesti legali fino al tempo proibito per le nozze.' },
-    { id: '#C15', domanda: 'Professione di Renzo Tramaglino: in quale settore operava?', risposta: 'Era un filatore di seta, professione ereditaria e allora in decadenza.' },
-    { id: '#C16', domanda: 'Quale termine usa Renzo per disprezzare il linguaggio tecnico-latino usato dal curato per confonderlo?', risposta: 'Latinorum.' },
-    { id: '#C17', domanda: 'In che modo Renzo riesce a estorcere la verità a Perpetua nel Capitolo II?', risposta: 'Fingendo di sapere già qualcosa e stuzzicando la sua propensione al pettegolezzo.' },
-    { id: '#C18', domanda: 'Qual è la reazione psicologica di Don Abbondio quando Renzo scopre il nome di Don Rodrigo?', risposta: 'Viene assalito dal terrore di aver violato il divieto di parlare e si pente di aver ceduto alle domande.' },
-    { id: '#C19', domanda: 'Come viene descritta Lucia Mondella al momento del suo ingresso nella narrazione?', risposta: 'Dotata di una modesta bellezza, ornata per le nozze con una corona di spilloni d\'argento e un busto di broccato.' },
-    { id: '#C20', domanda: 'Quale errore fondamentale commette l\'avvocato Azzecca-garbugli durante il colloquio con Renzo?', risposta: 'Scambia Renzo per un bravo che ha commesso un reato e cerca di aiutarlo a eludere le gride.' },
-    { id: '#C21', domanda: 'Perché l\'Azzecca-garbugli scaccia Renzo in malo modo dalla sua casa?', risposta: 'Perché Renzo fa il nome di Don Rodrigo, rivelandosi una vittima e non un complice del potere.' },
-    { id: '#C22', domanda: 'Chi è Fra Cristoforo e qual è la sua missione iniziale nel romanzo?', risposta: 'Un frate cappuccino che agisce come protettore degli oppressi, in particolare di Renzo e Lucia.' },
-    { id: '#C23', domanda: 'Quale evento scatenò la conversione di Lodovico (il futuro Fra Cristoforo)?', risposta: 'L\'uccisione di un nobile borioso durante una disputa per una precedenza stradale, in cui morì anche il suo fedele servitore.' },
-    { id: '#C24', domanda: 'Qual è il significato del gesto di Fra Cristoforo di conservare il \'pane del perdono\'?', risposta: 'Rappresenta il simbolo tangibile della riconciliazione avvenuta con la famiglia dell\'ucciso.' },
-    { id: '#C25', domanda: 'Quale sfida propone il Conte Attilio al Podestà durante il banchetto a casa di Don Rodrigo?', risposta: 'Una disputa cavalleresca sulla legittimità di bastonare un messo che rechi una sfida ingiusta.' },
-    { id: '#C26', domanda: 'In cosa consiste il \'matrimonio a sorpresa\' proposto da Agnese?', risposta: 'Nel presentarsi improvvisamente davanti al curato con due testimoni e pronunciare le formule di consenso.' },
-    { id: '#C27', domanda: 'Chi è la \'Signora\' (Gertrude) e perché Lucia viene mandata da lei a Monza?', risposta: 'È una monaca di nobile famiglia che gode di grandi privilegi e può offrire asilo nel suo monastero.' },
-    { id: '#C28', domanda: 'Quale meccanismo di coercizione ha portato Gertrude alla monacazione forzata?', risposta: 'La volontà tirannica del Principe Padre, che ha pianificato il suo destino sin dalla nascita per non dividere il patrimonio.' },
-    { id: '#C29', domanda: 'Chi è Egidio e quale ruolo funesto ha nella vita di Gertrude?', risposta: 'Un giovane scellerato che vive accanto al monastero e con cui Gertrude intreccia una relazione peccaminosa.' },
-    { id: '#C30', domanda: 'Perché Don Rodrigo si rivolge all\'Innominato?', risposta: 'Perché le sue forze non bastano a rapire Lucia dal monastero di Monza e necessita dell\'aiuto di un potente criminale.' },
-    { id: '#C31', domanda: 'Qual è la reazione psicologica dell\'Innominato alla vista di Lucia nel suo castello?', risposta: 'Prova un\'insolita commozione e un senso di colpa che accelera la sua crisi spirituale già in atto.' },
-    { id: '#C32', domanda: 'Quale celebre frase di Lucia durante la prigionia scuote profondamente l\'Innominato?', risposta: '\'Dio perdona tante cose, per un\'opera di misericordia!\'' },
-    { id: '#C33', domanda: 'Cosa decide di fare Lucia durante la \'notte degli imbrogli\' per invocare l\'aiuto divino?', risposta: 'Fa voto di verginità alla Madonna, promettendo di non sposarsi se sarà liberata.' },
-    { id: '#C34', domanda: 'Quale figura religiosa accoglie l\'Innominato favorendo la sua conversione?', risposta: 'Il Cardinale Federigo Borromeo, arcivescovo di Milano.' },
-    { id: '#C35', domanda: 'Perché Don Abbondio deve accompagnare l\'Innominato a riprendere Lucia?', risposta: 'Per fornire a Lucia una figura familiare che la rassicuri dopo il trauma del rapimento.' },
-    { id: '#C36', domanda: 'Chi sono Donna Prassede e Don Ferrante?', risposta: 'Una coppia di nobili milanesi che accoglie Lucia; lei è dedita a fare un \'bene\' spesso indiscreto, lui è un erudito pedante.' },
-    { id: '#C37', domanda: 'Su quale teoria Don Ferrante basa la sua convinzione dell\'inesistenza della peste?', risposta: 'Sulla negazione aristotelica, sostenendo che il contagio non sia né sostanza né accidente, ma un influsso astrale.' },
-    { id: '#C38', domanda: 'Cosa causa la rivolta del pane a Milano a cui partecipa Renzo?', risposta: 'La carestia e il rincaro del prezzo del pane, aggravati dalle decisioni economiche errate di Antonio Ferrer.' },
-    { id: '#C39', domanda: 'Qual è l\'atteggiamento di Antonio Ferrer verso la folla durante il salvataggio del Vicario di Provvisione?', risposta: 'Usa una politica ambigua, promettendo giustizia in italiano e ordinando cautela in spagnolo (\'Adelante, Pedro, con juicio\').' },
-    { id: '#C40', domanda: 'Perché Renzo viene arrestato a Milano dopo il tumulto?', risposta: 'Perché viene scambiato per uno dei capi della sommossa a causa dei suoi discorsi imprudenti nell\'osteria della Luna Piena.' },
-    { id: '#C41', domanda: 'Come riesce Renzo a sfuggire ai birri che lo stavano conducendo in prigione?', risposta: 'Sfrutta un assembramento di persone per strada, attirando la loro simpatia e facendosi liberare dalla folla.' },
-    { id: '#C42', domanda: 'Quale fiume deve attraversare Renzo per mettersi in salvo nel territorio di Bergamo?', risposta: 'L\'Adda, che segna il confine tra lo Stato di Milano e la Repubblica di Venezia.' },
-    { id: '#C43', domanda: 'Chi è Bortolo e come aiuta Renzo una volta giunto nel Bergamasco?', risposta: 'È il cugino di Renzo, che lo accoglie e gli trova lavoro nel suo filatoio di seta.' },
-    { id: '#C44', domanda: 'Cosa rappresenta il Lazzaretto di Milano nella descrizione manzoniana?', risposta: 'Un luogo di sofferenza estrema e caos, ma anche di eroica carità cristiana gestito dai Cappuccini.' },
-    { id: '#C45', domanda: 'Qual è il destino finale di Don Rodrigo nel romanzo?', risposta: 'Muore di peste nel Lazzaretto, dopo essere stato tradito dal suo servitore Griso.' },
-    { id: '#C46', domanda: 'Chi è Padre Felice Casati?', risposta: 'Il frate cappuccino che governa il Lazzaretto con straordinaria prudenza e dedizione durante l\'epidemia.' },
-    { id: '#C47', domanda: 'In che modo Fra Cristoforo risolve il problema del voto di Lucia nel Lazzaretto?', risposta: 'Esercita la sua autorità religiosa per sciogliere Lucia dal voto, spiegandole che non poteva disporre di una volontà già impegnata con Renzo.' },
-    { id: '#C48', domanda: 'Perché Renzo cerca Don Rodrigo nel Lazzaretto?', risposta: 'Inizialmente per vendetta, ma poi, guidato da Fra Cristoforo, per perdonarlo cristianamente.' },
-    { id: '#C49', domanda: 'Quale evento atmosferico segna simbolicamente la fine della peste e la purificazione della città?', risposta: 'Una pioggia torrenziale e benefica che lava via il contagio.' },
-    { id: '#C50', domanda: 'Chi acquista i beni di Renzo e Lucia alla fine della storia e a quale prezzo?', risposta: 'Il nuovo Marchese, successore di Don Rodrigo, che li paga il doppio del valore reale come forma di risarcimento morale.' },
-    { id: '#C51', domanda: 'Qual è il \'sugo della storia\' che Renzo e Lucia traggono dalle loro peripezie?', risposta: 'Che i guai vengono spesso per colpa, ma anche l\'innocenza non ne è esente; la fiducia in Dio però li raddolcisce e li rende utili per una vita migliore.' },
-    { id: '#C52', domanda: 'Quale critica rivolge il Cardinale Borromeo a Don Abbondio durante la visita pastorale?', risposta: 'Gli rimprovera di aver anteposto la propria vita al dovere del ministero e alla cura delle anime loro affidate.' },
-    { id: '#C53', domanda: 'Chi sono gli \'untori\' nella mentalità popolare del Seicento milanese?', risposta: 'Individui sospettati di spargere unguenti malefici per diffondere deliberatamente il contagio della peste.' },
-    { id: '#C54', domanda: 'Qual è la sorte del Griso dopo il tradimento a Don Rodrigo?', risposta: 'Muore anch\'egli di peste, contagiato proprio mentre rubava i vestiti del suo padrone ammalato.' },
-    { id: '#C55', domanda: 'Quale ruolo ha la \'Provvidenza\' nell\'economia del romanzo?', risposta: 'È la forza divina che guida gli eventi umani verso il bene, anche attraverso la sofferenza e i percorsi tortuosi della storia.' },
-  ];
-
-  // ── FLASHCARD ENGINE ──────────────────────────────────────────────
-  var fcState = { tab: 'zero', cards: fcZero, current: 0, flipped: false };
-
-  function fcSetTab(t) {
-    fcState.tab = t;
-    fcState.cards = (t === 'zero') ? fcZero : fcCapitolo;
-    fcState.current = 0;
-    fcState.flipped = false;
-    fcRender();
-  }
-
-  function fcRender() {
-    var el = document.getElementById('fc-viewer');
-    if (!el) return;
-    if (fcState.current >= fcState.cards.length) { fcRenderEnd(el); return; }
-    var c = fcState.cards[fcState.current];
-    var pct = Math.round(((fcState.current + 1) / fcState.cards.length) * 100);
-    var frontMid = '<div class="fc-lbl">DOMANDA:</div>';
-    var cardName = c.personaggio ? ' — ' + c.personaggio : '';
-    var tabsHtml = '<button class="fc-tab' + (fcState.tab === 'zero' ? ' fc-active' : '') + '" onclick="fcSetTab(\'zero\')">Zero</button><button class="fc-tab' + (fcState.tab === 'capitolo' ? ' fc-active' : '') + '" onclick="fcSetTab(\'capitolo\')">100</button>';
-    el.innerHTML = '<div class="fc-wrap"><div class="fc-top"><p class="fc-title-label">Flashcard</p><div class="fc-tabs">' + tabsHtml + '</div></div>' +
-      '<div class="fc-progress-row"><span class="fc-counter">' + (fcState.current + 1) + ' / ' + fcState.cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
-      '<div class="fc-scene" onclick="fcFlip()"><div class="fc-card' + (fcState.flipped ? ' fc-flipped' : '') + '" id="fcCard"><div class="fc-face fc-front">' +
-      '<div class="fc-card-id">' + c.id + cardName + '</div>' + frontMid + '<div class="fc-question">' + c.domanda + '</div><div class="fc-hint">Clicca per la risposta</div></div>' +
-      '<div class="fc-face fc-back"><div class="fc-card-id">' + c.id + '</div><div class="fc-check">✓</div><div class="fc-lbl">RISPOSTA:</div><div class="fc-answer">' + c.risposta + '</div></div></div></div>' +
-      '<div class="fc-controls"><button class="fc-btn" onclick="fcPrev()" ' + (fcState.current === 0 ? 'disabled' : '') + '>← Indietro</button><button class="fc-btn fc-btn-primary" onclick="fcNext()">Avanti →</button></div></div>';
-  }
-
-  function fcRenderEnd(el) {
-    el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">Sezione completata!</p><p class="fc-end-sub">Hai finito tutte le flashcard.</p><button class="fc-btn fc-btn-primary" onclick="fcSetTab(\'' + fcState.tab + '\')">Ricomincia</button></div></div>';
-  }
-
-  function fcFlip() {
-    fcState.flipped = !fcState.flipped;
-    var c = document.getElementById('fcCard');
-    if (c) {
-      c.classList.toggle('fc-flipped');
-      // Aggiorna solo il contenuto testuale senza ricostruire l'elemento,
-      // così l'animazione CSS da 0.55s può completarsi
-      var front = c.querySelector('.fc-front .fc-body');
-      var back = c.querySelector('.fc-back .fc-body');
-      // Il contenuto è già nel DOM — il toggle CSS è sufficiente
-    } else {
-      fcRender();
+    if (!code || code.length < 3) {
+      showError('Inserisci il tuo codice di accesso.');
+      return;
     }
-  }
-  function fcNext() { fcState.current++; fcState.flipped = false; fcRender(); }
-  function fcPrev() { fcState.current--; fcState.flipped = false; fcRender(); }
 
-  // ── NAVIGATION ─────────────────────────────────────────────────────
-  function showChat() {
-    document.getElementById('chat-view').style.display = 'flex';
-    document.getElementById('content-view').style.display = 'none';
-    document.getElementById('nav-tutor').classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  }
-
-  function showContent(key) {
-    document.getElementById('chat-view').style.display = 'none';
-    document.getElementById('content-view').style.display = 'flex';
-    var c = contents[key];
-    if (c) {
-      document.getElementById('content-title').textContent = c.title;
-      document.getElementById('content-body').innerHTML = c.html;
+    // ── DEVICE ID ──────────────────────────────────────────────────────
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        var v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
     }
-    if (key === 'podcast') initPodcastPlayer();
-    if (key === 'flashcard') { fcState.current = 0; fcState.flipped = false; fcRender(); }
-    if (key === 'quiz') initQuizViewers();
-    if (key === 'interviste') { intState.current = 0; intState.flipped = false; intRender(); }
-    document.getElementById('nav-tutor').classList.remove('active');
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  }
 
-  function showChatMobile() {
-    showChat();
-    updateBottomNav('chat');
-  }
-
-  function showContentMobile(key) {
-    showContent(key);
-    updateBottomNav(key);
-  }
-
-  function updateBottomNav(active) {
-    document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
-    document.querySelector('[data-nav="' + active + '"]')?.classList.add('active');
-  }
-
-  function logout() {
-    sessionStorage.removeItem('icv_access');
-    window.location.href = '/';
-  }
-
-  // ── CONTENTS ───────────────────────────────────────────────────────
-  const contents = {
-    podcast: {
-      title: 'Podcast',
-      html: '<p class="podcast-intro">38 episodi di analisi audiovisiva del romanzo. Ogni episodio dura circa 8 minuti.</p><div class="podcast-lista" id="podcastLista"></div>'
-    },
-    flashcard: {
-      title: 'Flashcard',
-      html: '<div id="fc-viewer"></div>'
-    },
-    quiz: {
-      title: 'Quiz',
-      html: '<div id="qfViewer"></div><div id="qpViewer" style="margin-top: 2rem;"></div>'
-    },
-    librogame: {
-      title: 'Librogame',
-      html: '<iframe src="../LaGrandePaura_Interattivo.html" style="width:100%; height:80vh; border:none; border-radius:4px;"></iframe>'
-    },
-    script: {
-      title: 'Script Cinematografici',
-      html: '<div class="pdf-viewer-title">Script Cinematografici</div><div class="pdf-viewer-desc">Analisi dei capitoli in forma di copioni cinematografici.</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAfNDnUJ1BxS404gZEVVx0gAZy4BXjMGaR0UTNgOKG1_Uc?e=l8CcaZ" target="_blank" rel="noopener noreferrer">APRI DOCUMENTO →</a>'
-    },
-    interviste: {
-      title: 'Interviste Impossibili',
-      html: '<div id="int-viewer"></div>'
-    },
-    libro: {
-      title: 'Libro Originale',
-      html: '<div class="download-note">Scarica o leggi online il testo completo di <strong>I Promessi Sposi</strong>.</div><a class="download-btn" href="https://1drv.ms/b/c/84fa0c94011fae7e/IQAOa2XgphjsRqSgENVTjGvHAeLTGT1Cbo6KsIlnkLTUYLc?e=PY23Cb" target="_blank" rel="noopener noreferrer">APRI DOCUMENTO →</a><p class="download-note" style="margin-top:1.5rem;">Alessandro Manzoni (1785–1873) scrisse I Promessi Sposi nell\'arco di vent\'anni, pubblicando la versione definitiva nel 1840 dopo una celebre revisione linguistica. Ambientato nella Lombardia del Seicento sotto la dominazione spagnola, è considerato il primo grande romanzo della letteratura italiana e uno dei capisaldi della narrativa europea dell\'Ottocento.</p>'
+    let deviceId = localStorage.getItem('icv_device_id');
+    if (!deviceId) {
+      deviceId = (crypto && crypto.randomUUID) ? crypto.randomUUID() : generateUUID();
+      localStorage.setItem('icv_device_id', deviceId);
     }
-  };
 
-  // ── CHAT ───────────────────────────────────────────────────────────
-  let conversationHistory = [];
-  let isSending = false;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-loading"></span> Verifica in corso...';
+    errorMsg.textContent = '';
 
-  function autoResize(el) {
-    el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-  }
+    try {
+      const response = await fetch('/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code, deviceId: deviceId })
+      });
 
-  function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  }
+      const data = await response.json();
 
-  function quickSend(text) {
-    document.getElementById('user-input').value = text;
-    sendMessage();
-  }
+      if (data.valid) {
+        // Salva il codice validato nel sessionStorage
+        sessionStorage.setItem('icv_access', btoa(code));
+        sessionStorage.setItem('icv_ts', Date.now().toString());
+        sessionStorage.setItem('icv_libro', data.libro || 'promessi-sposi');
+        // Flag per evitare redirect infiniti
+        sessionStorage.setItem('icv_redirect_done', 'true');
 
-  function addMessage(role, text) {
-    const area = document.getElementById('messages-area');
-    if (!area) return;
-    const div = document.createElement('div');
-    div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
-    const nameEl = document.createElement('div');
-    nameEl.className = 'message-name';
-    nameEl.textContent = role === 'user' ? 'TU' : 'IL TUTOR';
-    const bubbleEl = document.createElement('div');
-    bubbleEl.className = 'message-bubble';
-    text.split('\n').forEach((line, i, arr) => {
-      bubbleEl.appendChild(document.createTextNode(line));
-      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
-    });
-    div.appendChild(nameEl);
-    div.appendChild(bubbleEl);
-    area.appendChild(div);
-    area.scrollTop = area.scrollHeight;
-  }
+        btn.innerHTML = '✓ Accesso confermato';
+        btn.style.background = '#2a6a2a';
+        btn.style.color = '#a0e0a0';
 
-  function setTyping(active) {
-    document.getElementById('typing-indicator').classList.toggle('active', active);
-    document.getElementById('send-btn').disabled = active;
-  }
-
-  async function sendMessage() {
-    if (isSending) return;
-    const input = document.getElementById('user-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    isSending = true;
-    input.value = '';
-    input.style.height = 'auto';
-    addMessage('user', text);
-    conversationHistory.push({ role: 'user', content: text });
-    if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
-    setTyping(true);
-
-    let attempts = 0;
-    while (attempts < 3) {
-      try {
-        const response = await fetch('/proxy', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Access-Code': sessionStorage.getItem('icv_access') || ''
-          },
-          body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
-            character: 'tutor_portale',
-            messages: conversationHistory.map(m => ({
-              role: m.role === 'user' ? 'user' : 'assistant',
-              content: m.content
-            })),
-            max_tokens: 1024,
-            temperature: 0.8
-          })
-        });
-
-        if (response.status === 429) {
-          attempts++;
-          if (attempts < 3) { await new Promise(r => setTimeout(r, attempts * 3000)); continue; }
-          throw new Error('QUOTA');
+        // Pulizia URL e redirect
+        cleanUrl();
+        setTimeout(() => {
+          // Usa history.replace per non aggiungere alla storia del browser
+          window.location.replace('/portale/' + (data.libro || 'promessi-sposi') + '/');
+        }, 800);
+      } else {
+        if (data.reason === 'device_limit') {
+          showError('Questo codice ha raggiunto il limite di dispositivi autorizzati.');
+        } else {
+          showError('Codice non valido. Controlla l\'email di acquisto.');
         }
-
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.code || 'API_ERROR');
-
-        const reply = data.choices?.[0]?.message?.content || 'Scusa, un momento di distrazione. Ripeti pure!';
-        conversationHistory.push({ role: 'assistant', content: reply });
-        setTyping(false);
-        addMessage('ai', reply);
-        isSending = false;
-        return;
-
-      } catch (err) {
-        attempts++;
-        if (attempts >= 3) {
-          setTyping(false);
-          isSending = false;
-          const msg = err.message.includes('QUOTA') ? 'Il servizio è sovraccarico. Riprova tra poco!' : 'Problema di connessione. Riprova!';
-          addMessage('ai', msg);
-          return;
-        }
-        await new Promise(r => setTimeout(r, attempts * 3000));
+        input.classList.add('error');
+        btn.disabled = false;
+        btn.innerHTML = 'Entra nel kit';
       }
+    } catch (err) {
+      showError('Errore di connessione. Riprova tra qualche secondo.');
+      btn.disabled = false;
+      btn.innerHTML = 'Entra nel kit';
     }
   }
 
-  // ── PODCAST PLAYER ─────────────────────────────────────────────────
-  function initPodcastPlayer() {
-    const episodi = [
-      {n:1,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQALHVPGEyM2QbmWW6WpXnYtAcsx45vcF1WIzT66D9uxCts?e=tqwmFN'},
-      {n:2,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAHD913Bq5jT43XFS2zUqRTASd8l-wCgTgPQ9EdhzNvH2o?e=7LpXYW'},
-      {n:3,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAOMXbRPRBjTrLcePgWc1S-AWN-86LyJqfu3cPf3Vrf7Kg?e=ObISLy'},
-      {n:4,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAE_hspQx-rRqgfATg8P9LNASNAEyN6CE6DJo7xRhM9K3U?e=gV9vXa'},
-      {n:5,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDdWSNFZhwSRKSC3JCKWAaiAbsDwKzWJKxzNRCZfPYIuXU?e=UYtXVc'},
-      {n:6,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDnFHZX3l4iRI02jNT5qCUaAdN8guCEdtQMA61iouTqTEo?e=lqK9DK'},
-      {n:7,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCRyyeLHJxQTKnyTKwGWIVdAeO2bnJfgPlJYRJMi-Wykdc?e=S67a0F'},
-      {n:8,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC-2C3F2JvHRYd1KSW02JBkAa90ebU3m3bENV1Vg4mI9Qs?e=84LRU6'},
-      {n:9,   url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD9xibfPo35TJTPvpQmoaEUAXLGmN8KH6QVcNh6vtz6ZnY?e=NMHTw0'},
-      {n:10,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQA0LjDiOcXYSYzTGk9TqQ5oAfrN_0KaVc9HH5_E7t-FI7s?e=GtcxfQ'},
-      {n:11,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD6YecR20XeT5VhWsGd_3ONARvleBZsg48a4ansYb9XCec?e=iCFOZh'},
-      {n:12,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCW6qVQgQbNS5x07bQL5c7-AbrzdhMbHiB4PQPAy3QbnkE?e=gPqyHB'},
-      {n:13,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBemNwZmJ5cRbDntoYUz_dJAaQo3Nnf7wiYNOG8G2UY5jA?e=71Zwdn'},
-      {n:14,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAr655jMNvISaRLceb5kOENAcGC4FFWu-CPjLW7xyHtKrs?e=98WLRl'},
-      {n:15,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCbaJLOK2uNRY9rrgqEqNVsAQ1kNroRTy8vsoIIME_dG68?e=fN1NU7'},
-      {n:'16-17', url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCaiMf1LLn9Tb_2DlSLm82nAVYuXNlJswGrkH2blZxWl0k?e=u4kN2m'},
-      {n:18,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBW_-4ba5yqQboiLLhfu4ieAbQIC45FJkonPYhUv6pWOOc?e=N12YDh'},
-      {n:19,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBRu6xl-mIIS61sGgA6S6CpAbFk7FdKqiK16BLa8RDZ7vs?e=e463Rt'},
-      {n:20,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDemGBXktQ5T58GSWNgntVcASO0k2SSz1n-wKqy_JQHmIU?e=GNQejr'},
-      {n:21,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDmVcEOf8kQR7Bu6ZNPHsZKAVy6IfTbNhas77tolGsHAG8?e=xkWRm1'},
-      {n:22,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC3hEMQB61rS5q4BmrlhnwKAaHYR6-TheDV7wLcCC9vOqg?e=DilqNK'},
-      {n:23,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDKiVMmm4WXRpgxU2uBY0xDAXkYRMDIxr5QHYI0lgNVBWY?e=FWJrY3'},
-      {n:24,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAZPOiRCtxATKQSS_B2cVaQAYhHbB8x-mkUBhwQ5ou8mvE?e=ZX72oS'},
-      {n:25,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCaaNzai_dPTbNVTOmJqQ3XAecZr-r-tza9Adu1axJlAe4?e=GFOfmh'},
-      {n:26,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBDssdX4070TJhOfSqhrRTQARjpjZDLVBBAzGBfs72NSoY?e=RTppfI'},
-      {n:27,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB03x0Oi89ZQpL4UBpPxftyAWuJVMV3veXxuwb7FJFY_QQ?e=T8Dqvt'},
-      {n:28,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB8LljVDnvOQYS9dDTEUpt3AT9IA17VJsQuCBjKgUBZs5I?e=vykxnL'},
-      {n:29,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDTZQSp20vKSJywZ3sfkzQXAWmAFhtsrQyhv0yluIVleaQ?e=bpUqRf'},
-      {n:30,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAokLRdTm-pQY_rhSKTry5DAdet6QzRpOKqYmqh6y85uEY?e=KQTlRH'},
-      {n:31,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD0qc13rKfFSLi1v17Vo1hIAeln7hoKo3FKjfmDJf16HJA?e=DG7emX'},
-      {n:32,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCUO6dbZm_FRIqPcTIub8qAAcwXvogB7slxev0kzhB4GQw?e=wDanCn'},
-      {n:33,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBWh0QzsYBlTL_95uXAsQ1oAQ-w3yrAFfIu25xZ_HgMSS0?e=MaNkq7'},
-      {n:34,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQC8DNXFx9LEQrsHLAkkRY-QAZjVQlYYi9babI0x2svDqyQ?e=W1RrFj'},
-      {n:35,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBxNn-fY2FcTLUHqVO8v-v_ATq0MZXPTXzKCbdJYmcCw5A?e=nNucKz'},
-      {n:36,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAC3vc0_3OKQpuSotwcQAHdAafhi0C0eV8OEcH1wkSLakk?e=KXmzxe'},
-      {n:37,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAqIpB95HMSRZfQv3dV7toMAW4IrAfruvEn3rPjH0lyCOk?e=VzpseM'},
-      {n:38,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDT2LKZd5kZT7eBvrdPptPQAd0GzJZ9iw1BXPS62BInjNQ?e=w8JMdU'}
-    ];
-    const lista = document.getElementById('podcastLista');
-    if (!lista) return;
-    episodi.forEach((ep, i) => {
-      const a = document.createElement('a');
-      a.href = ep.url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.className = 'ep-item';
-      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span><span class="ep-icon">▶</span><span class="ep-titolo">Podcast — Capitolo ' + ep.n + '</span>';
-      lista.appendChild(a);
-    });
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    input.classList.add('error');
   }
 
-  // ── QUIZ FINALE DATA ───────────────────────────────────────────────
-  const qfFacile = [
-    { n:'F01', q:'Chi sono i protagonisti del romanzo?', a:'Renzo Tramaglino e Lucia Mondella, due giovani fidanzati di un paesino sul lago di Como.', c:'Ricorda: sono due promessi sposi che non riescono a sposarsi.' },
-    { n:'F02', q:'Per quale motivo Don Abbondio rifiuta di celebrare il matrimonio tra Renzo e Lucia?', a:'Perché i bravi di Don Rodrigo lo hanno minacciato ordinandogli di non celebrare le nozze.', c:'Don Abbondio è un codardo — la paura guida ogni sua scelta.' },
-    { n:'F03', q:'Chi è Don Rodrigo e qual è il suo ruolo nella storia?', a:'È il nobile prepotente che si oppone al matrimonio di Renzo e Lucia per una scommessa, diventando il principale antagonista del romanzo.', c:'Non ama davvero Lucia — per lui è solo una questione di onore e potere.' },
-    { n:'F04', q:'Cosa significa il termine \'bravi\' nel romanzo?', a:'Erano sgherri armati al servizio dei signorotti locali, usati per intimidire e compiere azioni illegali per conto dei loro padroni.', c:'Manzoni descrive i bravi nelle prime pagine citando le gride spagnole.' },
-    { n:'F05', q:'Chi è Fra Cristoforo e che ruolo ha nella storia?', a:'È un frate cappuccino che protegge e aiuta Renzo e Lucia. Prima di farsi frate si chiamava Lodovico e aveva ucciso un uomo in duello.', c:'Il suo passato violento rende il suo percorso di redenzione più significativo.' },
-    { n:'F06', q:'Dove viene mandata Lucia per rifugiarsi dal pericolo di Don Rodrigo?', a:'Nel monastero di Monza, affidato alle cure della Signora (Gertrude), una monaca di nobile famiglia.', c:'Il monastero si rivelerà tutt\'altro che un luogo sicuro.' },
-    { n:'F07', q:'Chi è l\'Innominato e cosa fa nella storia?', a:'È un potente signore feudale che vive isolato in un castello. Rapisce Lucia su richiesta di Don Rodrigo, ma poi si converte e diventa strumento della sua liberazione.', c:'La sua conversione è uno dei momenti più importanti del romanzo.' },
-    { n:'F08', q:'Cosa succede a Milano quando Renzo arriva in città?', a:'Renzo arriva durante i tumulti per il pane — la città è in rivolta per la carestia. Si ubriaca, fa discorsi sediziosi e viene arrestato, riuscendo però a fuggire.', c:'Renzo combina guai per metà del romanzo — è un eroe imperfetto.' },
-    { n:'F09', q:'Come si conclude la storia di Don Rodrigo?', a:'Muore di peste nel Lazzaretto di Milano, tradito dal suo stesso servitore Griso che lo aveva abbandonato ammalato.', c:'La giustizia nel romanzo arriva attraverso la Provvidenza, non per mano degli uomini.' },
-    { n:'F10', q:'Cosa rappresenta il \'sugo della storia\' che Manzoni esprime alla fine del romanzo?', a:'Che i guai vengono spesso per colpa degli uomini, ma anche l\'innocente non ne è esente; la fiducia in Dio però li addolcisce e li rende utili per una vita migliore.', c:'È il messaggio morale e religioso centrale di tutto il romanzo.' },
-    { n:'F11', q:'In quale periodo storico è ambientato il romanzo?', a:'Nel XVII secolo, tra il 1628 e il 1630, in Lombardia sotto la dominazione spagnola.', c:'La dominazione spagnola è fondamentale per capire il contesto di oppressione.' },
-    { n:'F12', q:'Chi è Perpetua?', a:'È la fedele servante di Don Abbondio — curiosa, pettegola, ma affezionata al suo padrone. È lei che involontariamente rivela a Renzo il nome di Don Rodrigo.', c:'Renzo la stuzzica facendo finta di sapere già tutto.' },
-    { n:'F13', q:'Cosa è il Lazzaretto nel romanzo?', a:'È un grande recinto fuori Milano dove venivano ricoverati i malati di peste. È il luogo dove si incontrano di nuovo molti personaggi alla fine del romanzo.', c:'Nel Lazzaretto si compie la redenzione di molti personaggi, incluso Fra Cristoforo.' },
-    { n:'F14', q:'Che cos\'è il \'matrimonio a sorpresa\' ideato da Agnese?', a:'Un espediente legale per cui Renzo e Lucia si presentano davanti a Don Abbondio con due testimoni e pronunciano le parole del consenso matrimoniale direttamente al curato.', c:'Il piano fallisce perché Don Abbondio chiude la bocca a Lucia prima che possa finire la frase.' },
-    { n:'F15', q:'Chi è il Cardinale Federigo Borromeo e che ruolo ha?', a:'È l\'arcivescovo di Milano, uomo di grande virtù e autorità morale. Accoglie l\'Innominato durante la sua conversione e rappresenta il potere della fede autentica.', c:'È uno dei pochi personaggi storici reali inseriti da Manzoni nel romanzo.' },
-  ];
+  // ── PROTEZIONE REDIRECT INFINITO ───────────────────────────────────
+  // Se già autenticato E non è un redirect ricorsivo, vai al portale
+  const existing = sessionStorage.getItem('icv_access');
+  const redirectDone = sessionStorage.getItem('icv_redirect_done');
 
-  const qfMedio = [
-    { n:'M01', q:'Qual è la funzione del \'sistema\' di Don Abbondio nella società descritta da Manzoni?', a:'Don Abbondio rappresenta chi si adatta al potere per sopravvivere. Il suo \'sistema\' — scansare i contrasti, cedere ai più forti — non è una colpa individuale ma la risposta razionale a una società senza giustizia. Manzoni lo usa per criticare la Chiesa codarda e il sistema di oppressione spagnolo.', c:'Non giudicarlo solo come codardo — pensa al contesto storico.' },
-    { n:'M02', q:'Perché Manzoni definisce Renzo un \'eroe involontario\'? Porta esempi dal testo.', a:'Renzo non è un eroe classico — agisce per impulso, sbaglia spesso e si mette nei guai da solo. Si ubriaca e viene arrestato a Milano, rischia di annegare l\'Adda, si fida dell\'Azzecca-garbugli. La sua crescita avviene attraverso gli errori, non attraverso la virtù. È l\'eroe del popolo — imperfetto e autentico.', c:'Fai almeno 2-3 esempi concreti di errori di Renzo.' },
-    { n:'M03', q:'Analizza la figura di Gertrude (la Monaca di Monza): vittima o colpevole?', a:'Gertrude è insieme vittima e complice. Vittima della volontà tirannica del padre che l\'ha destinata al convento sin dalla nascita per non dividere il patrimonio. Ma diventa anche complice attiva quando, per coprire la sua relazione con Egidio, permette il rapimento di Lucia. Manzoni ne fa una figura tragica: corrotta dal sistema ma non assolta dalle sue scelte.', c:'La risposta deve tenere conto di entrambe le dimensioni — non è solo vittima.' },
-    { n:'M04', q:'Qual è il significato della conversione dell\'Innominato? È credibile per Manzoni?', a:'Per Manzoni la conversione è autentica e psicologicamente credibile perché non avviene per paura ma per crisi esistenziale. L\'Innominato aveva già tutto il potere possibile e sentiva un vuoto interiore. Lucia è la scintilla finale di una crisi già in corso. Il Cardinale Borromeo la completa. È la dimostrazione manzoniana che la grazia divina può raggiungere chiunque.', c:'La parola chiave è \'crisi esistenziale\' — non è una conversione improvvisa.' },
-    { n:'M05', q:'Come usa Manzoni la storia della peste per sviluppare i temi del romanzo?', a:'La peste serve a Manzoni per mostrare l\'uguaglianza di fronte alla morte (Don Rodrigo muore come un plebeo), per esaltare la carità cristiana (Fra Cristoforo nel Lazzaretto), per criticare la superstizione popolare degli untori, e per creare il contesto in cui si compie la redenzione finale di molti personaggi.', c:'La peste non è solo sfondo storico — ha una funzione narrativa e morale precisa.' },
-    { n:'M06', q:'Che cos\'è il \'latinorum\' e qual è il suo significato nel romanzo?', a:'È il termine con cui Renzo deride il linguaggio tecnico-latino usato da Don Abbondio per confonderlo e non dirgli la verità. Simbolicamente rappresenta come il potere usa il linguaggio oscuro per tenere il popolo nell\'ignoranza e nell\'impotenza. Manzoni critica qui la complicità tra cultura e oppressione.', c:'Non è solo una battuta comica — ha un significato sociale preciso.' },
-    { n:'M07', q:'Qual è il ruolo della Provvidenza nel romanzo? Fai esempi.', a:'La Provvidenza è la forza divina che guida gli eventi verso il bene anche attraverso la sofferenza. Esempi: la conversione dell\'Innominato salva Lucia, la peste elimina Don Rodrigo, Fra Cristoforo scioglie il voto di Lucia. Non è fatalismo — i personaggi agiscono liberamente, ma la Provvidenza orienta le conseguenze.', c:'Distingui Provvidenza da fatalismo — i personaggi fanno scelte libere.' },
-    { n:'M08', q:'Perché Manzoni sceglie protagonisti umili (un filatore, una contadina) invece di nobili?', a:'È una scelta ideologica precisa: Manzoni vuole raccontare la storia dal basso, dalla prospettiva dei poveri e degli oppressi. Critica il romanzo storico tradizionale che si occupava solo dei potenti. I \'vasi di coccio\' — Renzo e Lucia — sono i veri protagonisti della storia, non i nobili e i potenti.', c:'Collega questa scelta alla visione cristiana e illuminista di Manzoni.' },
-    { n:'M09', q:'Come si manifesta la critica di Manzoni alla società del \'600 nel romanzo?', a:'Attraverso: le gride spagnole inutili e inefficaci, i nobili prepotenti (Don Rodrigo), la Chiesa codarda (Don Abbondio), i giuristi corrotti (Azzecca-garbugli), la superstizione degli untori durante la peste. Manzoni usa il \'600 come specchio per criticare le ingiustizie della sua epoca.', c:'Ogni personaggio negativo rappresenta una stortura sociale specifica.' },
-    { n:'M10', q:'Qual è la funzione del narratore nel romanzo? Come interviene Manzoni nella storia?', a:'Manzoni usa un narratore onnisciente che commenta gli eventi con ironia, giudica i personaggi, si rivolge direttamente al lettore. Finge di trascrivere un manoscritto del \'600 (espediente del \'manoscritto trovato\'). Il narratore non è neutro — ha una voce morale e religiosa precisa che guida l\'interpretazione del lettore.', c:'Il \'manoscritto trovato\' è un espediente letterario tipico del romanzo storico romantico.' },
-  ];
-
-  const qfDifficile = [
-    { n:'D01', q:'Analizza il Proemio dei Promessi Sposi: qual è la strategia narrativa di Manzoni e perché sceglie l\'espediente del \'manoscritto trovato\'?', a:'Nel Proemio Manzoni finge di aver trovato un manoscritto del \'600 di un \'anonimo\' che racconta la storia. Questo espediente serve a: creare distanza ironica tra autore e narrazione, legittimare storicamente la vicenda, permettere a Manzoni di commentare e correggere il testo originale con la propria voce. L\'ironia sul \'buon secentista\' — rozzo e ampolloso — è già una critica stilistica e sociale.', c:'L\'espediente del manoscritto è tipico del Romanticismo storico — cita Walter Scott.' },
-    { n:'D02', q:'I Promessi Sposi sono un romanzo storico, romantico o cristiano? Argomenta la tua risposta.', a:'È tutte e tre le cose insieme. Romantico per l\'ambientazione storica, il colore locale, i personaggi umili come protagonisti. Storico per la ricostruzione accurata del \'600 lombardo (peste, carestia, dominazione spagnola). Cristiano per la centralità della Provvidenza, della grazia, della conversione come motore narrativo. Manzoni non separa queste dimensioni — la fede dà senso alla storia.', c:'Non scegliere una sola risposta — la complessità è la risposta corretta.' },
-    { n:'D03', q:'Confronta la figura di Fra Cristoforo con quella del Cardinale Borromeo: due modi diversi di essere uomini di Chiesa.', a:'Fra Cristoforo è un uomo che ha vissuto nel peccato e nella violenza — la sua fede è nata dal rimorso e si esprime nell\'azione concreta, nella difesa degli oppressi, nel sacrificio personale. Il Cardinale Borromeo è l\'uomo di Chiesa ideale — dotto, austero, capace di convertire l\'Innominato con la sola forza morale. Insieme rappresentano i due volti della Chiesa autentica: quella del popolo e quella dell\'istituzione virtuosa. Entrambi si contrappongono a Don Abbondio.', c:'La risposta deve includere il contrasto con Don Abbondio per essere completa.' },
-    { n:'D04', q:'Analizza il tema della giustizia nel romanzo: chi la esercita davvero e perché le istituzioni falliscono?', a:'Le istituzioni umane falliscono sistematicamente: le gride sono inapplicate, i giudici corrotti (Azzecca-garbugli), i nobili impuniti (Don Rodrigo). La vera giustizia nel romanzo arriva solo attraverso la Provvidenza — Don Rodrigo muore di peste, il Griso viene punito, l\'Innominato si converte. Manzoni non è pessimista: crede che la giustizia esista, ma non nelle mani degli uomini corrotti del \'600.', c:'Distingui giustizia umana (fallisce) e giustizia provvidenziale (funziona sempre).' },
-    { n:'D05', q:'Qual è il rapporto tra Manzoni e la lingua italiana nel romanzo? Perché è importante storicamente?', a:'I Promessi Sposi sono centrali nella storia della lingua italiana: Manzoni scrisse due versioni (1827 e 1840) e nella revisione \'sciacquò i panni in Arno\' — sostituì i lombardismi con il fiorentino parlato colto. Questo perché Manzoni credeva che l\'Italia unita avesse bisogno di una lingua comune viva, non libresca. Il romanzo divenne il modello della prosa italiana moderna e fu usato nell\'alfabetizzazione post-unitaria.', c:'Le due versioni del romanzo e la questione della lingua sono fondamentali per la maturità.' },
-    { n:'D06', q:'Analizza la figura di Lucia: è davvero un personaggio passivo o ha una forza propria? Porta esempi.', a:'Lucia sembra passiva perché raramente agisce fisicamente — ma ha una forza morale straordinaria. La sua preghiera scuote l\'Innominato più di qualsiasi forza militare. Il suo voto alla Madonna è una scelta attiva di sacrificio. La sua resistenza morale alle avances di Don Rodrigo è una forma di coraggio. Manzoni usa Lucia per dimostrare che la forza vera non è quella fisica — è quella spirituale.', c:'La chiave è distinguere forza fisica (assente) da forza morale (fortissima).' },
-    { n:'D07', q:'Come si inserisce il romanzo nel contesto del Romanticismo italiano? Cosa lo differenzia dal Romanticismo europeo?', a:'Manzoni condivide col Romanticismo: l\'interesse per la storia, i personaggi umili, il colore locale, la nazione come tema. Ma si distingue per: il rifiuto del titanismo byroniano (i suoi eroi sono umili, non ribelli), la centralità della fede cattolica (assente nel Romanticismo laico europeo), l\'ironia distaccata del narratore (contro il sentimentalismo romantico). È un Romanticismo cattolico e moderato, tipicamente italiano.', c:'Il confronto con Byron e Scott chiarisce le specificità di Manzoni.' },
-    { n:'D08', q:'Perché il romanzo finisce con un matrimonio \'in sordina\' e non con una celebrazione trionfale? Cosa dice questo finale sulla visione di Manzoni?', a:'Renzo e Lucia si sposano in modo quasi discreto, senza trionfi, dopo anni di sofferenze. Questo finale rispecchia la visione manzoniana: la vita non è una favola, la felicità è possibile ma sobria, la vera crescita avviene attraverso la sofferenza. Il \'sugo della storia\' non è \'vissero felici e contenti\' — è che si può trovare pace e saggezza attraverso le prove. Un finale romantico avrebbe tradito il messaggio cristiano del romanzo.', c:'Confronta questo finale con quello di un tipico romanzo romantico sentimentale.' },
-  ];
-
-  const qpStile = [
-    { n:'S01', q:'Cos\'è il \'manoscritto trovato\' e perché Manzoni usa questo espediente nel Proemio?', a:'Nel Proemio Manzoni finge di aver trovato un manoscritto del \'600 scritto da un anonimo \'buon secentista\'. Lo riscrive in italiano moderno perché l\'originale era \'rozzo e affettato\'. L\'espediente serve a: legittimare storicamente la vicenda, creare distanza ironica tra autore e narrazione, e permettere a Manzoni di commentare e correggere con la propria voce. È un tipico artificio del romanzo storico romantico — usato anche da Walter Scott.', c:'Il Proemio è quasi sempre all\'interrogazione — imparalo bene.' },
-    { n:'S02', q:'Come si manifesta l\'ironia di Manzoni nel romanzo? Porta almeno due esempi concreti.', a:'L\'ironia manzoniana è sottile e distaccata. Esempi: nella descrizione di Don Abbondio — \'non era nato con un cuor di leone\' è un eufemismo ironico per codardo. Nella descrizione delle gride spagnole — cita leggi inutili con tono burocratico per ridicolizzarle. Nel ritratto di Don Ferrante — lo descrive come \'uomo di studio\' per poi svelare le sue teorie assurde sulla peste.', c:'L\'ironia manzoniana non è mai aggressiva — è sempre distaccata e sorridente.' },
-    { n:'S03', q:'Qual è il ruolo del narratore nei Promessi Sposi? È neutro o ha una voce propria?', a:'Il narratore è tutt\'altro che neutro. È onnisciente — conosce pensieri e sentimenti di tutti i personaggi. Interviene direttamente con commenti morali e religiosi. Si rivolge al lettore in prima persona. Giudica i personaggi esplicitamente — condanna Don Rodrigo, compatisce Don Abbondio, esalta Fra Cristoforo. La sua voce ha una precisa prospettiva cristiana e illuminista che guida l\'interpretazione del lettore.', c:'Distingui narratore onnisciente (tecnica) da narratore giudicante (funzione).' },
-    { n:'S04', q:'Perché Manzoni riscrisse il romanzo tra il 1827 e il 1840? Cosa cambiò e perché è importante?', a:'Manzoni riscrisse i Promessi Sposi per risolvere la questione della lingua italiana. Nella revisione del 1840 \'sciacquò i panni in Arno\' — sostituì i lombardismi e i francesismi con il fiorentino parlato colto, che riteneva la base per una lingua italiana comune. Questa scelta era anche politica: l\'Italia stava per unificarsi e aveva bisogno di una lingua nazionale condivisa. Il romanzo divenne il modello della prosa italiana moderna.', c:'\'Sciacquare i panni in Arno\' è una delle citazioni più famose della letteratura italiana.' },
-    { n:'S05', q:'Individua e spiega una figura retorica significativa nei Promessi Sposi con esempio testuale.', a:'Esempi di figure retoriche nel romanzo: METAFORA — \'vaso di coccio tra vasi di ferro\' per Don Abbondio, che rende visivamente la sua fragilità sociale. IRONIA — \'non era nato con un cuor di leone\'. SINEDDOCHE — \'il Resegone\' per indicare l\'intera zona di Lecco. PERIFRASI — \'l\'Innominato\' per non nominare il personaggio. La metafora del vaso è la più importante perché riassume tutta la visione sociale del romanzo.', c:'Scegli la figura che sai spiegare meglio — non quella più complicata.' },
-    { n:'S06', q:'Cosa rappresenta la descrizione del paesaggio nell\'incipit del Capitolo I? Perché Manzoni inizia così?', a:'L\'incipit con la descrizione del lago di Como e del Resegone non è solo sfondo — è una scelta ideologica. Manzoni introduce un paesaggio reale, identificabile, concreto, radicato nella storia. È il \'colore locale\' tipico del romanzo storico romantico. Ma serve anche a stabilire subito il contrasto tra la bellezza naturale e la violenza sociale che seguirà. Il paesaggio lombardo diventa il palcoscenico della storia degli oppressi.', c:'L\'incipit è quasi sempre chiesto — sai descrivere il paesaggio E spiegarne la funzione.' },
-    { n:'S07', q:'Come si distingue il linguaggio dei personaggi nobili da quello dei personaggi popolari nel romanzo?', a:'Manzoni usa il linguaggio come specchio sociale. I nobili (Don Rodrigo, l\'Innominato pre-conversione) parlano con autorità, frasi brevi e perentorie. I personaggi popolari (Renzo, Agnese) usano espressioni concrete, proverbiali, spesso dialettali. Don Abbondio usa il latinorum per nascondersi dietro l\'autorità. Il Cardinale Borromeo usa un linguaggio solenne ma diretto. La lingua caratterizza e giudica ogni personaggio.', c:'Il latinorum di Don Abbondio è l\'esempio più citato — usalo sempre.' },
-  ];
-
-  const qpContesto = [
-    { n:'C01', q:'Qual è la struttura del Proemio e cosa annuncia al lettore?', a:'Il Proemio si articola in tre momenti: 1) Manzoni finge di trovare il manoscritto del \'600 e ne descrive il contenuto con ironia. 2) Decide di riscriverlo in italiano moderno perché l\'originale è illeggibile. 3) Presenta brevemente la materia del romanzo — una storia di umili in tempi di oppressione. Annuncia così i temi centrali: storia dal basso, critica del potere, questione della lingua. È un testo programmatico che contiene in nuce tutto il romanzo.', c:'Il Proemio è un testo autonomo — sai riassumerlo in 4-5 punti chiave.' },
-    { n:'C02', q:'Qual è il rapporto tra I Promessi Sposi e il romanzo storico europeo? Cosa deve Manzoni a Walter Scott?', a:'Manzoni conosce e ammira Walter Scott, il padre del romanzo storico romantico. Da Scott prende: l\'ambientazione storica rigorosa, i personaggi storici reali mescolati a quelli inventati (il Cardinale Borromeo), il colore locale, la prospettiva dal basso. Ma se ne distanzia per: la centralità della fede cattolica, il rifiuto del titanismo romantico, la funzione morale esplicita del narratore. Manzoni fa del romanzo storico uno strumento di educazione cristiana e civile.', c:'Il confronto con Scott è una domanda classica da commissione di maturità.' },
-    { n:'C03', q:'Come si inserisce Manzoni nel dibattito tra Classicismo e Romanticismo in Italia?', a:'Manzoni è una figura chiave del Romanticismo italiano, ma con posizioni originali. Partecipa al dibattito con la lettera a M. Chauvet e il saggio Sul Romanticismo. Rifiuta le unità aristoteliche di tempo e luogo nel teatro. Abbraccia la storia come materia letteraria. Ma si distanzia dal Romanticismo europeo laico e titanico: il suo Romanticismo è cattolico, moderato, civile. I Promessi Sposi sono la sua risposta pratica alla querelle.', c:'Conosci almeno un testo teorico di Manzoni oltre al romanzo.' },
-    { n:'C04', q:'Quali fonti storiche usa Manzoni per ricostruire il \'600 lombardo? Fai esempi dal testo.', a:'Manzoni studia fonti storiche reali: la Relatione del contagio di Tadino per la peste, i documenti dell\'Archivio di Stato per le gride spagnole, le cronache dell\'epoca per i tumulti del pane. Inserisce personaggi storici reali: il Cardinale Federigo Borromeo, Antonio Ferrer, il conte di Collalto. La ricostruzione è accurata — Manzoni dedica anni di ricerca. La Storia della colonna infame, scritta parallelamente, documenta gli untori con le fonti originali.', c:'La Storia della colonna infame è il testo complementare ai Promessi Sposi — citala.' },
-    { n:'C05', q:'Qual è il significato della dedica \'Agli umili\' implicita nel romanzo? Come si collega alla visione cristiana di Manzoni?', a:'Manzoni non dedica esplicitamente il romanzo agli umili, ma la scelta di protagonisti popolari è una dichiarazione programmatica. La visione cristiana di Manzoni vede negli umili i veri protagonisti della storia — non i potenti. È il ribaltamento evangelico: gli ultimi saranno i primi. Renzo e Lucia non trionfano per virtù eroica ma per la grazia divina. La loro umiltà non è debolezza — è la condizione per ricevere la Provvidenza.', c:'Collega questa visione al Vangelo delle Beatitudini — il professore apprezza i riferimenti culturali ampi.' },
-    { n:'C06', q:'Perché I Promessi Sposi divennero il testo fondamentale per l\'alfabetizzazione dell\'Italia unita?', a:'Dopo l\'Unità d\'Italia (1861) il paese era diviso da dialetti incomprensibili tra loro e l\'analfabetismo era altissimo. I Promessi Sposi avevano tre qualità uniche: una lingua italiana moderna accessibile (il fiorentino parlato della revisione del 1840), contenuti morali e civili adatti all\'educazione nazionale, una narrativa avvincente che rendeva la lettura piacevole. De Amicis e i pedagogisti post-unitari ne fecero il libro scolastico per eccellenza.', c:'Questo collegamento storia-letteratura-politica impressiona sempre i professori.' },
-    { n:'C07', q:'Analizza il tema della memoria e della storia nel romanzo: perché Manzoni vuole \'salvare dall\'oblio\' la storia degli umili?', a:'Nel Proemio l\'anonimo descrive la sua opera come \'guerra illustre contro il Tempo che richiama in vita gli anni prigionieri\'. Manzoni riprende questo tema: la storia tradizionale ricorda solo i potenti — re, generali, nobili. La storia degli umili — Renzo, Lucia, i contadini lombardi — è condannata all\'oblio. Il romanzo è un atto di memoria alternativa: salvare dalla dimenticanza chi non ha lasciato tracce scritte.', c:'Cita la frase dell\'anonimo sul Tempo — è una delle più belle del romanzo.' },
-  ];
-
-  function makeQuizEngine(containerId, titleLabel, datasets, tabDefs) {
-    var state = { tab: tabDefs[0].key, cards: datasets[tabDefs[0].key], current: 0, flipped: false };
-    var isPremium = titleLabel.indexOf('Premium') !== -1;
-
-    function render() {
-      var el = document.getElementById(containerId);
-      if (!el) return;
-      if (state.current >= state.cards.length) { renderEnd(el); return; }
-      var c = state.cards[state.current];
-      var pct = Math.round(((state.current + 1) / state.cards.length) * 100);
-      var tabsHtml = tabDefs.map(t => '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') + '" data-tab="' + t.key + '" data-cid="' + containerId + '">' + t.label + '</button>').join('');
-      el.innerHTML = '<div class="qv-wrap"><div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p><div class="qv-tabs">' + tabsHtml + '</div></div><div class="qv-prog"><span class="qv-cnt">' + (state.current + 1) + ' / ' + state.cards.length + '</span><div class="qv-bar-bg"><div class="qv-bar-fill" style="width:' + pct + '%"></div></div></div><div class="qv-scene" data-action="flip" data-cid="' + containerId + '"><div class="qv-card' + (state.flipped ? ' qv-flipped' : '') + '" id="' + containerId + 'Card"><div class="qv-face qv-front"><div class="qv-cid">' + c.n + '</div><div class="qv-lbl">Domanda:</div><div class="qv-question">' + c.q + '</div><div class="qv-hint">Clicca per la risposta</div></div><div class="qv-face qv-back"><div class="qv-cid">' + c.n + '</div><div class="qv-check">✓</div><div class="qv-lbl">Risposta modello:</div><div class="qv-answer">' + c.a + '</div><div class="qv-nota"><div class="qv-nota-lbl">' + (isPremium ? 'Per la maturità:' : 'Consiglio:') + '</div><div class="qv-nota-txt">' + c.c + '</div></div></div></div></div><div class="qv-controls"><button class="qv-btn" data-action="prev" data-cid="' + containerId + '"' + (state.current === 0 ? ' disabled' : '') + '>← Indietro</button><button class="qv-btn qv-btn-p" data-action="next" data-cid="' + containerId + '">' + (state.current === state.cards.length - 1 ? 'Fine' : 'Avanti →') + '</button></div></div>';
-      bindEvents(el, state, datasets, tabDefs);
-    }
-
-    function renderEnd(el) {
-      el.innerHTML = '<div class="qv-wrap"><div class="qv-end"><p class="qv-end-title">Quiz completato!</p><p class="qv-end-sub">Hai finito tutte le domande.</p><button class="qv-btn qv-btn-p" data-action="restart" data-cid="' + containerId + '">Ricomincia</button></div></div>';
-      bindEvents(el, state, datasets, tabDefs);
-    }
-
-    function bindEvents(el, state, datasets, tabDefs) {
-      el.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
-        state.tab = btn.getAttribute('data-tab');
-        state.cards = datasets[state.tab];
-        state.current = 0;
-        state.flipped = false;
-        render();
-      }));
-      var scene = el.querySelector('[data-action="flip"]');
-      if (scene) scene.addEventListener('click', () => {
-        state.flipped = !state.flipped;
-        var card = document.getElementById(containerId + 'Card');
-        if (card) card.classList.toggle('qv-flipped');
-      });
-      el.querySelector('[data-action="next"]')?.addEventListener('click', () => {
-        state.current++;
-        state.flipped = false;
-        render();
-      });
-      el.querySelector('[data-action="prev"]')?.addEventListener('click', () => {
-        state.current--;
-        state.flipped = false;
-        render();
-      });
-      el.querySelector('[data-action="restart"]')?.addEventListener('click', () => {
-        state.current = 0;
-        state.flipped = false;
-        render();
-      });
-    }
-
-    render();
+  if (existing && !redirectDone) {
+    // Pulizia URL
+    cleanUrl();
+    // Usa replace per non aggiungere alla storia del browser
+    window.location.replace('/portale/' + (sessionStorage.getItem('icv_libro') || 'promessi-sposi') + '/');
+  } else if (redirectDone) {
+    // Reset il flag per future visite
+    sessionStorage.removeItem('icv_redirect_done');
   }
-
-  function initQuizViewers() {
-    makeQuizEngine('qfViewer', 'Quiz Finale', { facile: qfFacile, medio: qfMedio, difficile: qfDifficile }, [
-      { key: 'facile', label: '⭐ Facile' },
-      { key: 'medio', label: '⭐⭐ Medio' },
-      { key: 'difficile', label: '⭐⭐⭐ Difficile' }
-    ]);
-    makeQuizEngine('qpViewer', 'Quiz Premium', { stile: qpStile, contesto: qpContesto }, [
-      { key: 'stile', label: 'Stile' },
-      { key: 'contesto', label: 'Contesto' }
-    ]);
-  }
-
-  // Cookie check
-  var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
-  if (!prefs.saved) {
-    document.getElementById('cookie-notice').classList.add('visible');
-  }
-
-  // Show chat on init
-  showChat();
-
-  // ── INTERVISTE DATA ───────────────────────────────────────────────
-  var intervisteData = {
-    abbondio: {
-      nome: 'Don Abbondio', ruolo: 'Curato di campagna · Lombardia, XVII sec.', emoji: '⛪',
-      cards: [
-        {d:'Don Abbondio, la chiamo così o preferisce "Don"? Sa, oggi i titoli sono un po\' passati di moda...',r:'(Si schiarisce la gola tre volte, si sistema il collare con le dita tremanti.) Don Abbondio va benissimo, grazie. E no, i titoli non sono passati di moda — sono semplicemente stati sostituiti da altri titoli, che voi chiamate "follower" o "like". Il concetto è lo stesso: chi ne ha tanti comanda, chi ne ha pochi... ecco, fa il curato di campagna. Sono io. Il vigliacco ufficiale della letteratura italiana. Ho già le palpitazioni.'},
-        {d:'Parliamo di quella famosa sera. I bravi di Don Rodrigo. Lei svenne? Fuggì? Cosa successe esattamente?',r:'"Svenne" è una parola grossa. Diciamo che le mie gambe presero una decisione autonoma prima che il mio cervello potesse intervenire. È una risposta fisiologica normalissima. Oggi la chiamano "risposta di volo" e ci fanno dei documentari su Netflix. E comunque — io non sono un codardo. Sono un realista. Carneade non aveva mai incontrato un bravo alle undici di sera su una strada buia. Io sì. E sono ancora qui a parlarvene.'},
-        {d:'Ma lei sapeva benissimo che Renzo e Lucia avevano diritto a sposarsi. Come si sente oggi, guardandosi indietro?',r:'Sapete cosa si prova quando siete svegli alle tre di notte e ripensate a tutte le cose che avreste dovuto fare e non avete fatto? Ecco. Moltiplicate per quarant\'anni di ministero. Non è che non volessi aiutarli. È che volevo continuare a vivere. Il sistema era marcio — Don Rodrigo, i bravi, l\'Azzecca-garbugli. Io ero un ingranaggio piccolo piccolo in una macchina enorme. Cosa avrei dovuto fare? Morire da eroe?'},
-        {d:'Nel 2026 avrebbe potuto denunciare tutto su Twitter, fare un podcast...',r:'Twitter. Mi state dicendo che avrei potuto salvare Lucia con Twitter. Nel 2026 avrei già il panico da notifiche. Ho vissuto con il terrore di Don Rodrigo — immaginate cosa mi farebbero i commenti anonimi. E poi: anche oggi ci sono i bravi. Si chiamano diversamente, ma esistono. In ogni ufficio, in ogni condominio, in ogni consiglio di amministrazione.'},
-        {d:'Una cosa che non le è mai stata perdonata: quella frase sul latinorum. La difende ancora?',r:'(Piccolo sorriso — il primo dell\'intervista.) Quella frase è l\'unica cosa divertente che Manzoni mi abbia mai fatto dire. E ha perfettamente ragione. Il latinorum esiste ancora. Si chiama "clausola 7.3 dell\'allegato B", si chiama "regolamento GDPR", si chiama "termini e condizioni" che nessuno legge. Il potere ha sempre avuto bisogno di un linguaggio incomprensibile per i poveri.'}
-      ]
-    },
-    renzo: {
-      nome: 'Renzo Tramaglino', ruolo: 'Filatore di seta · Lecco, XVII sec.', emoji: '⚔️',
-      cards: [
-        {d:'Renzo, prima domanda diretta: è vero che ha fatto quasi tutto sbagliato?',r:'(Si sporge in avanti, i pugni sul tavolo.) Quasi tutto sbagliato. Quasi. Questa è già una concessione enorme. Sì, sono andato a Milano senza un piano. Sì, mi sono ubriacato nell\'osteria del Luna Piena. Sì, ho fatto un discorso in pubblico che era più un incitamento alla rivolta. Soddisfatti? Ma cosa avreste fatto voi, con vent\'anni, senza soldi, con la ragazza rapita, il prete che si rifiuta di sposarvi e un signorotto che vi vuole morto?'},
-        {d:'Parliamo di Lucia. Lei l\'ha amata davvero o era più una questione di principio?',r:'(La domanda lo colpisce come uno schiaffo. Silenzio. Le spalle si abbassano.) Domanda cattiva. Bella, ma cattiva. All\'inizio era tutte e due le cose insieme. L\'amavo e mi sentivo umiliato, e queste due cose si alimentavano a vicenda. Ma poi — nelle notti a Bergamo, quando non sapevo se era viva — è rimasta solo lei. Solo Lucia. E quella paura... quella è amore. Non so cos\'altro potrebbe essere.'},
-        {d:'Se potesse mandare un messaggio a Don Rodrigo — oggi, nel 2026 — cosa gli scriverebbe?',r:'(Sorride. Non il sorriso di chi perdona — il sorriso di chi ha vinto.) Gli manderei uno screenshot. Io e Lucia, davanti alla nostra casa, coi nostri figli. Con la didascalia: "Buongiorno". Niente insulti, niente discorsi. Solo la prova che siamo ancora qui. Lui invece è morto di peste a Milano, solo, nel lazzaretto. A volte la vita è giusta. Non spesso. Ma a volte.'},
-        {d:'Nel 2026 sarebbe un leader sindacale? Un attivista? Un agitatore social?',r:'(Ride — una risata vera, spontanea.) Sicuramente bannato da almeno quattro piattaforme. Questo è certo. Sì, probabilmente farei il sindacalista. C\'è sempre qualcuno che ha troppo potere e qualcun altro che ne ha troppo poco. E io non riesco a stare fermo davanti a questa cosa. È un difetto, lo so. Ma preferisco avere questo difetto che l\'altro — quello di Don Abbondio, intendo.'},
-        {d:'Cosa direbbe a uno studente di oggi che trova I Promessi Sposi noioso?',r:'(Tono serio, improvvisamente.) Gli direi che ha ragione a trovarlo noioso se lo legge come un compito. Ma se prova a entrare dentro — a chiedersi cosa avrebbe fatto lui al posto mio — allora non è più noioso. È uno specchio. E gli specchi, a vent\'anni, sono sempre un po\' scomodi. Io non sono un personaggio del Seicento. Sono uno che ha fatto tutto sbagliato per le ragioni giuste.'}
-      ]
-    },
-    gertrude: {
-      nome: 'Gertrude', ruolo: 'Monaca di Monza · Lombardia, XVII sec.', emoji: '🏛️',
-      cards: [
-        {d:'Signora, come si sta davvero in quel convento di Monza?',r:'(Si sistema il velo con un gesto lento, quasi teatrale.) Ancora questa domanda? Il cibo è irrilevante. È cibo da anime morte, condito con l\'umiltà forzata che queste povere sciocche qui dentro chiamano virtù. Se volete sapere come si sta davvero, vi dirò che si soffoca. Non è l\'odore dell\'incenso a mancare l\'aria, ma il peso di queste mura che mi sono state cucite addosso come un sudario prima ancora che imparassi a camminare.'},
-        {d:'Chi frequenta? Come trascorre le giornate?',r:'Circondata da menti strette come i loro soggoli. Lucia? Quella creatura mi irrita... così pura, così libera nella sua povertà. Mi guarda come se cercasse una santa, e io cerco solo di non urlare. Il mio unico svago è il potere che ancora esercito, anche da questa prigione dorata. E forse... qualche distrazione che arriva da oltre il muro del giardino.'},
-        {d:'Egidio. Il suo nome brilla sul microfono ogni volta che lo nominiamo. È vero?',r:'"La sventurata rispose." Ecco la vostra citazione. Ho risposto a lui perché era l\'unico modo per ricordare che il mio sangue non è acqua benedetta, ma fuoco. Egidio non è una colpa, è una vendetta contro un padre che mi ha sepolta viva e una Chiesa che ha accettato l\'offerta senza battere ciglio.'},
-        {d:'Si dice che una conversa curiosa sia... sparita. Vuole commentare?',r:'"Cambiato aria", dite? Che espressione deliziosamente volgare. Quella ragazza aveva un vizio terribile per una monaca: la curiosità. Si era spinta troppo oltre. Ci sono segreti che pesano così tanto da sprofondare naturalmente nel terreno. Non serve spingere troppo forte. In questo convento di Monza, io sono la Legge.'},
-        {d:'La definiscono la "regina cattiva" di questo romanzo. Perché è così affascinata da Lucia?',r:'"Regina cattiva"? Che definizione deliziosamente pop. Lucia non mi piace per la sua bontà. La bontà di Lucia è noiosa. Mi affascina perché è un insulto vivente alla mia intera esistenza. Lei è una contadina, eppure ha avuto il coraggio di dire "no" a un tiranno per amore di un filatore di seta. Io? Io sono una de Leyva e non ho avuto il coraggio di dire "no" a un padre che mi stava seppellendo viva.'}
-      ]
-    },
-    innominato: {
-      nome: 'L\'Innominato', ruolo: 'Signore feudale · Lombardia, XVII sec.', emoji: '🌑',
-      cards: [
-        {d:'Come si definisce?',r:'(Non risponde subito. Vi guarda come se stesse valutando se la domanda merita risposta.) Non mi definisco. Le definizioni sono per chi ha bisogno di essere capito dagli altri. Io non ho questo bisogno. Se volete un\'etichetta: sono qualcuno che ha costruito un sistema in cui le leggi non arrivano. Non perché le abbia corrotte — le ho semplicemente rese irrilevanti. Il corrotto ha ancora paura. Io no.'},
-        {d:'Ha mai avuto paura?',r:'(Lunga pausa. Gli occhi fissi su un punto a metà strada tra voi e l\'infinito.) Una volta. Una sola. E non era paura di un uomo, di un esercito, di un processo. Era paura di me stesso. Di guardarmi dentro e non trovare nulla che valesse la pena salvare. Quella notte ho capito che c\'è un tipo di vuoto che non si riempie con il potere.'},
-        {d:'Parliamo di Lucia. L\'ha fatta rapire. Come giustifica questo?',r:'(Non batte ciglio. Ma qualcosa nel respiro cambia.) Non lo giustifico. Era un ordine come tanti altri. Poi l\'ho vista. E ho capito che mi riguardava eccome. In trent\'anni non avevo mai incontrato qualcuno che mi guardasse senza paura. Senza calcolo. Mi ha guardato come si guarda un uomo. Non un\'arma, non un pericolo. Un uomo. Non sapevo più come gestire quello sguardo.'},
-        {d:'Cosa è successo quella notte della conversione?',r:'(Diverso. Non nella postura. Ma c\'è qualcosa di meno compresso nell\'aria.) Non lo so spiegare in modo che suoni credibile a chi non c\'era. Il Cardinale mi ha chiesto perché ero venuto da lui. Gli ho risposto che non lo sapevo. E mentre lo dicevo, ho capito che era la prima risposta vera che davo a qualcuno da decenni. Sapevo solo che quello che avevo costruito stava crollando dall\'interno.'},
-        {d:'Nel 2026, dopo una vita come la sua, cosa farebbe?',r:'(Quasi sorride. Non del tutto.) Nel 2026 ci sarebbero telecamere ovunque. Non avrei costruito quello che ho costruito. Ma ammettendo di esserci comunque — credo che l\'unica cosa onesta sarebbe rispondere di persona. Guardare in faccia chi ho fatto del male. Uno per uno. Non so se è abbastanza. Ma è l\'unica cosa che, guardandomi dentro, sembra reale.'},
-        {d:'Se dovesse dire una cosa sola a uno studente che studia I Promessi Sposi domani mattina?',r:'(Silenzio. Poi, con una chiarezza senza peso.) Che il male non ha un volto ovvio. Non è sempre rumore e violenza. A volte è silenzio. A volte è convenienza. A volte è non fare niente quando potresti fare qualcosa. E che il cambiamento vero non arriva quando qualcuno ti convince. Arriva quando non riesci più a convincere te stesso.'}
-      ]
-    }
-  };
-
-  // ── INTERVISTE ENGINE ─────────────────────────────────────────────
-  var intState = { tab: 'abbondio', current: 0, flipped: false };
-
-  function intSetTab(t) {
-    intState.tab = t; intState.current = 0; intState.flipped = false;
-    intRender();
-  }
-
-  function intRender() {
-    var el = document.getElementById('int-viewer');
-    if (!el) return;
-    var persona = intervisteData[intState.tab];
-    if (!persona) return;
-    var cards = persona.cards;
-    if (intState.current >= cards.length) { intRenderEnd(el, persona); return; }
-    var c = cards[intState.current];
-    var pct = Math.round((intState.current / cards.length) * 100);
-    var tabsHtml = Object.keys(intervisteData).map(function(k) {
-      var p = intervisteData[k];
-      return '<button class="fc-tab' + (intState.tab===k?' fc-active':'') + '" onclick="intSetTab(\'' + k + '\')">' + p.emoji + ' ' + p.nome + '</button>';
-    }).join('');
-    el.innerHTML = '<div class="fc-wrap">' +
-      '<div class="fc-top"><p class="fc-title-label">Interviste Impossibili</p></div>' +
-      '<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0.8rem;">' + tabsHtml + '</div>' +
-      '<div style="font-family:\'EB Garamond\',serif;font-style:italic;font-size:0.75rem;color:rgba(201,168,76,0.6);margin-bottom:0.7rem;">' + persona.ruolo + '</div>' +
-      '<div class="fc-progress-row"><span class="fc-counter">' + (intState.current+1) + ' / ' + cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
-      '<div class="fc-scene" onclick="intFlip()"><div class="fc-card' + (intState.flipped?' fc-flipped':'') + '" id="intCard">' +
-      '<div class="fc-face fc-front"><div class="fc-card-id">DOMANDA ' + (intState.current+1) + '</div><div class="fc-lbl">IL GIORNALISTA CHIEDE:</div><div class="fc-question">' + c.d + '</div><div class="fc-hint">Tocca per la risposta</div></div>' +
-      '<div class="fc-face fc-back"><div class="fc-card-id">' + persona.emoji + ' ' + persona.nome.toUpperCase() + '</div><div class="fc-check">✦</div><div class="fc-answer" style="overflow-y:auto;">' + c.r + '</div></div>' +
-      '</div></div>' +
-      '<div class="fc-controls"><button class="fc-btn" onclick="intPrev()"' + (intState.current===0?' disabled':'') + '>← Indietro</button><button class="fc-btn fc-btn-primary" onclick="intNext()">' + (intState.current===cards.length-1?'Fine':'Avanti →') + '</button></div></div>';
-  }
-
-  function intRenderEnd(el, persona) {
-    el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">' + persona.emoji + ' Completata!</p><p class="fc-end-sub" style="margin-bottom:1rem;">Hai letto tutta l\'intervista a ' + persona.nome + '.</p><button class="fc-btn fc-btn-primary" onclick="intSetTab(\'' + intState.tab + '\')">Rileggi</button></div></div>';
-  }
-
-  function intFlip() { intState.flipped = !intState.flipped; var c = document.getElementById('intCard'); if(c) c.classList.toggle('fc-flipped'); }
-  function intNext() { intState.current++; intState.flipped = false; intRender(); }
-  function intPrev() { intState.current--; intState.flipped = false; intRender(); }
 </script>
 
-</div>
 </body>
 </html>
