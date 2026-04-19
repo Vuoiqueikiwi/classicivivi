@@ -517,7 +517,7 @@
         cleanUrl();
         setTimeout(() => {
           // Usa history.replace per non aggiungere alla storia del browser
-          window.location.replace('/portale/');
+          window.location.replace('/portale/promessi-sposi/');
         }, 800);
       } else {
         if (data.reason === 'device_limit') {
@@ -550,7 +550,7 @@
     // Pulizia URL
     cleanUrl();
     // Usa replace per non aggiungere alla storia del browser
-    window.location.replace('/portale/');
+    window.location.replace('/portale/promessi-sposi/');
   } else if (redirectDone) {
     // Reset il flag per future visite
     sessionStorage.removeItem('icv_redirect_done');
