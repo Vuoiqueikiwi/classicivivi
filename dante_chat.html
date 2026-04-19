@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>I Classici Vivi — Dante Alighieri</title>
+<script>
+  (function() {
+    var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (!(prefs.saved === true && prefs.fonts === false)) {
+      var pc = document.createElement('link');
+      pc.rel = 'preconnect'; pc.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(pc);
+      var pc2 = document.createElement('link');
+      pc2.rel = 'preconnect'; pc2.href = 'https://fonts.gstatic.com'; pc2.crossOrigin = 'anonymous';
+      document.head.appendChild(pc2);
+      var f = document.createElement('link');
+      f.rel = 'stylesheet';
+      f.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap';
+      document.head.appendChild(f);
+    }
+  })();
+</script>
+<style>
+  :root {
+    --oro: #C9A84C;
+    --nero: #080808;
+    --pergamena: #F5E6C8;
+    --pergamena-scura: #D4C4A0;
+    --grigio: #888888;
+    --bruno: #8B6914;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html {
+    height: -webkit-fill-available;
+  }
+  html, body { height:100%; overflow:hidden; }
+  body {
+    font-family: "EB Garamond", serif;
+    background: var(--nero);
+    color: var(--pergamena);
+    height: 100dvh;
+  }
+
+  /* ── INTRO SCREEN ── */
+  #intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: calc(3rem + 80px);
+  }
+  #intro-screen.hidden { display: none; }
+  #intro-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .intro-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+  }
+  .intro-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .intro-brand {
+    font-family: "Cinzel", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--oro);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+  .intro-title {
+    font-family: "Cinzel", serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--pergamena);
+    margin-bottom: 0.3rem;
+  }
+  .intro-subtitle {
+    font-family: "EB Garamond", serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--pergamena-scura);
+    margin-bottom: 2rem;
+  }
+  .intro-btn {
+    background: var(--oro);
+    color: var(--nero);
+    font-family: "Cinzel", serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.9rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .intro-btn:hover { background: #E8C97A; }
+  .skip-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 3;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--pergamena-scura);
+    font-family: "Cinzel", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .skip-btn:hover { border-color: var(--oro); color: var(--oro); }
+
+  /* ── CHAT SCREEN ── */
+  #chat-screen {
+    width: 100%;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  #chat-screen.visible { display: flex; }
+  #loop-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    z-index: 0;
+  }
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.85) 55%);
+    z-index: 1;
+  }
+  .chat-layout {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    grid-template-rows: auto 1fr auto auto;
+  }
+  .chat-header {
+    grid-column: 1 / -1;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(8,8,8,0.6);
+    backdrop-filter: blur(8px);
+  }
+  .header-divider { width:1px; height:24px; background:rgba(201,168,76,0.3); }
+  .header-name { font-family:"Cinzel",serif; font-size:1rem; font-weight:700; color:var(--pergamena); }
+  .header-ruolo { font-family:"EB Garamond",serif; font-style:italic; font-size:0.85rem; color:var(--grigio); }
+  .status-dot { width:8px; height:8px; border-radius:50%; background:#52B788; margin-left:auto; box-shadow:0 0 6px #52B788; }
+  .nav-links { display:flex; gap:0.8rem; margin-right:0.5rem; }
+  .nav-link {
+    font-family:"Cinzel",serif; font-size:0.65rem; font-weight:600;
+    letter-spacing:0.1em; color:var(--oro); text-decoration:none;
+    padding:0.3rem 0.6rem; border:1px solid rgba(201,168,76,0.3);
+    transition:all 0.2s; white-space:nowrap; cursor:pointer;
+  }
+  .nav-link:hover { border-color:var(--oro); background:rgba(201,168,76,0.1); color:#E8C97A; }
+  .messages-area {
+    grid-column: 2; grid-row: 2;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .messages-area::-webkit-scrollbar { width:4px; }
+  .messages-area::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.3); border-radius:2px; }
+  .message { display:flex; flex-direction:column; max-width:90%; }
+  .message.user { align-self:flex-end; align-items:flex-end; }
+  .message.ai { align-self:flex-start; align-items:flex-start; }
+  .message-name { font-family:"Cinzel",serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--oro); margin-bottom:0.3rem; opacity:0.8; }
+  .message-bubble { padding:0.8rem 1.1rem; font-size:0.95rem; line-height:1.6; }
+  .message.user .message-bubble { background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.25); color:var(--pergamena); }
+  .message.ai .message-bubble { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:var(--pergamena); }
+  .initial-message {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(201,168,76,0.15);
+    border-left:3px solid var(--oro);
+    padding:1.2rem 1.5rem;
+  }
+  .initial-message .message-name { font-family:"Cinzel",serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--oro); margin-bottom:0.5rem; opacity:0.8; }
+  .initial-message p { font-size:0.95rem; line-height:1.7; color:var(--pergamena); }
+  .typing-indicator {
+    grid-column:2; padding:0 1.5rem;
+    font-family:"EB Garamond",serif; font-style:italic; font-size:0.85rem; color:var(--grigio);
+    min-height:1.5rem; display:none;
+  }
+  .input-area {
+    grid-column:2; grid-row:3;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    padding:1rem 1.5rem 0.5rem;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    display:flex; gap:0.5rem; align-items:flex-end;
+    border-top:1px solid rgba(201,168,76,0.1);
+    background:rgba(8,8,8,0.6); backdrop-filter:blur(8px);
+  }
+  #user-input {
+    flex:1; background:rgba(255,255,255,0.05);
+    border:1px solid rgba(201,168,76,0.2);
+    color:var(--pergamena); font-family:"EB Garamond",serif; font-size:1rem;
+    padding:0.7rem 1rem; resize:none; outline:none;
+    min-height:44px; max-height:120px; overflow-y:auto;
+    transition:border-color 0.2s;
+  }
+  #user-input:focus { border-color:rgba(201,168,76,0.5); }
+  #user-input::placeholder { color:var(--grigio); font-style:italic; }
+  .send-btn {
+    background:var(--oro); color:var(--nero); border:none;
+    width:44px; height:44px; cursor:pointer; font-size:1rem;
+    transition:background 0.2s; flex-shrink:0;
+  }
+  .send-btn:hover { background:#E8C97A; }
+  .send-btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .input-hint {
+    grid-column:2; grid-row:4;
+    text-align:center; font-family:"EB Garamond",serif; font-style:italic;
+    font-size:0.8rem; color:rgba(201,168,76,0.6); padding:0.3rem 1.5rem 1rem;
+    background:rgba(8,8,8,0.6);
+  }
+  @media (max-width:768px) {
+    .chat-layout { grid-template-columns:1fr; }
+    #loop-video { opacity:0.75; filter:brightness(2.0); }
+    .chat-header { flex-wrap:wrap; gap:0.5rem; padding:0.7rem 1rem; }
+    .header-ruolo { display:none; }
+    .header-divider { display:none; }
+    .nav-links { order:-1; }
+    .messages-area { grid-column:1; }
+    .input-area { grid-column:1; }
+    .input-hint { grid-column:1; }
+    .typing-indicator { grid-column:1; }
+    .input-hint {
+      padding-bottom: calc(1rem + env(safe-area-inset-bottom, 20px));
+    }
+    body {
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+  }
+  @media (min-width: 769px) {
+    .input-area { padding-bottom: 0.5rem; }
+    #loop-video { object-fit: contain; }
+  }
+  #bottom-nav {
+    flex-shrink: 0;
+    height: 60px;
+    min-height: 60px;
+    background: rgba(13,17,23,0.98);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  @media (min-width: 769px) { #bottom-nav { display: none; } }
+  .bnav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(245,230,200,0.45);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .bnav-item.active { color: var(--oro); border-bottom-color: var(--oro); }
+  .bnav-item:active { background: rgba(201,168,76,0.08); }
+  .bnav-icon { font-size: 1.3rem; }
+  .bnav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  /* ── SOTTOMENU ── */
+  #submenu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    bottom: 60px;
+    z-index: 100;
+    background: rgba(0,0,0,0.5);
+  }
+  #submenu-overlay.open { display: block; }
+  .submenu {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 0; right: 0;
+    background: rgba(13,17,23,0.99);
+    border-top: 1px solid rgba(201,168,76,0.25);
+    z-index: 101;
+    flex-direction: column;
+    padding: 0.3rem 0;
+  }
+  .submenu.open { display: flex; }
+  .submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    color: rgba(245,230,200,0.75);
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .submenu-item:active { background: rgba(201,168,76,0.1); }
+  .submenu-item-icon { font-size: 1.1rem; width: 26px; text-align: center; flex-shrink: 0; }
+  .submenu-item-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--pergamena);
+  }
+  .submenu-item-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(245,230,200,0.4);
+    margin-left: auto;
+  }
+</style>
+</head>
+<body>
+<script>
+  // ── AUTH ──
+  (function() {
+    var token = sessionStorage.getItem('icv_access');
+    var ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+    var SESSION_TTL = 8 * 60 * 60 * 1000;
+    if (!token || (Date.now() - ts) > SESSION_TTL) {
+      sessionStorage.removeItem('icv_access');
+      sessionStorage.removeItem('icv_ts');
+      window.location.href = '/accedi';
+    }
+  })();
+</script>
+
+<!-- INTRO SCREEN -->
+<div id="intro-screen">
+  <video id="intro-video" playsinline>
+    <source src="avatar_dante_final.mp4" type="video/mp4">
+  </video>
+  <div class="intro-overlay"></div>
+  <button class="skip-btn" onclick="goToChat()">SALTA INTRO ›</button>
+  <div class="intro-content">
+    <div class="intro-brand">I CLASSICI VIVI</div>
+    <div class="intro-title">Dante</div>
+    <div class="intro-subtitle">Poeta e viaggiatore dell'oltretomba, XIII secolo</div>
+    <button class="intro-btn" onclick="startIntro()">▶ &nbsp;INCONTRA DANTE</button>
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="chat-screen">
+  <video id="loop-video" autoplay muted loop playsinline>
+    <source src="loop_dante.mp4" type="video/mp4">
+  </video>
+  <div class="bg-overlay"></div>
+  <div class="chat-layout">
+    <header class="chat-header">
+      <div class="nav-links">
+        <a class="nav-link" onclick="history.back()">← INDIETRO</a>
+        <a class="nav-link" href="/portale/">🏠 HOME</a>
+      </div>
+      <span class="header-name">DANTE</span>
+      <div class="header-divider"></div>
+      <span class="header-ruolo">Poeta e viaggiatore dell'oltretomba, XIII secolo</span>
+      <div class="status-dot"></div>
+    </header>
+    <div class="messages-area" id="messages-area">
+      <div class="initial-message">
+        <div class="message-name">DANTE</div>
+        <p>Ho attraversato l'Inferno, il Purgatorio, il Paradiso. Ho visto cose che nessun vivente aveva visto prima di me. Se vuoi capire cosa ho incontrato nell'Inferno — i dannati, le pene, la giustizia divina — sono qui. Ma preparati: non si tratta di storie leggere. Dimmi da dove vuoi cominciare.</p>
+      </div>
+    </div>
+    <div class="typing-indicator" id="typing-indicator">Dante sta scrivendo...</div>
+    <div class="input-area">
+      <textarea id="user-input" placeholder="Scrivi a Dante..." rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">&#9658;</button>
+    </div>
+    <div class="input-hint">Personaggio generato da intelligenza artificiale — può commettere errori. Non utilizzare come unica fonte di studio.</div>
+  </div>
+</div>
+
+<script>
+  let conversationHistory = [];
+  let isSending = false;
+
+  function startIntro() {
+    const video = document.getElementById('intro-video');
+    video.muted = true;
+    const p = video.play();
+    if (p !== undefined) {
+      p.then(() => { video.muted = false; })
+       .catch(() => { goToChat(); });
+    }
+    document.querySelector('.intro-btn').style.display = 'none';
+    video.addEventListener('ended', goToChat);
+    video.addEventListener('error', goToChat);
+    setTimeout(goToChat, 40000);
+  }
+
+  function goToChat() {
+    document.getElementById('intro-screen').classList.add('hidden');
+    document.getElementById('chat-screen').classList.add('visible');
+    // Stop intro video
+    const iv = document.getElementById('intro-video');
+    if (iv) { iv.pause(); iv.src = ''; }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function addMessage(role, text) {
+    const area = document.getElementById('messages-area');
+    const div = document.createElement('div');
+    div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
+    const nameEl = document.createElement('div');
+    nameEl.className = 'message-name';
+    nameEl.textContent = role === 'user' ? 'TU' : 'DANTE';
+    const bubbleEl = document.createElement('div');
+    bubbleEl.className = 'message-bubble';
+    text.split('\n').forEach((line, i, arr) => {
+      bubbleEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
+    });
+    div.appendChild(nameEl);
+    div.appendChild(bubbleEl);
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function setTyping(active) {
+    document.getElementById('typing-indicator').style.display = active ? 'block' : 'none';
+    document.getElementById('send-btn').disabled = active;
+  }
+
+  async function sendMessage() {
+    if (isSending) return;
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text) return;
+    isSending = true;
+    input.value = '';
+    input.style.height = 'auto';
+    addMessage('user', text);
+    conversationHistory.push({ role: 'user', content: text });
+    if (conversationHistory.length > 6) conversationHistory = conversationHistory.slice(-6);
+    setTyping(true);
+    let attempts = 0;
+    while (attempts < 3) {
+      try {
+        const response = await fetch('/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Access-Code': sessionStorage.getItem('icv_access') || '' },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            character: 'dante',
+            messages: conversationHistory.map(m => ({
+              role: m.role === 'user' ? 'user' : 'assistant',
+              content: m.content
+            }))
+          })
+        });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        const reply = data.choices?.[0]?.message?.content || 'Perdonami, ho avuto un momento di distrazione. Puoi ripetere?';
+        conversationHistory.push({ role: 'assistant', content: reply });
+        setTyping(false);
+        addMessage('ai', reply);
+        isSending = false;
+        return;
+      } catch (err) {
+        attempts++;
+        if (attempts >= 3) {
+          setTyping(false);
+          isSending = false;
+          addMessage('ai', 'Mi fermo un istante... Riprova tra qualche istante.');
+          return;
+        }
+        await new Promise(r => setTimeout(r, attempts * 2000));
+      }
+    }
+  }
+
+var currentBnav = 'chat';
+
+function handleBnav(key) {
+  // tasti con sottomenu
+  var menuId = 'submenu-' + key;
+  var menu = document.getElementById(menuId);
+  if (!menu) return;
+  var isOpen = menu.classList.contains('open');
+  closeAllSubmenus();
+  if (!isOpen) {
+    menu.classList.add('open');
+    document.getElementById('submenu-overlay').classList.add('open');
+  }
+  setActiveBnav(key);
+}
+
+function closeAllSubmenus() {
+  document.querySelectorAll('.submenu').forEach(function(m) { m.classList.remove('open'); });
+  document.getElementById('submenu-overlay').classList.remove('open');
+}
+
+function setActiveBnav(key) {
+  document.querySelectorAll('.bnav-item').forEach(function(el) { el.classList.remove('active'); });
+  var el = document.getElementById('bnav-' + key);
+  if (el) el.classList.add('active');
+  currentBnav = key;
+}
+</script>
+  <div id="bottom-nav">
+    <div class="bnav-item active" id="bnav-chat" onclick="handleBnav('chat')">
+      <div class="bnav-icon">💬</div>
+      <div class="bnav-label">CHAT</div>
+    </div>
+    <div class="bnav-item" id="bnav-studio" onclick="handleBnav('studio')">
+      <div class="bnav-icon">📖</div>
+      <div class="bnav-label">STUDIO</div>
+    </div>
+    <div class="bnav-item" id="bnav-media" onclick="handleBnav('media')">
+      <div class="bnav-icon">🎞️</div>
+      <div class="bnav-label">MEDIA</div>
+    </div>
+    <div class="bnav-item" id="bnav-leggimi" onclick="handleBnav('leggimi')">
+      <div class="bnav-icon">📕</div>
+      <div class="bnav-label">LEGGIMI</div>
+    </div>
+  </div>
+<!-- OVERLAY -->
+<div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
+<!-- SUBMENU CHAT -->
+<div class="submenu" id="submenu-chat">
+  <a class="submenu-item" href="/portale/divina-commedia/mobile.html">
+    <span class="submenu-item-icon">🎓</span>
+    <span class="submenu-item-label">Il Tutor</span>
+    <span class="submenu-item-desc">la tua guida al kit</span>
+  </a>
+  <a class="submenu-item" href="../dante_chat.html">
+    <span class="submenu-item-icon">🔥</span>
+    <span class="submenu-item-label">Dante</span>
+    <span class="submenu-item-desc">il poeta viaggiatore</span>
+  </a>
+  <a class="submenu-item" href="../virgilio_chat.html">
+    <span class="submenu-item-icon">🌿</span>
+    <span class="submenu-item-label">Virgilio</span>
+    <span class="submenu-item-desc">la guida paziente</span>
+  </a>
+  <a class="submenu-item" href="../lucifero_chat.html">
+    <span class="submenu-item-icon">❄️</span>
+    <span class="submenu-item-label">Lucifero</span>
+    <span class="submenu-item-desc">il caduto</span>
+  </a>
+</div>
+<!-- SUBMENU STUDIO -->
+<div class="submenu" id="submenu-studio">
+  <a class="submenu-item" href="/portale/divina-commedia/mobile.html">
+    <span class="submenu-item-icon">🎴</span>
+    <span class="submenu-item-label">Flashcard</span>
+    <span class="submenu-item-desc">Zero + Capitoli</span>
+  </a>
+  <a class="submenu-item" href="/portale/divina-commedia/mobile.html">
+    <span class="submenu-item-icon">❓</span>
+    <span class="submenu-item-label">Quiz</span>
+    <span class="submenu-item-desc">Base + Premium</span>
+  </a>
+</div>
+<!-- SUBMENU MEDIA -->
+<div class="submenu" id="submenu-media">
+  <a class="submenu-item" href="../glossario_inferno.html">
+    <span class="submenu-item-icon">📖</span>
+    <span class="submenu-item-label">Glossario dell'Inferno</span>
+  </a>
+  <a class="submenu-item" href="/portale/divina-commedia/mobile.html">
+    <span class="submenu-item-icon">🎞️</span>
+    <span class="submenu-item-label">Interviste Impossibili</span>
+  </a>
+</div>
+<!-- SUBMENU LEGGIMI -->
+<div class="submenu" id="submenu-leggimi">
+  <a class="submenu-item" href="../inferno_librogame.html">
+    <span class="submenu-item-icon">🎮</span>
+    <span class="submenu-item-label">Librogame | Inferno</span>
+  </a>
+  <a class="submenu-item" href="#">
+    <span class="submenu-item-icon">📕</span>
+    <span class="submenu-item-label">Libro Originale</span>
+  </a>
+</div>
+</body>
+</html>
