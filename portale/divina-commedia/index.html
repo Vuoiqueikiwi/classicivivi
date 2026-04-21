@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+<link rel="apple-touch-icon" href="../../favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Classici Vivi — Divina Commedia</title>
+<script>
+  (function() {
+    var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (prefs.saved === true && prefs.fonts === false) {
+      document.documentElement.classList.add('fonts-blocked');
+    } else {
+      var preconnect = document.createElement('link');
+      preconnect.rel = 'preconnect';
+      preconnect.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(preconnect);
+      var preconnect2 = document.createElement('link');
+      preconnect2.rel = 'preconnect';
+      preconnect2.href = 'https://fonts.gstatic.com';
+      preconnect2.crossOrigin = 'anonymous';
+      document.head.appendChild(preconnect2);
+      var fonts = document.createElement('link');
+      fonts.rel = 'stylesheet';
+      fonts.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
+      document.head.appendChild(fonts);
+    }
+    window.__onedrive_blocked = (prefs.saved === true && prefs.onedrive === false);
+    window.__cookie_not_set = !prefs.saved;
+  })();
+</script>
+<script type="text/javascript">       (function(c,l,a,r,i,t,y){           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);       })(window, document, "clarity", "script", "w7l4bipy35");   </script>
+<style>
+  :root {
+    --oro: #c9a84c;
+    --oro-chiaro: #e8c97a;
+    --bruno: #080808;
+    --bruno-medio: #0d1117;
+    --bruno-chiaro: #161b22;
+    --pergamena: #f5e6c8;
+    --pergamena-scura: #d4c4a0;
+    --blu-prof: #1a3a5c;
+    --blu-chiaro: #2d6a9f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--bruno);
+    color: var(--pergamena);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── COOKIE NOTICE ──────────────────────────────────────────────── */
+  #cookie-notice {
+    display: none;
+    background: #0d1117;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    padding: 0.8rem 1.5rem;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+  #cookie-notice.visible { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .cookie-notice-text {
+    flex: 1; min-width: 200px;
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 0.85rem; color: rgba(245,230,200,0.7); line-height: 1.5;
+  }
+  .cookie-notice-text strong { color: var(--oro); font-style: normal; }
+  .cookie-notice-btns { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .cookie-notice-accept {
+    background: var(--oro); color: var(--bruno); border: none;
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
+    padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.2s;
+  }
+  .cookie-notice-accept:hover { background: var(--oro-chiaro); }
+  .cookie-notice-info {
+    background: transparent; color: rgba(245,230,200,0.4);
+    border: 1px solid rgba(201,168,76,0.2);
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.1em;
+    padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .cookie-notice-info:hover { border-color: rgba(201,168,76,0.4); color: var(--pergamena); }
+
+  /* ── PORTALE BODY ───────────────────────────────────────────────── */
+  #portale-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── INTRO SCREEN ───────────────────────────────────────────────── */
+  #intro-screen {
+    position: fixed; inset: 0; z-index: 200;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: #000; transition: opacity 0.8s ease;
+  }
+  #intro-screen.fade-out { opacity: 0; pointer-events: none; }
+  #intro-video {
+    width: 100%; height: 100%; object-fit: contain;
+    position: absolute; inset: 0; background: #000;
+  }
+  .intro-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+    text-align: center; padding: 2rem 2rem 5rem; pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  }
+  .intro-brand {
+    font-family: 'Cinzel', serif; font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.4em; color: var(--oro); text-transform: uppercase; margin-bottom: 0.5rem;
+    opacity: 0; animation: fadeInUp 1s ease 0.5s forwards;
+  }
+  .intro-title {
+    font-family: 'Cinzel', serif; font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--pergamena); line-height: 1.1;
+    opacity: 0; animation: fadeInUp 1s ease 0.8s forwards;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  }
+  .intro-subtitle {
+    font-family: 'EB Garamond', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--pergamena-scura); margin-top: 0.5rem;
+    opacity: 0; animation: fadeInUp 1s ease 1.1s forwards;
+  }
+  .play-audio-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
+    background: rgba(201,168,76,0.9); border: none; color: var(--bruno);
+    font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.2em;
+    padding: 1rem 2.5rem; cursor: pointer; transition: all 0.3s;
+  }
+  .play-audio-btn:hover { background: var(--oro-chiaro); }
+  .skip-btn {
+    position: absolute; bottom: 2rem; right: 2rem; z-index: 3;
+    background: rgba(0,0,0,0.5); border: 1px solid rgba(201,168,76,0.4);
+    color: var(--oro); font-family: 'Cinzel', serif; font-size: 0.75rem;
+    letter-spacing: 0.2em; padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.3s;
+    opacity: 0; animation: fadeIn 1s ease 2s forwards;
+  }
+  .skip-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--oro); }
+
+  /* ── SIDEBAR ────────────────────────────────────────────────────── */
+  #sidebar {
+    width: 270px; flex-shrink: 0;
+    background: var(--bruno-medio);
+    border-right: 1px solid rgba(201,168,76,0.12);
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201,168,76,0.15) transparent;
+  }
+  .sidebar-logo {
+    padding: 1.4rem 1.2rem 1rem;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .sidebar-logo-top {
+    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.4em;
+    color: var(--oro); text-transform: uppercase; opacity: 0.7; margin-bottom: 0.2rem;
+  }
+  .sidebar-logo-title { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--pergamena); font-weight: 700; }
+  .sidebar-logo-sub { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.75rem; color: var(--oro-chiaro); opacity: 0.6; margin-top: 0.15rem; }
+
+  .sidebar-section { padding: 1rem 0.8rem 0.4rem; }
+  .sidebar-section-label {
+    font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.3em;
+    color: var(--oro); text-transform: uppercase; opacity: 0.5;
+    padding: 0 0.4rem; margin-bottom: 0.5rem;
+  }
+  .nav-card {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.65rem 0.8rem; cursor: pointer; border-radius: 2px;
+    transition: all 0.2s; text-decoration: none; color: var(--pergamena);
+    border: 1px solid rgba(201,168,76,0.18); background: rgba(201,168,76,0.05);
+    margin-bottom: 0.3rem;
+  }
+  .nav-card:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.35); }
+  .nav-card.active { background: rgba(201,168,76,0.14); border-color: var(--oro); }
+  .nav-card-emoji { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
+  .nav-card-texts { display: flex; flex-direction: column; }
+  .nav-card-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.04em; line-height: 1.1; }
+  .nav-card-desc { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.68rem; color: rgba(245,230,200,0.45); margin-top: 0.1rem; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.5rem 0.8rem; cursor: pointer; border-radius: 2px;
+    transition: all 0.2s; text-decoration: none;
+    color: rgba(245,230,200,0.6); border: 1px solid transparent;
+  }
+  .nav-item:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.12); color: var(--pergamena); }
+  .nav-item.active { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.25); color: var(--pergamena); }
+  .nav-num { font-family: 'Cinzel', serif; font-size: 0.62rem; color: rgba(201,168,76,0.45); width: 16px; flex-shrink: 0; }
+  .nav-item.active .nav-num { color: var(--oro); }
+  .nav-text { font-family: 'EB Garamond', serif; font-size: 0.83rem; }
+  .nav-badge {
+    margin-left: auto; font-family: 'Cinzel', serif; font-size: 0.52rem;
+    letter-spacing: 0.08em; padding: 0.12rem 0.35rem;
+    background: rgba(201,168,76,0.12); color: var(--oro);
+    border: 1px solid rgba(201,168,76,0.2); flex-shrink: 0;
+  }
+  .sidebar-footer {
+    margin-top: auto; padding: 1rem 0.8rem;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .logout-btn {
+    width: 100%; background: transparent; border: 1px solid rgba(201,168,76,0.15);
+    color: rgba(245,230,200,0.4); font-family: 'Cinzel', serif; font-size: 0.58rem;
+    letter-spacing: 0.2em; padding: 0.5rem; cursor: pointer; transition: all 0.2s;
+  }
+  .logout-btn:hover { border-color: rgba(201,168,76,0.3); color: rgba(245,230,200,0.7); }
+
+  /* ── MAIN ───────────────────────────────────────────────────────── */
+  #main { flex: 1; display: flex; overflow: hidden; }
+
+  /* ── CHAT VIEW ──────────────────────────────────────────────────── */
+  #chat-view { display: flex; flex: 1; overflow: hidden; }
+
+  .prof-panel { width: 310px; flex-shrink: 0; position: relative; overflow: hidden; background: var(--bruno); }
+  .prof-bg {
+    position: absolute; inset: 0;
+    background-image: url('../../Foto_Prof.png');
+    background-size: cover; background-position: center top;
+    filter: brightness(0.55) saturate(0.8);
+  }
+  .prof-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 0%, rgba(13,17,23,0.3) 70%, rgba(13,17,23,0.95) 100%),
+                linear-gradient(to top, rgba(13,17,23,0.9) 0%, transparent 40%);
+  }
+  .prof-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 1.5rem; }
+  .prof-badge {
+    display: inline-block; background: var(--oro); color: var(--bruno);
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em;
+    padding: 0.3rem 0.8rem; margin-bottom: 0.6rem;
+  }
+  .prof-name {
+    font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--pergamena);
+    font-weight: 700; line-height: 1; margin-bottom: 0.3rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  }
+  .prof-role { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.9rem; color: var(--oro-chiaro); opacity: 0.9; margin-bottom: 1rem; }
+  .prof-status { display: flex; align-items: center; gap: 0.5rem; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulse 2s infinite; }
+  .status-text { font-family: 'EB Garamond', serif; font-size: 0.8rem; color: rgba(245,230,200,0.6); }
+
+  .chat-panel {
+    flex: 1; display: grid; grid-template-rows: auto 1fr auto;
+    background: var(--bruno-chiaro); border-left: 1px solid rgba(201,168,76,0.1); overflow: hidden;
+  }
+  .chat-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(13,17,23,0.8); display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
+  }
+  .header-brand { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.4em; color: var(--oro); }
+  .header-divider { width: 1px; height: 24px; background: rgba(201,168,76,0.3); }
+  .header-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--pergamena); }
+  .header-sub { font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--oro-chiaro); opacity: 0.7; margin-left: auto; }
+
+  .messages-area {
+    overflow-y: auto; padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.2) transparent;
+  }
+  .message { display: flex; flex-direction: column; max-width: 90%; animation: msgIn 0.35s ease; }
+  .message.user { align-self: flex-end; align-items: flex-end; }
+  .message.ai { align-self: flex-start; align-items: flex-start; }
+  .message-name { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--oro); margin-bottom: 0.3rem; opacity: 0.7; }
+  .message-bubble { padding: 0.9rem 1.2rem; font-size: 0.95rem; line-height: 1.65; }
+  .message.user .message-bubble { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25); color: var(--pergamena); }
+  .message.ai .message-bubble { background: rgba(26,58,92,0.25); border: 1px solid rgba(45,106,159,0.3); color: var(--pergamena); }
+
+  .typing-indicator {
+    display: none; align-self: flex-start; padding: 0.7rem 1rem;
+    background: rgba(26,58,92,0.25); border: 1px solid rgba(45,106,159,0.3);
+    gap: 4px; align-items: center; margin: 0 1.5rem 0.5rem;
+  }
+  .typing-indicator.active { display: flex; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--oro); opacity: 0.4; animation: typingDot 1.4s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  .quick-actions {
+    padding: 0.5rem 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;
+    border-top: 1px solid rgba(201,168,76,0.08); flex-shrink: 0;
+  }
+  .quick-btn {
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+    color: var(--oro-chiaro); font-family: 'EB Garamond', serif; font-size: 0.8rem;
+    padding: 0.3rem 0.8rem; cursor: pointer; transition: all 0.2s; font-style: italic;
+  }
+  .quick-btn:hover { background: rgba(201,168,76,0.18); border-color: var(--oro); color: var(--pergamena); }
+
+  .input-area {
+    padding: 1rem 1.5rem 1.5rem; background: rgba(13,17,23,0.6);
+    border-top: 1px solid rgba(201,168,76,0.1); backdrop-filter: blur(10px); flex-shrink: 0;
+  }
+  .input-wrapper { display: flex; gap: 0.8rem; align-items: flex-end; }
+  .input-field {
+    flex: 1; background: rgba(245,230,200,0.05); border: 1px solid rgba(201,168,76,0.2);
+    color: var(--pergamena); font-family: 'EB Garamond', serif; font-size: 1rem;
+    padding: 0.8rem 1rem; resize: none; outline: none;
+    min-height: 48px; max-height: 120px; line-height: 1.5; transition: border-color 0.3s;
+  }
+  .input-field:focus { border-color: rgba(201,168,76,0.5); }
+  .input-field::placeholder { color: rgba(245,230,200,0.25); font-style: italic; }
+  .send-btn {
+    background: var(--oro); color: var(--bruno); border: none;
+    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em;
+    padding: 0.8rem 1.5rem; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+  }
+  .send-btn:hover { background: var(--oro-chiaro); }
+  .input-hint {
+    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.65rem;
+    color: rgba(245,230,200,0.25); margin-top: 0.4rem;
+  }
+
+  /* ── CONTENT AREA ───────────────────────────────────────────────── */
+  #content-view {
+    flex: 1; display: none; flex-direction: column; overflow: hidden;
+  }
+  .content-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(13,17,23,0.8); display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
+  }
+  .content-header-title {
+    font-family: 'Cinzel', serif; font-size: 1rem; color: var(--pergamena); flex: 1;
+  }
+  .content-header-back {
+    background: transparent; border: 1px solid rgba(201,168,76,0.2);
+    color: rgba(245,230,200,0.6); font-family: 'Cinzel', serif; font-size: 0.7rem;
+    letter-spacing: 0.1em; padding: 0.4rem 1rem; cursor: pointer; transition: all 0.2s;
+  }
+  .content-header-back:hover { border-color: var(--oro); color: var(--pergamena); }
+  .content-body {
+    flex: 1; overflow-y: auto; padding: 2rem;
+    scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.2) transparent;
+  }
+
+  /* ── FLASHCARD VIEWER ───────────────────────────────────────────── */
+  .fc-wrap {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: #080808;
+    min-height: 520px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 680px;
+  }
+  .fc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px; }
+  .fc-title-label { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 0; }
+  .fc-tabs { display: flex; gap: 6px; }
+  .fc-tab { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: rgba(201,168,76,0.55); cursor: pointer; transition: all 0.2s; }
+  .fc-tab.fc-active { background: #C9A84C; color: #080808; border-color: #C9A84C; }
+  .fc-tab:hover:not(.fc-active) { background: rgba(201,168,76,0.13); color: #C9A84C; }
+  .fc-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; }
+  .fc-counter { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 11px; letter-spacing: 1px; white-space: nowrap; }
+  .fc-bar-bg { flex: 1; height: 2px; background: #222; border-radius: 2px; }
+  .fc-bar-fill { height: 100%; background: #C9A84C; border-radius: 2px; transition: width 0.3s; }
+  .fc-scene { perspective: 1200px; width: 100%; max-width: 520px; margin: 0 auto; height: 270px; cursor: pointer; }
+  .fc-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+  .fc-card.fc-flipped { transform: rotateY(180deg); }
+  .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; padding: 1.3rem 1.5rem; box-sizing: border-box; display: flex; flex-direction: column; }
+  .fc-front { background: #111; border: 1px solid rgba(201,168,76,0.27); }
+  .fc-back { background: #0d0d0d; border: 1px solid rgba(201,168,76,0.53); transform: rotateY(180deg); }
+  .fc-card-id { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 10px; letter-spacing: 2px; margin-bottom: 8px; }
+  .fc-lbl { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: rgba(201,168,76,0.47); margin-bottom: 6px; }
+  .fc-belief { color: rgba(245,230,200,0.44); font-size: 13px; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
+  .fc-question { color: #F5E6C8; font-size: 16px; line-height: 1.6; flex: 1; }
+  .fc-hint { font-size: 12px; color: rgba(201,168,76,0.33); margin-top: 10px; font-style: italic; text-align: center; }
+  .fc-check { color: #C9A84C; font-size: 18px; margin-bottom: 6px; }
+  .fc-answer { color: #F5E6C8; font-size: 14px; line-height: 1.65; flex: 1; }
+  .fc-controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.2rem; align-items: center; }
+  .fc-btn { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; padding: 9px 18px; border-radius: 5px; border: 1px solid rgba(201,168,76,0.27); background: transparent; color: #C9A84C; cursor: pointer; transition: all 0.2s; }
+  .fc-btn:hover { background: rgba(201,168,76,0.13); border-color: #C9A84C; }
+  .fc-btn:disabled { opacity: 0.2; cursor: default; }
+  .fc-btn-primary { background: #C9A84C; color: #080808; border-color: #C9A84C; }
+  .fc-btn-primary:hover { background: #d4b05a; }
+  .fc-end { text-align: center; padding: 2rem 1rem; }
+  .fc-end-title { font-family: 'Cinzel', serif; color: #C9A84C; font-size: 17px; margin-bottom: 0.8rem; }
+  .fc-end-sub { color: rgba(245,230,200,0.5); font-size: 14px; font-style: italic; }
+
+  /* ── PODCAST ────────────────────────────────────────────────────── */
+  .podcast-intro {
+    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.88rem;
+    color: rgba(245,230,200,0.55); margin-bottom: 1rem; line-height: 1.6;
+  }
+  .podcast-lista {
+    display: flex; flex-direction: column; gap: 3px;
+    max-height: 460px; overflow-y: auto; padding-right: 4px;
+  }
+  .podcast-lista::-webkit-scrollbar { width: 3px; }
+  .podcast-lista::-webkit-scrollbar-track { background: transparent; }
+  .podcast-lista::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.27); border-radius: 2px; }
+  .ep-item {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.6rem 0.9rem; border-radius: 6px;
+    border: 1px solid transparent; text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .ep-item:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.2); }
+  .ep-num { font-family: 'Cinzel', serif; font-size: 0.7rem; color: rgba(201,168,76,0.47); min-width: 22px; text-align: right; flex-shrink: 0; }
+  .ep-icon { font-size: 0.75rem; color: #C9A84C; flex-shrink: 0; }
+  .ep-titolo { font-size: 0.9rem; color: rgba(245,230,200,0.8); }
+  .ep-item:hover .ep-titolo { color: #C9A84C; }
+
+  /* ── LIBRO DOWNLOAD ─────────────────────────────────────────────── */
+  .download-note {
+    font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.85rem;
+    color: rgba(245,230,200,0.45); margin-bottom: 1.2rem; line-height: 1.6;
+    padding: 0.8rem 1rem; border-left: 2px solid rgba(201,168,76,0.3); max-width: 600px;
+  }
+  .download-btn {
+    display: inline-block; background: transparent; color: var(--oro);
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.15em;
+    padding: 0.75rem 2rem; text-decoration: none; transition: all 0.2s;
+    border: 1px solid rgba(201,168,76,0.4); margin-bottom: 1.5rem;
+  }
+  .download-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--oro); }
+
+  /* ── QUIZ VIEWER ── */
+  .qv-wrap{font-family:'EB Garamond',Georgia,serif;background:#080808;min-height:520px;padding:1.5rem;border-radius:8px;max-width:680px;margin-bottom:2rem;}
+  .qv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px;}
+  .qv-title-lbl{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0;}
+  .qv-tabs{display:flex;gap:5px;}
+  .qv-tab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;padding:6px 10px;border-radius:4px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:rgba(201,168,76,0.55);cursor:pointer;transition:all 0.2s;}
+  .qv-tab.qv-active{background:#C9A84C;color:#080808;border-color:#C9A84C;}
+  .qv-tab:hover:not(.qv-active){background:rgba(201,168,76,0.13);color:#C9A84C;}
+  .qv-prog{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;}
+  .qv-cnt{font-family:'Cinzel',serif;color:#C9A84C;font-size:11px;letter-spacing:1px;white-space:nowrap;}
+  .qv-bar-bg{flex:1;height:2px;background:#222;border-radius:2px;}
+  .qv-bar-fill{height:100%;background:#C9A84C;border-radius:2px;transition:width 0.3s;}
+  .qv-scene{perspective:1200px;width:100%;max-width:520px;margin:0 auto;height:290px;cursor:pointer;}
+  .qv-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
+  .qv-card.qv-flipped{transform:rotateY(180deg);}
+  .qv-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;padding:1.3rem 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;}
+  .qv-front{background:#111;border:1px solid rgba(201,168,76,0.27);}
+  .qv-back{background:#0d0d0d;border:1px solid rgba(201,168,76,0.53);transform:rotateY(180deg);}
+  .qv-cid{font-family:'Cinzel',serif;color:#C9A84C;font-size:10px;letter-spacing:2px;margin-bottom:8px;}
+  .qv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:rgba(201,168,76,0.47);margin-bottom:8px;}
+  .qv-question{color:#F5E6C8;font-size:16px;line-height:1.65;flex:1;}
+  .qv-hint{font-size:12px;color:rgba(201,168,76,0.33);margin-top:10px;font-style:italic;text-align:center;}
+  .qv-check{color:#C9A84C;font-size:18px;margin-bottom:6px;}
+  .qv-answer{color:#F5E6C8;font-size:13.5px;line-height:1.7;flex:1;overflow-y:auto;}
+  .qv-nota{margin-top:10px;padding:8px 12px;border-left:2px solid #C9A84C;background:rgba(201,168,76,0.07);border-radius:0 5px 5px 0;}
+  .qv-nota-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;color:#C9A84C;margin-bottom:3px;}
+  .qv-nota-txt{color:rgba(245,230,200,0.75);font-size:12.5px;font-style:italic;}
+  .qv-controls{display:flex;gap:10px;justify-content:center;margin-top:1.2rem;}
+  .qv-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;padding:9px 18px;border-radius:5px;border:1px solid rgba(201,168,76,0.27);background:transparent;color:#C9A84C;cursor:pointer;transition:all 0.2s;}
+  .qv-btn:hover{background:rgba(201,168,76,0.13);border-color:#C9A84C;}
+  .qv-btn:disabled{opacity:0.2;cursor:default;}
+  .qv-btn-p{background:#C9A84C;color:#080808;border-color:#C9A84C;}
+  .qv-btn-p:hover{background:#d4b05a;}
+  .qv-end{text-align:center;padding:2rem 1rem;}
+  .qv-end-title{font-family:'Cinzel',serif;color:#C9A84C;font-size:17px;margin-bottom:0.8rem;}
+  .qv-end-sub{color:rgba(245,230,200,0.5);font-size:14px;font-style:italic;}
+
+  /* ── FONTS BLOCKED ──────────────────────────────────────────────── */
+  .fonts-blocked * {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif !important;
+  }
+
+  /* ── ANIMATIONS ─────────────────────────────────────────────────── */
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  @keyframes msgIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes typingDot { 0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)} }
+  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+
+  /* ── BOTTOM NAVIGATION BAR (MOBILE ONLY) ────────────────────────── */
+  #bottom-nav-bar {
+    display: none;
+    flex-shrink: 0;
+    height: 60px;
+    min-height: 60px;
+    background: var(--bruno-medio);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+    position: relative;
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: rgba(245,230,200,0.5);
+    border-bottom: 2px solid transparent;
+    position: relative;
+  }
+
+  .bottom-nav-item:hover { background: rgba(201,168,76,0.08); color: rgba(245,230,200,0.8); }
+  .bottom-nav-item.active { color: var(--oro); border-bottom-color: var(--oro); background: rgba(201,168,76,0.06); }
+
+  .bottom-nav-icon { font-size: 1.3rem; }
+  .bottom-nav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* Sottomenu */
+  .bottom-submenu {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    background: var(--bruno-medio);
+    border-top: 1px solid rgba(201,168,76,0.25);
+    border-bottom: none;
+    z-index: 101;
+    flex-direction: column;
+    padding: 0.4rem 0;
+  }
+  .bottom-submenu.open { display: flex; }
+
+  .submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    color: rgba(245,230,200,0.7);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    transition: all 0.15s;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    text-decoration: none;
+  }
+  .submenu-item:hover { background: rgba(201,168,76,0.1); color: var(--pergamena); }
+  .submenu-item-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
+  .submenu-item-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.05em; }
+
+  /* Overlay per chiudere sottomenu */
+  #submenu-overlay {
+    display: none;
+    pointer-events: none;
+  }
+  @media (max-width: 768px) {
+    #submenu-overlay {
+      position: fixed;
+      inset: 0;
+      bottom: 60px;
+      z-index: 100;
+      background: rgba(0,0,0,0.4);
+    }
+    #submenu-overlay.open {
+      display: block;
+      pointer-events: auto;
+    }
+  }
+
+  /* ── RESPONSIVE LAYOUT ───────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    #sidebar { width: 220px; }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      overflow: hidden;
+      height: 100dvh;
+    }
+    #portale-body {
+      flex-direction: column;
+      height: calc(100dvh - 60px);
+      overflow: hidden;
+    }
+    #sidebar { display: none; }
+    .prof-panel { display: none; }
+    #main { flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
+    #chat-view { flex: 1; overflow: hidden; min-height: 0; }
+    .chat-panel { flex: 1; min-height: 0; overflow: hidden; }
+    .input-area { flex-shrink: 0; }
+    #bottom-nav-bar { display: flex; flex-shrink: 0; height: 60px; min-height: 60px; }
+    .messages-area { padding: 1rem; }
+    .content-body { padding: 1rem; padding-bottom: 20px; overflow-y: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COOKIE NOTICE -->
+<div id="cookie-notice">
+  <div class="cookie-notice-text">
+    <strong>Cookie e tracciamento:</strong> Usiamo cookie per preferenze e analytics. Accetta o gestisci le tue scelte.
+  </div>
+  <div class="cookie-notice-btns">
+    <button class="cookie-notice-accept" onclick="acceptCookies()">ACCETTA</button>
+    <a class="cookie-notice-info" href="/cookie.html" target="_blank">DETTAGLI</a>
+  </div>
+</div>
+
+<!-- INTRO SCREEN -->
+<div id="intro-screen">
+  <video id="intro-video" autoplay playsinline src="../../avatar_dante_final.mp4"></video>
+  <button class="play-audio-btn" id="play-btn" style="display:none;">ATTIVA AUDIO</button>
+  <button class="skip-btn" onclick="skipIntro()">SALTA</button>
+  <div class="intro-overlay">
+    <div class="intro-brand">I Classici Vivi</div>
+    <div class="intro-title">Divina Commedia</div>
+    <div class="intro-subtitle">Inferno — Entra nel portale di studio</div>
+  </div>
+</div>
+
+<!-- PORTALE BODY -->
+<div id="portale-body">
+  <!-- SIDEBAR (Desktop) -->
+  <div id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-top">I Classici Vivi</div>
+      <div class="sidebar-logo-title">Divina Commedia</div>
+      <div class="sidebar-logo-sub">Inferno — Portale di Studio</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Chat AI</div>
+      <div class="nav-card active" onclick="showChat()" id="nav-tutor">
+        <span class="nav-card-emoji">🎓</span>
+        <div class="nav-card-texts">
+          <span class="nav-card-label">Il Tutor</span>
+          <span class="nav-card-desc">Guida al kit e al poema</span>
+        </div>
+      </div>
+      <a href="../../dante_chat.html" class="nav-card">
+        <span class="nav-card-emoji">🌿</span>
+        <div class="nav-card-texts">
+          <span class="nav-card-label">Dante</span>
+          <span class="nav-card-desc">Il poeta e pellegrino</span>
+        </div>
+      </a>
+      <a href="../../virgilio_chat.html" class="nav-card">
+        <span class="nav-card-emoji">🏛️</span>
+        <div class="nav-card-texts">
+          <span class="nav-card-label">Virgilio</span>
+          <span class="nav-card-desc">La guida razionale</span>
+        </div>
+      </a>
+      <a href="../../lucifero_chat.html" class="nav-card">
+        <span class="nav-card-emoji">🌑</span>
+        <div class="nav-card-texts">
+          <span class="nav-card-label">Lucifero</span>
+          <span class="nav-card-desc">Il signore dell'Inferno</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Materiali</div>
+      <div class="nav-item" onclick="showContent('podcast')">
+        <span class="nav-num">①</span>
+        <span class="nav-text">Podcast</span>
+        <span class="nav-badge">34</span>
+      </div>
+      <div class="nav-item" onclick="showContent('flashcard')">
+        <span class="nav-num">②</span>
+        <span class="nav-text">Flashcard</span>
+      </div>
+      <div class="nav-item" onclick="showContent('quiz')">
+        <span class="nav-num">③</span>
+        <span class="nav-text">Quiz</span>
+      </div>
+      <div class="nav-item" onclick="showContent('librogame')">
+        <span class="nav-num">④</span>
+        <span class="nav-text">Librogame</span>
+      </div>
+      <div class="nav-item" onclick="showContent('glossario')">
+        <span class="nav-num">⑤</span>
+        <span class="nav-text">Glossario dell'Inferno</span>
+      </div>
+      <div class="nav-item" onclick="showContent('interviste')">
+        <span class="nav-num">⑥</span>
+        <span class="nav-text">Interviste Impossibili</span>
+      </div>
+      <div class="nav-item" onclick="showContent('libro')">
+        <span class="nav-num">⑦</span>
+        <span class="nav-text">Testo Originale</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+    <!-- CHAT VIEW -->
+    <div id="chat-view">
+      <div class="prof-panel">
+        <div class="prof-bg"></div>
+        <div class="prof-gradient"></div>
+        <div class="prof-info">
+          <div class="prof-badge">TUTOR IA</div>
+          <div class="prof-name">Il Tutor</div>
+          <div class="prof-role">La tua guida attraverso il kit</div>
+          <div class="prof-status">
+            <div class="status-dot"></div>
+            <div class="status-text">Pronto ad aiutarti</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-panel">
+        <header class="chat-header">
+          <div class="header-brand">I CLASSICI VIVI</div>
+          <div class="header-divider"></div>
+          <div class="header-title">Il Tutor</div>
+          <div class="header-sub">Divina Commedia — guida al kit</div>
+        </header>
+        <div class="messages-area" id="messages-area">
+          <div class="message ai">
+            <div class="message-name">IL TUTOR</div>
+            <div class="message-bubble">
+              Ciao! Sono il Tutor di I Classici Vivi.<br><br>
+              Sono qui per aiutarti a usare tutti gli strumenti del kit — chat con i personaggi, flashcard, quiz, podcast, librogame e tutto il resto.<br><br>
+              Da dove partiamo? Prima volta con questo libro, verifica domani, o ti stai preparando per la maturità?
+            </div>
+          </div>
+        </div>
+        <div class="typing-indicator" id="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+        <div class="quick-actions">
+          <button class="quick-btn" onclick="quickSend('È la prima volta che studio la Divina Commedia')">Prima volta</button>
+          <button class="quick-btn" onclick="quickSend('Ho un\'interrogazione domani')">Interrogazione domani</button>
+          <button class="quick-btn" onclick="quickSend('Voglio capire la struttura dell\'Inferno')">Struttura Inferno</button>
+          <button class="quick-btn" onclick="quickSend('Mi preparo per la maturità')">Maturità</button>
+        </div>
+        <div class="input-area">
+          <div class="input-wrapper">
+            <textarea class="input-field" id="user-input" placeholder="Scrivi al Tutor…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()">↳</button>
+          </div>
+          <div class="input-hint">Invio = invia · Shift+Invio = riga nuova</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT VIEW -->
+    <div id="content-view">
+      <div class="content-header">
+        <div class="header-brand">I CLASSICI VIVI</div>
+        <div class="header-divider"></div>
+        <div class="content-header-title" id="content-title">Materiali</div>
+        <button class="content-header-back" onclick="showChat()">↶ Torna</button>
+      </div>
+      <div class="content-body" id="content-body"></div>
+    </div>
+  </div>
+
+  <!-- OVERLAY sottomenu -->
+  <div id="submenu-overlay" onclick="closeAllSubmenus()"></div>
+
+  <!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
+  <div id="bottom-nav-bar">
+
+    <!-- CHAT con sottomenu -->
+    <div class="bottom-nav-item active" data-nav="chat" onclick="toggleSubmenu('submenu-chat', 'chat')">
+      <div class="bottom-nav-icon">💬</div>
+      <div class="bottom-nav-label">CHAT</div>
+    </div>
+
+    <!-- PODCAST diretto -->
+    <div class="bottom-nav-item" data-nav="podcast" onclick="navDirect('podcast')">
+      <div class="bottom-nav-icon">🎧</div>
+      <div class="bottom-nav-label">PODCAST</div>
+    </div>
+
+    <!-- STUDIO con sottomenu -->
+    <div class="bottom-nav-item" data-nav="studio" onclick="toggleSubmenu('submenu-studio', 'studio')">
+      <div class="bottom-nav-icon">📖</div>
+      <div class="bottom-nav-label">STUDIO</div>
+    </div>
+
+    <!-- MEDIA con sottomenu -->
+    <div class="bottom-nav-item" data-nav="media" onclick="toggleSubmenu('submenu-media', 'media')">
+      <div class="bottom-nav-icon">🎞️</div>
+      <div class="bottom-nav-label">MEDIA</div>
+    </div>
+
+    <!-- LEGGIMI con sottomenu -->
+    <div class="bottom-nav-item" data-nav="leggimi" onclick="toggleSubmenu('submenu-leggimi', 'leggimi')">
+      <div class="bottom-nav-icon">📕</div>
+      <div class="bottom-nav-label">LEGGIMI</div>
+    </div>
+
+  </div>
+
+  <!-- SOTTOMENU CHAT -->
+  <div class="bottom-submenu" id="submenu-chat">
+    <div class="submenu-item" onclick="navChat('tutor')">
+      <span class="submenu-item-icon">🎓</span>
+      <span class="submenu-item-label">Il Tutor</span>
+    </div>
+    <a class="submenu-item" href="../../dante_chat.html">
+      <span class="submenu-item-icon">🌿</span>
+      <span class="submenu-item-label">Dante</span>
+    </a>
+    <a class="submenu-item" href="../../virgilio_chat.html">
+      <span class="submenu-item-icon">🏛️</span>
+      <span class="submenu-item-label">Virgilio</span>
+    </a>
+    <a class="submenu-item" href="../../lucifero_chat.html">
+      <span class="submenu-item-icon">🌑</span>
+      <span class="submenu-item-label">Lucifero</span>
+    </a>
+  </div>
+
+  <!-- SOTTOMENU STUDIO -->
+  <div class="bottom-submenu" id="submenu-studio">
+    <div class="submenu-item" onclick="navContent('flashcard', 'studio')">
+      <span class="submenu-item-icon">🎴</span>
+      <span class="submenu-item-label">Flashcard</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('quiz', 'studio')">
+      <span class="submenu-item-icon">❓</span>
+      <span class="submenu-item-label">Quiz</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('glossario', 'studio')">
+      <span class="submenu-item-icon">📜</span>
+      <span class="submenu-item-label">Glossario dell'Inferno</span>
+    </div>
+  </div>
+
+  <!-- SOTTOMENU MEDIA -->
+  <div class="bottom-submenu" id="submenu-media">
+    <div class="submenu-item" onclick="navContent('interviste', 'media')">
+      <span class="submenu-item-icon">🎞️</span>
+      <span class="submenu-item-label">Interviste Impossibili</span>
+    </div>
+  </div>
+
+  <!-- SOTTOMENU LEGGIMI -->
+  <div class="bottom-submenu" id="submenu-leggimi">
+    <div class="submenu-item" onclick="navContent('librogame', 'leggimi')">
+      <span class="submenu-item-icon">🎮</span>
+      <span class="submenu-item-label">Librogame</span>
+    </div>
+    <div class="submenu-item" onclick="navContent('libro', 'leggimi')">
+      <span class="submenu-item-icon">📕</span>
+      <span class="submenu-item-label">Testo Originale</span>
+    </div>
+  </div>
+
+<script>
+  // ── AUTH & INIT ────────────────────────────────────────────────────
+  (function() {
+    const token = sessionStorage.getItem('icv_access');
+    const ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+    const libro = sessionStorage.getItem('icv_libro');
+    const SESSION_TTL = 8 * 60 * 60 * 1000;
+    if (!token || (Date.now() - ts) > SESSION_TTL) {
+      sessionStorage.removeItem('icv_access');
+      sessionStorage.removeItem('icv_ts');
+      sessionStorage.removeItem('icv_libro');
+      window.location.href = '/accedi';
+    }
+    if (libro && libro !== 'divina-commedia') {
+      window.location.href = '/accedi';
+    }
+    if (window.innerWidth < 768) {
+      window.location.replace('/portale/divina-commedia/mobile.html');
+    }
+  })();
+
+  function acceptCookies() {
+    localStorage.setItem('icv_cookie_prefs', JSON.stringify({
+      fonts: true, onedrive: true, saved: true, analytics: true
+    }));
+    document.getElementById('cookie-notice').classList.remove('visible');
+    window.__onedrive_blocked = false;
+  }
+
+  // ── INTRO ──────────────────────────────────────────────────────────
+  window.skipIntro = function() {
+    const intro = document.getElementById('intro-screen');
+    const vid = document.getElementById('intro-video');
+    vid.pause();
+    intro.classList.add('fade-out');
+    setTimeout(() => { intro.style.display = 'none'; }, 800);
+  }
+
+  const introVid = document.getElementById('intro-video');
+  const playBtn = document.getElementById('play-btn');
+
+  introVid.play().then(() => {
+    playBtn.style.display = 'none';
+  }).catch(() => {
+    introVid.muted = true;
+    introVid.play().catch(() => {});
+    playBtn.style.display = 'block';
+  });
+
+  playBtn.addEventListener('click', () => {
+    introVid.muted = false;
+    introVid.currentTime = 0;
+    introVid.play();
+    playBtn.style.display = 'none';
+  });
+
+  setTimeout(skipIntro, 12000);
+
+  // ── FLASHCARD DATA ────────────────────────────────────────────────
+  // ============================================================
+  // FLASHCARD ZERO — 5 card
+  // ============================================================
+  const fcZero = [
+    { id: '#Z01', personaggio: 'DANTE', domanda: 'Nel mezzo del cammin di nostra vita — ma perché Dante sceglie proprio i 35 anni come punto di partenza del viaggio?', risposta: 'Dante si basa sulla Bibbia: il Salmo 90 fissa la vita umana in 70 anni, quindi a 35 si è esattamente a metà. Ma è anche un momento biografico reale: Dante era in esilio, aveva perso tutto. Il "cammin" è sia letterale che esistenziale — è il punto in cui ci si chiede se si è sulla strada giusta.' },
+    { id: '#Z02', personaggio: 'VIRGILIO', domanda: 'E se la scelta di Virgilio come guida non fosse solo letteraria, ma politica?', risposta: 'Virgilio è l\'autore dell\'Eneide — il poema della fondazione di Roma. Per Dante, Roma è la sede legittima dell\'Impero e il fondamento della civiltà cristiana. Scegliere Virgilio significa affermare che la ragione umana (l\'Impero) e la fede cristiana (la Chiesa) devono camminare insieme. È una dichiarazione politica travestita da scelta letteraria.' },
+    { id: '#Z03', personaggio: 'LUCIFERO', domanda: 'Lucifero nel canto XXXIV non urla, non minaccia, non è maestoso. Perché è così diverso da come ce lo aspettiamo?', risposta: 'Dante capovolge il mito: Lucifero è il massimo del male, quindi è il massimo dell\'opposto di Dio — non potenza ma impotenza, non fuoco ma ghiaccio, non movimento ma paralisi. Le tre facce sono la parodia della Trinità. Dante dice: il male non è affascinante. È vuoto, freddo, meccanico. È la banalità dell\'odio portata all\'estremo.' },
+    { id: '#Z04', personaggio: 'DANTE', domanda: 'Dante sviene, piange, si commuove davanti ai dannati. È debolezza o è il punto?', risposta: 'È il punto. Il Dante-personaggio è ancora legato alle emozioni umane — ha pietà, ha paura, si identifica. Il viaggio serve proprio a guarirlo da queste reazioni. Ogni volta che sente pietà per un dannato, Virgilio lo corregge. La Commedia è un\'educazione sentimentale: imparare a vedere il male senza giustificarlo.' },
+    { id: '#Z05', personaggio: 'STRUTTURA', domanda: 'Perché l\'Inferno è a forma di imbuto rovesciato e non di altro? È solo estetica?', risposta: 'No — è teologia. L\'Inferno si restringe perché i peccati peggiori sono quelli che richiedono più intelletto e volontà perversa. I violenti sono peggio dei lussuriosi perché hanno scelto con più consapevolezza. E in fondo, nel ghiaccio di Cocito, ci sono i traditori: il peccato che richiede la pianificazione più fredda e razionale. La forma è il messaggio.' },
+  ];
+
+  // ============================================================
+  // FLASHCARD CANTO — 55 card
+  // ============================================================
+  const fcCanto = [
+    { id: '#C01', domanda: 'Canto I — Quale triplice allegoria rappresentano la lonza, il leone e la lupa che bloccano Dante nella selva oscura?', risposta: 'La lonza simboleggia la lussuria (o la malizia fiorentina), il leone la superbia (o la violenza), la lupa l\'avarizia (o la cupidigia politica). La lupa è la più pericolosa — Dante regredisce verso il basso. Virgilio annuncia che verrà un Veltro a scacciarla.' },
+    { id: '#C02', domanda: 'Canto I — Perché Dante non può salire direttamente il colle illuminato dal sole?', risposta: 'La bestie (i vizi) lo bloccano: il cammino verso la virtù non è diretto. Bisogna prima scendere — attraversare l\'Inferno, vedere il male, capirlo — prima di poter salire. La discesa è necessaria per la risalita.' },
+    { id: '#C03', domanda: 'Canto II — Chi sono i tre che hanno interceduto per permettere il viaggio di Dante?', risposta: 'Beatrice (mandata dalla Vergine Maria su richiesta di Santa Lucia). La catena è: Maria → Lucia → Beatrice → Virgilio → Dante. È una catena di grazia che parte dal cielo più alto.' },
+    { id: '#C04', domanda: 'Canto III — Cosa significa la famosa iscrizione sulla porta dell\'Inferno: "Lasciate ogne speranza, voi ch\'intrate"?', risposta: 'Significa che l\'Inferno è eterno e immutabile. Chi entra ha perso per sempre la possibilità di cambiare. È il contrario del Purgatorio — lì c\'è speranza. La speranza è definita come la possibilità della salvezza: i dannati l\'hanno perduta definitivamente.' },
+    { id: '#C05', domanda: 'Canto III — Chi sono gli ignavi e perché sono fuori dall\'Inferno vero e proprio?', risposta: 'Sono coloro che non scelsero mai — né bene né male. Non meritano nemmeno l\'Inferno: i dannati si vanterebbero della loro compagnia. Inseguono un\'insegna senza senso e vengono punti da insetti. Dante li disprezza più dei peccatori: almeno i peccatori hanno scelto.' },
+    { id: '#C06', domanda: 'Canto IV — Perché i grandi poeti e filosofi pagani (Omero, Aristotele, Platone) sono nel Limbo e non nel Paradiso?', risposta: 'Non per colpa propria, ma per mancanza — non hanno potuto conoscere Cristo perché vissuti prima o fuori dal Cristianesimo. Il Limbo non è pena ma assenza di Dio: vivono in un castello nobile, ma senza la visione beatifica. Dante li rispetta enormemente — li mette nel gruppo dei "spiriti magni".' },
+    { id: '#C07', domanda: 'Canto V — Chi sono Paolo e Francesca e perché la loro storia è così celebre?', risposta: 'Francesca da Rimini è sposata con Gianciotto Malatesta ma si innamora di Paolo, cognato di lei. Vengono sorpresi e uccisi. Dante si commuove fino a svenire. È il canto più romantico — ma anche quello in cui Dante mostra che la pietà per i dannati è un errore: Francesca non si pente, attribuisce la colpa al libro che leggevano.' },
+    { id: '#C08', domanda: 'Canto V — Cosa significa "Galeotto fu il libro e chi lo scrisse"?', risposta: 'Francesca usa Galeotto (il personaggio arturiano che favorì l\'amore tra Lancillotto e Ginevra) come metafora: il libro che leggevano li portò a baciarsi. Incolpa il libro, non se stessa. È il rifiuto di ogni responsabilità personale — e Dante, commosso, sviene. Ma Virgilio (la ragione) lo richiama.' },
+    { id: '#C09', domanda: 'Canto VI — Chi è Ciacco e quale profezia fa a Dante riguardo a Firenze?', risposta: 'Ciacco è un fiorentino goloso. Profetizza le lotte tra Guelfi Bianchi e Neri, la sconfitta dei Bianchi (il partito di Dante) e l\'esilio del poeta. È il primo dei profeti politici dell\'Inferno — Dante usa i dannati per commentare la storia contemporanea.' },
+    { id: '#C10', domanda: 'Canto VII — Qual è la pena dei prodighi e degli avari e cosa simboleggia?', risposta: 'Spingono pesi con il petto in cerchio, scontrandosi e insultandosi: "Perché tieni?" contro "Perché burli?". La pena rispecchia il vizio: nell\'avarizia e nella prodigalità si è persa la misura. Ora sono condannati a un moto perpetuo senza scopo.' },
+    { id: '#C11', domanda: 'Canto VII — Chi è Fortuna secondo Dante e perché è presentata come un\'intelligenza angelica?', risposta: 'Dante rilegge la Fortuna medievale: non è capricciosa ma è un\'intelligenza divina che distribuisce i beni mondani secondo il piano di Dio. Chi si lamenta della Fortuna non capisce che essa obbedisce a un disegno superiore. È una risposta teologica all\'ingiustizia percepita del mondo.' },
+    { id: '#C12', domanda: 'Canto VIII — Chi è Filippo Argenti e perché Dante non ha pietà per lui?', risposta: 'Filippo Argenti è un fiorentino arrogante, nemico personale di Dante. Nella palude dello Stige, Dante non solo non ha pietà — desidera vederlo sbranato dagli altri iracondi. E Virgilio lo approva. È uno dei momenti più controversi del poema: Dante esprime odio personale e lo legittima moralmente.' },
+    { id: '#C13', domanda: 'Canto IX — Cosa rappresentano le tre Furie e la Medusa che appaiono sulla torre di Dite?', risposta: 'Le Furie (Megera, Aletto, Tisifone) rappresentano i rimorsi che non portano a conversione — il pentimento sterile. La Medusa è il simbolo della disperazione che pietrifica: vedere il male senza speranza di uscirne. Virgilio copre gli occhi di Dante per proteggerlo — la ragione umana da sola non basta.' },
+    { id: '#C14', domanda: 'Canto X — Chi è Farinata degli Uberti e qual è il suo rapporto con Dante?', risposta: 'Farinata è un ghibellino fiorentino, nemico politico dei Guelfi (famiglia di Dante). Ma è presentato come un uomo di grandezza straordinaria: si erge nel sepolcro come se disprezzasse l\'Inferno. Dante gli riconosce nobiltà pur essendo dall\'altra parte. È uno dei personaggi più complessi della Commedia.' },
+    { id: '#C15', domanda: 'Canto X — Qual è la condizione paradossale dei dannati del VI cerchio riguardo al tempo?', risposta: 'Gli eretici vedono il futuro (profezie) ma non il presente: non sanno cosa sta succedendo ora sulla Terra. Quando i morti saranno tutti giudicati e il futuro non esisterà più, rimarranno ciechi per sempre. È una pena metafisica: avevano disprezzato l\'immortalità dell\'anima, ora sono condannati a una forma distorta di essa.' },
+    { id: '#C16', domanda: 'Canto XIII — Chi è Pier della Vigna e perché la sua storia è particolarmente tragica?', risposta: 'Pier della Vigna fu il fedele cancelliere di Federico II, accusato ingiustamente di tradimento e accecato. Si suicidò in prigione. Dante lo presenta come vittima dell\'invidia di corte. La sua pena — trasformato in albero — esprime il vizio: chi rinuncia al corpo (suicidio) non lo riavrà mai, nemmeno alla resurrezione.' },
+    { id: '#C17', domanda: 'Canto XIII — Perché i suicidi sono trasformati in alberi nell\'Inferno?', risposta: 'Il suicidio è per Dante la violazione della proprietà divina sul corpo: Dio ti ha dato la vita, non puoi restituirla. La pena è il contrapasso: chi ha rifiutato il corpo umano diventa qualcosa di meno — un albero. Alla resurrezione finale riceveranno i loro corpi, ma non potranno riunirsi a essi: li appenderanno ai rami.' },
+    { id: '#C18', domanda: 'Canto XV — Chi è Brunetto Latini e perché il suo incontro con Dante è così commovente?', risposta: 'Brunetto Latini fu il maestro di Dante, l\'uomo che più lo formò intellettualmente. È tra i violenti contro natura. Dante gli mostra rispetto e affetto sincero, mentre Brunetto cammina nella pioggia di fuoco. È uno dei momenti più umanamente intensi dell\'Inferno: Dante separa il peccatore dall\'uomo che ha amato.' },
+    { id: '#C19', domanda: 'Canto XVII — Chi è Gerione e cosa simboleggia?', risposta: 'Gerione è il mostro che trasporta Dante e Virgilio dall\'alto delle rupi al fondo di Malebolge. Ha faccia d\'uomo onesto e corpo di bestia/serpente. Simboleggia la frode: il male che si presenta con faccia amabile. È il guardiano del confine tra violenza (meno grave) e frode (più grave).' },
+    { id: '#C20', domanda: 'Canto XVIII — Qual è la struttura di Malebolge e quali peccati ospita?', risposta: 'Malebolge è il cerchio VIII, diviso in 10 bolge (fossati) concentrici. Ospita i fraudolenti: seduttori, adulatori, simoniaci, indovini, barattieri, ipocriti, ladri, consiglieri fraudolenti, seminatori di discordia, falsari. Ogni bolgia ha la sua pena contrapposta.' },
+    { id: '#C21', domanda: 'Canto XIX — Chi sono i simoniaci e perché la loro pena è il capovolto?', risposta: 'I simoniaci hanno venduto le cose sacre (cariche ecclesiastiche) per denaro — hanno messo il basso sopra il sacro. La pena è il contrapasso perfetto: sono capovolti nei buchi con i piedi in alto, bruciati dalla pianta dei piedi. Dante attacca duramente papa Niccolò III, a cui parla direttamente nel fossato.' },
+    { id: '#C22', domanda: 'Canto XXVI — Chi è Ulisse e perché il suo peccato è il "folle volo"?', risposta: 'Ulisse è tra i consiglieri fraudolenti. Dante inventa un viaggio finale non narrato da Omero: Ulisse oltrepassa le Colonne d\'Ercole (il confine del mondo conoscibile) per sete di conoscenza. Affonda con l\'equipaggio. Il peccato non è la curiosità in sé, ma il superare i limiti posti da Dio all\'uomo.' },
+    { id: '#C23', domanda: 'Canto XXVI — Cosa dice Ulisse nel suo celebre discorso ai compagni prima del folle volo?', risposta: 'Ulisse esorta i compagni con uno dei discorsi più potenti della letteratura: "Considerate la vostra semenza: fatti non foste a viver come bruti, ma per seguir virtute e canoscenza." È un appello alla grandezza umana — ma che porta alla rovina perché travalica i limiti divini.' },
+    { id: '#C24', domanda: 'Canto XXVII — Chi è Guido da Montefeltro e in cosa differisce da Ulisse?', risposta: 'Guido da Montefeltro fu un condottiero ghibellino che si fece frate sul finire della vita. Papa Bonifacio VIII lo convinse a dargli un consiglio fraudolento ("lunga promessa con l\'attendir corto"). Guido peccò credendo di potersi assolvere in anticipo. La differenza con Ulisse: Guido sapeva di peccare e lo fece per obbedienza a un\'autorità corrotta.' },
+    { id: '#C25', domanda: 'Canto XXVIII — Chi è Maometto nella Commedia e perché è tra i seminatori di discordia?', risposta: 'Dante colloca Maometto tra i seminatori di discordia perché lo considera il fondatore di uno scisma — una divisione nella comunità cristiana-religiosa del suo tempo. La pena è essere squarciato e ricucito ripetutamente. È una scelta che riflette la visione medievale dell\'Islam come eresia.' },
+    { id: '#C26', domanda: 'Canto XXXII — Cos\'è Cocito e come è diviso?', risposta: 'Cocito è il lago ghiacciato al fondo dell\'Inferno, diviso in 4 zone: Caina (traditori dei parenti), Antenora (traditori della patria), Tolomea (traditori degli ospiti), Giudecca (traditori dei benefattori). Il ghiaccio è il contrappasso: i traditori hanno avuto cuori freddi, ora sono gelati per l\'eternità.' },
+    { id: '#C27', domanda: 'Canto XXXII — Chi è il Conte Ugolino e perché la sua storia è tra le più strazianti della Commedia?', risposta: 'Ugolino della Gherardesca fu rinchiuso nella Torre della Fame con i figli e i nipoti dall\'arcivescovo Ruggieri. Dante lo trova in Antenora mentre rode il cranio di Ruggieri. Ugolino racconta la morte per fame dei suoi cari. Non dice esplicitamente se li ha mangiati — Dante lascia il dubbio. È il massimo orrore: la pietà paterna vs il cannibalismo.' },
+    { id: '#C28', domanda: 'Canto XXXIII — Cosa rappresenta il fatto che alcune anime in Tolomea siano già nell\'Inferno mentre i loro corpi ancora vivono sulla Terra?', risposta: 'Dante inventa un\'idea teologicamente audace: il tradimento dell\'ospite è così grave che l\'anima scende in Inferno nel momento stesso del crimine, e nel corpo subentra un demonio. È la massima forma di perdizione: non aspettare la morte per essere dannati.' },
+    { id: '#C29', domanda: 'Canto XXXIV — Come è fisicamente descritto Lucifero nel canto conclusivo dell\'Inferno?', risposta: 'Tre facce (rosso/nero/giallastro — parodia della Trinità), ali di pipistrello, tre bocche che masticano Giuda, Bruto e Cassio. Piange con tutte e sei le lacrime. Lucifero non parla mai — è il silenzio del male assoluto. Il vento delle sue ali mantiene gelato Cocito.' },
+    { id: '#C30', domanda: 'Canto XXXIV — Perché Giuda, Bruto e Cassio sono i tre massimi peccatori nell\'Inferno dantesco?', risposta: 'Giuda ha tradito Cristo (l\'autorità spirituale suprema). Bruto e Cassio hanno tradito Cesare (l\'autorità temporale suprema — per Dante, l\'Impero romano era voluto da Dio). I tre rappresentano il tradimento delle due istituzioni che Dante considera fondamentali per l\'ordine del mondo: Chiesa e Impero.' },
+    { id: '#C31', domanda: 'Come funziona il sistema del contrapasso nell\'Inferno?', risposta: 'Il contrapasso è la legge per cui la pena rispecchia e riflette il peccato. Chi ha sedotto (lussuriosi) è travolto dal vento come dalla passione. Chi ha diviso (seminatori di discordia) è diviso nel corpo. Chi si è capovolto nei valori (simoniaci) è capovolto fisicamente. Non è vendetta — è la pena che nasce dalla natura stessa del peccato.' },
+    { id: '#C32', domanda: 'Qual è la differenza tra i peccati di incontinenza e i peccati di malizia secondo la struttura dantesca?', risposta: 'I peccati di incontinenza (lussuria, gola, avarizia, ira) sono quelli in cui la volontà cede agli impulsi — meno gravi perché la ragione è sopraffatta. I peccati di malizia (violenza, frode, tradimento) richiedono fredda volontà perversa — sono peggiori perché più consapevoli. Dante segue la distinzione aristotelico-tomistica.' },
+    { id: '#C33', domanda: 'Perché Virgilio può guidare Dante nell\'Inferno e nel Purgatorio ma non in Paradiso?', risposta: 'Virgilio rappresenta la ragione umana — che può conoscere il male e aspirare al bene, ma non può contemplare Dio. Il Paradiso richiede la fede e la grazia: lì guiderà Beatrice (la teologia rivelata). È una distinzione chiara: la filosofia porta fino al limite del divinamente comprensibile, poi si ferma.' },
+    { id: '#C34', domanda: 'Chi è Beatrice nella Commedia e perché Dante la sceglie come guida celeste?', risposta: 'Beatrice Portinari fu l\'amore giovanile di Dante, morta a 25 anni. Nella Commedia diventa il simbolo della teologia rivelata e della grazia divina. Dante la elevò a figura allegorica: l\'amore umano sublimato diventa via verso Dio. È anche una dichiarazione poetica: la poesia d\'amore può essere strumento di elevazione spirituale.' },
+    { id: '#C35', domanda: 'Qual è il significato del numero 3 e dei suoi multipli nella struttura della Commedia?', risposta: 'Il 3 è il numero della Trinità. La Commedia ha 3 cantiche, ogni cantica 33 canti (più uno di prologo), le terzine rimano ABA BCB. Lucifero ha 3 facce, il Paradiso ha 9 cieli (3×3). Tutta la struttura rispecchia l\'ordine divino trinitario: il poema è cosmicamente ordinato come l\'universo che descrive.' },
+    { id: '#C36', domanda: 'Canto I — Qual è il significato allegorico della "selva oscura" nell\'apertura della Commedia?', risposta: 'La selva oscura è lo smarrimento morale e spirituale — la perdita della retta via. Dante scrive nel 1300, dopo l\'esilio e le sconfitte politiche: il "cammin di nostra vita" è sia universale (la vita umana come percorso) che autobiografico (la crisi personale di Dante). La selva è il peccato, la confusione, l\'allontanamento da Dio.' },
+    { id: '#C37', domanda: 'Canto II — Perché Dante inizialmente dubita di essere degno del viaggio?', risposta: 'Dante si paragona a Enea (che scese agli Inferi per fondare Roma) e a San Paolo (che fu rapito al terzo cielo). Si chiede: chi sono io per fare lo stesso? Virgilio risponde con la catena di grazia che parte da Beatrice. Il dubbio di Dante non è umiltà falsa — è la domanda giusta che riceve la risposta giusta.' },
+    { id: '#C38', domanda: 'Canto IV — Chi sono gli spiriti magni del Limbo e cosa rappresentano?', risposta: 'Omero, Orazio, Ovidio, Lucano, poi Aristotele, Platone, Socrate, Ippocrate, Cicerone. Rappresentano il massimo dell\'intelletto umano non illuminato dalla Rivelazione. Dante li rispetta profondamente — li mette in un castello nobile. Ma la loro condizione è la prova che la sola ragione non basta: ci vuole la grazia.' },
+    { id: '#C39', domanda: 'Canto VIII-IX — Perché la città di Dite è così difficile da entrare per Dante e Virgilio?', risposta: 'Dite è la città dei peccati di malizia — la soglia tra i peccati leggeri e quelli gravi. I diavoli si oppongono all\'ingresso: persino Virgilio (la ragione) è temporaneamente impotente. Solo un angelo mandato dal Cielo apre la porta. La ragione umana da sola non basta per conoscere il male nella sua forma più profonda.' },
+    { id: '#C40', domanda: 'Canto X — Cosa profetizza Farinata a Dante riguardo al suo futuro?', risposta: 'Farinata profetizza l\'esilio di Dante da Firenze entro 50 mesi — profezia che si avvera nel 1301. I dannati vedono il futuro ma non il presente. Farinata parla con la grandezza di chi non teme la condanna: disprezza l\'Inferno con tutta l\'anima. È l\'unico che amò Firenze più di sé stesso.' },
+    { id: '#C41', domanda: 'Canto XI — Come classifica Virgilio i peccati nell\'Inferno e su quale base filosofica?', risposta: 'Virgilio spiega la struttura usando Aristotele ed Agostino: incontinenza (cerchi II-V), violenza (cerchio VII), frode (cerchi VIII-IX), tradimento (cerchio IX). La graduatoria si basa su quanto la volontà è coinvolta: più consapevole il peccato, più profonda la posizione nell\'Inferno.' },
+    { id: '#C42', domanda: 'Canto XVI — Chi sono Guido Guerra, Tegghiaio Aldobrandi e Iacopo Rusticucci e perché Dante li rispetta?', risposta: 'Sono tre fiorentini illustri che Dante ammira per le loro virtù civili e militari. Sono tra i violenti contro natura. Dante mostra rispetto pur condannandoli: separa il giudizio morale dal riconoscimento dei meriti umani. È un momento in cui la complessità vince sulle categorie semplici.' },
+    { id: '#C43', domanda: 'Canto XX — Perché Dante piange per i dannati indovini e Virgilio lo rimprovera?', risposta: 'Gli indovini hanno distorto il collo per vedere il futuro — ora camminano con la testa rivolta all\'indietro. Dante piange di pietà. Virgilio lo rimprovera: "Qui vive la pietà quand\'è ben morta" — la vera pietà verso Dio richiede di accettare la giustizia divina. Il pianto di Dante è sbagliato, non la sua umanità.' },
+    { id: '#C44', domanda: 'Canto XXI-XXII — Cosa rappresentano i Malebranche nella bolgia dei barattieri?', risposta: 'I Malebranche (diavoli con uncini) sorvegliano i barattieri immersi nella pece bollente. Ma ingannano anche Virgilio e Dante: fanno credere di essere affidabili e li portano fuori strada. È un momento di commedia grottesca — i diavoli stessi sono fraudolenti nel cerchio della frode. Dante usa l\'ironia per commentare la corruzione politica.' },
+    { id: '#C45', domanda: 'Canto XXIV-XXV — Come funziona la metamorfosi di ladri e serpenti nel cerchio VIII?', risposta: 'I ladri si trasformano continuamente in serpenti e viceversa, in uno scambio di natura. È il contrapasso della furto: chi ruba la proprietà altrui perde la propria identità. Dante supera Ovidio e Lucano nelle metamorfosi: loro trasformavano in una direzione, lui fa lo scambio bidirezionale.' },
+    { id: '#C46', domanda: 'Canto XXIX-XXX — Quali sono le pene dei falsari e come si distinguono per categoria?', risposta: 'Quattro tipi: falsatori di metalli (lebbra), falsatori di persone (idropisia), falsatori di parole/spergiuri (febbre ardente), falsatori di monete (idropisia rovesciata). Ogni tipo di falsificazione ha la sua malattia. I falsari corrompono la realtà — la loro pena è un corpo corrotto.' },
+    { id: '#C47', domanda: 'Canto XXXIII — Chi è frate Alberigo e perché la sua storia è così inquietante?', risposta: 'Frate Alberigo invitò a pranzo i nemici e li fece uccidere al segnale "Portate le frutta". Nella Tolomea, Dante scopre che alcune anime sono già nell\'Inferno mentre i loro corpi vivono ancora: il tradimento dell\'ospitalità è così grave che l\'anima precipita immediatamente. Frate Alberigo sa di essere dannato ma il suo corpo vive, guidato da un demonio.' },
+    { id: '#C48', domanda: 'Canto XXXIV — Come Dante e Virgilio escono dall\'Inferno e risalgono verso il Purgatorio?', risposta: 'Si aggrappano ai peli di Lucifero e scendono fino al centro della Terra, poi risalgono nell\'emisfero australe. Il punto di inversione è il centro della gravità — Lucifero stesso è il perno. L\'uscita è straordinaria: "E quindi uscimmo a riveder le stelle." Dante chiude ogni cantica con la parola "stelle" — è il programma del poema.' },
+    { id: '#C49', domanda: 'Qual è la funzione politica della Commedia nell\'opera di Dante?', risposta: 'La Commedia è anche un pamphlet politico. Dante colloca papi corrotti nell\'Inferno (Niccolò III, Bonifacio VIII), attacca la corruzione della Chiesa, difende l\'Impero come istituzione divina. Era in esilio per aver resistito alla politica papale — il poema è la sua vendetta, la sua giustizia, il suo tentativo di riformare il mondo attraverso la visione.' },
+    { id: '#C50', domanda: 'Cosa significa "poema sacro" con cui Dante definisce la Commedia nel Paradiso?', risposta: 'Dante chiama la Commedia "poema sacro / al quale ha posto mano e cielo e terra". È la rivendicazione massima: il poema non è solo letteratura ma rivelazione — come la Bibbia, ha Dio come co-autore. È una dichiarazione di autorialità divina che nessun autore medievale aveva mai osato fare con tale chiarezza.' },
+    { id: '#C51', domanda: 'Qual è la struttura delle terzine dantesche e perché è una scelta formale significativa?', risposta: 'La terzina dantesca è ABA BCB CDC — ogni terzina è legata alla precedente e alla successiva. È una forma che non si chiude mai su sé stessa, sempre in movimento. Rappresenta il cammino continuo del viaggio. E il numero 3 (Trinità) è il principio costruttivo di ogni verso, ogni strofa, ogni cantica.' },
+    { id: '#C52', domanda: 'Come usa Dante la storia fiorentina e italiana contemporanea nell\'Inferno?', risposta: 'Dante popola l\'Inferno di suoi contemporanei e nemici politici: Filippo Argenti, Brunetto Latini, Farinata degli Uberti, il conte Ugolino, Bonifacio VIII (già annunciato). Usa il viaggio nel tempo (il 1300 come anno del viaggio, scritto dopo) per profetizzare il futuro che già conosce. La Commedia è anche un grandioso regolamento di conti.' },
+    { id: '#C53', domanda: 'Canto III — Qual è la pena degli ignavi e perché Dante li disprezza più dei peccatori veri?', risposta: 'Gli ignavi inseguono un\'insegna senza senso e vengono punti da insetti mentre vermi succhiano il loro sangue misto a lacrime. Dante non nomina nessuno di loro — il non-nome è la non-esistenza. Li disprezza perché il peccato richiede almeno la scelta: loro non hanno mai scelto. Per Dante, l\'indifferenza è peggio del male.' },
+    { id: '#C54', domanda: 'Come descrive Dante il momento in cui supera Lucifero e inverte la direzione di marcia?', risposta: 'Il momento è fisicamente disorientante: Dante scende lungo il corpo di Lucifero, poi a un certo punto si trova a salire: ha superato il centro della Terra. La redenzione è risalire — il male è al centro, Dio è in alto.' },
+    { id: '#C55', domanda: 'Perché la Commedia si chiama "Commedia" e Boccaccio aggiunse "Divina"?', risposta: 'Dante la chiama "Commedia" perché inizia in modo triste (Inferno) e finisce bene (Paradiso) — definizione medievale. È scritta in volgare, non in latino: è rivolta a tutti, non solo ai dotti. Boccaccio aggiunse "Divina" per esaltarne la grandezza: non è solo letteratura, è ispirazione divina. Il titolo completo attuale è un\'aggiunta postumanistica.' },
+  ];
+
+  // ── FLASHCARD ENGINE ──────────────────────────────────────────────
+  var fcState = { tab: 'zero', cards: fcZero, current: 0, flipped: false };
+
+  function fcSetTab(t) {
+    fcState.tab = t;
+    fcState.cards = (t === 'zero') ? fcZero : fcCanto;
+    fcState.current = 0;
+    fcState.flipped = false;
+    fcRender();
+  }
+
+  function fcRender() {
+    var el = document.getElementById('fc-viewer');
+    if (!el) return;
+    if (fcState.current >= fcState.cards.length) { fcRenderEnd(el); return; }
+    var c = fcState.cards[fcState.current];
+    var pct = Math.round(((fcState.current + 1) / fcState.cards.length) * 100);
+    var frontMid = '<div class="fc-lbl">DOMANDA:</div>';
+    var cardName = c.personaggio ? ' — ' + c.personaggio : '';
+    var tabsHtml = '<button class="fc-tab' + (fcState.tab === 'zero' ? ' fc-active' : '') + '" onclick="fcSetTab(\'zero\')">Zero</button><button class="fc-tab' + (fcState.tab === 'canto' ? ' fc-active' : '') + '" onclick="fcSetTab(\'canto\')">100</button>';
+    el.innerHTML = '<div class="fc-wrap"><div class="fc-top"><p class="fc-title-label">Flashcard</p><div class="fc-tabs">' + tabsHtml + '</div></div>' +
+      '<div class="fc-progress-row"><span class="fc-counter">' + (fcState.current + 1) + ' / ' + fcState.cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
+      '<div class="fc-scene" onclick="fcFlip()"><div class="fc-card' + (fcState.flipped ? ' fc-flipped' : '') + '" id="fcCard"><div class="fc-face fc-front">' +
+      '<div class="fc-card-id">' + c.id + cardName + '</div>' + frontMid + '<div class="fc-question">' + c.domanda + '</div><div class="fc-hint">Clicca per la risposta</div></div>' +
+      '<div class="fc-face fc-back"><div class="fc-card-id">' + c.id + '</div><div class="fc-check">✓</div><div class="fc-lbl">RISPOSTA:</div><div class="fc-answer">' + c.risposta + '</div></div></div></div>' +
+      '<div class="fc-controls"><button class="fc-btn" onclick="fcPrev()" ' + (fcState.current === 0 ? 'disabled' : '') + '>← Indietro</button><button class="fc-btn fc-btn-primary" onclick="fcNext()">Avanti →</button></div></div>';
+  }
+
+  function fcRenderEnd(el) {
+    el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">Sezione completata!</p><p class="fc-end-sub">Hai finito tutte le flashcard.</p><button class="fc-btn fc-btn-primary" onclick="fcSetTab(\'' + fcState.tab + '\')">Ricomincia</button></div></div>';
+  }
+
+  function fcFlip() {
+    fcState.flipped = !fcState.flipped;
+    var c = document.getElementById('fcCard');
+    if (c) { c.classList.toggle('fc-flipped'); } else { fcRender(); }
+  }
+  function fcNext() { fcState.current++; fcState.flipped = false; fcRender(); }
+  function fcPrev() { fcState.current--; fcState.flipped = false; fcRender(); }
+
+  // ── NAVIGATION ─────────────────────────────────────────────────────
+  function showChat() {
+    document.getElementById('chat-view').style.display = 'flex';
+    document.getElementById('content-view').style.display = 'none';
+    document.getElementById('nav-tutor').classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  }
+
+  function showContent(key) {
+    document.getElementById('chat-view').style.display = 'none';
+    document.getElementById('content-view').style.display = 'flex';
+    var c = contents[key];
+    if (c) {
+      document.getElementById('content-title').textContent = c.title;
+      document.getElementById('content-body').innerHTML = c.html;
+    }
+    if (key === 'podcast') initPodcastPlayer();
+    if (key === 'flashcard') { fcState.current = 0; fcState.flipped = false; fcRender(); }
+    if (key === 'quiz') initQuizViewers();
+    if (key === 'interviste') { intState.current = 0; intState.flipped = false; intRender(); }
+    document.getElementById('nav-tutor').classList.remove('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  }
+
+  function updateBottomNav(active) {
+    document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelector('[data-nav="' + active + '"]')?.classList.add('active');
+  }
+
+  function navDirect(key) {
+    closeAllSubmenus();
+    showContent(key);
+    updateBottomNav(key);
+  }
+
+  function navContent(key, nav) {
+    closeAllSubmenus();
+    showContent(key);
+    updateBottomNav(nav);
+  }
+
+  function navChat(who) {
+    closeAllSubmenus();
+    showChat();
+    updateBottomNav('chat');
+  }
+
+  function toggleSubmenu(id, nav) {
+    var isOpen = document.getElementById(id).classList.contains('open');
+    closeAllSubmenus();
+    if (!isOpen) {
+      document.getElementById(id).classList.add('open');
+      document.getElementById('submenu-overlay').classList.add('open');
+      updateBottomNav(nav);
+    }
+  }
+
+  function closeAllSubmenus() {
+    document.querySelectorAll('.bottom-submenu').forEach(el => el.classList.remove('open'));
+    document.getElementById('submenu-overlay').classList.remove('open');
+  }
+
+  function logout() {
+    sessionStorage.removeItem('icv_access');
+    sessionStorage.removeItem('icv_ts');
+    sessionStorage.removeItem('icv_libro');
+    window.location.href = '/';
+  }
+
+  // ── CONTENTS ───────────────────────────────────────────────────────
+  const contents = {
+    podcast: {
+      title: 'Podcast',
+      html: '<p class="podcast-intro">Un episodio per ogni canto dell\'Inferno. Analisi, personaggi, temi e curiosità in circa 8 minuti per canto.</p><div class="podcast-lista" id="podcastLista"></div>'
+    },
+    flashcard: {
+      title: 'Flashcard',
+      html: '<div id="fc-viewer"></div>'
+    },
+    quiz: {
+      title: 'Quiz',
+      html: '<div id="qfViewer"></div><div id="qpViewer" style="margin-top: 2rem;"></div>'
+    },
+    librogame: {
+      title: 'Librogame',
+      html: '<iframe src="../../inferno_librogame.html" style="width:100%; height:80vh; border:none; border-radius:4px;"></iframe>'
+    },
+    glossario: {
+      title: "Glossario dell'Inferno",
+      html: '<iframe src="../../glossario_inferno.html" style="width:100%; height:80vh; border:none; border-radius:4px;"></iframe>'
+    },
+    interviste: {
+      title: 'Interviste Impossibili',
+      html: '<div id="int-viewer"></div>'
+    },
+    libro: {
+      title: 'Testo Originale',
+      html: '<div class="download-note">Leggi il testo completo della <strong>Divina Commedia — Inferno</strong> di Dante Alighieri.</div><a class="download-btn" href="https://it.wikisource.org/wiki/Divina_Commedia/Inferno" target="_blank" rel="noopener noreferrer">APRI TESTO ORIGINALE →</a><p class="download-note" style="margin-top:1.5rem;">Dante Alighieri (1265–1321) compose la Divina Commedia durante gli anni dell\'esilio, tra il 1304 e il 1321 circa. Il poema narra il viaggio immaginario di Dante attraverso Inferno, Purgatorio e Paradiso, guidato prima da Virgilio e poi da Beatrice. È considerato il capolavoro assoluto della letteratura italiana e uno dei più grandi poemi di tutta la letteratura mondiale.</p>'
+    }
+  };
+
+  // ── CHAT ───────────────────────────────────────────────────────────
+  let conversationHistory = [];
+  let isSending = false;
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function quickSend(text) {
+    document.getElementById('user-input').value = text;
+    sendMessage();
+  }
+
+  function addMessage(role, text) {
+    const area = document.getElementById('messages-area');
+    if (!area) return;
+    const div = document.createElement('div');
+    div.className = 'message ' + (role === 'user' ? 'user' : 'ai');
+    const nameEl = document.createElement('div');
+    nameEl.className = 'message-name';
+    nameEl.textContent = role === 'user' ? 'TU' : 'IL TUTOR';
+    const bubbleEl = document.createElement('div');
+    bubbleEl.className = 'message-bubble';
+    text.split('\n').forEach((line, i, arr) => {
+      bubbleEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubbleEl.appendChild(document.createElement('br'));
+    });
+    div.appendChild(nameEl);
+    div.appendChild(bubbleEl);
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function setTyping(active) {
+    document.getElementById('typing-indicator').classList.toggle('active', active);
+    document.getElementById('send-btn').disabled = active;
+  }
+
+  async function sendMessage() {
+    if (isSending) return;
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    isSending = true;
+    input.value = '';
+    input.style.height = 'auto';
+    addMessage('user', text);
+    conversationHistory.push({ role: 'user', content: text });
+    if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
+    setTyping(true);
+
+    let attempts = 0;
+    while (attempts < 3) {
+      try {
+        const response = await fetch('/proxy', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Code': sessionStorage.getItem('icv_access') || ''
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            character: 'tutor_portale',
+            messages: conversationHistory.map(m => ({
+              role: m.role === 'user' ? 'user' : 'assistant',
+              content: m.content
+            })),
+            max_tokens: 1024,
+            temperature: 0.8
+          })
+        });
+
+        if (response.status === 429) {
+          attempts++;
+          if (attempts < 3) { await new Promise(r => setTimeout(r, attempts * 3000)); continue; }
+          throw new Error('QUOTA');
+        }
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.code || 'API_ERROR');
+
+        const reply = data.choices?.[0]?.message?.content || 'Scusa, un momento di distrazione. Ripeti pure!';
+        conversationHistory.push({ role: 'assistant', content: reply });
+        setTyping(false);
+        addMessage('ai', reply);
+        isSending = false;
+        return;
+
+      } catch (err) {
+        attempts++;
+        if (attempts >= 3) {
+          setTyping(false);
+          isSending = false;
+          const msg = err.message.includes('QUOTA') ? 'Il servizio è sovraccarico. Riprova tra poco!' : 'Problema di connessione. Riprova!';
+          addMessage('ai', msg);
+          return;
+        }
+        await new Promise(r => setTimeout(r, attempts * 3000));
+      }
+    }
+  }
+
+  // ── PODCAST PLAYER ─────────────────────────────────────────────────
+  function initPodcastPlayer() {
+    const canti = Array.from({length: 34}, (_, i) => i + 1);
+    const lista = document.getElementById('podcastLista');
+    if (!lista) return;
+    canti.forEach((n, i) => {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.className = 'ep-item';
+      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span><span class="ep-icon">▶</span><span class="ep-titolo">Podcast — Canto ' + n + ' dell\'Inferno</span>';
+      lista.appendChild(a);
+    });
+  }
+
+  // ── QUIZ DATA ──────────────────────────────────────────────────────
+  const qfFacile = [
+    { n:'F01', q:'Chi guida Dante nel viaggio attraverso l\'Inferno?', a:'Virgilio, il grande poeta latino autore dell\'Eneide. Beatrice lo ha mandato a guidare Dante su richiesta della Vergine Maria.', c:'Ricorda la catena: Maria → Lucia → Beatrice → Virgilio → Dante.' },
+    { n:'F02', q:'Dove si trovano i grandi poeti e filosofi pagani come Omero e Aristotele?', a:'Nel Limbo (Canto IV), il primo cerchio dell\'Inferno. Non sono puniti per colpa propria, ma per mancanza: non hanno conosciuto Cristo. Vivono in un castello nobile ma senza la visione di Dio.', c:'Il Limbo non è pena ma assenza: l\'unica pena è il desiderio senza speranza.' },
+    { n:'F03', q:'Chi sono Paolo e Francesca e perché sono nell\'Inferno?', a:'Francesca da Rimini e Paolo Malatesta sono due amanti adulteri uccisi dal marito di Francesca. Sono nel secondo cerchio tra i lussuriosi, travolti da un vento eterno come dalla passione che li dominò in vita.', c:'Canto V — Dante sviene di compassione, ma Francesca non si pente mai.' },
+    { n:'F04', q:'Cosa significa il principio del contrapasso nell\'Inferno?', a:'Il contrapasso è la legge per cui la pena rispecchia e riflette il peccato commesso. Chi ha sedotto è travolto dal vento, chi ha diviso gli altri è diviso nel corpo, chi si è capovolto nei valori è capovolto fisicamente.', c:'Non è vendetta — è la giustizia che nasce dalla natura stessa del peccato.' },
+    { n:'F05', q:'Chi è Farinata degli Uberti e cosa fa nel Canto X?', a:'Farinata è un nobile ghibellino fiorentino, nemico politico dei Guelfi (la famiglia di Dante). Si erge dal sepolcro ardente come se disprezzasse l\'Inferno con grandezza straordinaria. Profetizza l\'esilio di Dante.', c:'È tra le figure più potenti della Commedia: Dante gli riconosce nobiltà pur essendo nemico.' },
+    { n:'F06', q:'Chi è Ulisse nell\'Inferno dantesco e perché è punito?', a:'Ulisse è tra i consiglieri fraudolenti (Canto XXVI). Dante inventa un suo ultimo viaggio: Ulisse oltrepassa le Colonne d\'Ercole — il limite del mondo — per sete di conoscenza, e annega. Il peccato è superare i confini posti da Dio all\'uomo.', c:'Il suo discorso ai compagni è tra i più belli del poema: "fatti non foste a viver come bruti".' },
+    { n:'F07', q:'Come è descritto Lucifero nel Canto XXXIV?', a:'Lucifero ha tre facce (rosso, nero, giallastro — parodia della Trinità), ali di pipistrello e tre bocche che masticano Giuda, Bruto e Cassio. Non parla mai. Il vento delle sue ali mantiene gelato il lago di Cocito.', c:'Lucifero non è maestoso — è paralizzato, meccanico, silenzioso. Il male assoluto è vuoto.' },
+    { n:'F08', q:'Perché Giuda, Bruto e Cassio sono i tre massimi peccatori dell\'Inferno?', a:'Giuda ha tradito Cristo (l\'autorità spirituale). Bruto e Cassio hanno tradito Cesare (l\'autorità imperiale — per Dante voluta da Dio). I due tradimenti massimi sono contro le due istituzioni fondamentali: Chiesa e Impero.', c:'La visione politica di Dante è al cuore della struttura dell\'Inferno.' },
+    { n:'F09', q:'Cosa sono gli ignavi e perché Dante li disprezza?', a:'Sono coloro che non scelsero mai né bene né male — vissero senza lasciare traccia. Inseguono un\'insegna senza senso e vengono punti da insetti. Dante non li nomina nemmeno. Li disprezza più dei peccatori: almeno il peccato è una scelta.', c:'Canto III — sono fuori dall\'Inferno vero e proprio, nella zona vestibolare.' },
+    { n:'F10', q:'In quale anno Dante ambienta il suo viaggio nella Commedia e perché?', a:'Il viaggio è ambientato nella Settimana Santa del 1300. Dante aveva 35 anni — esattamente metà della vita umana secondo la Bibbia (70 anni). È anche il Giubileo indetto da Bonifacio VIII. È un anno simbolico e personale.', c:'"Nel mezzo del cammin di nostra vita" = 35 anni = metà di 70 (Salmo 90).' },
+    { n:'F11', q:'Cos\'è la selva oscura con cui inizia la Commedia?', a:'La selva oscura è lo smarrimento morale e spirituale — la perdita della retta via. Rappresenta il peccato, la confusione, l\'allontanamento da Dio. È sia universale (la vita umana) che autobiografico (la crisi personale di Dante esiliato).', c:'La selva è il punto di partenza: da qui inizia il viaggio di redenzione.' },
+    { n:'F12', q:'Chi è Brunetto Latini e perché l\'incontro con lui è commovente?', a:'Brunetto Latini fu il maestro intellettuale di Dante — l\'uomo che più lo formò. È tra i violenti contro natura (Canto XV). Dante gli mostra rispetto e affetto sincero anche nella pena. È un momento di grande umanità: Dante separa il peccatore dall\'uomo che ha amato.', c:'Brunetto cammina nella pioggia di fuoco ma continua a insegnare anche lì.' },
+    { n:'F13', q:'Cosa rappresenta Virgilio come guida nella Commedia?', a:'Virgilio rappresenta la ragione umana — che può conoscere il male, aspirare al bene, ma non contemplare Dio. Può guidare fino al Paradiso terrestre, poi si ferma. È la filosofia che porta fino al limite del comprensibile, dove subentra la fede (Beatrice).', c:'La ragione senza fede è necessaria ma insufficiente — questo è il messaggio di Virgilio.' },
+    { n:'F14', q:'Cos\'è Malebolge e come è strutturato?', a:'Malebolge è l\'ottavo cerchio dell\'Inferno, diviso in 10 bolge (fossati) concentrici. Ospita i fraudolenti: seduttori, adulatori, simoniaci, indovini, barattieri, ipocriti, ladri, consiglieri fraudolenti, seminatori di discordia, falsari.', c:'Ogni bolgia ha la sua pena contrapposta al tipo specifico di frode.' },
+    { n:'F15', q:'Come escono Dante e Virgilio dall\'Inferno?', a:'Si aggrappano ai peli di Lucifero e scendono fino al centro della Terra, poi invertono la direzione risalendo nell\'emisfero australe dove si trova il monte del Purgatorio. L\'ultima parola dell\'Inferno è "stelle" — come per ogni cantica.', c:'"E quindi uscimmo a riveder le stelle" — tre cantiche, tre volte "stelle".' },
+  ];
+
+  const qfMedio = [
+    { n:'M01', q:'Analizza la struttura morale dell\'Inferno: su quale base filosofica Dante ordina i peccati?', a:'Dante usa Aristotele (Etica Nicomachea) e Agostino per classificare i peccati. I meno gravi (incontinenza: lussuria, gola, avarizia, ira) sono quelli in cui la volontà cede agli impulsi. I peggiori (violenza, frode, tradimento) richiedono volontà consapevole e perversa. Più il peccato è deliberato, più è profondo nell\'Inferno.', c:'La chiave è la volontà: più è coinvolta nella scelta del male, più grave è il peccato.' },
+    { n:'M02', q:'Perché la figura di Farinata degli Uberti è così complessa? È ammirazione o condanna?', a:'Farinata è entrambe le cose — e questa è la grandezza di Dante. Lo condanna per eresia ma gli riconosce una grandezza umana straordinaria: si erge dal sepolcro come se disprezzasse l\'Inferno, difende Firenze con passione sincera. Dante separa il giudizio morale dal riconoscimento della grandezza civile. Non esiste solo bianco e nero.', c:'Farinata disse: "I miei nemici la volevano distrutta, io solo la difesi."' },
+    { n:'M03', q:'Cosa rende il personaggio di Ulisse nel Canto XXVI così controverso nella storia della critica?', a:'Ulisse è condannato come consigliere fraudolento, ma il suo discorso ai compagni è tra i più nobili del poema. Dante lo ammira e lo teme insieme: Ulisse è la rappresentazione del desiderio di sapere oltre i limiti — nobile in sé, ma pericoloso se non temperato dalla fede. Alcuni critici vedono in lui un autoritratto di Dante stesso.', c:'"Fatti non foste a viver come bruti, ma per seguir virtute e canoscenza" è sia sublime che colpevole.' },
+    { n:'M04', q:'Come funziona la profezia nell\'Inferno dantesco? Cosa sanno i dannati del tempo?', a:'I dannati vedono il futuro ma non il presente: possono profetizzare ma non sanno cosa accade ora sulla Terra. Quando il Giudizio Universale chiuderà il futuro, resteranno ciechi per sempre. È una condanna metafisica: avevano voluto vedere oltre il permesso, ora vedono solo in una direzione sbagliata.', c:'Questa struttura temporale spiega perché i dannati chiedono notizie del mondo a Dante.' },
+    { n:'M05', q:'Analizza il Canto di Pier della Vigna: vittima o colpevole?', a:'Pier della Vigna è presentato come vittima dell\'invidia di corte — accusato ingiustamente, accecato, suicidatosi per disperazione. Dante lo compiange. Ma la colpa rimane: il suicidio è la violazione della proprietà divina sul corpo. Dante separa la comprensione umana (vittima) dalla giustizia divina (colpevole). La sua voce è una delle più liriche e tormentate della Commedia.', c:'Il suicidio come peccato: non per crudeltà, ma perché il corpo appartiene a Dio, non a te.' },
+    { n:'M06', q:'Perché Dante colloca i traditori nel ghiaccio e non nel fuoco?', a:'Il ghiaccio è il contrapasso perfetto per il tradimento: chi tradisce ha un cuore freddo, usa la ragione per il male in modo calcolato e glaciale. Il fuoco è passionale — associato ai peccati meno gravi. Il ghiaccio è il massimo della distanza da Dio (che è calore e amore). Lucifero stesso è ghiacciato: il male assoluto è freddo, immobile, meccanico.', c:'Freddo = calcolo = assenza di amore = massimo male per Dante.' },
+    { n:'M07', q:'Qual è la funzione politica della Commedia nel contesto storico di Dante?', a:'Dante era in esilio per aver resistito alla politica espansionistica di Bonifacio VIII. La Commedia è anche un atto politico: condanna papi corrotti (Niccolò III, Bonifacio VIII già annunciato), difende l\'Impero romano come istituzione divina, attacca la corruzione della Chiesa. Usa il giudizio divino come arma politica: mette nell\'Inferno i suoi nemici con autorità ultraterrena.', c:'La Commedia è la vendetta più elegante della storia della letteratura.' },
+    { n:'M08', q:'Perché il Limbo non è una pena ma è comunque nell\'Inferno?', a:'Il Limbo è assenza, non punizione: i grandi dell\'antichità pagana vivono in un castello nobile con luce, senza dolore fisico. Ma mancano della visione di Dio — il desiderio senza speranza. Per Dante, questa è già una forma di privazione: non vedere Dio è la perdita più grande possibile. Il Limbo dimostra che senza la grazia, anche la perfezione umana non basta.', c:'Aristotele nel Limbo è la prova che la ragione pura non porta alla salvezza.' },
+    { n:'M09', q:'Come usa Dante il corpo e le emozioni nel viaggio? È giusto che svenghe e pianga?', a:'Il Dante-personaggio sviene, piange, si commuove — è ancora umano, legato alle emozioni. Ma il viaggio è un\'educazione: ogni volta che ha pietà per un dannato, Virgilio lo corregge. La pietà errata (come per Francesca) è una forma di ignoranza spirituale. Alla fine del viaggio, Dante dovrà essere capace di vedere il male senza giustificarlo.', c:'Le emozioni di Dante sono il punto di contatto con il lettore — ma devono evolversi.' },
+    { n:'M10', q:'Qual è il significato della selva oscura come incipit della Commedia? Perché iniziare così?', a:'La selva oscura è il peccato — ma anche la condizione universale dell\'uomo. Dante inizia in medias res: non spiega come ci è arrivato, perché è la condizione di tutti. L\'apertura è autobiografica (l\'esilio, la crisi) e universale (la vita come smarrimento). Il viaggio inizia sempre dal basso — non si può salire senza prima scendere.', c:'Il viaggio verso Dio richiede di conoscere prima il male — questo è il programma del poema.' },
+  ];
+
+  const qfDifficile = [
+    { n:'D01', q:'Analizza la struttura numerologica della Commedia: perché il 3 e il 10 sono fondamentali?', a:'Il 3 è il numero della Trinità: 3 cantiche, 33 canti ciascuna (più il prologo = 100, numero della perfezione), terzine ABA BCB, tre facce di Lucifero. Il 10 è la perfezione dei numeri (1+2+3+4=10): 9 cerchi + Cocito = 10. Tutto l\'universo dantesco è matematicamente ordinato come rifless dell\'ordine divino. La forma è teologia: il poema stesso è una prova dell\'ordine di Dio.' , c:'Il numero è la firma di Dio nell\'universo — e Dante firma il suo poema con gli stessi numeri.' },
+    { n:'D02', q:'Perché Dante sceglie il volgare e non il latino per la Commedia? Cosa significa questa scelta?', a:'Il latino era la lingua dei dotti — riservata agli intellettuali. Il volgare (italiano fiorentino) raggiungeva tutti: artigiani, donne, mercanti. Dante teorizza questa scelta nel De Vulgari Eloquentia. La Commedia è rivolta all\'umanità intera, non solo ai letterati. È anche una rivendicazione politica: il volgare italiano come lingua degna di un poema cosmico. Dante crea la lingua italiana come opera letteraria.', c:'La scelta del volgare è democratica, politica e poetica insieme.' },
+    { n:'D03', q:'Confronta la figura di Virgilio con quella di Beatrice: due guide per due fasi diverse del viaggio. Perché questa divisione?', a:'Virgilio = ragione umana = filosofia = Impero = può conoscere il male e aspirare al bene, ma non vedere Dio. Beatrice = fede rivelata = teologia = Chiesa = può portare alla contemplazione divina. La divisione rispecchia la visione politico-religiosa di Dante: Impero e Chiesa sono complementari, non opposti. Entrambi necessari, nessuno sufficiente da solo. La struttura delle guide è una dichiarazione politica travestita da allegoria.', c:'La doppia guida rispecchia la doppia necessità: ragione e fede, Impero e Chiesa.' },
+    { n:'D04', q:'Analizza il tema del linguaggio e della comunicazione nell\'Inferno: perché alcuni dannati parlano e altri no?', a:'Il silenzio è condanna: Lucifero non parla mai (il male assoluto è muto). Gli ignavi non hanno voce degna — non si nominano. I dannati che parlano lo fanno per diversi motivi: Francesca per sedurre ancora, Farinata per grandezza, Ulisse per magnificenza. Il linguaggio nell\'Inferno è sempre ambiguo — può ingannare (Francesca), rivelare (Farinata), sedurre (Ulisse). Dante usa il silenzio e la parola come strumenti morali.', c:'Chi parla nell\'Inferno e come lo fa rivela sempre la sua natura.' },
+    { n:'D05', q:'Perché Dante è considerato il padre della lingua italiana? Qual è il rapporto tra la Commedia e la storia linguistica italiana?', a:'Dante scrive in fiorentino volgare con aspirazione universale: una lingua che può dire tutto, dal basso (dialogo con i diavoli) all\'altissimo (visione di Dio). Il De Vulgari Eloquentia teorizza la lingua illustre. La Commedia fu usata nell\'alfabetizzazione post-unitaria come modello della prosa/poesia nazionale. Boccaccio e Petrarca sono suoi eredi. La lingua italiana moderna deve a Dante più che a qualsiasi altro.', c:'Senza Dante, non esiste la lingua italiana come la conosciamo.' },
+    { n:'D06', q:'Analizza il rapporto tra storia e profezia nella Commedia: come usa Dante il meccanismo del "vaticinare post eventum"?', a:'Dante ambienta il viaggio nel 1300, ma scrive tra il 1304 e il 1321. I "profeti" danteschi predicono eventi già accaduti — l\'esilio di Dante, le lotte guelfo-ghibelline, la morte di Bonifacio VIII. Questo "vaticinare dopo l\'evento" (profezia scritta sapendo già il risultato) crea l\'illusione della visione divina e permette a Dante di commentare la storia contemporanea con l\'autorità di Dio.', c:'Il meccanismo profetico è il grande artificio retorico della Commedia.' },
+    { n:'D07', q:'Come si inserisce la Commedia nel contesto della scolastica medievale e della teologia tomista?', a:'Dante era profondo conoscitore di Tommaso d\'Aquino e della Scolastica. La struttura dell\'Inferno segue la classificazione aristotelico-tomista dei vizi. L\'ordine dell\'universo (cerchi infernali, sfere celesti) rispecchia la visione cosmologica medievale. Ma Dante va oltre: usa la teologia come materiale poetico, non come trattato. La Commedia è la summa teologica medievale tradotta in poesia.', c:'Dante fa in poesia quello che Tommaso fa in prosa: ordinare tutto il sapere dell\'epoca.' },
+    { n:'D08', q:'Cosa rende la Commedia moderna ancora oggi? Perché resiste ai secoli?', a:'Perché Dante pone le domande perenni: cosa è il male? esiste la giustizia? cosa merita l\'uomo? come si cresce attraverso il dolore? La forma allegorica è medievale, ma i personaggi sono psicologicamente reali e universali. Francesca parla di amore come qualunque moderno. Ulisse è il prototipo di ogni esploratore. Lucifero è la banalità del male. La Commedia sopravvive perché le domande umane non cambiano, anche se cambiano le risposte.', c:'La Commedia è medievale nella forma, universale nei problemi.' },
+  ];
+
+  const qpStile = [
+    { n:'S01', q:'Cos\'è la terzina dantesca e perché è una scelta formale così significativa?', a:'La terzina è uno schema rimato ABA BCB CDC: ogni terzina è legata alla precedente e alla successiva, in un moto continuo che non si chiude mai. Rappresenta il cammino in avanti del viaggio. Il numero 3 (Trinità) è il principio costruttivo. È anche tecnicamente difficilissima — Dante la usa come se fosse naturale, e per questo è considerato uno dei più grandi virtuosi della metrica italiana.', c:'La forma è il messaggio: il verso non si chiude, come il viaggio non si ferma mai.' },
+    { n:'S02', q:'Come funziona l\'allegoria nella Commedia? Porta esempi da diversi canti.', a:'L\'allegoria è multipla: la selva oscura (peccato/smarrimento), Virgilio (ragione), Beatrice (fede/teologia), Lucifero (male assoluto/assenza di Dio), Gerione (frode). Ma Dante usa anche allegorie narrative: il viaggio stesso è allegorico (redenzione dell\'anima). I livelli sono quattro (letterale, allegorico, morale, anagogico) come nella lettura medievale della Bibbia.', c:'Dante legge il suo poema come si leggeva la Bibbia — con quattro sensi simultanei.' },
+    { n:'S03', q:'Come si manifesta l\'ironia di Dante nel trattamento dei personaggi? Porta esempi.', a:'L\'ironia dantesca è raramente esplicita — è nella struttura. Papa Niccolò III viene apostrofato da Dante direttamente nel fossato dei simoniaci. I Malebranche ingannano Virgilio — la ragione viene beffata dai diavoli fraudolenti. Don Abbondio... no — qui Ugolino viene pianto, ma mastica il cranio del suo nemico. Ogni scena porta con sé il suo commento implicito.', c:'Dante non dice mai "questo è ironico" — lo costruisce.' },
+    { n:'S04', q:'Qual è il ruolo del sublime nella Commedia? Porta un esempio di scena sublime.', a:'Il sublime dantesco è la grandezza che travolge. Il Canto XXVI con Ulisse: il discorso ai compagni è sublime per l\'aspirazione umana alla conoscenza. Il Canto XXXIV con Lucifero: sublime per l\'orrore assoluto che non urla. Il Canto XXXIII con Ugolino: sublime per il dolore materno/paterno portato all\'estremo. Dante alterna il sublime con il basso comico (Malebranche) — è uno dei pochi autori medievali che usa il registro basso senza pudore.', c:'Dante è sublime nel dolore e nel terrore, ma anche nel grottesco — nessuna zona è proibita.' },
+    { n:'S05', q:'Come usa Dante il linguaggio visivo nella descrizione delle pene infernali?', a:'Dante è un pittore con le parole: le immagini sono precise, fisiche, spesso orribili. I lussuriosi travolti dal vento come storni. I golosi immersi nel fango. I simoniaci con i piedi fiammeggianti. Ugolino che rode il cranio. Lucifero che mastica meccanicamente. Questa concretezza visiva serve a rendere reale l\'invisibile — il male deve essere visto, non solo capito. È una tecnica medievale (il teatro sacro) portata alla perfezione letteraria.', c:'Le pene vanno immaginate fisicamente — Dante vuole che il lettore veda.' },
+    { n:'S06', q:'Analizza l\'uso del dialogo nella Commedia: come cambiano le conversazioni tra i diversi cerchi?', a:'Nei cerchi superiori (lussuriosi, golosi) i dannati parlano liberamente, anche con eloquenza (Francesca). Più si scende, più il dialogo si fa difficile: i violenti sono immersi nel sangue, i falsari deliranti, i traditori nel ghiaccio. Lucifero non parla mai. Il deterioramento del linguaggio rispecchia il deterioramento dell\'anima. Parlare è essere umani — chi ha perso più umanità parla meno o non parla affatto.', c:'Il silenzio crescente è un progressivo sprofondare nell\'inumanità.' },
+    { n:'S07', q:'Perché la Commedia inizia con "Nel mezzo del cammin" e non con una invocazione classica?', a:'L\'invocazione alle Muse era la convenzione epica classica (Virgilio, Omero). Dante la usa nel Paradiso, non nell\'Inferno: nell\'Inferno inizia con la crisi personale, in prima persona, senza intermediari divini. È una scelta rivoluzionaria: il poema parte dall\'umano (lo smarrimento) non dal divino (l\'ispirazione). Solo alla fine, nel Paradiso, Dante chiede aiuto diretto a Dio e alle Muse. La struttura è anche un percorso di avvicinamento al divino.', c:'Iniziare dall\'io smarrito invece che dall\'invocazione è già un programma poetico.' },
+  ];
+
+  const qpContesto = [
+    { n:'C01', q:'In quale contesto biografico e storico Dante scrive la Commedia?', a:'Dante scrive in esilio (dal 1302 alla morte nel 1321) dopo essere stato condannato dai Guelfi Neri di Firenze, sostenuti da Bonifacio VIII. La Commedia nasce dalla perdita: dell\'amata (Beatrice morta nel 1290), della patria (l\'esilio), delle certezze politiche. Il viaggio nell\'aldilà è anche un modo per Dante di fare i conti con il mondo che lo ha distrutto — e di condannarlo con l\'autorità di Dio.', c:'La Commedia non si capisce senza la vita di Dante.' },
+    { n:'C02', q:'Quale visione politica sottende la struttura dell\'Inferno dantesco?', a:'Dante è un sostenitore del Ghibellinismo imperiale: crede che l\'Impero romano sia stato voluto da Dio per governare il mondo temporale, e la Chiesa per quello spirituale. Quando le due sfere si confondono (papi che fanno politica, imperatori che interferiscono nella Chiesa) nasce il caos. Nell\'Inferno: papi simoniaci, politici corrotti, traditori dell\'Impero. È una critica radicale a chi ha trasgredito questo ordine.', c:'Imperio e Chiesa complementari, non in conflitto: questo è il messaggio politico di Dante.' },
+    { n:'C03', q:'Come si colloca la Commedia rispetto alla tradizione del "viaggio nell\'aldilà" nella letteratura medievale?', a:'Il genere dei viaggi nell\'aldilà era ben noto nel Medioevo: la Visio Pauli, il Purgatorio di San Patrizio, l\'Eneide di Virgilio (libro VI). Dante conosce tutti questi modelli e li supera: trasforma il viaggio in un\'opera letteraria sistematica con un ordinamento teologico preciso, personaggi storici reali, commento politico contemporaneo. La novità assoluta è fare dell\'aldilà un luogo concreto, geograficamente preciso, popolato di persone reali.', c:'Dante non inventa il genere — lo porta alla perfezione assoluta.' },
+    { n:'C04', q:'Qual è il rapporto tra Dante e Aristotele nella costruzione dell\'Inferno?', a:'Dante usa la classificazione aristotelica dei vizi (dall\'Etica Nicomachea) come base della struttura infernale: incontinenza, violenza, frode. Aristotele (il Filosofo) è nel Limbo — rispettato ma non salvato. Tommaso d\'Aquino aveva già "cristianizzato" Aristotele, e Dante eredita questa sintesi. Ma Dante va oltre: usa Aristotele come strumento teologico, non come fine. La ragione serve la fede, non la sostituisce.', c:'Aristotele è la base, Tommaso la mediazione, Dante la sintesi poetica.' },
+    { n:'C05', q:'Come cambia la ricezione della Commedia dal Medioevo ai giorni nostri?', a:'Nel Medioevo era letta come testo teologico e morale. Nel Rinascimento come modello linguistico (Bembo lo rifiutava, Boccaccio lo esaltava). Nell\'Ottocento il Romanticismo lo riscoprì come poema dell\'emozione e della grandezza individuale. Nel Novecento come opera totale — Eliot, Borges, Mandelstam lo usano come interlocutore. Oggi è studiato come testo politico, come atlante del male, come capolavoro formale. Ogni epoca trova nella Commedia il proprio specchio.', c:'Un classico è un testo che non smette di generare significati nuovi.' },
+    { n:'C06', q:'Perché Dante colloca il Purgatorio nell\'emisfero australe e quali implicazioni ha questa scelta geografica?', a:'L\'emisfero australe era sconosciuto e misterioso nel Medioevo. Dante lo sceglie per il Purgatorio: è agli antipodi di Gerusalemme (al centro dell\'emisfero boreale per i medievali). Il Purgatorio è una montagna emersa quando Lucifero cadde: la Terra si aprì per fuggire, e la roccia espulsa formò la montagna. È una cosmografia poetica che unifica la caduta di Lucifero, la creazione del Purgatorio e la posizione di Gerusalemme in un unico sistema.', c:'La geografia dantesca non è casuale — ogni posizione ha il suo significato teologico.' },
+    { n:'C07', q:'In che modo Dante usa la Commedia per costruire un\'identità italiana prima ancora che l\'Italia esista?', a:'Dante scrive in fiorentino volgare aspirando a una lingua comune per tutta la penisola — anticipa di 500 anni l\'Unità d\'Italia. I personaggi italiani (Farinata, Ugolino, Pier della Vigna) sono presentati con fierezza regionale ma anche come parte di una storia comune. La Commedia è il testo fondante di un\'identità culturale italiana che precede quella politica. Non a caso dopo il 1861 fu il primo libro di testo scolastico.', c:'La Commedia costruisce l\'Italia culturale prima che esista quella politica.' },
+  ];
+
+  function makeQuizEngine(containerId, titleLabel, datasets, tabDefs) {
+    var state = { tab: tabDefs[0].key, cards: datasets[tabDefs[0].key], current: 0, flipped: false };
+    var isPremium = titleLabel.indexOf('Premium') !== -1;
+
+    function render() {
+      var el = document.getElementById(containerId);
+      if (!el) return;
+      if (state.current >= state.cards.length) { renderEnd(el); return; }
+      var c = state.cards[state.current];
+      var pct = Math.round(((state.current + 1) / state.cards.length) * 100);
+      var tabsHtml = tabDefs.map(t => '<button class="qv-tab' + (state.tab === t.key ? ' qv-active' : '') + '" data-tab="' + t.key + '" data-cid="' + containerId + '">' + t.label + '</button>').join('');
+      el.innerHTML = '<div class="qv-wrap"><div class="qv-top"><p class="qv-title-lbl">' + titleLabel + '</p><div class="qv-tabs">' + tabsHtml + '</div></div><div class="qv-prog"><span class="qv-cnt">' + (state.current + 1) + ' / ' + state.cards.length + '</span><div class="qv-bar-bg"><div class="qv-bar-fill" style="width:' + pct + '%"></div></div></div><div class="qv-scene" data-action="flip" data-cid="' + containerId + '"><div class="qv-card' + (state.flipped ? ' qv-flipped' : '') + '" id="' + containerId + 'Card"><div class="qv-face qv-front"><div class="qv-cid">' + c.n + '</div><div class="qv-lbl">Domanda:</div><div class="qv-question">' + c.q + '</div><div class="qv-hint">Clicca per la risposta</div></div><div class="qv-face qv-back"><div class="qv-cid">' + c.n + '</div><div class="qv-check">✓</div><div class="qv-lbl">Risposta modello:</div><div class="qv-answer">' + c.a + '</div><div class="qv-nota"><div class="qv-nota-lbl">' + (isPremium ? 'Per la maturità:' : 'Consiglio:') + '</div><div class="qv-nota-txt">' + c.c + '</div></div></div></div></div><div class="qv-controls"><button class="qv-btn" data-action="prev" data-cid="' + containerId + '"' + (state.current === 0 ? ' disabled' : '') + '>← Indietro</button><button class="qv-btn qv-btn-p" data-action="next" data-cid="' + containerId + '">' + (state.current === state.cards.length - 1 ? 'Fine' : 'Avanti →') + '</button></div></div>';
+      bindEvents(el, state, datasets, tabDefs);
+    }
+
+    function renderEnd(el) {
+      el.innerHTML = '<div class="qv-wrap"><div class="qv-end"><p class="qv-end-title">Quiz completato!</p><p class="qv-end-sub">Hai finito tutte le domande.</p><button class="qv-btn qv-btn-p" data-action="restart" data-cid="' + containerId + '">Ricomincia</button></div></div>';
+      bindEvents(el, state, datasets, tabDefs);
+    }
+
+    function bindEvents(el, state, datasets, tabDefs) {
+      el.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
+        state.tab = btn.getAttribute('data-tab');
+        state.cards = datasets[state.tab];
+        state.current = 0;
+        state.flipped = false;
+        render();
+      }));
+      var scene = el.querySelector('[data-action="flip"]');
+      if (scene) scene.addEventListener('click', () => {
+        state.flipped = !state.flipped;
+        var card = document.getElementById(containerId + 'Card');
+        if (card) card.classList.toggle('qv-flipped');
+      });
+      el.querySelector('[data-action="next"]')?.addEventListener('click', () => { state.current++; state.flipped = false; render(); });
+      el.querySelector('[data-action="prev"]')?.addEventListener('click', () => { state.current--; state.flipped = false; render(); });
+      el.querySelector('[data-action="restart"]')?.addEventListener('click', () => { state.current = 0; state.flipped = false; render(); });
+    }
+
+    render();
+  }
+
+  function initQuizViewers() {
+    makeQuizEngine('qfViewer', 'Quiz Base', { facile: qfFacile, medio: qfMedio, difficile: qfDifficile }, [
+      { key: 'facile', label: '⭐ Facile' },
+      { key: 'medio', label: '⭐⭐ Medio' },
+      { key: 'difficile', label: '⭐⭐⭐ Difficile' }
+    ]);
+    makeQuizEngine('qpViewer', 'Quiz Premium', { stile: qpStile, contesto: qpContesto }, [
+      { key: 'stile', label: 'Stile' },
+      { key: 'contesto', label: 'Contesto' }
+    ]);
+  }
+
+  // ── INTERVISTE DATA ───────────────────────────────────────────────
+  var intervisteData = {
+    dante: {
+      nome: 'Dante Alighieri', ruolo: 'Poeta e pellegrino · Firenze, 1265–1321', emoji: '🌿',
+      cards: [
+        {d:'Dante, nel mezzo del cammin di nostra vita — ma lei aveva davvero bisogno di un viaggio all\'Inferno per capire dove stava sbagliando?',r:'(Pausa. Gli occhi si alzano come se stesse pesando ogni parola.) Sì. Avevo bisogno di vedere il male con gli occhi aperti. Non immaginarlo, non temerlo — vederlo. Capire che cosa diventa una vita quando la si costruisce sul vizio, sull\'odio, sul tradimento. Avevo perso tutto — Firenze, Beatrice, la mia strada. Il viaggio non era una punizione. Era la cura.'},
+        {d:'L\'esilio. Firenze la caccia nel 1302. Cosa le è costato di più?',r:'Non la casa. Non i beni. Non il lavoro. Mi è costata la possibilità di vedere il fiume Arno al mattino, di camminare per le strade che conoscevo da bambino. L\'esilio ti toglie il senso di appartenenza — e senza appartenenza, l\'uomo è un\'ombra. Ho scritto la Commedia per non diventare un\'ombra. Per dire: io sono stato qui. Ho visto queste cose. Ho parlato con questi uomini.'},
+        {d:'Beatrice. Perché una donna morta a 25 anni diventa la sua guida verso Dio?',r:'Perché l\'amore vero non finisce con la morte — si trasforma. Beatrice mi ha insegnato, da viva, che esiste qualcosa di più grande di me. Quando è morta, ho rischiato di perdermi — ho cercato conforto nella filosofia, nelle altre donne. Ma lei è rimasta. Nell\'aldilà, è lei che intercede per me. L\'amore umano, quando è autentico, diventa sempre qualcos\'altro — diventa preghiera, diventa via.'},
+        {d:'Nel 2026, Dante sarebbe su quale piattaforma? X, Instagram, Substack?',r:'(Quasi sorride.) Substack. Senza dubbio. X è troppo rumoroso — troppi Filippo Argenti che urlano senza dire nulla. Instagram è per chi vuole essere visto. Substack è per chi vuole essere letto. E io ho sempre voluto essere letto. Ma anche nel 2026 i Bonifacio VIII esisterebbero — vestiti diversamente, ma con la stessa fame di potere. E io li metterei nell\'Inferno allo stesso modo.'},
+        {d:'Una cosa che non le è mai stata perdonata: il giudizio su personaggi ancora vivi mentre scriveva. Si è mai sentito in colpa?',r:'Mai. La Commedia è scritta con l\'autorità di Dio — o almeno, con la pretesa di averla. Se Dio vede la verità degli uomini, io la scrivo. Se avessi avuto paura di offendere, avrei scritto un poema morto. I vivi si offendono — i posteri capiscono. La Commedia non sarebbe la Commedia se fosse gentile.'}
+      ]
+    },
+    virgilio: {
+      nome: 'Virgilio', ruolo: 'Poeta latino · Mantova, 70 a.C. – 19 a.C.', emoji: '🏛️',
+      cards: [
+        {d:'Virgilio, lei è nel Limbo — non è punito, ma non può vedere Dio. Come si vive con questo?',r:'(Una pausa lunga, malinconica.) Con dignità. È l\'unica risposta possibile. Non ho colpa — sono vissuto prima di Cristo, non ho potuto conoscere la grazia. Ma l\'assenza di Dio è già una perdita. Nel Limbo abbiamo tutto ciò che la ragione può desiderare — luce, sapere, conversazione tra grandi. Manca solo l\'essenziale. È come vivere in una biblioteca perfetta dove però le finestre sono murate.'},
+        {d:'Ha guida Dante attraverso l\'Inferno. È stato difficile guidare qualcuno che sa già dove vuole andare?',r:'Dante non sa dove vuole andare — sa dove deve andare, che è diverso. La mia guida non era dare direzioni: era aiutarlo a sopportare ciò che vedeva. A non svenire per pietà mal riposta, a non odiare dove doveva comprendere, a non commuoversi dove doveva imparare. Guidare un uomo attraverso il male richiede che tu conosca il male — e io, da latino, conoscevo bene i limiti della ragione umana.'},
+        {d:'Lei rappresenta la ragione. Ma la ragione basta?',r:'No. E questa è la mia tragedia — e la mia onestà. Arrivo fino a un certo punto, poi mi fermo. Beatrice mi supera non perché io abbia fallito, ma perché la ragione ha confini che la fede attraversa. Non è umiliante — è la verità. Chi pretende che la ragione sia tutto, mente a sé stesso. Chi la rifiuta per affidarsi solo alla fede, cammina bendato. Servono entrambe. Io ho avuto la fortuna di essere utile nella prima metà del viaggio.'},
+        {d:'Nel 2026, chi sarebbe Virgilio?',r:'(Riflette.) Forse un professore universitario che ha dedicato trent\'anni a capire il male umano — storia, filosofia, psicologia — e poi si trova davanti a uno studente in crisi e capisce che tutto quel sapere serve esattamente a questo momento. A guidare qualcuno che sta annegando. Non per salvarsi — per aiutare. La conoscenza senza la vocazione alla guida è decorazione.'},
+        {d:'Una cosa che vuole dire a chi studia la Commedia e la trova difficile?',r:'Che la difficoltà è il punto. La Commedia non deve essere facile — il viaggio attraverso l\'Inferno non è una passeggiata. Ma ogni volta che incontrate una difficoltà e la superate, state facendo la stessa cosa che fa Dante: scendere per poi risalire. Il testo vi resiste perché è vivo. Un testo che non resiste non vi cambia. E voi siete lì per essere cambiati.'}
+      ]
+    },
+    lucifero: {
+      nome: 'Lucifero', ruolo: 'Signore dell\'Inferno · Cocito, eternità', emoji: '🌑',
+      cards: [
+        {d:'Lucifero. Lei non parla nel Canto XXXIV. Perché?',r:'(Silenzio lungo. Poi, con una voce che non ha fretta.) Perché le parole sono per chi ha ancora qualcosa da dire. Io ho detto tutto quello che dovevo dire nel momento in cui ho scelto. Quella scelta è eterna — non ha bisogno di spiegazioni, di giustificazioni, di apologie. Il silenzio non è impotenza. È la fine di ogni dialogo. Chi mi parla, parla a un muro — ma a un muro che era, una volta, più luminoso di qualsiasi cosa abbiate mai visto.'},
+        {d:'Dante la descrive con tre facce, ali di pipistrello, ghiacciato fino alla vita. Si riconosce in questa descrizione?',r:'Dante ha visto quel che poteva vedere. Un uomo non può guardare il male assoluto e trovare parole adeguate — sceglie quelle che gli fanno meno paura. Le tre facce sono la sua parodia della Trinità: l\'ha capita. Le ali di pipistrello, il ghiaccio — sono il linguaggio dell\'orrore. Ma l\'orrore ha sempre una logica. Io sono il punto di arrivo di una scelta perfettamente coerente. Non sono un mostro — sono una conseguenza.'},
+        {d:'Ha rimpianti?',r:'(Pausa. Le mascelle delle tre bocche si muovono leggermente.) I rimpianti sono per chi crede che il tempo possa tornare indietro. Io so che non può. La mia caduta è stata la caduta più alta della storia — da più vicino a Dio di quanto qualsiasi umano abbia mai potuto immaginare, al centro della terra. Non ho rimpianti. Ho consapevolezza. E la consapevolezza, senza la possibilità di cambiare, è la vera pena — non il ghiaccio.'},
+        {d:'Nel 2026, chi sarebbe Lucifero?',r:'Non sarei una sola persona — sarei un sistema. L\'indifferenza organizzata. L\'algoritmo che amplifica l\'odio perché l\'odio genera engagement. Il burocrate che firma documenti senza chiedersi cosa significano. Il politico che usa la paura come combustibile. Il male nel 2026 non ha più un volto — ha un\'interfaccia. Ed è più efficiente che mai.'},
+        {d:'Un messaggio per chi studia la Commedia?',r:'Che io non sono lontano. Dante mi ha messo al centro della Terra — il posto più lontano possibile da Dio. Ma il centro della Terra è sotto i vostri piedi ogni momento. Ogni scelta che fate vi avvicina o vi allontana. Non da me — da voi stessi. La vera domanda non è se credete nell\'Inferno. È se riconoscete quando state scegliendo il freddo invece del calore. Il silenzio invece della voce. L\'indifferenza invece dell\'amore.'}
+      ]
+    }
+  };
+
+  // ── INTERVISTE ENGINE ─────────────────────────────────────────────
+  var intState = { tab: 'dante', current: 0, flipped: false };
+
+  function intSetTab(t) {
+    intState.tab = t; intState.current = 0; intState.flipped = false;
+    intRender();
+  }
+
+  function intRender() {
+    var el = document.getElementById('int-viewer');
+    if (!el) return;
+    var persona = intervisteData[intState.tab];
+    if (!persona) return;
+    var cards = persona.cards;
+    if (intState.current >= cards.length) { intRenderEnd(el, persona); return; }
+    var c = cards[intState.current];
+    var pct = Math.round((intState.current / cards.length) * 100);
+    var tabsHtml = Object.keys(intervisteData).map(function(k) {
+      var p = intervisteData[k];
+      return '<button class="fc-tab' + (intState.tab===k?' fc-active':'') + '" onclick="intSetTab(\'' + k + '\')">' + p.emoji + ' ' + p.nome + '</button>';
+    }).join('');
+    el.innerHTML = '<div class="fc-wrap">' +
+      '<div class="fc-top"><p class="fc-title-label">Interviste Impossibili</p></div>' +
+      '<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0.8rem;">' + tabsHtml + '</div>' +
+      '<div style="font-family:\'EB Garamond\',serif;font-style:italic;font-size:0.75rem;color:rgba(201,168,76,0.6);margin-bottom:0.7rem;">' + persona.ruolo + '</div>' +
+      '<div class="fc-progress-row"><span class="fc-counter">' + (intState.current+1) + ' / ' + cards.length + '</span><div class="fc-bar-bg"><div class="fc-bar-fill" style="width:' + pct + '%"></div></div></div>' +
+      '<div class="fc-scene" onclick="intFlip()"><div class="fc-card' + (intState.flipped?' fc-flipped':'') + '" id="intCard">' +
+      '<div class="fc-face fc-front"><div class="fc-card-id">DOMANDA ' + (intState.current+1) + '</div><div class="fc-lbl">IL GIORNALISTA CHIEDE:</div><div class="fc-question">' + c.d + '</div><div class="fc-hint">Tocca per la risposta</div></div>' +
+      '<div class="fc-face fc-back"><div class="fc-card-id">' + persona.emoji + ' ' + persona.nome.toUpperCase() + '</div><div class="fc-check">✦</div><div class="fc-answer" style="overflow-y:auto;">' + c.r + '</div></div>' +
+      '</div></div>' +
+      '<div class="fc-controls"><button class="fc-btn" onclick="intPrev()"' + (intState.current===0?' disabled':'') + '>← Indietro</button><button class="fc-btn fc-btn-primary" onclick="intNext()">' + (intState.current===cards.length-1?'Fine':'Avanti →') + '</button></div></div>';
+  }
+
+  function intRenderEnd(el, persona) {
+    el.innerHTML = '<div class="fc-wrap"><div class="fc-end"><p class="fc-end-title">' + persona.emoji + ' Completata!</p><p class="fc-end-sub" style="margin-bottom:1rem;">Hai letto tutta l\'intervista a ' + persona.nome + '.</p><button class="fc-btn fc-btn-primary" onclick="intSetTab(\'' + intState.tab + '\')">Rileggi</button></div></div>';
+  }
+
+  function intFlip() { intState.flipped = !intState.flipped; var c = document.getElementById('intCard'); if(c) c.classList.toggle('fc-flipped'); }
+  function intNext() { intState.current++; intState.flipped = false; intRender(); }
+  function intPrev() { intState.current--; intState.flipped = false; intRender(); }
+
+  // Cookie check
+  var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+  if (!prefs.saved) {
+    document.getElementById('cookie-notice').classList.add('visible');
+  }
+
+  showChat();
+</script>
+
+</div>
+</body>
+</html>
