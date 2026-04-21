@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glossario dell'Inferno — I Classici Vivi</title>
+<script>
+  (function() {
+    var prefs = JSON.parse(localStorage.getItem('icv_cookie_prefs') || '{}');
+    if (prefs.saved === true && prefs.fonts === false) {
+      document.documentElement.classList.add('fonts-blocked');
+    } else {
+      var preconnect = document.createElement('link');
+      preconnect.rel = 'preconnect';
+      preconnect.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(preconnect);
+      var preconnect2 = document.createElement('link');
+      preconnect2.rel = 'preconnect';
+      preconnect2.href = 'https://fonts.gstatic.com';
+      preconnect2.crossOrigin = 'anonymous';
+      document.head.appendChild(preconnect2);
+      var fonts = document.createElement('link');
+      fonts.rel = 'stylesheet';
+      fonts.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
+      document.head.appendChild(fonts);
+    }
+  })();
+</script>
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "w7l4bipy35");</script>
+<style>
+  :root {
+    --oro: #c9a84c;
+    --oro-chiaro: #e8c97a;
+    --bruno: #080808;
+    --bruno-medio: #0d1117;
+    --bruno-chiaro: #161b22;
+    --pergamena: #f5e6c8;
+    --pergamena-scura: #d4c4a0;
+    --rosso-inferno: #8b1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--bruno);
+    color: var(--pergamena);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header-back {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.2);
+    color: rgba(245,230,200,0.5);
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .header-back:hover { border-color: var(--oro); color: var(--pergamena); }
+  .header-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.4em;
+    color: var(--oro);
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .header-divider { width: 1px; height: 18px; background: rgba(201,168,76,0.2); }
+  .header-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--pergamena);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 4rem 1.5rem 3rem;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 3rem;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.4));
+  }
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.5em;
+    color: var(--oro);
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--pergamena);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    color: var(--oro);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+  .hero-intro {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: rgba(245,230,200,0.7);
+    line-height: 1.8;
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+    border-left: 2px solid rgba(201,168,76,0.3);
+    padding-left: 1.5rem;
+    text-align: left;
+  }
+  .hero-intro p { margin-bottom: 0.6rem; }
+  .hero-intro p:last-child { margin-bottom: 0; }
+
+  /* ── NAV TABS ── */
+  .tabs-wrapper {
+    position: sticky;
+    top: 57px;
+    z-index: 90;
+    background: rgba(8,8,8,0.97);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    backdrop-filter: blur(10px);
+  }
+  .tabs {
+    display: flex;
+    max-width: 860px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(245,230,200,0.4);
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: rgba(245,230,200,0.8); }
+  .tab-btn.active { color: var(--oro); border-bottom-color: var(--oro); }
+
+  /* ── SECTIONS ── */
+  .section {
+    display: none;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+  .section.active { display: block; }
+
+  .section-intro {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(245,230,200,0.5);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  /* ── VOCI A-Z ── */
+  .voci-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .voce-card {
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  .voce-card:first-child { border-top: 1px solid rgba(201,168,76,0.08); }
+
+  .voce-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .voce-header:hover { background: rgba(201,168,76,0.04); }
+
+  .voce-nome {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--pergamena);
+    font-weight: 600;
+    flex: 1;
+  }
+  .voce-luogo {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(201,168,76,0.5);
+    flex-shrink: 0;
+  }
+  .voce-toggle {
+    font-size: 0.7rem;
+    color: rgba(201,168,76,0.4);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .voce-card.open .voce-toggle { transform: rotate(180deg); color: var(--oro); }
+  .voce-card.open .voce-nome { color: var(--oro); }
+
+  .voce-body {
+    display: none;
+    padding: 0 0.5rem 1.2rem 0.5rem;
+  }
+  .voce-card.open .voce-body { display: block; }
+
+  .voce-testo {
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(245,230,200,0.75);
+    font-style: italic;
+    border-left: 2px solid rgba(201,168,76,0.25);
+    padding-left: 1rem;
+  }
+
+  /* ── MAPPA ── */
+  .mappa-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .cerchio-card {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.2rem 1rem;
+    border-left: 3px solid transparent;
+    background: rgba(201,168,76,0.02);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .cerchio-card:hover { background: rgba(201,168,76,0.06); border-left-color: rgba(201,168,76,0.3); }
+  .cerchio-card.open { background: rgba(201,168,76,0.05); border-left-color: var(--oro); }
+
+  .cerchio-numero {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(201,168,76,0.5);
+    min-width: 60px;
+    padding-top: 0.15rem;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .cerchio-card.open .cerchio-numero { color: var(--oro); }
+
+  .cerchio-content { flex: 1; }
+  .cerchio-titolo {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--pergamena);
+    margin-bottom: 0;
+    transition: color 0.2s;
+  }
+  .cerchio-card.open .cerchio-titolo { color: var(--oro); }
+
+  .cerchio-desc {
+    display: none;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(245,230,200,0.65);
+    line-height: 1.7;
+    margin-top: 0.7rem;
+  }
+  .cerchio-card.open .cerchio-desc { display: block; }
+
+  /* ── BESTIARIO ── */
+  .bestie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: rgba(201,168,76,0.08);
+  }
+
+  .bestia-card {
+    background: var(--bruno);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .bestia-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--oro);
+    transform: scaleY(0);
+    transition: transform 0.2s;
+    transform-origin: bottom;
+  }
+  .bestia-card:hover::before,
+  .bestia-card.open::before { transform: scaleY(1); }
+  .bestia-card:hover { background: rgba(201,168,76,0.04); }
+  .bestia-card.open { background: rgba(201,168,76,0.06); }
+
+  .bestia-nome {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--pergamena);
+    margin-bottom: 0.3rem;
+    transition: color 0.2s;
+  }
+  .bestia-card.open .bestia-nome { color: var(--oro); }
+  .bestia-card:hover .bestia-nome { color: var(--oro-chiaro); }
+
+  .bestia-ruolo {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(201,168,76,0.45);
+    margin-bottom: 0.8rem;
+  }
+  .bestia-desc {
+    display: none;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(245,230,200,0.65);
+    line-height: 1.7;
+  }
+  .bestia-card.open .bestia-desc { display: block; }
+
+  /* ── ARTE ── */
+  .arte-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .arte-card {
+    padding: 1.5rem;
+    border: 1px solid rgba(201,168,76,0.12);
+    background: rgba(201,168,76,0.03);
+    position: relative;
+  }
+  .arte-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--oro);
+    background: var(--bruno);
+    padding: 0 0.5rem;
+    text-transform: uppercase;
+  }
+  .arte-titolo {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--pergamena);
+    margin-bottom: 0.8rem;
+  }
+  .arte-testo {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(245,230,200,0.7);
+    line-height: 1.75;
+  }
+
+  /* ── CHIUSURA ── */
+  .chiusura {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+    text-align: center;
+  }
+  .chiusura-line {
+    width: 1px;
+    height: 3rem;
+    background: linear-gradient(to bottom, rgba(201,168,76,0.3), transparent);
+    margin: 0 auto 2rem;
+  }
+  .chiusura-testo {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(245,230,200,0.5);
+    line-height: 1.8;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .chiusura-firma {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.4);
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .bestie-grid { grid-template-columns: 1fr; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .section { padding: 2rem 1rem 3rem; }
+    .tab-btn { font-size: 0.52rem; padding: 0.9rem 0.4rem; min-width: 90px; }
+    .voce-luogo { display: none; }
+  }
+
+  .fonts-blocked * { font-family: 'Palatino Linotype', Palatino, Georgia, serif !important; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="header-back" href="javascript:history.back()">← TORNA</a>
+  <div class="header-divider"></div>
+  <div class="header-brand">I Classici Vivi</div>
+  <div class="header-divider"></div>
+  <div class="header-title">Glossario dell'Inferno</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">I Classici Vivi — Divina Commedia</div>
+  <div class="hero-title">Glossario dell'Inferno</div>
+  <div class="hero-subtitle">Redatto da Lucifero</div>
+  <div class="hero-intro">
+    <p>Questo glossario è stato redatto da me, Lucifero.</p>
+    <p>Nessuno conosce il mio regno meglio di chi lo governa da sempre.</p>
+    <p>Troverai tutto quello che ti serve per capire — i luoghi, le anime, gli orrori, le regole. Ho avuto molto tempo per osservare.</p>
+    <p>Una eternità, per la precisione.</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showSection('voci', this)">① Voci A–Z</button>
+    <button class="tab-btn" onclick="showSection('mappa', this)">② Mappa</button>
+    <button class="tab-btn" onclick="showSection('bestiario', this)">③ Bestiario</button>
+    <button class="tab-btn" onclick="showSection('arte', this)">④ Arte</button>
+  </div>
+</div>
+
+<!-- SEZIONE 1 — VOCI A-Z -->
+<div class="section active" id="sec-voci">
+  <p class="section-intro">Le voci del mio regno, in ordine alfabetico. Ogni definizione è esatta. Ho avuto tutto il tempo necessario per verificarle.</p>
+
+  <div class="voci-grid" id="voci-grid"></div>
+</div>
+
+<!-- SEZIONE 2 — MAPPA -->
+<div class="section" id="sec-mappa">
+  <p class="section-intro">Lasciate ogni speranza, voi ch'entrate. Queste sono le mie terre. Imparatele.</p>
+
+  <div class="mappa-lista" id="mappa-lista"></div>
+</div>
+
+<!-- SEZIONE 3 — BESTIARIO -->
+<div class="section" id="sec-bestiario">
+  <p class="section-intro">Il mio regno non sarebbe completo senza chi lo sorveglia. Ognuno di loro è esattamente al posto giusto.</p>
+
+  <div class="bestie-grid" id="bestie-grid"></div>
+</div>
+
+<!-- SEZIONE 4 — ARTE -->
+<div class="section" id="sec-arte">
+  <p class="section-intro">Dante ha scritto di me. Poi è arrivato il resto del mondo a immaginare quello che aveva descritto. Giudicate voi stessi quanto ci siano riusciti.</p>
+
+  <div class="arte-lista" id="arte-lista"></div>
+</div>
+
+<!-- CHIUSURA -->
+<div class="chiusura">
+  <div class="chiusura-line"></div>
+  <div class="chiusura-testo">
+    Avete letto tutto.<br><br>
+    Ora sapete dove siete stati — almeno sulla carta. Dante ha fatto il viaggio. Voi avete letto le mie note.<br><br>
+    C'è una differenza.<br><br>
+    Se volete davvero capire, tornate al testo. Io sarò qui ad aspettarvi.
+  </div>
+  <div class="chiusura-firma">— Lucifero · Ho tutto il tempo del mondo</div>
+</div>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────────────────
+(function() {
+  var token = sessionStorage.getItem('icv_access');
+  var ts = parseInt(sessionStorage.getItem('icv_ts') || '0', 10);
+  var SESSION_TTL = 8 * 60 * 60 * 1000;
+  if (!token || (Date.now() - ts) > SESSION_TTL) {
+    sessionStorage.removeItem('icv_access');
+    sessionStorage.removeItem('icv_ts');
+    sessionStorage.removeItem('icv_libro');
+    window.location.href = '/accedi';
+  }
+})();
+
+// ── TABS ──────────────────────────────────────────────────────────
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── DATI VOCI A-Z ─────────────────────────────────────────────────
+var voci = [
+  { nome: 'Acheronte', luogo: 'Antinferno, Canto III', testo: 'Il primo confine. Chi lo attraversa non torna. Le anime si affollano sulla riva — non per scelta, ma perché non hanno altra destinazione. Caronte le conosce tutte. Io le aspetto.' },
+  { nome: 'Adulatori', luogo: 'VIII Cerchio, II Bolgia, Canto XVIII', testo: 'Hanno speso la vita in lodi false. Ora sono immersi in ciò che hanno prodotto. Una giustizia che trovo, devo ammetterlo, particolarmente elegante.' },
+  { nome: 'Alchimisti', luogo: 'VIII Cerchio, X Bolgia, Canto XXIX', testo: 'Credevano di poter trasformare la materia. Nell\'ultima bolgia delle Malebolge ho trasformato loro. Griffolino d\'Arezzo e Capocchio sanno ora cosa significa una vera metamorfosi.' },
+  { nome: 'Avari e Prodighi', luogo: 'IV Cerchio, Canto VII', testo: 'Gli uni accumulavano senza sosta. Gli altri dissipavano senza freno. Ora si scontrano in eterno, spingendo pesi in cerchio. Il denaro li ha resi schiavi in vita — qui continuano a esserlo.' },
+  { nome: 'Barattieri', luogo: 'VIII Cerchio, V Bolgia, Canti XXI-XXII', testo: 'Hanno venduto il potere pubblico per denaro. Ora sono immersi in pece bollente — e i Malebranche li sorvegliano con quella creatività che solo i miei sanno esprimere. Corrompere ha un prezzo. Lo stanno pagando.' },
+  { nome: 'Beatrice', luogo: 'Canto II', testo: 'L\'unica che ha osato scendere fin qui per mandare qualcuno a recuperare Dante. Non la commento ulteriormente.' },
+  { nome: 'Brunetto Latini', luogo: 'VII Cerchio, Canto XV', testo: 'Il maestro di Dante. Cammina senza sosta sotto una pioggia di fuoco. Anche qui, tra le fiamme, ha trovato il modo di fare una profezia. Alcuni non smettono mai di insegnare.' },
+  { nome: 'Caronte', luogo: 'Antinferno, Canto III', testo: 'Il traghettatore. Antico, brusco, inflessibile. Nessuno passa senza il suo consenso — e il suo consenso non si compra. Uno dei pochi di cui mi fido.' },
+  { nome: 'Cavalcante dei Cavalcanti', luogo: 'Città di Dite, Canto X', testo: 'Emerge dalla tomba infuocata per chiedere notizie di suo figlio. Persino nell\'eternità del dolore, certi legami non si spezzano. Lo trovo interessante — e irrilevante.' },
+  { nome: 'Ciacco', luogo: 'III Cerchio, Canto VI', testo: 'Un fiorentino tra i golosi. Ha divorato senza misura in vita — ora giace nel fango sotto grandine eterna. Ha anche trovato il tempo di profetizzare sulla rovina di Firenze. I fiorentini parlano sempre, anche nell\'abisso.' },
+  { nome: 'Dite, Città di', luogo: 'Dal VI Cerchio, Canti VIII-IX', testo: 'Il confine tra i peccati lievi e quelli che meritano qualcosa di più. Mura di ferro, torri infuocate, diavoli a guardia. Da qui inizia il vero Inferno. Da qui inizia il mio regno più profondo.' },
+  { nome: 'Farinata degli Uberti', luogo: 'Città di Dite, Canto X', testo: 'Sorge dalla tomba come se l\'Inferno non lo riguardasse. Parla di politica, di esilio, di Firenze. Ha ancora quella superbia che lo ha portato qui. Lo rispetto — nel modo in cui si rispetta qualcosa che non cambierà mai.' },
+  { nome: 'Fiere', luogo: 'Canto I', testo: 'La lonza, il leone, la lupa. I tre ostacoli che hanno fermato Dante prima ancora di scendere. Non erano miei — ma hanno svolto il loro compito egregiamente.' },
+  { nome: 'Filippo Argenti', luogo: 'V Cerchio, Canto VIII', testo: 'Immerso nella palude dello Stige, ha cercato di aggredire la barca di Dante. Gli altri dannati lo hanno fatto a pezzi. Alcune punizioni le gestiscono meglio i dannati stessi.' },
+  { nome: 'Gerione', luogo: 'VII-VIII Cerchio, Canto XVII', testo: 'Il simbolo della frode. Faccia d\'uomo onesto, corpo di serpente variopinto, coda di scorpione. Ha portato Dante e Virgilio in groppa fino alle Malebolge. Nessuno incarna meglio di lui la distanza tra apparenza e realtà.' },
+  { nome: 'Ignavi', luogo: 'Antinferno, Canto III', testo: 'Quelli che non hanno mai scelto. Né bene né male — il nulla assoluto. Non meritano nemmeno l\'Inferno vero. Li ho lasciati nell\'anticamera, inseguiti da vespe e vermi. Il disprezzo più grande che conosco è l\'indifferenza.' },
+  { nome: 'Ladri', luogo: 'VIII Cerchio, VII Bolgia, Canti XXIV-XXV', testo: 'Subiscono metamorfosi continue con i serpenti — uomo diventa rettile, rettile diventa uomo. Hanno rubato le forme altrui in vita. Ora la loro forma non gli appartiene più. Vanni Fucci è tra loro — e ha ancora il coraggio di insultare.' },
+  { nome: 'Limbo', luogo: 'I Cerchio, Canto IV', testo: 'Il cerchio dei virtuosi senza battesimo. Poeti, filosofi, eroi dell\'antichità. Vivono in un castello nobile, senza tormento — ma senza speranza. È la punizione più sottile che esista: capire tutto e non poter fare nulla.' },
+  { nome: 'Lucifero', luogo: 'IX Cerchio, Canto XXXIV', testo: 'Sono io. Conficcato nel ghiaccio di Cocito fino alla vita, con tre facce e sei ali che generano il vento che congela tutto intorno. Nelle mie tre bocche: Giuda, Bruto, Cassio — i traditori per eccellenza. Dante mi ha visto. Mi ha attraversato. Sono ancora qui. Sarò sempre qui.' },
+  { nome: 'Lussuriosi', luogo: 'II Cerchio, Canto V', testo: 'Travolti da una bufera eterna che non si ferma mai — come non si sono fermati loro in vita. Paolo e Francesca sono i più noti. Lei racconta la loro storia con una grazia che stona con il luogo. L\'amore, anche qui, trova il modo di farsi sentire. Lo trovo irritante.' },
+  { nome: 'Malebolge', luogo: 'VIII Cerchio, Canti XVIII-XXX', testo: 'Dieci bolge concentriche per dieci tipi di frode. È la sezione più articolata del mio regno — e la più creativa nelle punizioni. Chi ha ingannato in vita trova qui una risposta all\'altezza della propria fantasia.' },
+  { nome: 'Minosse', luogo: 'II Cerchio, Canto V', testo: 'Il giudice. Esamina ogni anima che arriva, attorciglia la coda e stabilisce il cerchio. Non sbaglia mai. Non si corrompe. Non si stanca. Un collaboratore prezioso.' },
+  { nome: 'Papa Niccolò III', luogo: 'VIII Cerchio, III Bolgia, Canto XIX', testo: 'Un simoniaco — ha venduto le cose sacre per denaro. Conficcato a testa in giù con i piedi in fiamme. Ha scambiato Dante per Bonifacio VIII e ha profetizzato la dannazione dei suoi successori. I papi continuano ad arrivare. Ho molto spazio.' },
+  { nome: 'Pier della Vigna', luogo: 'VII Cerchio, Canto XIII', testo: 'Trasformato in albero nella selva dei suicidi. È caduto in disgrazia presso l\'imperatore Federico II e si è tolto la vita. Ora ogni ramo spezzato è dolore. Ha scelto di abbandonare il suo corpo — il suo corpo ora lo imprigiona per sempre.' },
+  { nome: 'Pluto', luogo: 'IV Cerchio, Canto VII', testo: 'Guardiano del cerchio degli avari. Minaccioso, rumoroso. Virgilio lo ha fatto tacere con una sola frase. Certi guardiani fanno più scena che sostanza.' },
+  { nome: 'Ulisse', luogo: 'VIII Cerchio, VIII Bolgia, Canto XXVI', testo: 'Avvolto in una fiamma doppia insieme a Diomede. Ha convinto i suoi uomini a oltrepassare i limiti del mondo conosciuto con un discorso memorabile sulla virtù e la conoscenza. È finita male. Ma quella chiamata all\'ignoto — devo riconoscerlo — era degna di qualcuno che capisce il potere delle parole.' },
+  { nome: 'Vanni Fucci', luogo: 'VIII Cerchio, VII Bolgia, Canto XXIV', testo: 'Un ladro pistoiese. Bestiale, furioso, irriverente. Ha lanciato una profezia oscura a Dante e ha compiuto un gesto di sfida verso il cielo. Tra tutti i dannati, uno dei pochi che non ha ancora smesso di combattere. Inutilmente — ma con stile.' }
+];
+
+// ── DATI MAPPA ────────────────────────────────────────────────────
+var mappa = [
+  { num: 'Selva Oscura', titolo: 'Prima dell\'Inferno', desc: 'Prima ancora dell\'Inferno, c\'è la perdita. Dante si ritrova in una selva buia, senza sapere come ci è arrivato. È il punto di partenza di tutto — il momento in cui un uomo si accorge di essersi smarrito. Non è ancora il mio regno. Ma è il mio invito.' },
+  { num: 'Antinferno', titolo: 'La soglia', desc: 'Chi non ha mai scelto vive qui — gli Ignavi, inseguiti da vespe e vermi per l\'eternità. Caronte traghetta le anime sull\'Acheronte verso il loro destino. Da questo punto non si torna indietro. Nessuno torna indietro.' },
+  { num: 'I Cerchio', titolo: 'Limbo', desc: 'Il cerchio dei virtuosi senza battesimo. Nessun tormento fisico — solo l\'assenza di speranza. Poeti, filosofi, eroi dell\'antichità vivono in un castello nobile nell\'oscurità eterna. Virgilio viene da qui. Ci torna.' },
+  { num: 'II Cerchio', titolo: 'Lussuriosi', desc: 'Minosse giudica qui le anime per la prima volta. I lussuriosi sono travolti da una bufera perpetua — come furono travolti dalle passioni in vita. Paolo e Francesca volteggiano insieme. Per sempre.' },
+  { num: 'III Cerchio', titolo: 'Golosi', desc: 'Pioggia eterna, fango, freddo. Cerbero, il cane a tre teste, lacera e graffia le anime. Ciacco giace qui — il primo a profetizzare la rovina di Firenze. Mangiavano senza misura. Ora giacciono nel nulla.' },
+  { num: 'IV Cerchio', titolo: 'Avari e Prodighi', desc: 'Pluto sorveglia l\'ingresso. Le anime spingono pesi enormi in cerchio, scontrandosi in eterno. Troppo o troppo poco — entrambi gli eccessi portano allo stesso posto.' },
+  { num: 'V Cerchio', titolo: 'Iracondi e Pigri', desc: 'La palude dello Stige. Gli iracondi si azzuffano sulla superficie — si mordono, si colpiscono, si lacerano. I pigri gorgogliano sotto, invisibili. Filippo Argenti è tra gli iracondi. Ha cercato di aggredire Dante. I suoi stessi compagni lo hanno fatto a pezzi.' },
+  { num: 'Città di Dite', titolo: 'Dal VI Cerchio', desc: 'Le mura di ferro segnano il confine. Da qui i peccati diventano più gravi — non più debolezze, ma scelte consapevoli del male. Diavoli, Furie e Medusa tentano di fermare Dante. Non ci riescono.' },
+  { num: 'VI Cerchio', titolo: 'Eretici', desc: 'Tombe infuocate a perdita d\'occhio. Chi ha negato l\'immortalità dell\'anima giace ora in eterno dentro un sepolcro di fuoco. Farinata degli Uberti sorge dalla sua tomba come se l\'Inferno non lo riguardasse. In un certo senso lo ammiro.' },
+  { num: 'VII Cerchio', titolo: 'Violenti', desc: 'Diviso in tre gironi. Nel primo: tiranni e assassini immersi nel Flegetonte, il fiume di sangue bollente. Nel secondo: i suicidi trasformati in alberi — Pier della Vigna tra loro. Nel terzo: bestemmiatori, sodomiti e usurai sotto una pioggia di fuoco. Gerione aspetta qui per portare i poeti più in basso.' },
+  { num: 'VIII Cerchio', titolo: 'Malebolge', desc: 'Il cerchio della frode. Dieci bolge concentriche, ognuna con la sua punizione su misura. Seduttori frustati da diavoli, adulatori immersi nello sterco, simoniaci a testa in giù, indovini con la testa girata all\'indietro, barattieri nella pece bollente, ipocriti sotto manti di piombo dorato, ladri che si trasformano in serpenti, consiglieri fraudolenti avvolti in fiamme, seminatori di discordia squartati, falsari colpiti da malattie. La mia sezione più elaborata. Sono orgoglioso di ogni dettaglio.' },
+  { num: 'IX Cerchio', titolo: 'Traditori — Cocito', desc: 'Il fondo. Un lago ghiacciato diviso in quattro zone — Caina, Antenora, Tolomea, Giudecca. I traditori sono conficcati nel ghiaccio a diverse profondità. Il Conte Ugolino rode il cranio dell\'Arcivescovo Ruggieri per l\'eternità. Al centro, nel punto più profondo di tutto l\'universo, ci sono io.' }
+];
+
+// ── DATI BESTIARIO ────────────────────────────────────────────────
+var bestie = [
+  { nome: 'Minosse', ruolo: 'Il giudice', desc: 'Figlio di Zeus e di Europa, re di Creta in vita — ora giudice eterno nell\'Inferno. Ogni anima che arriva confessa tutto spontaneamente. Lui attorciglia la coda e il numero di giri stabilisce il cerchio. Non sbaglia mai. Non si stanca mai. Il collaboratore più affidabile che abbia.' },
+  { nome: 'Cerbero', ruolo: 'Il cane a tre teste', desc: 'Sorveglia il III Cerchio. Latra, graffia, lacera i golosi nel fango. Virgilio lo ha neutralizzato gettandogli della terra in bocca. Ha tre teste e un unico scopo — abbastanza per quello che gli chiedo.' },
+  { nome: 'Caronte', ruolo: 'Il traghettatore', desc: 'Il traghettatore dell\'Acheronte. Antico come il tempo, brusco come la morte. Nessuno passa senza di lui — e lui non passa mai dalla parte sbagliata. Quando ha visto Dante vivo sulla riva ha protestato. Virgilio lo ha messo a tacere. Alcune eccezioni non si discutono.' },
+  { nome: 'Pluto', ruolo: 'Guardiano del IV Cerchio', desc: 'Minaccioso nell\'aspetto, meno nella sostanza. Virgilio lo ha fermato con poche parole. Fa più rumore di quanto serva — ma la sua presenza è sufficiente a scoraggiare i più.' },
+  { nome: 'Le Furie e Medusa', ruolo: 'Guardiane di Dite', desc: 'Le Furie — Megera, Aletto, Tisifone — sorvegliano le mura della Città di Dite. Hanno invocato Medusa per pietrificare Dante. Un angelo le ha fermate. Certi piani non vanno sempre come previsto.' },
+  { nome: 'Il Minotauro', ruolo: 'Simbolo della bestialità', desc: 'Sorveglia l\'ingresso del VII Cerchio. Metà uomo, metà toro — tutto rabbia. Virgilio lo ha distratto citando Teseo. La bestia pura non ragiona. È il suo limite.' },
+  { nome: 'I Centauri', ruolo: 'Chirone, Nesso, Folo', desc: 'Sorvegliano il Flegetonte con archi e frecce. Chirone, il più saggio, ha assegnato Nesso come guida ai poeti lungo il fiume di sangue. Metà uomini, metà cavalli — abbastanza razionali da obbedire, abbastanza bestiali da essere temuti.' },
+  { nome: 'Le Arpie', ruolo: 'Guardiane della selva', desc: 'Creature con volto di donna e corpo di uccello. Nidificano nella selva dei suicidi e straziano le foglie degli alberi — ogni foglia spezzata è dolore per l\'anima che la abita. Non parlano. Lavorano in silenzio. Li preferisco così.' },
+  { nome: 'Gerione', ruolo: 'Simbolo della frode', desc: 'Faccia d\'uomo onesto, corpo di serpente variopinto, coda di scorpione. Ha portato Dante e Virgilio sulle Malebolge in groppa, scendendo a spirale nel vuoto. Nessuno incarna meglio di lui la distanza tra ciò che si mostra e ciò che si è. Lo considero quasi un\'opera d\'arte.' },
+  { nome: 'I Malebranche', ruolo: 'Guardiani della V Bolgia', desc: 'La banda di diavoli che sorveglia i barattieri nella pece bollente. Guidati da Malacoda, sono creativi, dispettosi, imprevedibili. Malacoda ha ingannato persino Virgilio con una bugia sul ponte. Hanno un senso dell\'umorismo che apprezzo. Nei limiti del loro ruolo.' },
+  { nome: 'I Giganti', ruolo: 'Guardiani di Cocito', desc: 'Conficcati nel pozzo che separa le Malebolge da Cocito. Anteo, Nembrot, Fialte — colossi che un tempo sfidarono gli dei. Ora immobili per l\'eternità. Anteo ha deposto Dante e Virgilio sul fondo di Cocito senza parlare — gli era stata tolta la parola. Ha ancora la dignità del silenzio.' },
+  { nome: 'Caco', ruolo: 'Centauro tra i ladri', desc: 'Figlio di Vulcano, sputava fuoco. Viene sbranato da uno dei dannati durante la scena delle metamorfosi. Non tutti i miei collaboratori sono immortali.' }
+];
+
+// ── DATI ARTE ─────────────────────────────────────────────────────
+var arte = [
+  { num: 'I', titolo: 'Michelangelo e il Giudizio Universale', testo: 'Michelangelo conosceva la Commedia a memoria. Quando ha dipinto il Giudizio Universale nella Cappella Sistina ha seguito Dante con precisione quasi ossessiva — Caronte che traghetta le anime, Minosse che giudica con la coda attorcigliata. Ha preso le parole di un poeta e le ha trasformate in pietra e colore per l\'eternità. Un\'operazione che comprendo perfettamente.' },
+  { num: 'II', titolo: 'I Disegni di Botticelli', testo: 'Sandro Botticelli ha illustrato la Commedia con una serie di disegni di raffinatezza straordinaria. Ha rappresentato ogni cerchio, ogni dannato, ogni mostro con una precisione che tradisce uno studio profondo del testo. Ha trasformato persino me in una figura di proporzioni colossali — tre facce, sei ali, conficcato nel ghiaccio. Non è esattamente come mi vedo. Ma è abbastanza vicino.' },
+  { num: 'III', titolo: 'Signorelli ad Orvieto', testo: 'Gli affreschi di Luca Signorelli nel Duomo di Orvieto sono considerati una delle trasposizioni visive più potenti dell\'Inferno. Corpi contorti, demoni, dannati — una scena dopo l\'altra con una violenza visiva che Michelangelo stesso ha studiato prima di dipingere la Cappella Sistina. Chi guarda quegli affreschi capisce, forse per la prima volta, che l\'Inferno non è una metafora.' },
+  { num: 'IV', titolo: 'Il Dante Perduto', testo: 'Esiste un mistero storico che trovo degno di nota. Si racconta che Michelangelo avesse illustrato di suo pugno un esemplare della Divina Commedia — il commento del Landino del 1481, in carta grossa, con margini larghi mezzo palmo. Un tesoro assoluto. È affondato in un naufragio tra Livorno e Civitavecchia. Sparito per sempre tra i flutti. Alcune perdite sono irreparabili. Anche io le riconosco.' }
+];
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderVoci() {
+  var grid = document.getElementById('voci-grid');
+  voci.forEach(function(v, i) {
+    var card = document.createElement('div');
+    card.className = 'voce-card';
+    card.innerHTML =
+      '<div class="voce-header" onclick="toggleVoce(this)">' +
+        '<div class="voce-nome">' + v.nome + '</div>' +
+        '<div class="voce-luogo">' + v.luogo + '</div>' +
+        '<div class="voce-toggle">▾</div>' +
+      '</div>' +
+      '<div class="voce-body"><div class="voce-testo">' + v.testo + '</div></div>';
+    grid.appendChild(card);
+  });
+}
+
+function toggleVoce(header) {
+  var card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+function renderMappa() {
+  var lista = document.getElementById('mappa-lista');
+  mappa.forEach(function(m, i) {
+    var card = document.createElement('div');
+    card.className = 'cerchio-card';
+    card.onclick = function() { this.classList.toggle('open'); };
+    card.innerHTML =
+      '<div class="cerchio-numero">' + m.num + '</div>' +
+      '<div class="cerchio-content">' +
+        '<div class="cerchio-titolo">' + m.titolo + '</div>' +
+        '<div class="cerchio-desc">' + m.desc + '</div>' +
+      '</div>';
+    lista.appendChild(card);
+  });
+}
+
+function renderBestiario() {
+  var grid = document.getElementById('bestie-grid');
+  bestie.forEach(function(b) {
+    var card = document.createElement('div');
+    card.className = 'bestia-card';
+    card.onclick = function() { this.classList.toggle('open'); };
+    card.innerHTML =
+      '<div class="bestia-nome">' + b.nome + '</div>' +
+      '<div class="bestia-ruolo">' + b.ruolo + '</div>' +
+      '<div class="bestia-desc">' + b.desc + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function renderArte() {
+  var lista = document.getElementById('arte-lista');
+  arte.forEach(function(a) {
+    var card = document.createElement('div');
+    card.className = 'arte-card';
+    card.setAttribute('data-num', a.num);
+    card.innerHTML =
+      '<div class="arte-titolo">' + a.titolo + '</div>' +
+      '<div class="arte-testo">' + a.testo + '</div>';
+    lista.appendChild(card);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+renderVoci();
+renderMappa();
+renderBestiario();
+renderArte();
+</script>
+</body>
+</html>
