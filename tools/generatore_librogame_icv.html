@@ -189,6 +189,21 @@ body { background: #080808; display: flex; align-items: flex-start; justify-cont
 }
 .btn-calibra:hover { border-color: var(--gold); color: var(--gold); }
 
+.btn-migliora {
+  background: linear-gradient(135deg, #1a0a2a, #100020);
+  border: 1px solid #8a5ab5;
+  color: #b07ad5;
+  font-family: 'Georgia', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+.btn-migliora:hover { box-shadow: 0 0 14px rgba(138,90,181,0.25); }
+.btn-migliora:disabled { opacity: 0.4; cursor: not-allowed; }
 .out-area {
   margin-top: 1.2rem;
   background: var(--bg2);
@@ -482,6 +497,10 @@ body { background: #080808; display: flex; align-items: flex-start; justify-cont
       </div>
     </div>
     <div class="out-text" id="outText"></div>
+    <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+      <button class="btn-migliora" id="btnMigliora" onclick="migliora()">✨ Migliora qualità narrativa</button>
+      <span style="font-size:0.62rem;color:var(--text-dim);font-style:italic;">Seconda chiamata AI — rende il testo più epico ed emotivo</span>
+    </div>
   </div>
 </div>
 
@@ -724,12 +743,12 @@ REGOLE ASSOLUTE DEL FORMAT:
 2. RIMANDI §N
    - Distanza MINIMA 4-5 paragrafi tra §N e il §N citato
    - MAI §N → §N+1, §N+2, §N+3 — il lettore non può girare pagina e leggere avanti
-   - I bivi devono portare a scene davvero diverse
+   - I bivi devono portare a scene davvero diverse — non semplici varianti con bonus/malus
 
 3. SCONTRI NORMALI
    ⚔️ SCONTRO — [Nome Nemico]
    ❤️ HP: XX | ⚡ DANNO: X per round | 💀 DEBOLEZZA: [descrizione]
-   Almeno 2-3 scelte: attacco fisico (FORZA), attacco psichico (PSICHE), schivata, opzione contestuale
+   Almeno 2-3 scelte: attacco fisico (FORZA), attacco psichico (PSICHE), schivata, PIÙ obbligatoriamente 1 opzione narrativa unica contestuale (es. usare un oggetto, sfruttare l'ambiente, citare un verso)
    👉 Se VINCI → §N
    👉 Se PERDI → §N
 
@@ -753,6 +772,33 @@ ${regolaNomiOggetti}
 
 SCHEDA PERSONAGGIO:
 FORZA: ${statForza} | PSICHE: ${statPsiche} | RESISTENZA: ${statRes} (max ${statRes}) | MORALE: ${statMorale} | RAZIONI: ${statRazioni}
+
+REGOLE DI QUALITÀ NARRATIVA (obbligatorie):
+
+A. SCENE MEMORABILI
+   - Ogni 5 paragrafi DEVE esserci almeno 1 scena memorabile: un'immagine potente, un dialogo che colpisce, una rivelazione, un momento di solitudine eroica che rimane impresso.
+   - Evita testo "medio" — ogni paragrafo deve avere uno scopo chiaro e preciso nella storia.
+   - Niente frasi generiche o di riempimento ("ti guardi intorno", "avanzi con cautela", "senti un brivido").
+
+B. BIVI FORTI
+   - Ogni scelta deve cambiare davvero la scena successiva: luogo diverso, personaggio diverso, conseguenza emotiva diversa.
+   - MAI bivi che differiscono solo per bonus/malus di stat. Le scelte devono avere peso narrativo reale.
+
+C. RITMO ALTERNATO
+   - Alterna obbligatoriamente: azione → tensione → dialogo/rivelazione → scoperta/esplorazione.
+   - Evita sequenze di 3+ paragrafi dello stesso tipo (es. tre scontri consecutivi, tre paragrafi di sola descrizione).
+
+D. PERSONAGGI MEMORABILI
+   - Ogni personaggio dell'opera che appare deve avere UN tratto distintivo chiaro e coerente con il testo originale (un'ossessione, un modo di parlare, un gesto ricorrente).
+   - Il personaggio deve essere riconoscibile anche senza il nome.
+
+E. OGGETTI SIGNIFICATIVI
+   - Ogni oggetto introdotto (📦) deve avere un utilizzo reale previsto nel libro — niente elementi decorativi.
+   - Quando introduci un oggetto, pensa già a dove e come verrà usato.
+
+F. COERENZA GLOBALE
+   - Mantieni coerenza con tutti gli eventi, oggetti e personaggi già introdotti nei blocchi precedenti.
+   - Non contraddire mai ciò che è già stato stabilito nella storia.
 
 OBIETTIVO DIDATTICO: i contenuti dell'opera originale emergono naturalmente dalla narrativa, mai in modo scolastico.
 
@@ -833,6 +879,84 @@ Assicurati che ogni paragrafo abbia almeno una scelta reale con conseguenze narr
     status.className = 'status ok';
   } catch(e) {
     status.textContent = 'Errore: ' + e.message;
+    status.className = 'status err';
+  }
+
+  btn.disabled = false;
+}
+
+// ═══════════════════════════════════════
+// MIGLIORAMENTO QUALITÀ NARRATIVA
+// ═══════════════════════════════════════
+async function migliora() {
+  if (!ultimoTesto) return;
+  const btn    = document.getElementById('btnMigliora');
+  const status = document.getElementById('status');
+  const outText = document.getElementById('outText');
+
+  btn.disabled = true;
+  status.textContent = 'Miglioramento in corso — seconda chiamata AI…';
+  status.className = 'status';
+
+  const opera   = document.getElementById('opera').value;
+  const cornice = document.getElementById('cornice').value.trim();
+
+  const promptMigliora = `Sei un editor esperto di librogame Heroic Fantasy atmosferico per I Classici Vivi.
+Opera: ${opera} — Sezione: ${cornice || 'non specificata'}
+
+Hai davanti il testo grezzo di un blocco di librogame. Il tuo compito è portarlo da un livello 7 a un livello 9 su 10, intervenendo su questi aspetti in ordine di priorità:
+
+1. SCENE MEMORABILI — identifica i paragrafi "medi" e aggiungi un'immagine potente, un dettaglio sensoriale preciso, o una frase che rimane impressa. Ogni 5 paragrafi ci deve essere almeno 1 momento WOW.
+
+2. BIVI PIÙ FORTI — se una scelta porta solo a un bonus/malus di stat senza cambiare la scena, riscrivila in modo che porti a una situazione narrativamente diversa.
+
+3. COMBATTIMENTI MENO MECCANICI — ogni scontro deve avere almeno 1 opzione narrativa unica (es. usare un oggetto specifico, sfruttare l'ambiente, una scelta morale). Se manca, aggiungila.
+
+4. RITMO — se ci sono 3+ paragrafi dello stesso tipo consecutivi (solo descrizione, solo azione), interrompi la sequenza con un elemento di contrasto.
+
+5. FRASI GENERICHE — elimina frasi come "ti guardi intorno", "avanzi con cautela", "senti un brivido". Sostituiscile con dettagli specifici e concreti.
+
+6. PERSONAGGI — se un personaggio dell'opera appare, assicurati che abbia un tratto distintivo riconoscibile anche senza il nome.
+
+REGOLE ASSOLUTE DA NON MODIFICARE:
+- I numeri §N devono rimanere ESATTAMENTE identici all'originale
+- I rimandi 👉 §N devono puntare agli stessi paragrafi dell'originale
+- Il format scontri (❤️ HP | ⚡ DANNO | 💀 DEBOLEZZA) deve restare intatto
+- Gli oggetti 📦 e le erbe 🌿 devono mantenere i nomi univoci originali
+- I cambi stat devono restare invariati
+- NESSUNA parola inglese
+
+Restituisci SOLO il testo migliorato, nessun commento, nessuna spiegazione.
+
+TESTO DA MIGLIORARE:
+${ultimoTesto.substring(0, 7000)}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{ role: 'user', content: promptMigliora }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+
+    const testoMigliorato = data.content.map(b => b.text || '').join('');
+    ultimoTesto = testoMigliorato;
+    outText.textContent = testoMigliorato;
+
+    // Riesegui analisi locale sul testo migliorato
+    const r = analizzaBlocco(testoMigliorato);
+    renderReport(r);
+
+    status.textContent = '✨ Testo migliorato. Scarica o copia la versione aggiornata.';
+    status.className = 'status ok';
+  } catch(e) {
+    status.textContent = 'Errore miglioramento: ' + e.message;
     status.className = 'status err';
   }
 
