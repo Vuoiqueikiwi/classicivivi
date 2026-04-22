@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I Classici Vivi — Studia i classici italiani in modo completamente diverso</title>
 <meta name="description" content="Parla con i personaggi dei classici italiani grazie all'AI. Quiz, podcast, librogame e molto altro. Kit interattivi per studenti.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
@@ -49,11 +52,29 @@
 
   .logo {
     font-family: 'Cinzel', serif;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.25em;
     color: var(--oro);
     text-decoration: none;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .logo-main {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--oro-chiaro);
+    letter-spacing: 0.2em;
+  }
+
+  .logo-sub {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    color: var(--oro-scuro);
     text-transform: uppercase;
   }
 
@@ -537,8 +558,10 @@
   .libro-prezzo {
     display: flex;
     align-items: baseline;
+    justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   .prezzo-valore {
@@ -584,7 +607,109 @@
 
   .libro-cta-sec:hover { color: var(--oro); }
 
-  /* ── COSA CONTIENE ── */
+  /* ── TUTOR BOX ── */
+  .tutor-section {
+    padding: 80px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .tutor-box {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .tutor-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--oro), transparent);
+  }
+
+  .tutor-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: brightness(0.9) saturate(0.85);
+    min-height: 260px;
+  }
+
+  .tutor-content {
+    padding: 36px 40px;
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .tutor-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--oro);
+    margin-bottom: 12px;
+  }
+
+  .tutor-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    color: var(--pergamena);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .tutor-content p {
+    font-size: 15px;
+    color: var(--pergamena-scura);
+    line-height: 1.7;
+  }
+
+  /* ── CARD BULLET LIST ── */
+  .libro-benefit-list {
+    list-style: none;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .libro-benefit-list li {
+    font-size: 15px;
+    color: var(--pergamena-scura);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+  }
+
+  .libro-benefit-list li::before {
+    content: '✦';
+    color: var(--oro);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .tutor-box {
+      grid-template-columns: 1fr;
+    }
+    .tutor-foto {
+      min-height: 220px;
+      max-height: 260px;
+    }
+  }
   .kit {
     padding: 100px 24px;
     background: rgba(255,255,255,0.01);
@@ -1038,7 +1163,10 @@
 
 <!-- HEADER -->
 <header>
-  <a href="/" class="logo">I Classici Vivi</a>
+  <a href="/" class="logo">
+    <span class="logo-main">I Classici Vivi</span>
+    <span class="logo-sub">Classici italiani · Edizione interattiva</span>
+  </a>
   <a href="/accedi" class="header-accedi">Hai già acquistato? Accedi</a>
 </header>
 
@@ -1114,12 +1242,13 @@
           <span class="foto-nome">Innominato</span>
         </div>
       </div>
-      <p class="libro-desc">Capisci davvero Renzo, Lucia e l'Innominato. Ripassi i 38 capitoli con podcast dedicati. Ti metti alla prova con quiz base e premium. E puoi chattare direttamente con i protagonisti — come se fossero reali.</p>
-      <div class="libro-personaggi">
-        <span class="personaggio-tag">⚡ Renzo</span>
-        <span class="personaggio-tag">⛪ Don Abbondio</span>
-        <span class="personaggio-tag">🏰 Innominato</span>
-      </div>
+      <ul class="libro-benefit-list">
+        <li>Chatta con Renzo, Don Abbondio e l'Innominato — in character, come se fossero reali</li>
+        <li>Ripassi i 38 capitoli con podcast dedicati, uno per capitolo</li>
+        <li>Mettiti alla prova con quiz base e premium — 47 domande totali</li>
+        <li>Affronta il librogame e scegli il tuo destino tra i personaggi</li>
+        <li>Flash card, interviste impossibili e script cinematografici originali</li>
+      </ul>
       <div class="libro-prezzo">
         <span class="prezzo-valore">€9,90</span>
         <span class="prezzo-note">pagamento unico</span>
@@ -1147,18 +1276,32 @@
           <span class="foto-nome">Lucifero</span>
         </div>
       </div>
-      <p class="libro-desc">Esplora l'Inferno canto per canto con podcast e glossario interattivo. Affronta il librogame e scendi tra i cerchi. Poi chiedi a Dante, Virgilio o Lucifero qualsiasi cosa tu voglia sapere.</p>
-      <div class="libro-personaggi">
-        <span class="personaggio-tag">🌿 Dante</span>
-        <span class="personaggio-tag">🏛️ Virgilio</span>
-        <span class="personaggio-tag">🌑 Lucifero</span>
-      </div>
+      <ul class="libro-benefit-list">
+        <li>Chatta con Dante, Virgilio e Lucifero — in character, in italiano</li>
+        <li>Esplora tutti e 34 i canti con podcast dedicati, uno per canto</li>
+        <li>Mettiti alla prova con quiz base e premium — 47 domande totali</li>
+        <li>Affronta il librogame e scendi tra i cerchi dell'Inferno</li>
+        <li>Flash card, glossario interattivo e interviste impossibili</li>
+      </ul>
       <div class="libro-prezzo">
         <span class="prezzo-valore">€9,90</span>
         <span class="prezzo-note">pagamento unico</span>
       </div>
       <a href="#" class="libro-cta">Voglio il kit — €9,90</a>
       <a href="#come-funziona" class="libro-cta-sec">Guarda cosa contiene</a>
+    </div>
+  </div>
+</section>
+
+<!-- TUTOR -->
+<section class="tutor-section">
+  <span class="section-label" style="display:block;text-align:center;margin-bottom:32px;">Sempre al tuo fianco</span>
+  <div class="tutor-box">
+    <img src="Foto_Prof.png" alt="Tutor AI" class="tutor-foto">
+    <div class="tutor-content">
+      <span class="tutor-label">Tutor AI</span>
+      <h3>Un assistente sempre disponibile</h3>
+      <p>Hai un dubbio sul testo? Non capisci un passaggio? Il Tutor AI è disponibile in ogni kit per rispondere alle tue domande su temi, analisi e comprensione. Non sostituisce lo studio — lo rende più facile e più chiaro.</p>
     </div>
   </div>
 </section>
