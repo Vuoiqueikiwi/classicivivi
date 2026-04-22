@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisore Librogame — I Classici Vivi</title>
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-dim: #8a6e2e;
+  --gold-light: #e8c96c;
+  --bg: #0a0a0a;
+  --bg2: #111;
+  --bg3: #161616;
+  --text: #F5E6C8;
+  --text-dim: #9a8a6a;
+  --red: #c04040;
+  --green: #5a9a5a;
+  --orange: #c07830;
+  --border: #2a2010;
+  --blue: #4a7ab5;
+  --purple: #8a5ab5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #080808;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: 'Georgia', serif;
+}
+.wrap {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  color: var(--text);
+  width: 100%;
+  max-width: 880px;
+}
+
+/* Header */
+.hdr {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hdr-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+.subtitle { font-size: 0.68rem; color: var(--text-dim); font-style: italic; margin-bottom: 1.2rem; }
+
+/* Opera */
+.opera-row { display: flex; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+.field label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dim); }
+.field input, .field select {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Georgia', serif;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.7rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus { border-color: var(--gold-dim); }
+.field select option { background: #111; }
+.field-opera { flex: 1; min-width: 160px; }
+.field-sezione { flex: 2; min-width: 220px; }
+
+/* Drop zone */
+.drop-zone {
+  background: var(--bg2);
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  margin-bottom: 0.8rem;
+}
+.drop-zone:hover { border-color: var(--gold-dim); }
+.drop-zone.over { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+.drop-label { font-size: 0.8rem; color: var(--text-dim); font-style: italic; }
+.drop-label span { color: var(--gold-dim); }
+.file-info { font-size: 0.75rem; color: var(--green); margin-top: 0.4rem; font-style: italic; }
+#fileInput { display: none; }
+
+/* Ricerca */
+.cerca-wrap {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+}
+.cerca-wrap.visible { display: block; }
+.cerca-header { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.6rem; }
+.cerca-row { display: flex; gap: 0.5rem; align-items: center; }
+.cerca-input {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Georgia', serif;
+  font-size: 0.82rem;
+  padding: 0.4rem 0.7rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cerca-input:focus { border-color: var(--gold-dim); }
+.cerca-input::placeholder { color: var(--text-dim); font-style: italic; }
+.btn-cerca {
+  background: none;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Georgia', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-cerca:hover { box-shadow: 0 0 10px rgba(201,168,76,0.15); }
+.cerca-count { font-size: 0.65rem; color: var(--text-dim); font-style: italic; white-space: nowrap; min-width: 80px; }
+.cerca-risultati { margin-top: 0.7rem; max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.3rem; }
+.cerca-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.cerca-item:hover { border-color: var(--gold-dim); }
+.cerca-item-label { font-size: 0.62rem; color: var(--gold-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.15rem; }
+.cerca-item-testo { font-size: 0.75rem; color: var(--text-dim); line-height: 1.5; }
+.cerca-item-testo mark { background: rgba(201,168,76,0.25); color: var(--gold-light); border-radius: 2px; padding: 0 2px; }
+.cerca-detail {
+  background: var(--bg3);
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+  margin-top: 0.5rem;
+  display: none;
+}
+.cerca-detail.visible { display: block; }
+.cerca-detail-header { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.cerca-detail-testo { font-size: 0.8rem; color: var(--text); line-height: 1.7; white-space: pre-wrap; }
+.cerca-detail-testo mark { background: rgba(201,168,76,0.3); color: var(--gold-light); border-radius: 2px; padding: 0 2px; }
+
+/* Pre-analisi locale */
+.preanalisi-wrap {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+}
+.preanalisi-wrap.visible { display: block; }
+.preanalisi-header {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.badge {
+  font-size: 0.6rem;
+  border-radius: 10px;
+  padding: 0.1rem 0.5rem;
+}
+.badge-blue { background: rgba(74,122,181,0.15); border: 1px solid var(--blue); color: var(--blue); }
+.badge-purple { background: rgba(138,90,181,0.15); border: 1px solid var(--purple); color: var(--purple); }
+.preanalisi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.preanalisi-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+.preanalisi-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+.preanalisi-dot.ok { background: var(--green); }
+.preanalisi-dot.warn { background: var(--orange); }
+.preanalisi-dot.err { background: var(--red); }
+.preanalisi-txt { font-size: 0.72rem; color: var(--text-dim); line-height: 1.4; }
+.preanalisi-txt strong { color: var(--text); font-weight: normal; }
+.preanalisi-errori { margin-top: 0.6rem; }
+.preanalisi-errori-title { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.3rem; }
+.preanalisi-errori-list { font-size: 0.72rem; color: var(--text-dim); line-height: 1.6; white-space: pre-wrap; }
+
+/* Oggetti */
+.oggetti-wrap {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+}
+.oggetti-wrap.visible { display: block; }
+.oggetti-header {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.oggetti-list { display: flex; flex-direction: column; gap: 0.35rem; }
+.oggetto-row {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.4rem 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+}
+.oggetto-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.oggetto-dot.usato { background: var(--green); }
+.oggetto-dot.nonusato { background: var(--red); }
+.oggetto-nome { color: var(--gold-light); flex: 1; }
+.oggetto-par { color: var(--text-dim); font-size: 0.65rem; }
+.oggetto-stato { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.oggetto-stato.usato { color: var(--green); }
+.oggetto-stato.nonusato { color: var(--red); }
+
+/* Blocchi */
+.blocchi-wrap { margin-bottom: 0.8rem; display: none; }
+.blocchi-wrap.visible { display: block; }
+.blocchi-header {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.blocchi-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.blocco-badge {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.blocco-badge.sel { border-color: var(--gold-dim); color: var(--gold); background: rgba(201,168,76,0.08); }
+.blocco-badge.done { border-color: var(--green); color: var(--green); opacity: 0.7; }
+.blocco-badge.processing { border-color: var(--orange); color: var(--orange); }
+.sel-all-btn {
+  background: none; border: none; color: var(--gold-dim);
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; font-family: 'Georgia', serif;
+}
+.sel-all-btn:hover { color: var(--gold); }
+
+/* Pulsanti */
+.btn-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.btn-primary {
+  flex: 1; min-width: 160px;
+  background: linear-gradient(135deg, #2a1e00, #1a1200);
+  border: 1px solid var(--gold); color: var(--gold);
+  font-family: 'Georgia', serif; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.75rem; cursor: pointer; border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+.btn-primary:hover { box-shadow: 0 0 16px rgba(201,168,76,0.2); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+.btn-download {
+  background: linear-gradient(135deg, #001a2a, #001020);
+  border: 1px solid var(--blue); color: var(--blue);
+  font-family: 'Georgia', serif; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.55rem 1rem; cursor: pointer; border-radius: 3px; transition: all 0.2s;
+}
+.btn-download:hover { box-shadow: 0 0 12px rgba(74,122,181,0.2); }
+.btn-download:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-green {
+  background: linear-gradient(135deg, #001a00, #001000);
+  border: 1px solid var(--green); color: var(--green);
+  font-family: 'Georgia', serif; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.55rem 1rem; cursor: pointer; border-radius: 3px; transition: all 0.2s;
+}
+.btn-green:hover { box-shadow: 0 0 12px rgba(90,154,90,0.2); }
+.btn-green:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-purple {
+  background: linear-gradient(135deg, #1a0a2a, #100020);
+  border: 1px solid var(--purple); color: var(--purple);
+  font-family: 'Georgia', serif; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.55rem 1rem; cursor: pointer; border-radius: 3px; transition: all 0.2s;
+}
+.btn-purple:hover { box-shadow: 0 0 12px rgba(138,90,181,0.2); }
+.btn-purple:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Status */
+.status { font-size: 0.75rem; font-style: italic; color: var(--gold-dim); min-height: 1.2em; margin: 0.4rem 0; }
+.status.err { color: var(--red); }
+.status.ok { color: var(--green); }
+.status.info { color: var(--blue); }
+
+/* Progress */
+.progress-wrap { display: none; margin: 0.8rem 0; }
+.progress-wrap.visible { display: block; }
+.progress-bar-bg {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 0.3rem;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  border-radius: 20px; transition: width 0.4s ease; width: 0%;
+}
+.progress-label { font-size: 0.65rem; color: var(--text-dim); font-style: italic; }
+
+/* Report */
+.report-area { margin-top: 1rem; display: none; }
+.report-area.visible { display: block; }
+.report-section-title {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin: 1rem 0 0.5rem 0;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.report-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.score-row { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.score-card {
+  flex: 1; min-width: 70px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 3px; padding: 0.6rem 0.5rem; text-align: center;
+}
+.score-val { font-size: 1.3rem; font-weight: bold; color: var(--gold); }
+.score-val.bad { color: var(--red); }
+.score-val.warn { color: var(--orange); }
+.score-val.good { color: var(--green); }
+.score-lbl { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-top: 0.2rem; }
+.score-group-label {
+  width: 100%; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; padding: 0.2rem 0;
+}
+.score-group-label.local { color: var(--blue); }
+.score-group-label.ai { color: var(--gold-dim); margin-top: 0.5rem; }
+.report-block {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 3px; padding: 0.8rem 1rem; margin-bottom: 0.5rem;
+}
+.report-block-title {
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;
+}
+.report-block-title.err { color: var(--red); }
+.report-block-title.warn { color: var(--orange); }
+.report-block-title.ok { color: var(--green); }
+.report-block-title.info { color: var(--blue); }
+.report-body { font-size: 0.8rem; color: var(--text-dim); line-height: 1.65; white-space: pre-wrap; }
+
+/* Simulazione partite */
+.sim-wrap {
+  margin-top: 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1rem;
+  display: none;
+}
+.sim-wrap.visible { display: block; }
+.sim-header {
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 0.8rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+}
+.sim-stats-row { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.sim-stat-card {
+  flex: 1; min-width: 80px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 2px; padding: 0.5rem 0.4rem; text-align: center;
+}
+.sim-stat-val { font-size: 1.1rem; font-weight: bold; }
+.sim-stat-val.good { color: var(--green); }
+.sim-stat-val.warn { color: var(--orange); }
+.sim-stat-val.bad  { color: var(--red); }
+.sim-stat-lbl { font-size: 0.52rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-top: 0.15rem; }
+.sim-partite { display: flex; flex-direction: column; gap: 0.4rem; }
+.sim-partita {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 2px; padding: 0.5rem 0.8rem;
+  font-size: 0.72rem; color: var(--text-dim); line-height: 1.6;
+}
+.sim-partita-header {
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.sim-partita-header.completata { color: var(--green); }
+.sim-partita-header.morta { color: var(--red); }
+.sim-avviso {
+  margin-top: 0.6rem; padding: 0.5rem 0.8rem;
+  background: rgba(192,64,64,0.08); border: 1px solid rgba(192,64,64,0.3);
+  border-radius: 2px; font-size: 0.72rem; color: var(--red); line-height: 1.5;
+}
+.btn-orange {
+  background: linear-gradient(135deg, #2a1000, #1a0800);
+  border: 1px solid var(--orange); color: var(--orange);
+  font-family: 'Georgia', serif; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.55rem 1rem; cursor: pointer; border-radius: 3px; transition: all 0.2s;
+}
+.btn-orange:hover { box-shadow: 0 0 12px rgba(192,120,48,0.2); }
+.btn-orange:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Output blocchi — solo download, niente anteprima */
+.output-wrap { margin-top: 1rem; display: none; }
+.output-wrap.visible { display: block; }
+.output-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.output-title { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-dim); }
+.output-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.blocchi-dl-list { display: flex; flex-direction: column; gap: 0.35rem; }
+.blocco-dl-row {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.blocco-dl-info { font-size: 0.75rem; color: var(--text-dim); }
+.blocco-dl-info strong { color: var(--text); font-weight: normal; }
+.blocco-dl-row.err-row { border-color: var(--red); }
+.blocco-dl-row.err-row .blocco-dl-info { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr"><div class="hdr-dot"></div>Revisore Librogame — I Classici Vivi</div>
+  <div class="subtitle">Sistema ibrido: analisi locale istantanea (zero API) + correzione AI — per tutti i classici ICV</div>
+
+  <!-- Opera -->
+  <div class="opera-row">
+    <div class="field field-opera">
+      <label>Opera</label>
+      <select id="selOpera">
+        <option value="Inferno">Divina Commedia — Inferno</option>
+        <option value="Purgatorio">Divina Commedia — Purgatorio</option>
+        <option value="Paradiso">Divina Commedia — Paradiso</option>
+        <option value="Promessi Sposi">I Promessi Sposi</option>
+        <option value="altro">Altro classico</option>
+      </select>
+    </div>
+    <div class="field field-sezione">
+      <label>Capitolo / Sezione / Cerchio / Canto (opzionale)</label>
+      <input type="text" id="inputSezione" placeholder="es. Prima cornice – i Superbi, Cap. IV, Canto V…" />
+    </div>
+  </div>
+
+  <!-- Drop zone -->
+  <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="drop-label">Trascina qui il file HTML del librogame<br><span>oppure clicca per selezionarlo</span></div>
+    <div class="file-info" id="fileInfo"></div>
+  </div>
+  <input type="file" id="fileInput" accept=".html,.txt" onchange="loadFile(event)" />
+
+  <!-- Ricerca -->
+  <div class="cerca-wrap" id="cercaWrap">
+    <div class="cerca-header">Cerca nel librogame</div>
+    <div class="cerca-row">
+      <input type="text" class="cerca-input" id="cercaInput"
+        placeholder="Personaggio, parola chiave, §47, ⚔️, 📦 oggetto…"
+        onkeydown="if(event.key==='Enter') eseguiCerca()" />
+      <button class="btn-cerca" onclick="eseguiCerca()">Cerca</button>
+      <span class="cerca-count" id="cercaCount"></span>
+    </div>
+    <div class="cerca-risultati" id="cercaRisultati"></div>
+    <div class="cerca-detail" id="cercaDetail">
+      <div class="cerca-detail-header" id="cercaDetailHeader"></div>
+      <div class="cerca-detail-testo" id="cercaDetailTesto"></div>
+    </div>
+  </div>
+
+  <!-- Pre-analisi locale -->
+  <div class="preanalisi-wrap" id="preanalisiWrap">
+    <div class="preanalisi-header">
+      <span>Analisi locale — risultati immediati</span>
+      <span class="badge badge-blue">🔍 zero API</span>
+    </div>
+    <div class="preanalisi-grid" id="preanalisiGrid"></div>
+    <div class="preanalisi-errori" id="preanalisiErrori" style="display:none">
+      <div class="preanalisi-errori-title">Dettaglio problemi rilevati localmente</div>
+      <div class="preanalisi-errori-list" id="preanalisiErroriList"></div>
+    </div>
+  </div>
+
+  <!-- Oggetti -->
+  <div class="oggetti-wrap" id="oggettiWrap">
+    <div class="oggetti-header">
+      <span>Tracciamento oggetti e erbe</span>
+      <span class="badge badge-purple">📦 analisi locale</span>
+    </div>
+    <div class="oggetti-list" id="oggettiList"></div>
+  </div>
+
+  <!-- Blocchi -->
+  <div class="blocchi-wrap" id="blocchiWrap">
+    <div class="blocchi-header">
+      <span>Blocchi — seleziona quelli da inviare all'AI per la correzione</span>
+      <button class="sel-all-btn" onclick="selezionaTutti()">Seleziona tutti</button>
+    </div>
+    <div class="blocchi-list" id="blocchiList"></div>
+  </div>
+
+  <!-- Azione -->
+  <div class="btn-row">
+    <button class="btn-primary" id="btnAnalizza" onclick="avviaElaborazione()" disabled>Analizza e correggi con AI</button>
+    <button class="btn-orange" id="btnSimula" onclick="avviaSimulazione()" disabled title="Simula 5 partite casuali per verificare il bilanciamento — zero API">⚄ Simula 5 partite</button>
+  </div>
+
+  <!-- Simulazione partite -->
+  <div class="sim-wrap" id="simWrap">
+    <div class="sim-header">
+      <span>Simulazione bilanciamento — 5 partite casuali <span style="color:var(--blue);font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;margin-left:0.5rem;border:1px solid var(--blue);padding:0.1rem 0.4rem;border-radius:8px;">zero API</span></span>
+    </div>
+    <div class="sim-stats-row" id="simStatsRow"></div>
+    <div class="sim-partite" id="simPartite"></div>
+    <div class="sim-avviso" id="simAvviso" style="display:none"></div>
+  </div>
+  <div class="status" id="status">Carica un file HTML per iniziare.</div>
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel"></div>
+  </div>
+
+  <!-- Report -->
+  <div class="report-area" id="reportArea">
+    <div class="report-section-title">Punteggi</div>
+    <div class="score-row" id="scoreRow"></div>
+    <div id="reportSections"></div>
+  </div>
+
+  <!-- Output — solo download -->
+  <div class="output-wrap" id="outputWrap">
+    <div class="output-header">
+      <div class="output-title">Download blocchi corretti</div>
+      <div class="output-btns">
+        <button class="btn-download" id="btnDlTutti" onclick="scaricaTutti()" disabled>↓ Blocchi separati</button>
+        <button class="btn-green" id="btnDlCompleto" onclick="scaricaCompleto()" disabled>↓ File completo</button>
+        <button class="btn-purple" id="btnDlScheda" onclick="scaricaSchedaFinale()" disabled>↓ Scheda libro</button>
+      </div>
+    </div>
+    <div class="blocchi-dl-list" id="blocchiDlList"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// STATO
+// ═══════════════════════════════════════
+let fileContent = '';
+let fileName = '';
+let tuttiParagrafi = [];
+let mappaParagrafi = {};
+let blocchi = [];
+let blocchiSelezionati = new Set();
+let risultatiBlocchi = [];
+let elaborazioneInCorso = false;
+let oggettiGlobali = []; // { nome, paragrafo, usato, paragrafoUso }
+
+const PAROLE_INGLESI = [
+  'ok','okay','boss','fight','game','level','item','skill','damage',
+  'health','stamina','quest','loot','drop','spawn','checkpoint',
+  'suddenly','anyway','meanwhile','however','actually','basically',
+  'really','cool','wow','hey','attack','defend','score','hit','miss'
+];
+
+// ═══════════════════════════════════════
+// CARICAMENTO
+// ═══════════════════════════════════════
+function loadFile(e) { const f = e.target.files[0]; if (f) leggiFile(f); }
+
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const f = e.dataTransfer.files[0]; if (f) leggiFile(f);
+});
+
+function leggiFile(f) {
+  fileName = f.name.replace(/\.html?$/, '');
+  const r = new FileReader();
+  r.onload = ev => {
+    fileContent = ev.target.result;
+    document.getElementById('fileInfo').textContent =
+      'File caricato: ' + f.name + ' (' + Math.round(f.size / 1024) + ' KB)';
+    processaFile(fileContent);
+  };
+  r.readAsText(f);
+}
+
+// ═══════════════════════════════════════
+// PARSING
+// ═══════════════════════════════════════
+function processaFile(content) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = content;
+  const testo = tmp.innerText || tmp.textContent || content;
+
+  tuttiParagrafi = [];
+  let corrente = '';
+  for (const riga of testo.split('\n')) {
+    const r = riga.trim();
+    if (!r) continue;
+    if (/^§\d+/.test(r) && corrente.trim()) { tuttiParagrafi.push(corrente.trim()); corrente = r; }
+    else corrente += (corrente ? '\n' : '') + r;
+  }
+  if (corrente.trim()) tuttiParagrafi.push(corrente.trim());
+
+  if (tuttiParagrafi.length === 0) {
+    setStatus('Nessun paragrafo §N trovato. Verifica il formato del file.', 'err'); return;
+  }
+
+  mappaParagrafi = {};
+  tuttiParagrafi.forEach(p => {
+    const m = p.match(/^§(\d+)/);
+    if (m) mappaParagrafi[parseInt(m[1])] = p;
+  });
+
+  // Blocchi da 40 paragrafi
+  blocchi = [];
+  for (let i = 0; i < tuttiParagrafi.length; i += 40) {
+    const sl = tuttiParagrafi.slice(i, i + 40);
+    blocchi.push({
+      label: '§' + estraiNum(sl[0]) + '–§' + estraiNum(sl[sl.length - 1]),
+      paragrafi: sl,
+      indice: blocchi.length
+    });
+  }
+
+  blocchiSelezionati = new Set(blocchi.map(b => b.indice));
+  risultatiBlocchi = [];
+
+  // Analisi locale globale
+  const rl = analisiLocale(tuttiParagrafi, mappaParagrafi);
+
+  // Tracciamento oggetti globale
+  oggettiGlobali = tracciaOggetti(tuttiParagrafi);
+
+  renderPreanalisi(rl);
+  renderOggetti(oggettiGlobali);
+  renderBlocchi();
+
+  document.getElementById('cercaWrap').classList.add('visible');
+  document.getElementById('preanalisiWrap').classList.add('visible');
+  if (oggettiGlobali.length > 0) document.getElementById('oggettiWrap').classList.add('visible');
+  document.getElementById('blocchiWrap').classList.add('visible');
+  document.getElementById('btnAnalizza').disabled = false;
+  document.getElementById('btnSimula').disabled = false;
+
+  setStatus(
+    'Trovati ' + tuttiParagrafi.length + ' paragrafi in ' + blocchi.length +
+    ' blocchi. Analisi locale completata — avvia l\'AI quando sei pronto.',
+    'ok'
+  );
+}
+
+function estraiNum(t) {
+  const m = t.match(/^§(\d+[A-Za-z]?)/);
+  return m ? m[1] : '?';
+}
+
+// ═══════════════════════════════════════
+// TRACCIAMENTO OGGETTI
+// ═══════════════════════════════════════
+function tracciaOggetti(paragrafi) {
+  const oggetti = [];
+  const oggettiMap = {}; // nome normalizzato → indice in oggetti[]
+
+  paragrafi.forEach(p => {
+    const numPar = estraiNum(p);
+
+    // Trova introduzioni oggetti: 📦 OGGETTO: Nome — descrizione
+    const introMatches = [...p.matchAll(/📦\s*OGGETTO[:\s]+([^\n—–-]+)/gi)];
+    introMatches.forEach(m => {
+      const nome = m[1].trim().replace(/\s+/g, ' ');
+      const nomeNorm = nome.toLowerCase();
+      if (!oggettiMap.hasOwnProperty(nomeNorm)) {
+        oggettiMap[nomeNorm] = oggetti.length;
+        oggetti.push({ nome, paragrafo: numPar, usato: false, paragrafoUso: null });
+      }
+    });
+
+    // Trova erbe: 🌿 ERBA: Nome
+    const erbaMatches = [...p.matchAll(/🌿\s*ERBA[:\s]+([^\n—–-]+)/gi)];
+    erbaMatches.forEach(m => {
+      const nome = '🌿 ' + m[1].trim().replace(/\s+/g, ' ');
+      const nomeNorm = nome.toLowerCase();
+      if (!oggettiMap.hasOwnProperty(nomeNorm)) {
+        oggettiMap[nomeNorm] = oggetti.length;
+        oggetti.push({ nome, paragrafo: numPar, usato: false, paragrafoUso: null });
+      }
+    });
+  });
+
+  // Secondo passaggio: cerca utilizzi — ricerca ESATTA per nome univoco
+  // Un oggetto si considera "usato" se la stringa esatta del nome compare
+  // in un paragrafo DOPO quello di introduzione, fuori dal contesto 📦/🌿
+  paragrafi.forEach(p => {
+    const numPar = estraiNum(p);
+    // Salta righe di introduzione oggetti
+    const testoSenzaIntro = p.replace(/📦\s*OGGETTO[^\n]*/gi, '').replace(/🌿\s*ERBA[^\n]*/gi, '');
+
+    oggetti.forEach((obj, i) => {
+      if (obj.usato) return;
+      if (obj.paragrafo === numPar) return; // stesso paragrafo di intro
+      // Ricerca ESATTA: usa la stringa completa del nome (senza emoji)
+      const nomeRicerca = obj.nome.replace(/🌿\s*/g, '').trim();
+      const trovato = testoSenzaIntro.toLowerCase().includes(nomeRicerca.toLowerCase());
+      if (trovato) {
+        oggetti[i].usato = true;
+        oggetti[i].paragrafoUso = numPar;
+      }
+    });
+  });
+
+  return oggetti;
+}
+
+function renderOggetti(oggetti) {
+  if (oggetti.length === 0) return;
+  const list = document.getElementById('oggettiList');
+  list.innerHTML = oggetti.map(o => `
+    <div class="oggetto-row">
+      <div class="oggetto-dot ${o.usato ? 'usato' : 'nonusato'}"></div>
+      <div class="oggetto-nome">${escHtml(o.nome)}</div>
+      <div class="oggetto-par">introdotto al §${o.paragrafo}</div>
+      <div class="oggetto-stato ${o.usato ? 'usato' : 'nonusato'}">
+        ${o.usato ? '✓ usato al §' + o.paragrafoUso : '✗ mai usato'}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// ANALISI LOCALE (zero API)
+// ═══════════════════════════════════════
+function analisiLocale(paragrafi, mappa) {
+  const setN = new Set(Object.keys(mappa).map(Number));
+  const r = {
+    totParagrafi: paragrafi.length,
+    conScelte: 0, senzaScelte: [],
+    biviReali: 0, biviFalsi: [],
+    consecutivi: [], refInesistenti: [],
+    combattimenti: 0, combattimentiMalformati: [],
+    distribuzioneCombattimenti: [],
+    paroleInglesi: [],
+    apostrofiErrati: [],
+    paragrafiCorti: [], paragrafiLunghi: []
+  };
+  let ultimoComb = -999;
+
+  paragrafi.forEach((p, idx) => {
+    const numPar = parseInt(p.match(/^§(\d+)/)?.[1] || '0');
+    const righe = p.split('\n');
+    const refs = [...p.matchAll(/§(\d+)/g)].map(m => parseInt(m[1])).filter(n => n !== numPar);
+    const scelte = [...p.matchAll(/👉/g)];
+
+    // Scelte
+    if (scelte.length > 0) r.conScelte++;
+    else r.senzaScelte.push('§' + numPar + ': nessuna scelta (👉)');
+
+    // Bivi falsi
+    if (refs.length >= 2) {
+      const u = new Set(refs);
+      if (u.size === 1) r.biviFalsi.push('§' + numPar + ': tutti i bivi → §' + refs[0] + ' (falso)');
+      else r.biviReali += u.size;
+    }
+
+    // Numerazione consecutiva
+    refs.forEach(ref => {
+      const dist = Math.abs(ref - numPar);
+      if (dist > 0 && dist <= 3 && setN.has(ref))
+        r.consecutivi.push('§' + numPar + ' → §' + ref + ' (distanza ' + dist + '): il lettore può leggere avanti');
+    });
+
+    // Ref inesistenti
+    refs.forEach(ref => {
+      if (!setN.has(ref))
+        r.refInesistenti.push('§' + numPar + ' → §' + ref + ' non esiste nel file');
+    });
+
+    // Combattimenti
+    if (p.includes('⚔️') || p.includes('💀 BOSS')) {
+      r.combattimenti++;
+      const haHP = /❤️.*HP/i.test(p);
+      const haDanno = /⚡.*DANNO/i.test(p);
+      const haDebolezza = /💀.*DEBOLEZZA/i.test(p) || /DEBOLEZZA/i.test(p);
+      if (!haHP || !haDanno || !haDebolezza) {
+        r.combattimentiMalformati.push('§' + numPar + ': mancano ' +
+          [!haHP && '❤️ HP', !haDanno && '⚡ DANNO', !haDebolezza && 'DEBOLEZZA'].filter(Boolean).join(', '));
+      }
+      if (ultimoComb >= 0 && idx - ultimoComb > 10)
+        r.distribuzioneCombattimenti.push('Zona senza scontri: §' + estraiNum(paragrafi[ultimoComb]) + ' → §' + numPar + ' (' + (idx - ultimoComb) + ' §)');
+      ultimoComb = idx;
+    }
+
+    // Parole inglesi
+    PAROLE_INGLESI.forEach(w => {
+      if (new RegExp('\\b' + w + '\\b', 'i').test(p))
+        r.paroleInglesi.push('§' + numPar + ': "' + w + '"');
+    });
+
+    // Apostrofi dritti
+    if (/'/.test(p)) r.apostrofiErrati.push('§' + numPar + ': apostrofo dritto (\')');
+
+    // Lunghezza
+    if (righe.length < 3) r.paragrafiCorti.push('§' + numPar + ': ' + righe.length + ' righe');
+    if (righe.length > 18) r.paragrafiLunghi.push('§' + numPar + ': ' + righe.length + ' righe');
+  });
+
+  return r;
+}
+
+// ═══════════════════════════════════════
+// RENDER PRE-ANALISI
+// ═══════════════════════════════════════
+function renderPreanalisi(r) {
+  const freq = r.combattimenti > 0 ? Math.round(r.totParagrafi / r.combattimenti) : null;
+  const freqOk = freq && freq >= 4 && freq <= 8;
+
+  const metriche = [
+    { label: 'Paragrafi totali', val: r.totParagrafi, extra: r.conScelte + ' con scelte, ' + r.senzaScelte.length + ' senza', stato: r.senzaScelte.length === 0 ? 'ok' : r.senzaScelte.length < 5 ? 'warn' : 'err' },
+    { label: 'Scontri totali', val: r.combattimenti, extra: freq ? '1 ogni ~' + freq + ' § (obiettivo: 1/5-7)' : 'nessuno', stato: freqOk ? 'ok' : 'warn' },
+    { label: 'Bivi falsi', val: r.biviFalsi.length, extra: r.biviReali + ' bivi reali', stato: r.biviFalsi.length === 0 ? 'ok' : 'err' },
+    { label: 'Rimandi consecutivi ≤3', val: r.consecutivi.length, extra: r.consecutivi.length === 0 ? 'nessuno' : 'lettura lineare possibile', stato: r.consecutivi.length === 0 ? 'ok' : 'err' },
+    { label: 'Riferimenti §N inesistenti', val: r.refInesistenti.length, extra: r.refInesistenti.length === 0 ? 'tutti validi' : 'rimandi a §N mancanti', stato: r.refInesistenti.length === 0 ? 'ok' : 'err' },
+    { label: 'Scontri mal formattati', val: r.combattimentiMalformati.length, extra: r.combattimentiMalformati.length === 0 ? 'format corretto' : 'HP/DANNO/DEBOLEZZA mancanti', stato: r.combattimentiMalformati.length === 0 ? 'ok' : 'err' },
+    { label: 'Parole inglesi', val: r.paroleInglesi.length, extra: r.paroleInglesi.length === 0 ? 'nessuna' : 'da eliminare', stato: r.paroleInglesi.length === 0 ? 'ok' : 'warn' },
+    { label: 'Lunghezza paragrafi', val: r.paragrafiCorti.length + r.paragrafiLunghi.length, extra: r.paragrafiCorti.length + ' corti, ' + r.paragrafiLunghi.length + ' lunghi', stato: (r.paragrafiCorti.length + r.paragrafiLunghi.length) === 0 ? 'ok' : 'warn' }
+  ];
+
+  document.getElementById('preanalisiGrid').innerHTML = metriche.map(m =>
+    `<div class="preanalisi-item">
+      <div class="preanalisi-dot ${m.stato}"></div>
+      <div class="preanalisi-txt"><strong>${m.label}: ${m.val}</strong><br>${m.extra}</div>
+    </div>`
+  ).join('');
+
+  const tutti = [
+    ...r.senzaScelte, ...r.biviFalsi, ...r.consecutivi,
+    ...r.refInesistenti, ...r.combattimentiMalformati,
+    ...r.distribuzioneCombattimenti, ...r.paroleInglesi,
+    ...r.apostrofiErrati, ...r.paragrafiCorti, ...r.paragrafiLunghi
+  ];
+  const ew = document.getElementById('preanalisiErrori');
+  if (tutti.length > 0) {
+    document.getElementById('preanalisiErroriList').textContent = tutti.map(e => '• ' + e).join('\n');
+    ew.style.display = 'block';
+  } else {
+    ew.style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════
+// BLOCCHI
+// ═══════════════════════════════════════
+function renderBlocchi() {
+  const list = document.getElementById('blocchiList');
+  list.innerHTML = '';
+  blocchi.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'blocco-badge sel';
+    btn.textContent = b.label;
+    btn.dataset.indice = b.indice;
+    btn.onclick = () => {
+      if (elaborazioneInCorso) return;
+      if (blocchiSelezionati.has(b.indice)) { blocchiSelezionati.delete(b.indice); btn.classList.remove('sel'); }
+      else { blocchiSelezionati.add(b.indice); btn.classList.add('sel'); }
+    };
+    list.appendChild(btn);
+  });
+}
+
+function selezionaTutti() {
+  blocchi.forEach(b => {
+    blocchiSelezionati.add(b.indice);
+    const btn = document.querySelector('[data-indice="' + b.indice + '"]');
+    if (btn) { btn.classList.remove('done', 'processing'); btn.classList.add('sel'); }
+  });
+}
+
+// ═══════════════════════════════════════
+// ELABORAZIONE AI
+// ═══════════════════════════════════════
+async function avviaElaborazione() {
+  if (elaborazioneInCorso) return;
+  if (blocchiSelezionati.size === 0) { setStatus('Seleziona almeno un blocco.', 'err'); return; }
+
+  elaborazioneInCorso = true;
+  risultatiBlocchi = [];
+  document.getElementById('btnAnalizza').disabled = true;
+  document.getElementById('reportArea').classList.remove('visible');
+  document.getElementById('outputWrap').classList.remove('visible');
+  document.getElementById('blocchiDlList').innerHTML = '';
+  document.getElementById('btnDlTutti').disabled = true;
+  document.getElementById('btnDlCompleto').disabled = true;
+  document.getElementById('btnDlScheda').disabled = true;
+  document.getElementById('progressWrap').classList.add('visible');
+
+  const daFare = blocchi.filter(b => blocchiSelezionati.has(b.indice));
+
+  for (let i = 0; i < daFare.length; i++) {
+    const b = daFare[i];
+    aggiornaBadge(b.indice, 'processing');
+    setProgress(i, daFare.length, 'Analisi AI blocco ' + (i + 1) + '/' + daFare.length + ': ' + b.label);
+
+    const mappaB = {};
+    b.paragrafi.forEach(p => { const m = p.match(/^§(\d+)/); if (m) mappaB[parseInt(m[1])] = p; });
+    const rl = analisiLocale(b.paragrafi, mappaB);
+
+    try {
+      const rAI = await analizzaBloccoAI(b, rl);
+      setProgress(i, daFare.length, 'Correzione blocco ' + (i + 1) + '/' + daFare.length + ': ' + b.label);
+      const tCorretto = await correggiBlocco(b, rAI, rl);
+      risultatiBlocchi.push({ indice: b.indice, label: b.label, reportLocale: rl, reportAI: rAI, testoCorrretto: tCorretto });
+      aggiornaBadge(b.indice, 'done');
+      aggiungiBloccoDownload(b, i + 1, true);
+    } catch (err) {
+      aggiornaBadge(b.indice, '');
+      risultatiBlocchi.push({ indice: b.indice, label: b.label, reportLocale: rl, reportAI: null, testoCorrretto: '' });
+      aggiungiBloccoDownload(b, i + 1, false, err.message);
+    }
+  }
+
+  setProgress(daFare.length, daFare.length, 'Completato.');
+  renderReportGlobale();
+  document.getElementById('outputWrap').classList.add('visible');
+  document.getElementById('btnDlTutti').disabled = false;
+  document.getElementById('btnDlCompleto').disabled = false;
+  document.getElementById('btnDlScheda').disabled = false;
+  elaborazioneInCorso = false;
+  document.getElementById('btnAnalizza').disabled = false;
+  setStatus('Elaborazione completata: ' + risultatiBlocchi.length + ' blocchi analizzati e corretti.', 'ok');
+}
+
+// ═══════════════════════════════════════
+// ANALISI AI
+// ═══════════════════════════════════════
+async function analizzaBloccoAI(b, rl) {
+  const opera = document.getElementById('selOpera').value;
+  const sezione = document.getElementById('inputSezione').value.trim();
+  const ctx = sezione ? '\nCapitolo/Sezione: ' + sezione : '';
+  const testo = b.paragrafi.join('\n\n');
+
+  const preReport = `Già rilevati localmente (NON ripetere):
+- ${rl.senzaScelte.length} paragrafi senza scelte
+- ${rl.biviFalsi.length} bivi falsi
+- ${rl.consecutivi.length} rimandi consecutivi pericolosi
+- ${rl.refInesistenti.length} riferimenti §N inesistenti
+- ${rl.combattimentiMalformati.length} scontri mal formattati
+- ${rl.paroleInglesi.length} parole inglesi`;
+
+  const prompt = `Sei un revisore esperto di librogame stile Heroic Fantasy atmosferico, formato ICV (I Classici Vivi).
+Opera: ${opera}${ctx}
+
+I controlli meccanici sono già stati eseguiti localmente. Concentrati SOLO su:
+1. Grammatica italiana complessa (concordanze, congiuntivi, reggenze, punteggiatura)
+2. Qualità narrativa — coinvolgimento, atmosfera, senso di solitudine eroica per ragazzi 13-18 anni
+3. Coerenza didattica con l'opera originale di ${opera}
+4. Coerenza dei personaggi con il capitolo/sezione dichiarati
+5. Ritmo narrativo — troppa narrazione senza tensione, ripetizioni lessicali
+6. Tono emotivo adeguato — cupo e dettagliato, mai scolastico
+
+${preReport}
+
+Rispondi SOLO con JSON valido, senza backtick:
+{
+  "punteggio_grammatica": <0-10>,
+  "punteggio_narrativa": <0-10>,
+  "punteggio_didattica": <0-10>,
+  "punteggio_tono": <0-10>,
+  "errori_grammatica": ["errore con §N"],
+  "errori_narrativa": ["problema con §N"],
+  "errori_didattica": ["contenuto errato con §N"],
+  "errori_tono": ["tono inadeguato con §N"],
+  "punti_forza": ["cosa funziona"],
+  "riepilogo": "sintesi breve"
+}
+
+TESTO:
+${testo.substring(0, 7000)}`;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, messages: [{ role: 'user', content: prompt }] })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  const raw = data.content.map(x => x.text || '').join('').replace(/```json|```/g, '').trim();
+  return JSON.parse(raw);
+}
+
+// ═══════════════════════════════════════
+// CORREZIONE AI
+// ═══════════════════════════════════════
+async function correggiBlocco(b, rAI, rl) {
+  const opera = document.getElementById('selOpera').value;
+  const sezione = document.getElementById('inputSezione').value.trim();
+  const ctx = sezione ? '\nCapitolo/Sezione: ' + sezione : '';
+  const testo = b.paragrafi.join('\n\n');
+
+  const errori = [
+    ...rl.senzaScelte,
+    ...rl.biviFalsi,
+    ...rl.consecutivi.map(e => '🚨 PRIORITÀ ALTA — ' + e),
+    ...rl.refInesistenti,
+    ...rl.combattimentiMalformati,
+    ...rl.paroleInglesi,
+    ...(rAI?.errori_grammatica || []),
+    ...(rAI?.errori_narrativa || []),
+    ...(rAI?.errori_didattica || []),
+    ...(rAI?.errori_tono || [])
+  ];
+
+  const prompt = `Sei un editor esperto di librogame stile Heroic Fantasy atmosferico, formato ICV (I Classici Vivi).
+Opera: ${opera}${ctx}
+
+Correggi TUTTI i ${errori.length} problemi elencati. Restituisci il testo migliorato.
+
+REGOLE ASSOLUTE:
+- Ogni paragrafo ha almeno una scelta reale (👉 Vai al §N)
+- I bivi portano a scene davvero diverse
+- Rimandi §N: distanza minima 4-5 — MAI §N → §N+1/+2/+3
+- Stile Heroic Fantasy atmosferico: seconda persona, tono cupo, senso di solitudine eroica
+- Scontri normali: ⚔️ SCONTRO con ❤️ HP | ⚡ DANNO | DEBOLEZZA + 2-3 scelte
+- Boss: 💀 BOSS con 3 scelte inclusa una narrativa unica
+- Dopo scontri vinti: possibilità erbe 🌿 o oggetti 📦
+- Nessuna parola inglese
+- Linguaggio coinvolgente per ragazzi 13-18 anni
+- Mantieni ESATTAMENTE i §N originali
+
+ERRORI DA CORREGGERE:
+${errori.slice(0, 40).map(e => '• ' + e).join('\n')}
+
+TESTO:
+${testo.substring(0, 6000)}
+
+Restituisci SOLO il testo corretto, nessun commento.`;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 4000, messages: [{ role: 'user', content: prompt }] })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content.map(x => x.text || '').join('');
+}
+
+// ═══════════════════════════════════════
+// REPORT GLOBALE
+// ═══════════════════════════════════════
+function renderReportGlobale() {
+  const aiR = risultatiBlocchi.filter(r => r.reportAI).map(r => r.reportAI);
+  if (aiR.length === 0) return;
+
+  const media = k => Math.round(aiR.reduce((s, r) => s + (r[k] || 0), 0) / aiR.length);
+  const rlG = analisiLocale(tuttiParagrafi, mappaParagrafi);
+  const tot = rlG.totParagrafi;
+
+  // Punteggi locali
+  const pBivi    = Math.max(0, 10 - Math.round((rlG.biviFalsi.length + rlG.senzaScelte.length) / Math.max(1, tot) * 50));
+  const freqC    = rlG.combattimenti > 0 ? tot / rlG.combattimenti : 99;
+  const pComb    = Math.min(10, Math.max(0, Math.round(10 - Math.abs(freqC - 6) * 0.8)));
+  const pFormato = Math.max(0, 10 - rlG.refInesistenti.length - rlG.combattimentiMalformati.length);
+  const pConsec  = Math.max(0, 10 - rlG.consecutivi.length * 2);
+
+  const scoreRow = document.getElementById('scoreRow');
+  const card = (val, lbl) => {
+    const cls = val >= 8 ? 'good' : val >= 5 ? 'warn' : 'bad';
+    return `<div class="score-card"><div class="score-val ${cls}">${val}/10</div><div class="score-lbl">${lbl}</div></div>`;
+  };
+  scoreRow.innerHTML =
+    '<div class="score-group-label local" style="width:100%">Controlli locali</div>' +
+    card(pBivi, 'Bivi') + card(pComb, 'Scontri') + card(pFormato, 'Formato') + card(pConsec, 'Distanze §') +
+    '<div class="score-group-label ai" style="width:100%">Valutazione AI</div>' +
+    card(media('punteggio_grammatica'), 'Grammatica') + card(media('punteggio_narrativa'), 'Narrativa') +
+    card(media('punteggio_didattica'), 'Didattica') + card(media('punteggio_tono'), 'Tono');
+
+  const sec = document.getElementById('reportSections');
+  sec.innerHTML = '';
+
+  // Statistiche globali
+  const fq = rlG.combattimenti > 0 ? Math.round(tot / rlG.combattimenti) : '∞';
+  const oggettiNonUsati = oggettiGlobali.filter(o => !o.usato);
+  addBlock(sec, 'info', 'Statistiche globali',
+    `Paragrafi: ${tot} | Con scelte: ${rlG.conScelte} | Senza: ${rlG.senzaScelte.length}
+Scontri totali: ${rlG.combattimenti} | Frequenza: 1 ogni ~${fq} § (obiettivo: 1/5-7)
+Bivi reali: ${rlG.biviReali} | Bivi falsi: ${rlG.biviFalsi.length}
+Rimandi consecutivi: ${rlG.consecutivi.length} | Ref inesistenti: ${rlG.refInesistenti.length}
+Oggetti introdotti: ${oggettiGlobali.length} | Non usati: ${oggettiNonUsati.length}
+Parole inglesi: ${rlG.paroleInglesi.length} | Blocchi elaborati: ${risultatiBlocchi.length}`
+  );
+
+  // Oggetti non usati
+  if (oggettiNonUsati.length > 0) {
+    addBlock(sec, 'warn', 'Oggetti/erbe mai utilizzati nel libro',
+      oggettiNonUsati.map(o => '• ' + o.nome + ' (introdotto al §' + o.paragrafo + ')').join('\n'));
+  }
+
+  // Errori locali
+  [
+    [rlG.senzaScelte, 'Paragrafi senza scelte', 'err'],
+    [rlG.biviFalsi, 'Bivi falsi', 'err'],
+    [rlG.consecutivi, 'Rimandi consecutivi pericolosi', 'err'],
+    [rlG.refInesistenti, 'Riferimenti §N inesistenti', 'err'],
+    [rlG.combattimentiMalformati, 'Scontri mal formattati', 'warn'],
+    [rlG.distribuzioneCombattimenti, 'Distribuzione scontri', 'warn'],
+    [rlG.paroleInglesi, 'Parole inglesi', 'warn'],
+    [rlG.apostrofiErrati, 'Apostrofi errati', 'warn'],
+    [rlG.paragrafiCorti, 'Paragrafi troppo corti', 'info'],
+    [rlG.paragrafiLunghi, 'Paragrafi troppo lunghi', 'info']
+  ].forEach(([items, label, tipo]) => {
+    if (items.length) addBlock(sec, tipo, label + ' — locale', items.map(i => '• ' + i).join('\n'));
+  });
+
+  // Errori AI
+  [
+    ['errori_grammatica', 'Grammatica e stile', 'err'],
+    ['errori_narrativa', 'Ritmo e narrativa', 'warn'],
+    ['errori_didattica', 'Contenuto didattico', 'warn'],
+    ['errori_tono', 'Tono e registro', 'warn'],
+    ['punti_forza', 'Punti di forza', 'ok']
+  ].forEach(([k, label, tipo]) => {
+    const tutti = [];
+    aiR.forEach((r, i) => (r[k] || []).forEach(e => tutti.push('[B' + (i + 1) + '] ' + e)));
+    if (tutti.length) addBlock(sec, tipo, label + ' — AI', tutti.map(i => '• ' + i).join('\n'));
+  });
+
+  document.getElementById('reportArea').classList.add('visible');
+}
+
+function addBlock(container, tipo, label, body) {
+  const d = document.createElement('div');
+  d.className = 'report-block';
+  d.innerHTML = `<div class="report-block-title ${tipo}">${label}</div><div class="report-body">${escHtml(body)}</div>`;
+  container.appendChild(d);
+}
+
+// ═══════════════════════════════════════
+// RENDER OUTPUT — solo righe download
+// ═══════════════════════════════════════
+function aggiungiBloccoDownload(b, numero, ok, errMsg) {
+  const list = document.getElementById('blocchiDlList');
+  document.getElementById('outputWrap').classList.add('visible');
+  const div = document.createElement('div');
+  div.className = 'blocco-dl-row' + (ok ? '' : ' err-row');
+  if (ok) {
+    div.innerHTML = `
+      <div class="blocco-dl-info"><strong>Blocco ${numero}</strong> — ${b.label}</div>
+      <button class="btn-download" onclick="scaricaBlocco(${numero - 1})">↓ Scarica blocco ${numero}</button>`;
+  } else {
+    div.innerHTML = `<div class="blocco-dl-info">Errore blocco ${numero} — ${b.label}: ${escHtml(errMsg || '')}</div>`;
+  }
+  list.appendChild(div);
+}
+
+// ═══════════════════════════════════════
+// RICERCA
+// ═══════════════════════════════════════
+function eseguiCerca() {
+  const q = document.getElementById('cercaInput').value.trim();
+  if (!q || !tuttiParagrafi.length) return;
+  const qL = q.toLowerCase();
+  const ris = tuttiParagrafi
+    .filter(p => p.toLowerCase().includes(qL))
+    .map(p => {
+      const idx = p.toLowerCase().indexOf(qL);
+      const s = Math.max(0, idx - 60), e = Math.min(p.length, idx + q.length + 60);
+      return { num: estraiNum(p), testo: p, snippet: (s > 0 ? '…' : '') + p.substring(s, e) + (e < p.length ? '…' : '') };
+    });
+
+  const countEl = document.getElementById('cercaCount');
+  const listEl = document.getElementById('cercaRisultati');
+  document.getElementById('cercaDetail').classList.remove('visible');
+
+  if (!ris.length) { countEl.textContent = 'Nessun risultato'; listEl.innerHTML = ''; return; }
+  countEl.textContent = ris.length + ' risultat' + (ris.length === 1 ? 'o' : 'i');
+  window._cR = ris; window._cQ = q;
+
+  listEl.innerHTML = ris.map((r, i) => {
+    const sn = escHtml(r.snippet).replace(new RegExp(escRe(escHtml(q)), 'gi'), m => '<mark>' + m + '</mark>');
+    return `<div class="cerca-item" onclick="mostraDettaglio(${i})">
+      <div class="cerca-item-label">§${r.num}</div>
+      <div class="cerca-item-testo">${sn}</div>
+    </div>`;
+  }).join('');
+}
+
+function mostraDettaglio(i) {
+  const r = window._cR[i];
+  document.getElementById('cercaDetailHeader').textContent = '§' + r.num;
+  document.getElementById('cercaDetailTesto').innerHTML =
+    escHtml(r.testo).replace(new RegExp(escRe(escHtml(window._cQ)), 'gi'), m => '<mark>' + m + '</mark>');
+  const d = document.getElementById('cercaDetail');
+  d.classList.add('visible');
+  d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ═══════════════════════════════════════
+// DOWNLOAD
+// ═══════════════════════════════════════
+function scaricaBlocco(idx) {
+  const r = risultatiBlocchi[idx];
+  if (!r?.testoCorrretto) return;
+  scaricaFile('revisione_' + String(idx + 1).padStart(2, '0') + '_' + r.label.replace(/[^\w§–]/g, '_') + '.txt', r.testoCorrretto);
+}
+
+function scaricaTutti() {
+  risultatiBlocchi.forEach((r, i) => {
+    if (r.testoCorrretto) setTimeout(() => scaricaBlocco(i), i * 350);
+  });
+}
+
+function scaricaCompleto() {
+  const opera = document.getElementById('selOpera').value;
+  const parti = risultatiBlocchi.filter(r => r.testoCorrretto).map((r, i) =>
+    '═══════════════════════════════════════\nBLOCCO ' + String(i + 1).padStart(2, '0') +
+    ' — ' + r.label + '\n═══════════════════════════════════════\n\n' + r.testoCorrretto
+  );
+  if (!parti.length) return;
+  scaricaFile(
+    fileName + '_revisione_completa.txt',
+    'REVISIONE COMPLETA — ' + opera.toUpperCase() + '\nI Classici Vivi — ' +
+    new Date().toLocaleDateString('it-IT') + '\nBlocchi: ' + parti.length + '\n\n' + parti.join('\n\n')
+  );
+}
+
+function scaricaSchedaFinale() {
+  const opera = document.getElementById('selOpera').value;
+  const rlG = analisiLocale(tuttiParagrafi, mappaParagrafi);
+  const aiR = risultatiBlocchi.filter(r => r.reportAI).map(r => r.reportAI);
+  const media = k => aiR.length ? Math.round(aiR.reduce((s, r) => s + (r[k] || 0), 0) / aiR.length) : 'n/d';
+  const fq = rlG.combattimenti > 0 ? Math.round(rlG.totParagrafi / rlG.combattimenti) : '∞';
+  const oggettiUsati = oggettiGlobali.filter(o => o.usato);
+  const oggettiNonUsati = oggettiGlobali.filter(o => !o.usato);
+
+  const righeOggetti = oggettiGlobali.length > 0
+    ? oggettiGlobali.map(o =>
+        '  ' + (o.usato ? '✓' : '✗') + ' ' + o.nome +
+        ' (§' + o.paragrafo + ')' +
+        (o.usato ? ' → usato al §' + o.paragrafoUso : ' → MAI USATO')
+      ).join('\n')
+    : '  Nessun oggetto rilevato';
+
+  const righeAI = aiR.length > 0
+    ? `Grammatica (media AI): ${media('punteggio_grammatica')}/10
+Narrativa (media AI):  ${media('punteggio_narrativa')}/10
+Didattica (media AI):  ${media('punteggio_didattica')}/10
+Tono (media AI):       ${media('punteggio_tono')}/10`
+    : 'Correzione AI non eseguita';
+
+  const contenuto =
+`╔═══════════════════════════════════════════════════╗
+  SCHEDA LIBRO — ${opera.toUpperCase()}
+  I Classici Vivi — ${new Date().toLocaleDateString('it-IT')}
+╚═══════════════════════════════════════════════════╝
+
+━━━ STRUTTURA ━━━
+Paragrafi totali:        ${rlG.totParagrafi}
+Paragrafi con scelte:    ${rlG.conScelte}
+Paragrafi senza scelte:  ${rlG.senzaScelte.length}
+Bivi reali:              ${rlG.biviReali}
+Bivi falsi:              ${rlG.biviFalsi.length}
+
+━━━ SCONTRI ━━━
+Scontri totali:          ${rlG.combattimenti}
+Frequenza:               1 ogni ~${fq} paragrafi (obiettivo: 1/5-7)
+Scontri mal formattati:  ${rlG.combattimentiMalformati.length}
+
+━━━ QUALITÀ ━━━
+Rimandi consecutivi:     ${rlG.consecutivi.length}
+Riferimenti inesistenti: ${rlG.refInesistenti.length}
+Parole inglesi:          ${rlG.paroleInglesi.length}
+Paragrafi troppo corti:  ${rlG.paragrafiCorti.length}
+Paragrafi troppo lunghi: ${rlG.paragrafiLunghi.length}
+
+━━━ VALUTAZIONE AI ━━━
+${righeAI}
+
+━━━ OGGETTI ED ERBE (${oggettiGlobali.length} totali — ${oggettiUsati.length} usati, ${oggettiNonUsati.length} non usati) ━━━
+${righeOggetti}
+
+━━━ BLOCCHI ELABORATI ━━━
+${risultatiBlocchi.map((r, i) => '  Blocco ' + String(i + 1).padStart(2, '0') + ' — ' + r.label + (r.testoCorrretto ? ' ✓' : ' ✗ errore')).join('\n')}
+
+━━━ PROBLEMI APERTI ━━━
+${[
+  ...rlG.senzaScelte.slice(0, 10),
+  ...rlG.consecutivi.slice(0, 10),
+  ...rlG.refInesistenti.slice(0, 10),
+  ...oggettiNonUsati.map(o => 'Oggetto mai usato: ' + o.nome + ' (§' + o.paragrafo + ')')
+].map(e => '  • ' + e).join('\n') || '  Nessun problema rilevante'}
+`;
+
+  scaricaFile(fileName + '_scheda_libro.txt', contenuto);
+}
+
+function scaricaFile(nome, contenuto) {
+  const blob = new Blob([contenuto], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nome; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ═══════════════════════════════════════
+// SIMULAZIONE 5 PARTITE (zero API)
+// ═══════════════════════════════════════
+function avviaSimulazione() {
+  if (!tuttiParagrafi.length) return;
+  document.getElementById('simWrap').classList.add('visible');
+  document.getElementById('simStatsRow').innerHTML = '';
+  document.getElementById('simPartite').innerHTML = '';
+  document.getElementById('simAvviso').style.display = 'none';
+
+  // Leggi scheda base dal primo paragrafo (valori di default)
+  const SCHEDA_BASE = { RESISTENZA: 24, FORZA: 12, PSICHE: 12, MORALE: 7, RAZIONI: 3 };
+
+  // Trova paragrafo iniziale (il più basso numericamente)
+  const numeri = Object.keys(mappaParagrafi).map(Number).sort((a,b) => a-b);
+  if (!numeri.length) return;
+  const parInizio = numeri[0];
+
+  const risultati = [];
+  for (let n = 0; n < 5; n++) {
+    risultati.push(simulaPartita(parInizio, SCHEDA_BASE, numeri));
+  }
+
+  renderSimulazione(risultati);
+}
+
+function simulaPartita(parInizio, schedaBase, numeriOrd) {
+  const MAX_PASSI = 300;
+  const scheda = { ...schedaBase };
+  let parCorrente = parInizio;
+  let passi = 0;
+  const log = [];
+  let esito = 'completata';
+  let parFinale = parCorrente;
+  const visitati = new Set();
+  const morteZone = [];
+
+  while (passi < MAX_PASSI) {
+    const testo = mappaParagrafi[parCorrente];
+    if (!testo) { esito = 'ref_mancante'; break; }
+
+    visitati.add(parCorrente);
+    passi++;
+    parFinale = parCorrente;
+
+    // Applica danni da scontri
+    if (testo.includes('⚔️') || testo.includes('💀 BOSS')) {
+      // Estrai danno dichiarato
+      const dannoM = testo.match(/DANNO[:\s]*(\d+)/i);
+      const dannoBase = dannoM ? parseInt(dannoM[1]) : 3;
+      const isBoss = testo.includes('💀 BOSS');
+      // Casuale: vittoria o sconfitta (60% vittoria per scontri, 50% per boss)
+      const vince = Math.random() < (isBoss ? 0.5 : 0.6);
+      if (!vince) {
+        // Danni da sconfitta: 2-3 round prima di ritirarsi
+        const round = Math.floor(Math.random() * 2) + 2;
+        scheda.RESISTENZA -= dannoBase * round;
+        log.push('§' + parCorrente + ': sconfitta (−' + (dannoBase * round) + ' RES)');
+        morteZone.push('§' + parCorrente);
+      } else {
+        scheda.RESISTENZA -= dannoBase;
+        log.push('§' + parCorrente + ': vittoria (−' + dannoBase + ' RES)');
+        // Possibile erba dopo vittoria
+        if (testo.includes('🌿')) {
+          const erbaM = testo.match(/RESISTENZA\s*\+(\d+)/i);
+          if (erbaM) { scheda.RESISTENZA = Math.min(schedaBase.RESISTENZA, scheda.RESISTENZA + parseInt(erbaM[1])); }
+        }
+      }
+    }
+
+    // Consumo razioni (ogni ~20 passi)
+    if (passi % 20 === 0 && scheda.RAZIONI > 0) {
+      scheda.RAZIONI--;
+      scheda.RESISTENZA = Math.min(schedaBase.RESISTENZA, scheda.RESISTENZA + 4);
+    }
+
+    // Morte per resistenza
+    if (scheda.RESISTENZA <= 0) { esito = 'morta'; break; }
+
+    // Trova scelte (👉 §N)
+    const scelte = [...testo.matchAll(/👉[^§]*§(\d+)/g)].map(m => parseInt(m[1]));
+    const scelteValide = scelte.filter(n => mappaParagrafi[n]);
+
+    if (!scelteValide.length) {
+      // Fine del libro o paragrafo terminale
+      esito = 'completata';
+      break;
+    }
+
+    // Scelta casuale
+    parCorrente = scelteValide[Math.floor(Math.random() * scelteValide.length)];
+  }
+
+  if (passi >= MAX_PASSI) esito = 'loop';
+
+  return {
+    esito,
+    passi,
+    parFinale,
+    resistenzaFinale: scheda.RESISTENZA,
+    morteZone,
+    log: log.slice(-8) // ultimi 8 eventi
+  };
+}
+
+function renderSimulazione(risultati) {
+  const completate = risultati.filter(r => r.esito === 'completata').length;
+  const morte      = risultati.filter(r => r.esito === 'morta').length;
+  const refMancanti = risultati.filter(r => r.esito === 'ref_mancante').length;
+  const loop       = risultati.filter(r => r.esito === 'loop').length;
+  const resMedia   = Math.round(risultati.reduce((s,r) => s + Math.max(0, r.resistenzaFinale), 0) / risultati.length);
+  const passiMedi  = Math.round(risultati.reduce((s,r) => s + r.passi, 0) / risultati.length);
+
+  // Stat globali
+  const statEl = document.getElementById('simStatsRow');
+  const card = (val, lbl, cls) =>
+    `<div class="sim-stat-card"><div class="sim-stat-val ${cls}">${val}</div><div class="sim-stat-lbl">${lbl}</div></div>`;
+  statEl.innerHTML =
+    card(completate + '/5', 'Completate', completate >= 3 ? 'good' : completate >= 1 ? 'warn' : 'bad') +
+    card(morte + '/5', 'Morti', morte <= 2 ? 'good' : morte <= 4 ? 'warn' : 'bad') +
+    card(resMedia, 'RES media finale', resMedia >= 10 ? 'good' : resMedia >= 4 ? 'warn' : 'bad') +
+    card(passiMedi, 'Passi medi', 'warn') +
+    (refMancanti > 0 ? card(refMancanti, 'Ref mancanti', 'bad') : '') +
+    (loop > 0 ? card(loop, 'Loop', 'bad') : '');
+
+  // Dettaglio partite
+  const partEl = document.getElementById('simPartite');
+  partEl.innerHTML = risultati.map((r, i) => {
+    const cls = r.esito === 'completata' ? 'completata' : 'morta';
+    const esitoLabel = r.esito === 'completata' ? '✓ Completata' : r.esito === 'morta' ? '✗ Morta' : r.esito === 'loop' ? '⚠ Loop' : '⚠ Ref mancante';
+    return `<div class="sim-partita">
+      <div class="sim-partita-header ${cls}">Partita ${i+1} — ${esitoLabel}</div>
+      §${r.parFinale} finale · ${r.passi} passi · RES residua: ${Math.max(0, r.resistenzaFinale)}
+      ${r.log.length ? '\n' + r.log.map(l => '  ' + l).join('\n') : ''}
+      ${r.morteZone.length ? '\n  Zone letali: ' + r.morteZone.join(', ') : ''}
+    </div>`;
+  }).join('');
+
+  // Avvisi bilanciamento
+  const avvisi = [];
+  if (completate === 0) avvisi.push('⚠ Nessuna partita completata — il libro è troppo difficile. Ridurre i danni degli scontri o aumentare RESISTENZA iniziale.');
+  if (completate === 5 && resMedia > 20) avvisi.push('⚠ Tutte le partite completate con RES alta — il libro potrebbe essere troppo facile. Valutare di aumentare i danni degli scontri.');
+  if (morte >= 4) avvisi.push('⚠ ' + morte + '/5 partite terminate per morte — bilanciamento eccessivamente punitivo.');
+  if (refMancanti > 0) avvisi.push('🚨 ' + refMancanti + ' partite hanno raggiunto un §N inesistente — controllare i rimandi con l\'analisi locale.');
+  if (loop > 0) avvisi.push('🚨 ' + loop + ' partite hanno superato 300 passi — possibile loop infinito nei bivi.');
+
+  const avvEl = document.getElementById('simAvviso');
+  if (avvisi.length) {
+    avvEl.textContent = avvisi.join('\n');
+    avvEl.style.display = 'block';
+  }
+}
+
+// ═══════════════════════════════════════
+function setStatus(msg, tipo) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status' + (tipo ? ' ' + tipo : '');
+}
+function setProgress(fatto, tot, label) {
+  document.getElementById('progressFill').style.width = (tot > 0 ? Math.round(fatto / tot * 100) : 0) + '%';
+  document.getElementById('progressLabel').textContent = label;
+}
+function aggiornaBadge(indice, stato) {
+  const btn = document.querySelector('[data-indice="' + indice + '"]');
+  if (!btn) return;
+  btn.classList.remove('sel', 'done', 'processing');
+  if (stato) btn.classList.add(stato);
+}
+function escHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+</script>
+</body>
+</html>
