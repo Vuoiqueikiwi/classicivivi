@@ -1058,6 +1058,11 @@ ${testo.substring(0, 7000)}`;
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
   });
+  if (!res.ok) {
+    const errBody = await res.text();
+    console.log('GEMINI ERROR:', errBody);
+    throw new Error('Gemini ' + res.status);
+  }
   const data = await res.json();
   if (data.error) throw new Error(data.error.message);
   const raw = data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim();
