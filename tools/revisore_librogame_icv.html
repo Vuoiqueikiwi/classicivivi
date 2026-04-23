@@ -635,23 +635,51 @@ function leggiFile(f) {
 // ═══════════════════════════════════════
 // PARSING
 // ═══════════════════════════════════════
+function parseLegacy(tmp) {
+  const paragraphs = [];
+  tmp.querySelectorAll('h3.paragrafo-num').forEach(h3 => {
+    const num = h3.textContent.trim();
+    if (!/^\d+$/.test(num)) return;
+    const parts = [];
+    let el = h3.nextElementSibling;
+    while (el && !(el.tagName === 'H3' && el.classList.contains('paragrafo-num'))) {
+      if (el.tagName === 'P') {
+        const clone = el.cloneNode(true);
+        clone.querySelectorAll('a.vai-al').forEach(a => {
+          const m = (a.getAttribute('href') || '').match(/#p(\d+)/);
+          if (m) a.replaceWith(document.createTextNode('§' + m[1]));
+        });
+        const t = (clone.innerText || clone.textContent).trim();
+        if (t) parts.push(t);
+      }
+      el = el.nextElementSibling;
+    }
+    if (parts.length) paragraphs.push('§' + num + '\n' + parts.join('\n'));
+  });
+  return paragraphs;
+}
+
 function processaFile(content) {
   const tmp = document.createElement('div');
   tmp.innerHTML = content;
-  const testo = tmp.innerText || tmp.textContent || content;
 
-  tuttiParagrafi = [];
-  let corrente = '';
-  for (const riga of testo.split('\n')) {
-    const r = riga.trim();
-    if (!r) continue;
-    if (/^§\d+/.test(r) && corrente.trim()) { tuttiParagrafi.push(corrente.trim()); corrente = r; }
-    else corrente += (corrente ? '\n' : '') + r;
+  if (tmp.querySelector('h3.paragrafo-num')) {
+    tuttiParagrafi = parseLegacy(tmp);
+  } else {
+    const testo = tmp.innerText || tmp.textContent || content;
+    tuttiParagrafi = [];
+    let corrente = '';
+    for (const riga of testo.split('\n')) {
+      const r = riga.trim();
+      if (!r) continue;
+      if (/^§\d+/.test(r) && corrente.trim()) { tuttiParagrafi.push(corrente.trim()); corrente = r; }
+      else corrente += (corrente ? '\n' : '') + r;
+    }
+    if (corrente.trim()) tuttiParagrafi.push(corrente.trim());
   }
-  if (corrente.trim()) tuttiParagrafi.push(corrente.trim());
 
   if (tuttiParagrafi.length === 0) {
-    setStatus('Nessun paragrafo §N trovato. Verifica il formato del file.', 'err'); return;
+    setStatus('Nessun paragrafo trovato. Verifica il formato del file.', 'err'); return;
   }
 
   mappaParagrafi = {};
