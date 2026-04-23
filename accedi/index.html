@@ -516,8 +516,8 @@
         // Pulizia URL e redirect
         cleanUrl();
         setTimeout(() => {
-          // Usa history.replace per non aggiungere alla storia del browser
-          window.location.replace('/portale/promessi-sposi/');
+          const dest = data.libro === 'divina-commedia' ? '/portale/divina-commedia/' : '/portale/promessi-sposi/';
+          window.location.replace(dest);
         }, 800);
       } else {
         if (data.reason === 'device_limit') {
