@@ -1053,7 +1053,7 @@ TESTO:
 ${testo.substring(0, 7000)}`;
 
   console.log('PROMPT LENGTH:', prompt.length, 'BODY:', JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }).substring(0, 500));
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9Toe', {
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9tOE', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -1123,7 +1123,7 @@ ${testo.substring(0, 6000)}
 
 Restituisci SOLO il testo corretto, nessun commento.`;
 
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9Toe', {
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9tOE', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
