@@ -70,7 +70,7 @@ export async function onRequestPost(context) {
 
   // Marca il codice come usato PRIMA di inviare
   try {
-    const usedEntry = Object.assign({}, foundMeta, { status: 'used' });
+    const usedEntry = Object.assign({}, foundMeta, { status: 'active' });
     await env.CODES.put(foundCode, JSON.stringify(usedEntry));
   } catch (err) {
     return new Response("KV error: " + err.message, { status: 503 });
