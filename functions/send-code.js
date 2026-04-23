@@ -35,6 +35,9 @@ export async function onRequestPost(context) {
     return new Response("Missing or invalid email", { status: 400 });
   }
 
+  // Determina il prefisso in base al prodotto acquistato
+  const codePrefix = body.product_permalink === "jwiUH" ? "INF-" : "ICV-";
+
   // Cerca un codice active nel KV
   let foundCode = null;
   let foundMeta = null;
@@ -48,7 +51,7 @@ export async function onRequestPost(context) {
         const value = await env.CODES.get(key.name);
         let entry;
         try { entry = JSON.parse(value); } catch { entry = { status: value }; }
-        if (entry.status === 'active' || entry.status === 'ACTIVE') {
+        if ((entry.status === 'active' || entry.status === 'ACTIVE') && key.name.startsWith(codePrefix)) {
           foundCode = key.name;
           foundMeta = entry;
           break outer;
