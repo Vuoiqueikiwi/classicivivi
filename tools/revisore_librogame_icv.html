@@ -992,6 +992,7 @@ async function avviaElaborazione() {
       risultatiBlocchi.push({ indice: b.indice, label: b.label, reportLocale: rl, reportAI: null, testoCorrretto: '' });
       aggiungiBloccoDownload(b, i + 1, false, err.message);
     }
+    if (i < daFare.length - 1) await new Promise(r => setTimeout(r, 2000));
   }
 
   setProgress(daFare.length, daFare.length, 'Completato.');
@@ -1052,20 +1053,17 @@ Rispondi SOLO con JSON valido, senza backtick:
 TESTO:
 ${testo.substring(0, 7000)}`;
 
-  console.log('PROMPT LENGTH:', prompt.length, 'BODY:', JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }).substring(0, 500));
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9tOE', {
+  const res = await fetch('/proxy-tools', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    body: JSON.stringify({ messages: [{ role: 'user', content: prompt }], model: 'llama-3.3-70b-versatile' })
   });
   if (!res.ok) {
-    const errBody = await res.text();
-    console.log('GEMINI ERROR:', errBody);
-    throw new Error('Gemini ' + res.status);
+    throw new Error('Proxy-tools error ' + res.status);
   }
   const data = await res.json();
   if (data.error) throw new Error(data.error.message);
-  const raw = data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim();
+  const raw = data.choices[0].message.content.replace(/```json|```/g, '').trim();
   return JSON.parse(raw);
 }
 
@@ -1123,14 +1121,14 @@ ${testo.substring(0, 6000)}
 
 Restituisci SOLO il testo corretto, nessun commento.`;
 
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBjXMX7oRNWUT176bEjvlGeHs0to-G9tOE', {
+  const res = await fetch('/proxy-tools', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    body: JSON.stringify({ messages: [{ role: 'user', content: prompt }], model: 'llama-3.3-70b-versatile' })
   });
   const data = await res.json();
   if (data.error) throw new Error(data.error.message);
-  return data.candidates[0].content.parts[0].text;
+  return data.choices[0].message.content;
 }
 
 // ═══════════════════════════════════════
