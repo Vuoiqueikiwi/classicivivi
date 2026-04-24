@@ -699,7 +699,7 @@ function processaFile(content) {
     });
   }
 
-  blocchiSelezionati = new Set(blocchi.map(b => b.indice));
+  blocchiSelezionati = new Set();
   risultatiBlocchi = [];
 
   // Analisi locale globale
@@ -931,7 +931,7 @@ function renderBlocchi() {
   list.innerHTML = '';
   blocchi.forEach(b => {
     const btn = document.createElement('button');
-    btn.className = 'blocco-badge sel';
+    btn.className = 'blocco-badge';
     btn.textContent = b.label;
     btn.dataset.indice = b.indice;
     btn.onclick = () => {
@@ -992,7 +992,7 @@ async function avviaElaborazione() {
       risultatiBlocchi.push({ indice: b.indice, label: b.label, reportLocale: rl, reportAI: null, testoCorrretto: '' });
       aggiungiBloccoDownload(b, i + 1, false, err.message);
     }
-    if (i < daFare.length - 1) await new Promise(r => setTimeout(r, 2000));
+    if (i < daFare.length - 1) await new Promise(r => setTimeout(r, 12000));
   }
 
   setProgress(daFare.length, daFare.length, 'Completato.');
