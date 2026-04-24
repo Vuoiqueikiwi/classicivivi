@@ -8,7 +8,10 @@
       "Bash(python3 *)",
       "Bash(awk -F: '$2 > 1')",
       "Bash(sort -t: -k1 -n)",
-      "Bash(awk -F: ' *)"
+      "Bash(awk -F: ' *)",
+      "Bash(awk -F: '$2<=1040 && $2>=560')",
+      "Bash(awk -F: '{if \\($1+0 >= 560 && $1+0 <= 1040\\) print}')",
+      "Bash(awk -F: '{if \\($1+0 >= 1140 && $1+0 <= 1980\\) print}')"
     ]
   }
 }
