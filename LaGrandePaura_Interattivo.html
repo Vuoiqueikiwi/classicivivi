@@ -964,7 +964,7 @@ Segna:** PROVA → DEBOLE (se non già superiore). STATO MENTALE → STANCO.<br>
   <thead><tr><th>Nemico</th><th>Forza</th><th>Resistenza</th></tr></thead>
   <tbody><tr><td>Bravo (sentinella)</td><td>12</td><td>17</td></tr></tbody>
 </table>
-<p class="combat-outcome">*Puoi tentare la fuga invece di combattere: tira 1d10 + AG ≥ 15 → <a href="#p82" class="vai-al">vai al 82</a>.*<br>
+<p class="combat-outcome">*Puoi tentare la fuga invece di combattere: tira 1d10 + Forza ≥ 15 → <a href="#p82" class="vai-al">vai al 82</a>.*<br>
 Se vinci: segna PROVA → FORTE. Aggiorna STATO FISICO. <a href="#p82" class="vai-al">Vai al 82</a>.<br>
 Sei morto. Riparti dall'inizio del capitolo.</p>
 <h3 id="p73" class="paragrafo-num">73</h3>
@@ -975,7 +975,7 @@ Segna:** GRUPPO → UNITO. (La PROVA non migliora: hai scelto la prudenza, non l
 <p>Portare un messaggio sembra il compito più semplice — e per questo è forse il più infido. Cammini svelto, ma lungo la strada noti che qualcuno ti segue.<br>
 Scegliere la via più rapida — <a href="#p75" class="vai-al">vai al 75</a>.<br>
 Scegliere la via più sicura, anche se lunga — <a href="#p76" class="vai-al">vai al 76</a>.<br>
-Fermarti, fingere di inciampare e affrontare chi ti segue — <a href="#p77A" class="vai-al">vai al 77</a>.</p>
+Fermarti, fingere di inciampare e affrontare chi ti segue — <a href="#p277" class="vai-al">vai al 277</a>.</p>
 <h3 id="p75" class="paragrafo-num">75</h3>
 <p>Tagli dritto e arrivi in tempo. Ma nel correre hai guardato meno attorno. Chi ti seguiva sa ancora dove si trova il gruppo.<br>
 Segna:** MESSAGGIO CONSEGNATO. NEMICO ALLERTATO → SÌ.</p>
@@ -984,13 +984,13 @@ Segna:** MESSAGGIO CONSEGNATO. NEMICO ALLERTATO → SÌ.</p>
 <p>La via più sicura allunga il tragitto. Quando arrivi, il messaggio è intatto e chi ti seguiva ha perso le tue tracce. Ma l'aria attorno agli altri, quando torni, è già più tesa — il tempo perso si è sentito.<br>
 Segna:** MESSAGGIO CONSEGNATO. GRUPPO → UNITO.<br>
 <a href="#p82" class="vai-al">Vai al 82</a>.</p>
-<h3 id="p77A" class="paragrafo-num">77</h3>
+<h3 id="p277" class="paragrafo-num">277</h3>
 <p>Ti fermi di colpo e ti giri. Chi ti seguiva non si aspettava di essere affrontato.</p>
 <table class="combat-table">
   <thead><tr><th>Nemico</th><th>Forza</th><th>Resistenza</th></tr></thead>
   <tbody><tr><td>Segugio (bravo leggero)</td><td>10</td><td>14</td></tr></tbody>
 </table>
-<p class="combat-outcome">Se preferisci fuggire: tira 1d10 + AG ≥ 15 → <a href="#p75" class="vai-al">vai al 75</a> se riesci.<br>
+<p class="combat-outcome">Se preferisci fuggire: tira 1d10 + Forza ≥ 15 → <a href="#p75" class="vai-al">vai al 75</a> se riesci.<br>
 Se vinci: segna MESSAGGIO CONSEGNATO. Aggiorna STATO FISICO. <a href="#p82" class="vai-al">Vai al 82</a>.<br>
 Sei morto. Riparti dall'inizio del capitolo.</p>
 <h3 id="p78" class="paragrafo-num">78</h3>
@@ -1011,7 +1011,7 @@ Segna:** FIDUCIA DI RENZO → ALTA. STATO MENTALE → STANCO.<br>
 <p>Trovi una misura tra impeto e cautela. Non chiedi a Renzo di rallentare per paura — gli chiedi di controllare per non consegnarsi da solo al fallimento. Questa volta non lo prende come un freno.<br>
 Segna:** FIDUCIA DI RENZO → ALTA. GRUPPO → UNITO.<br>
 <a href="#p82" class="vai-al">Vai al 82</a>.</p>
-<h3 id="p83A" class="paragrafo-num">83</h3>
+<h3 id="p278" class="paragrafo-num">278</h3>
 <p>Ti pianti sulle scale con quello che hai in mano. I bravi sono in due.<br>
 Devi reggere abbastanza da dare al gruppo il tempo di uscire.<br>
 STILE:** Segna STILE → AGGRESSIVO (hai scelto di coprire il gruppo con il corpo).</p>
@@ -1022,7 +1022,7 @@ STILE:** Segna STILE → AGGRESSIVO (hai scelto di coprire il gruppo con il corp
 <p class="combat-outcome">*OBIETTIVO: ogni round che superi (vinto o pareggiato) dà al gruppo tempo per fuggire. Dopo 3 round superati, il gruppo è in salvo — <a href="#p87" class="vai-al">vai al 87</a>. Non devi uccidere i bravi: basta resistere 3 round.* Segna:** Segna +1 VANTAGGIO GRUPPO per ogni round superato (max 3).<br>
 Dopo 3 round superati: <a href="#p87" class="vai-al">vai al 87</a>.<br>
 Sei morto. Riparti dall'inizio del capitolo.</p>
-<h3 id="p83B" class="paragrafo-num">83</h3>
+<h3 id="p279" class="paragrafo-num">279</h3>
 <p>Spingi tutti dalla finestra. Prima Agnese, poi Lucia, poi Renzo. Sei l'ultimo. Mentre scendi, una mano ti afferra per il mantello.</p>
 <table class="combat-table">
   <thead><tr><th>Nemico</th><th>Forza</th><th>Resistenza</th></tr></thead>
@@ -1030,16 +1030,18 @@ Sei morto. Riparti dall'inizio del capitolo.</p>
 </table>
 <p class="combat-outcome">*Hai un solo round per liberarti. Se perdi questo round: subisci 4 punti di danno automaticamente (vieni trascinato a metà), poi combatti normalmente dal round successivo.* Se sopravvivi: aggiorna STATO FISICO. <a href="#p87" class="vai-al">Vai al 87</a>.<br>
 Sei morto. Riparti dall'inizio del capitolo.</p>
-<h3 id="p83C" class="paragrafo-num">83</h3>
+<h3 id="p280" class="paragrafo-num">280</h3>
 <p>Mostri la prova ai bravi che entrano — la placca metallica, le informazioni raccolte, i documenti. La tua voce è ferma: «So chi vi manda. E so anche dove tenete questa cosa.» I due si scambiano un'occhiata. Un momento di esitazione è tutto ciò che vi serve.<br>
 STILE:** Segna STILE → DIPLOMATICO (hai usato la prova come arma).<br>
-Prova di PSICHE — non è un combattimento.** Tira 1d10 + PR.<br>
+Prova di PSICHE — non è un combattimento.** Tira 1d10 + Psiche.<br>
 &gt; Risultato ≥ 16 → i bravi esitano, la fuga riesce. <a href="#p87" class="vai-al">Vai al 87</a>. \</p>
-<p>Risultato \&lt; 16 → non abboccano. Combatti come al 83A.</p>
+<p>Risultato \&lt; 16 → non abboccano. Combatti come al 278.</p>
 <h3 id="p87" class="paragrafo-num">87</h3>
 <p>Quando tutto fu detto, nessuno sembrava più tranquillo di prima. Era il contrario: la preparazione aveva dato forma alla paura, e ciò che ha una forma è più difficile da ignorare. Il piano c'era — e proprio per questo poteva fallire davvero.<br>
-Avevi fatto la tua parte. O avevi già cominciato a pagarne il prezzo. In ogni caso, non c'era più spazio per ricominciare da capo. C'era solo la notte, con i suoi tempi stretti, i suoi errori possibili, la sua promessa di caos.<br>
-** *La Resistenza che porti nel Capitolo 5 è quella che hai adesso: non viene recuperata automaticamente. ECCEZIONE: se VANTAGGIO GRUPPO = 3,</p>
+Avevi fatto la tua parte. O avevi già cominciato a pagarne il prezzo. In ogni caso, non c'era più spazio per ricominciare da capo. C'era solo la notte, con i suoi tempi stretti, i suoi errori possibili, la sua promessa di caos.</p>
+<p>Lucia aveva trovato un cantuccio di pane duro in fondo alla bisaccia. Lo spezzò in silenzio e ne passò un pezzo a ciascuno, senza fare domande. In quel gesto semplice c'era qualcosa che nessuna parola avrebbe saputo dire meglio.<br>
+Puoi usare 1 Razione ora se vuoi (+3 Resistenza). Segna la Razione usata sulla scheda.</p>
+<p>** *La Resistenza che porti nel Capitolo 5 è quella che hai adesso: non viene recuperata automaticamente. ECCEZIONE: se VANTAGGIO GRUPPO = 3,</p>
 <p>recupera 3 Resistenza come ricompensa per aver protetto il gruppo.* Porta con te tutte le variabili segnate.<br>
 ***Fine Capitolo 4.</p>
 <p><a href="#p82" class="vai-al">Passa al Capitolo 5</a> — La notte delle nozze</p>
@@ -1050,13 +1052,13 @@ ha cominciato a dipendere da dettagli che nessuno può più ignorare.<br>
 Poi, all'improvviso, il rumore di una porta sfondata al piano di sotto.<br>
 I bravi non stavano aspettando il mattino.<br>
 SE PROVA → FORTE + GRUPPO → UNITO: Avete informazioni e coesione.<br>
-La trattativa con i bravi (83C) è la scelta più efficiente — e il tiro di Psiche parte da una posizione di forza: +2 al risultato.<br>
-SE PROVA → DEBOLE o ASSENTE + NEMICO ALLERTATO → SÌ: I bravi sanno già dove siete e cosa avete. La trattativa (83C) non funzionerà — non avete abbastanza leva. Andate al 83A o 83B.<br>
-SE VANTAGGIO GRUPPO = 3: Avete una riserva. Al nodo 83A ogni round superato vale doppio per il calcolo del recupero Resistenza a fine capitolo.<br>
-Bloccare le scale e coprire la ritirata del gruppo — <a href="#p83A" class="vai-al">vai al 83</a>.<br>
-Spingere tutti dalla finestra sul retro e seguirli — <a href="#p83B" class="vai-al">vai al 83</a>.</p>
+La trattativa con i bravi (280) è la scelta più efficiente — e il tiro di Psiche parte da una posizione di forza: +2 al risultato.<br>
+SE PROVA → DEBOLE o ASSENTE + NEMICO ALLERTATO → SÌ: I bravi sanno già dove siete e cosa avete. La trattativa (280) non funzionerà — non avete abbastanza leva. Andate al 278 o 279.<br>
+SE VANTAGGIO GRUPPO = 3: Avete una riserva. Al nodo 278 ogni round superato vale doppio per il calcolo del recupero Resistenza a fine capitolo.<br>
+Bloccare le scale e coprire la ritirata del gruppo — <a href="#p278" class="vai-al">vai al 278</a>.<br>
+Spingere tutti dalla finestra sul retro e seguirli — <a href="#p279" class="vai-al">vai al 279</a>.</p>
 <p>Hai PROVA → FORTE?<br>
-Sì → Usarla come leva per trattare con i bravi — <a href="#p83C" class="vai-al">vai al 83</a>.</p>
+Sì → Usarla come leva per trattare con i bravi — <a href="#p280" class="vai-al">vai al 280</a>.</p>
 <p>CAPITOLO 5 LA NOTTE DELLE NOZZE MANCATE ** *La Resistenza che porti da questo momento in poi è quella guadagnata — o persa — nei capitoli precedenti. Ogni punto conta.*</p>
 <h3 id="p88" class="paragrafo-num">88</h3>
 <p>La notte sembra trattenere il respiro insieme a te. Senti il cuore batterti troppo forte per il silenzio che cercate di mantenere. Il piano è partito davvero.<br>
