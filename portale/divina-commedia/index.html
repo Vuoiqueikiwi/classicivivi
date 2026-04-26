@@ -1240,14 +1240,53 @@
 
   // ── PODCAST PLAYER ─────────────────────────────────────────────────
   function initPodcastPlayer() {
-    const canti = Array.from({length: 34}, (_, i) => i + 1);
+    const episodi = [
+      {n:1,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD6stquT-1RSIICN9r37yF8AbrBZpUpa_Oi9d41_2RixrY?e=JmtpGe'},
+      {n:2,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCMJoe5eYk3QZ_7aBnbIXmIARRgwGFk9L3_yypyhCO43Sg?e=vrWnu5'},
+      {n:3,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDCofMSqXbMSYIE32-gIZMNAS-L0cOVWqI8wvEY-Pc5Ll0?e=ZOY0a7'},
+      {n:4,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCfGJZfBmd5T4b20DimsTatAdG8kbfsrw8INgsqN6mNsC4?e=xw9rsQ'},
+      {n:5,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAv9a_iCUWVR7ts6ZFLbrWJAYrCklxUJ_Yk7XPDeBryUt8?e=MJRH2G'},
+      {n:6,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAfZqCfpF8JS4J938pCxgzBAXiSNA9WvXAXMHcV155cyWw?e=hRbapl'},
+      {n:7,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCswqd06rgET6s3b-mY_Yn7AUOi_rpnvuEdAxybJD-_crI?e=J4MxBq'},
+      {n:8,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCpUlllC1KjQq8n9KNal9gpAXyuTvOQgHTNZFnSDtx6ngI?e=wbS71c'},
+      {n:9,  url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAIPYrTEHSIQorBDI5YrZAgAcc57OzJJleqogFDsFKwr7w?e=YCBK4I'},
+      {n:10, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQD27ojylU6yR7gSWuew_MtIAb3sLpeVU52tyyXG-q2szyw?e=u1jRqI'},
+      {n:11, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQDmKAEAerOlQphAE1kXZX13AewxIIePwx6HY1lFdHVK7Bk?e=Jhe7Pq'},
+      {n:12, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAZkkeyKnQ2Tbt5xg6XFhkOAf3P9m9N3TRTjLbCFPsVe9I?e=BFG9Vz'},
+      {n:13, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAtVFeyCYOITLXU6iWf3-wDAXoWlKrB14hMetVFJ7lukSc?e=I0SpjJ'},
+      {n:14, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCSTidzKCQ6Q5aS8cLWGPI_AX5p-gVk_ZwGAuYVkeEzZ6E?e=YZpB7l'},
+      {n:15, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAJGf5Ma_R6TZMp2dgOSaFeATZPMXUrm-ABu-ssm7WnSE0?e=Djwinf'},
+      {n:16, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCMwDNCXRsWTo6Bw_Ta2YxwAbDVTpaZeTSBbJTtkg2wO_M?e=QlB1Zn'},
+      {n:17, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCD2jmUHFvfSoKMrM-lcXYuAdTyCCyeu4ppl_8_t0fYhdw?e=DsWxxJ'},
+      {n:18, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCMbZrq0fZhTpUnrs2D6O0_AdmDpBkQnDLS0RMpg_BOOS8?e=6E3HCl'},
+      {n:19, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAHLAS-mNhQRYRvvoD_wGRSAdf_aFYvf62TNYaNWiEGf6M?e=EnKZg0'},
+      {n:20, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBgiGXm583bRqM0UPzgiCDKAbGjZjZTU3Ibs3ZBzkiNxkA?e=zgMSOj'},
+      {n:21, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB86CYuYAJsRKyKtnGDawj4AR6S9YHkeaCuslVvxO6DklY?e=4GyXOm'},
+      {n:22, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBGidmx0vaZRa_8mXDzde74AUXhZGglVIuzrdrv5vHlh0E?e=0MkPV6'},
+      {n:23, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAeMOnmfwbpT7fWUVovv_s2AUevlud_vfkcp2kQ1Yi6NWo?e=21poeX'},
+      {n:24, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAkyI1KeQ6PR7nTqeQvIvMBAUh_8SQqyYISbXECHgitqV8?e=5WhkGT'},
+      {n:25, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBIJLlVVEWmTa4KkIrZVFNOAe4kBu-I886dL8BL62uXJpI?e=6yPxU9'},
+      {n:26, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBV-rq5LqkVQL-A99tldD4JAWuvbtDmmoAt7HzSLP0_Z3I?e=plo3N0'},
+      {n:27, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQCu42RThrV_QKHojdeaWgTFARXxM2FNow3EgY7pX4nmqTU?e=D9PfhN'},
+      {n:28, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQByUH7HO9IQQZunsrltJ658AUn0_kuTv3IUe5J_oUsXaQU?e=PY2DTv'},
+      {n:29, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBH8PVqbr6YSqtZ09lkYHRiAZ9vHmfjulKbPI57Pj2m7gc?e=PFpD16'},
+      {n:30, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQAgy6W_NNrhRblFV14aYY_IAdw6RhCibHDbfeSLodfjPYs?e=g12cRg'},
+      {n:31, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB81U66J6RQQJIZMmsPziTbAdK7k-ouz7Qem9-1iDO0AHY?e=OEU8Rl'},
+      {n:32, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB7Hk107fneT7P188wkDMCwAYcUeJEGCovuZUWEb_KEH9s?e=0vnuXA'},
+      {n:33, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQBC5VIXhcMbRrwcpf54R36oASqDwPYCIoLwBurUuv5onf4?e=L1jxND'},
+      {n:34, url:'https://1drv.ms/u/c/84fa0c94011fae7e/IQB0ve3zXrW1T6lZmhOksjieAQ-8jB6jBiGPvQ8i8mGY67E?e=3fyDQY'},
+    ];
     const lista = document.getElementById('podcastLista');
     if (!lista) return;
-    canti.forEach((n, i) => {
+    episodi.forEach((ep, i) => {
       const a = document.createElement('a');
-      a.href = '#';
+      a.href = ep.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
       a.className = 'ep-item';
-      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span><span class="ep-icon">▶</span><span class="ep-titolo">Podcast — Canto ' + n + ' dell\'Inferno</span>';
+      a.innerHTML = '<span class="ep-num">' + String(i + 1).padStart(2, '0') + '</span>'
+        + '<span class="ep-icon">🎧</span>'
+        + '<span class="ep-titolo">Podcast — Canto ' + ep.n + ' dell\'Inferno</span>';
       lista.appendChild(a);
     });
   }
