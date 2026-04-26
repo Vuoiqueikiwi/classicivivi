@@ -725,23 +725,31 @@ function flashRow(stat) {
 function buildRazioni() {
   const container = document.getElementById('razioni-icons');
   if (!container) return;
-  const total = Math.max(stats.razioni, 3);
+  const MAX_SLOTS = 5;
   let html = '';
-  for (let i = 0; i < total; i++) {
-    const used = i >= stats.razioni;
-    html += '<span class="razione' + (used ? ' used' : '')
-      + '" title="Usa razione (+4 Resistenza)" onclick="useRazione()">🍞</span>';
+  for (let i = 0; i < MAX_SLOTS; i++) {
+    const active = i < stats.razioni;
+    html += '<span class="razione' + (active ? '' : ' used') + '"'
+      + ' title="' + (active ? 'Usa razione (+4 Resistenza)' : 'Aggiungi razione') + '"'
+      + ' onclick="toggleRazione(' + i + ')">🍞</span>';
   }
   container.innerHTML = html;
 }
 
-function useRazione() {
-  if (stats.razioni <= 0) { addLog('Nessuna razione rimasta!', 'neg'); return; }
-  stats.razioni--;
-  stats.resistenza = Math.min(stats.resistenzaMax, stats.resistenza + 4);
-  updateStatDisplay('resistenza');
-  buildRazioni();
-  addLog('Razione consumata (+4 Resistenza)', 'pos');
+function toggleRazione(i) {
+  if (i < stats.razioni) {
+    if (stats.razioni <= 0) { addLog('Nessuna razione rimasta!', 'neg'); return; }
+    stats.razioni--;
+    changeStat('resistenza', 4);
+    buildRazioni();
+    save();
+    addLog('Razione consumata (+4 Resistenza) — rimaste: ' + stats.razioni, 'pos');
+  } else {
+    stats.razioni++;
+    buildRazioni();
+    save();
+    addLog('Razione aggiunta — totale: ' + stats.razioni, 'pos');
+  }
 }
 
 // ── DADO ──────────────────────────────────────
