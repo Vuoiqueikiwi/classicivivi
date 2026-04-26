@@ -312,7 +312,49 @@ body {
   text-transform: uppercase; margin-bottom: 0.2rem;
 }
 
-::-webkit-scrollbar { width: 5px; }
+.dado-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #1a1200, #0f0900);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  padding: 0.55rem;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.dado-btn:hover {
+  background: linear-gradient(135deg, #2a1e00, #1a1200);
+  box-shadow: 0 0 12px rgba(201,168,76,0.2);
+}
+
+/* Mobile toggle */
+.scheda-toggle {
+  display: none;
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--gold-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.45rem;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+.scheda-collapsible { transition: max-height 0.3s ease, opacity 0.3s ease; }
+
+@media (max-width: 768px) {
+  .scheda-toggle { display: block; }
+  .scheda-collapsible.collapsed { max-height: 0; overflow: hidden; opacity: 0; margin: 0; padding: 0; border: none; }
+  .scheda-collapsible { max-height: 600px; opacity: 1; }
+  .dado-btn { width: auto; flex: 0 0 auto; padding: 0.45rem 1rem; }
+}
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
@@ -352,6 +394,8 @@ body {
 <div id="app" class="hidden">
   <aside id="sidebar">
     <div class="sidebar-title">Scheda Personaggio</div>
+    <button class="scheda-toggle" onclick="toggleScheda()" id="scheda-toggle-btn">▼ Scheda personaggio</button>
+    <div class="scheda-collapsible" id="scheda-collapsible">
     <div class="scheda">
       <div class="scheda-name">Il Viandante</div>
       <div class="stat-row" id="row-forza">
@@ -393,8 +437,10 @@ body {
         <span class="stat-label">🍞 Razioni</span>
         <div class="razioni-icons" id="razioni-icons"></div>
       </div>
-    </div>
+    </div><!-- fine scheda -->
+    </div><!-- fine scheda-collapsible -->
 
+    <button class="dado-btn" onclick="rollTavola()" title="Tira 1D10">🎲 Tira 1D10</button>
     <div class="roll-result" id="roll-result"></div>
 
     <div class="log-section">
@@ -751,6 +797,14 @@ function toggleRazione(i) {
     save();
     addLog('Razione aggiunta — totale: ' + stats.razioni, 'pos');
   }
+}
+
+// ── SCHEDA TOGGLE (mobile) ────────────────────
+function toggleScheda() {
+  const col = document.getElementById('scheda-collapsible');
+  const btn = document.getElementById('scheda-toggle-btn');
+  const isCollapsed = col.classList.toggle('collapsed');
+  btn.textContent = isCollapsed ? '▶ Scheda personaggio' : '▼ Scheda personaggio';
 }
 
 // ── DADO ──────────────────────────────────────
