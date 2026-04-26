@@ -16,7 +16,10 @@
       "Bash(npx wrangler *)",
       "PowerShell(python --version; python3 --version)",
       "PowerShell(node --version)",
-      "Bash(node _patch.js)"
+      "Bash(node _patch.js)",
+      "Bash(node _patch2.js)",
+      "Bash(node _rename.js)",
+      "Bash(node _rename304b.js)"
     ]
   }
 }
