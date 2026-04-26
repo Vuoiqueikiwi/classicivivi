@@ -165,52 +165,11 @@ body {
 }
 .stat-row.flash { animation: statFlash 0.9s ease-out; border-radius: 2px; }
 
-/* Tavola */
-.tavola-section { margin-bottom: 1.4rem; }
-.tavola-btn {
-  width: 100%; background: none;
-  border: 1px solid var(--border); color: var(--text-dim);
-  font-family: 'Cinzel', serif; font-size: 0.72rem;
-  letter-spacing: 0.08em; padding: 0.48rem;
-  cursor: pointer; border-radius: 2px;
-  transition: border-color 0.2s, color 0.2s;
-}
-.tavola-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
-.tavola-container { margin-top: 0.7rem; display: none; }
-.tavola-container.open { display: block; }
-.tavola-roll-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #1a1200, #100d00);
-  border: 1px solid var(--gold-dim); color: var(--gold);
-  font-family: 'Cinzel', serif; font-size: 0.77rem;
-  letter-spacing: 0.08em; padding: 0.48rem;
-  cursor: pointer; border-radius: 2px; margin-bottom: 0.7rem;
-  transition: box-shadow 0.2s;
-}
-.tavola-roll-btn:hover { box-shadow: 0 0 12px rgba(201,168,76,0.2); }
 .roll-result {
   text-align: center; font-family: 'Cinzel', serif;
   font-size: 1.15rem; color: var(--gold);
   margin-bottom: 0.7rem; min-height: 1.7em;
 }
-.tavola-grid {
-  display: grid;
-  grid-template-columns: 18px repeat(10, 1fr);
-  gap: 1px;
-  font-size: 0.58rem; font-family: 'Cinzel', serif;
-}
-.tavola-cell {
-  background: var(--bg3); border: 1px solid #1a1505;
-  text-align: center; padding: 2px 1px;
-  color: var(--text-dim); cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-  border-radius: 1px;
-}
-.tavola-header { background: none; color: var(--gold-dim); border: none; cursor: default; }
-.tavola-cell:not(.tavola-header):hover { background: #2a1e00; color: var(--gold); }
-.tavola-cell.highlighted { background: var(--gold); color: var(--bg); font-weight: 700; }
-.tavola-hint { font-size: 0.67rem; color: var(--text-dim); margin-top: 0.5rem; font-style: italic; text-align: center; }
-
 /* Log */
 .log-section { margin-top: auto; padding-top: 1rem; }
 .log-title {
@@ -365,7 +324,6 @@ body {
     flex-direction: row; flex-wrap: wrap; gap: 0.8rem; padding: 1rem;
   }
   .scheda { flex: 1; min-width: 200px; }
-  .tavola-section { flex: 1; min-width: 200px; }
   .log-section { display: none; }
   #main { padding: 1.5rem 1rem; }
   .para-number { font-size: 1.8rem; }
@@ -437,16 +395,7 @@ body {
       </div>
     </div>
 
-    <div class="tavola-section">
-      <div class="sidebar-title">Tavola del Caso</div>
-      <button class="tavola-btn" onclick="toggleTavola()">⚄ Apri / Chiudi tavola</button>
-      <div class="tavola-container" id="tavola-container">
-        <button class="tavola-roll-btn" onclick="rollTavola()">🎲 Tira il dado</button>
-        <div class="roll-result" id="roll-result"></div>
-        <div class="tavola-grid" id="tavola-grid"></div>
-        <p class="tavola-hint">Chiudi gli occhi, scegli una cella<br>oppure clicca 🎲 per un tiro casuale</p>
-      </div>
-    </div>
+    <div class="roll-result" id="roll-result"></div>
 
     <div class="log-section">
       <div class="log-title">Registro eventi</div>
@@ -558,7 +507,6 @@ function showApp() {
   document.getElementById('auth-overlay').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   buildRazioni();
-  buildTavola();
   renderPara('1');
 }
 
@@ -796,42 +744,10 @@ function useRazione() {
   addLog('Razione consumata (+4 Resistenza)', 'pos');
 }
 
-// ── TAVOLA DEL CASO ───────────────────────────
-function buildTavola() {
-  const grid = document.getElementById('tavola-grid');
-  if (!grid) return;
-  let html = '<div class="tavola-cell tavola-header"></div>';
-  for (let c = 0; c <= 9; c++) html += '<div class="tavola-cell tavola-header">' + c + '</div>';
-  for (let r = 0; r <= 9; r++) {
-    html += '<div class="tavola-cell tavola-header">' + r + '</div>';
-    for (let c = 0; c <= 9; c++) {
-      const val = r * 10 + c;
-      html += '<div class="tavola-cell" id="tc-' + r + '-' + c
-        + '" onclick="selectCell(' + r + ',' + c + ')">' + val + '</div>';
-    }
-  }
-  grid.innerHTML = html;
-}
-
-let lastCell = null;
-function selectCell(r, c) {
-  if (lastCell) {
-    const prev = document.getElementById('tc-' + lastCell[0] + '-' + lastCell[1]);
-    if (prev) prev.classList.remove('highlighted');
-  }
-  const cell = document.getElementById('tc-' + r + '-' + c);
-  if (cell) cell.classList.add('highlighted');
-  lastCell = [r, c];
-  document.getElementById('roll-result').textContent = 'Risultato: ' + (r * 10 + c);
-}
-
+// ── DADO ──────────────────────────────────────
 function rollTavola() {
   const r = Math.floor(Math.random() * 10) + 1;
   document.getElementById('roll-result').textContent = 'Risultato: ' + r;
-}
-
-function toggleTavola() {
-  document.getElementById('tavola-container').classList.toggle('open');
 }
 
 // ── LOG ───────────────────────────────────────
