@@ -620,7 +620,7 @@
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
-  <video id="intro-video" autoplay playsinline src="../../avatar_tutor.mp4"></video>
+  <video id="intro-video" autoplay playsinline muted src="../../avatar_tutor.mp4"></video>
   <button class="play-audio-btn" id="play-btn" style="display:none;">ATTIVA AUDIO</button>
   <button class="skip-btn" onclick="skipIntro()">SALTA</button>
   <div class="intro-overlay">
@@ -910,13 +910,21 @@
   const playBtn = document.getElementById('play-btn');
 
   introVid.play().then(() => {
-    // autoplay con audio riuscito (raro su mobile)
-    playBtn.style.display = 'none';
+    // autoplay riuscito — se è muted mostra il pulsante audio
+    if (introVid.muted) {
+      playBtn.style.display = 'block';
+    } else {
+      playBtn.style.display = 'none';
+    }
   }).catch(() => {
-    // Chrome ha bloccato l'audio: mostra il pulsante
+    // autoplay bloccato: forza muted e riprova
     introVid.muted = true;
-    introVid.play().catch(() => {});
-    playBtn.style.display = 'block';
+    introVid.play().then(() => {
+      playBtn.style.display = 'block';
+    }).catch(() => {
+      // fallback totale: mostra solo il pulsante
+      playBtn.style.display = 'block';
+    });
   });
 
   playBtn.addEventListener('click', () => {
