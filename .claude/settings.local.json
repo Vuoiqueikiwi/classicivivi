@@ -13,7 +13,10 @@
       "Bash(awk -F: '{if \\($1+0 >= 560 && $1+0 <= 1040\\) print}')",
       "Bash(awk -F: '{if \\($1+0 >= 1140 && $1+0 <= 1980\\) print}')",
       "Bash(git *)",
-      "Bash(npx wrangler *)"
+      "Bash(npx wrangler *)",
+      "PowerShell(python --version; python3 --version)",
+      "PowerShell(node --version)",
+      "Bash(node _patch.js)"
     ]
   }
 }
