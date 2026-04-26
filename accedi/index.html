@@ -549,8 +549,10 @@
   if (existing && !redirectDone) {
     // Pulizia URL
     cleanUrl();
-    // Usa replace per non aggiungere alla storia del browser
-    window.location.replace('/portale/promessi-sposi/');
+    // Redirect dinamico basato su icv_libro
+    const libro = sessionStorage.getItem('icv_libro') || 'promessi-sposi';
+    const dest = libro === 'divina-commedia' ? '/portale/divina-commedia/' : '/portale/promessi-sposi/';
+    window.location.replace(dest);
   } else if (redirectDone) {
     // Reset il flag per future visite
     sessionStorage.removeItem('icv_redirect_done');
