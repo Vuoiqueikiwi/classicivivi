@@ -2540,12 +2540,13 @@ successivo)</p>
   // ── HIGHLIGHT TARGET ──────────────────────────────────────────────
   function highlightTarget() {
     var hash = window.location.hash;
-    if (!hash) return;
+    if (!hash) { window.location.hash = '#p1'; return; }
     var el = document.querySelector(hash);
     if (el) {
       el.style.animation = 'none';
       void el.offsetWidth;
       el.style.animation = 'highlightFade 2s ease forwards';
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
   window.addEventListener('hashchange', highlightTarget);
