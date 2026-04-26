@@ -740,10 +740,11 @@ function toggleRazione(i) {
   if (i < stats.razioni) {
     if (stats.razioni <= 0) { addLog('Nessuna razione rimasta!', 'neg'); return; }
     stats.razioni--;
-    changeStat('resistenza', 4);
+    stats.resistenza = Math.min(stats.resistenzaMax, stats.resistenza + 4);
+    updateStatDisplay('resistenza');
     buildRazioni();
     save();
-    addLog('Razione consumata (+4 Resistenza) — rimaste: ' + stats.razioni, 'pos');
+    addLog('Razione consumata (+4 Resistenza)', 'pos');
   } else {
     stats.razioni++;
     buildRazioni();
