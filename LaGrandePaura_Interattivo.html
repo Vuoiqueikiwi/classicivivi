@@ -360,6 +360,12 @@
   }
 })();
 </script>
+<script>
+// ── RESET HASH SE IFRAME ──────────────────────────────────────────
+if (window.self !== window.top) {
+  window.location.hash = '#p1';
+}
+</script>
 
 <header class="site-header">
   <button class="hdr-btn" id="btnDado" onclick="togglePanel('dado')">&#9670; Dado</button>
