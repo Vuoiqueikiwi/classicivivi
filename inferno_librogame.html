@@ -518,11 +518,17 @@ async function doLogin() {
   btn.textContent = 'Verifica in corso…';
   err.textContent = '';
 
+  let deviceId = localStorage.getItem('icv_device_id');
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem('icv_device_id', deviceId);
+  }
+
   try {
     const res = await fetch('/verify-code', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code })
+      body: JSON.stringify({ code, deviceId })
     });
     const data = await res.json();
 
@@ -820,9 +826,8 @@ function selectCell(r, c) {
 }
 
 function rollTavola() {
-  const r = Math.floor(Math.random() * 10);
-  const c = Math.floor(Math.random() * 10);
-  selectCell(r, c);
+  const r = Math.floor(Math.random() * 10) + 1;
+  document.getElementById('roll-result').textContent = 'Risultato: ' + r;
 }
 
 function toggleTavola() {
