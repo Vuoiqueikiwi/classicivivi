@@ -21,7 +21,8 @@
       "Bash(node _rename.js)",
       "Bash(node _rename304b.js)",
       "Bash(node _patch3.js)",
-      "Bash(node _patch4.js)"
+      "Bash(node _patch4.js)",
+      "Bash(node _patch5.js)"
     ]
   }
 }
