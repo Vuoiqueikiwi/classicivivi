@@ -107,6 +107,12 @@
     width: 100%; height: 100%; object-fit: cover;
     position: absolute; inset: 0; background: #000;
   }
+  .intro-desktop { display: block; }
+  .intro-mobile { display: none; }
+  @media (max-width: 768px) {
+    .intro-desktop { display: none; }
+    .intro-mobile { display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; background: #000; }
+  }
   .intro-overlay {
     position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
     text-align: center; padding: 2rem 2rem 5rem; pointer-events: none;
@@ -620,7 +626,8 @@
 
 <!-- INTRO SCREEN -->
 <div id="intro-screen">
-  <video id="intro-video" autoplay playsinline muted src="../../avatar_tutor.mp4"></video>
+  <video id="intro-video" autoplay playsinline muted src="../../avatar_tutor.mp4" class="intro-desktop"></video>
+  <video id="intro-video" autoplay playsinline muted src="../../avatar_tutor_mobile.mp4" class="intro-mobile"></video>
   <button class="play-audio-btn" id="play-btn">ATTIVA AUDIO</button>
   <button class="skip-btn" onclick="skipIntro()">SALTA</button>
   <div class="intro-overlay">
