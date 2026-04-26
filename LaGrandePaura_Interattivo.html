@@ -2500,7 +2500,6 @@ successivo)</p>
       var el = document.getElementById(id);
       if (el) data[id] = el.value;
     });
-    data['lgp_hash'] = window.location.hash;
     try { localStorage.setItem('lgp_scheda', JSON.stringify(data)); } catch(e) {}
   }
 
@@ -2513,12 +2512,6 @@ successivo)</p>
         var el = document.getElementById(id);
         if (el && data[id] !== undefined) el.value = data[id];
       });
-      if (data['lgp_hash']) {
-        window.location.hash = data['lgp_hash'];
-      } else {
-        var p1 = document.querySelector('#p1');
-        if (p1) p1.scrollIntoView();
-      }
     } catch(e) {}
   }
 
@@ -2562,10 +2555,7 @@ successivo)</p>
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-  window.addEventListener('hashchange', function() {
-    highlightTarget();
-    save();
-  });
+  window.addEventListener('hashchange', highlightTarget);
 
   // ── INIT ──────────────────────────────────────────────────────────
   load();
