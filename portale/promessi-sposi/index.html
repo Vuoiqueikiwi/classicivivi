@@ -146,7 +146,7 @@
     background: rgba(0,0,0,0.5); border: 1px solid rgba(201,168,76,0.4);
     color: var(--oro); font-family: 'Cinzel', serif; font-size: 0.75rem;
     letter-spacing: 0.2em; padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.3s;
-    opacity: 0; animation: fadeIn 1s ease 2s forwards;
+    opacity: 0; animation: fadeIn 1s ease 2s forwards; pointer-events: none;
   }
   .skip-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--oro); }
 
@@ -912,6 +912,8 @@
     setTimeout(() => { intro.style.display = 'none'; }, 800);
   }
 
+  if (window.innerWidth <= 768) { skipIntro(); }
+
   // Gestione autoplay con audio
   const introVid = document.getElementById('intro-video');
   const playBtn = document.getElementById('play-btn');
@@ -942,6 +944,7 @@
   });
 
   setTimeout(skipIntro, 12000);
+  setTimeout(() => { document.querySelector('.skip-btn').style.pointerEvents = 'auto'; }, 3000);
 
   // ── FLASHCARD DATA ────────────────────────────────────────────────
   // ============================================================
